@@ -1,0 +1,13 @@
+# Append after the native base and admission-budget override. Keep all CPU,
+# queue, ring and support-stage settings; change only the kernel selection.
+# Set QDRANT_VEORTEX_KERNEL_TIER=auto for the paired AMX-eligible control.
+services:
+  node0:
+    environment:
+      QDRANT_VEORTEX_KERNEL_TIER: "${QDRANT_VEORTEX_KERNEL_TIER:-avx512vnni}"
+  node1:
+    environment:
+      QDRANT_VEORTEX_KERNEL_TIER: "${QDRANT_VEORTEX_KERNEL_TIER:-avx512vnni}"
+  node2:
+    environment:
+      QDRANT_VEORTEX_KERNEL_TIER: "${QDRANT_VEORTEX_KERNEL_TIER:-avx512vnni}"

@@ -1,0 +1,980 @@
+{
+  "campaign_id": "sq8-backend-20261109t230319z",
+  "client_sha256": "9dab9e7f2292d6b3ccae108335317b2f249cf0e83a7cada02650060c91b9c251",
+  "comparison": {
+    "backends": [
+      "avx512vnni",
+      "auto"
+    ],
+    "categories": [
+      {
+        "auto_http_rps": 898.9373733344529,
+        "auto_p95_ms": 198.40830300000002,
+        "auto_p99_ms": 211.321082,
+        "auto_vs_avx512_rps_change_percent": 266.6496512368652,
+        "auto_vs_avx512_rps_ratio": 3.6664965123686524,
+        "avx512vnni_http_rps": 245.1761157557234,
+        "avx512vnni_p95_ms": 716.728987,
+        "avx512vnni_p99_ms": 733.487443,
+        "category": "unfiltered_no_payload"
+      },
+      {
+        "auto_http_rps": 904.1104736756967,
+        "auto_p95_ms": 172.715791,
+        "auto_p99_ms": 185.616947,
+        "auto_vs_avx512_rps_change_percent": 277.38155706960913,
+        "auto_vs_avx512_rps_ratio": 3.773815570696091,
+        "avx512vnni_http_rps": 239.57463122897946,
+        "avx512vnni_p95_ms": 739.5497009999999,
+        "avx512vnni_p99_ms": 753.967584,
+        "category": "unfiltered_payload"
+      },
+      {
+        "auto_http_rps": 892.185305920751,
+        "auto_p95_ms": 184.752712,
+        "auto_p99_ms": 192.740885,
+        "auto_vs_avx512_rps_change_percent": 269.3606086893454,
+        "auto_vs_avx512_rps_ratio": 3.6936060868934537,
+        "avx512vnni_http_rps": 241.54858014952345,
+        "avx512vnni_p95_ms": 657.934668,
+        "avx512vnni_p99_ms": 728.673585,
+        "category": "active_only"
+      },
+      {
+        "auto_http_rps": 3139.3237800591273,
+        "auto_p95_ms": 56.347196000000004,
+        "auto_p99_ms": 69.96519099999999,
+        "auto_vs_avx512_rps_change_percent": 62.36836821284113,
+        "auto_vs_avx512_rps_ratio": 1.6236836821284113,
+        "avx512vnni_http_rps": 1933.4577384826175,
+        "avx512vnni_p95_ms": 74.776187,
+        "avx512vnni_p99_ms": 89.304151,
+        "category": "active_position_exclude"
+      }
+    ],
+    "control_variable": "QDRANT_VEORTEX_KERNEL_TIER",
+    "queued_query_budget_bytes": 671088640
+  },
+  "contract": {
+    "accuracy_passes": 8,
+    "accuracy_queries_per_pass": 1024,
+    "batch_size": 1,
+    "candidates_per_segment": 12,
+    "concurrency": 128,
+    "cpu_layout": [
+      {
+        "compute_cpu": 4,
+        "node": 0,
+        "support_cpus": [
+          5,
+          6
+        ]
+      },
+      {
+        "compute_cpu": 7,
+        "node": 1,
+        "support_cpus": [
+          8,
+          9
+        ]
+      },
+      {
+        "compute_cpu": 10,
+        "node": 2,
+        "support_cpus": [
+          11,
+          12
+        ]
+      }
+    ],
+    "dimension": 512,
+    "distinct_test_queries_per_category": 1024,
+    "elapsed_includes_final_drain": true,
+    "format": "SQ8",
+    "logical_cpus_per_node": 3,
+    "metadata_present_all_categories": true,
+    "nodes": 3,
+    "points": 3000000,
+    "scan_compute_cpus_per_node": 1,
+    "score_tolerance": 1e-06,
+    "support_cpus_per_node": 2,
+    "timed_dispatch_seconds": 60,
+    "topk_per_query": 10,
+    "warmup_http_requests": 16
+  },
+  "engine": {
+    "name": "Veortex V45.1",
+    "rebuilt_for_comparison": false,
+    "sha256": "90d54aeabbaa17350b94161f6a7926528b13452b0b50296f0bc45fc0e96969e0",
+    "source_commit": "a1a2af190e6f03508efa0b9105b88507dec9f7aa"
+  },
+  "finished_utc": "2026-11-09T23:15:00.419079+00:00",
+  "launch_snapshot_sha256": "07e9580556c020ce39231057c7ba4f4790cdcefaed6b752b2821327adc25323b",
+  "limitations": [
+    "Fixed B1/C128 comparison; not an exhaustive maximum-throughput search.",
+    "One ordered pass: AVX512 VNNI first, then auto; no repeated ABBA runs.",
+    "The CPUs are VM logical CPUs, not verified physical cores.",
+    "This does not isolate instruction cost: eligible SQ8 AMX chunks can fuse the score epilogue, while VNNI emits raw i32 values followed by separate F32 work."
+  ],
+  "receipt_sha256": "874119e683e717d46da290205fddeb970a9da1615fb438647b2225282fb7b294",
+  "rows": [
+    {
+      "actual_elapsed_s": 60.430029876,
+      "backend": "avx512vnni",
+      "backend_valid": true,
+      "batch_size": 1,
+      "category": "unfiltered_no_payload",
+      "client_sha256": "9dab9e7f2292d6b3ccae108335317b2f249cf0e83a7cada02650060c91b9c251",
+      "concurrency": 128,
+      "cpu": {
+        "active_compute_work_proven_all_nodes": true,
+        "coverage_complete": true,
+        "elapsed_s": 62.12860550777987,
+        "nodes": [
+          {
+            "active_compute_work_proven": true,
+            "compute_cpu": 4,
+            "node": 0,
+            "required_active_role": "kernel_compute",
+            "required_active_role_cpu_ticks": 5906,
+            "sampling_races": 0,
+            "successful_process_samples": 298,
+            "support_cpus": [
+              5,
+              6
+            ],
+            "task_enumeration_errors": 0
+          },
+          {
+            "active_compute_work_proven": true,
+            "compute_cpu": 7,
+            "node": 1,
+            "required_active_role": "kernel_compute",
+            "required_active_role_cpu_ticks": 5983,
+            "sampling_races": 0,
+            "successful_process_samples": 298,
+            "support_cpus": [
+              8,
+              9
+            ],
+            "task_enumeration_errors": 0
+          },
+          {
+            "active_compute_work_proven": true,
+            "compute_cpu": 10,
+            "node": 2,
+            "required_active_role": "kernel_compute",
+            "required_active_role_cpu_ticks": 5984,
+            "sampling_races": 3,
+            "successful_process_samples": 298,
+            "support_cpus": [
+              11,
+              12
+            ],
+            "task_enumeration_errors": 0
+          }
+        ],
+        "required_active_role_cpu_ticks_positive_all_nodes": true,
+        "status": "PASSED",
+        "violation_count": 0
+      },
+      "dispatch_duration_s": 59.934908586,
+      "dispatched_queries": 14816,
+      "drain_duration_s": 0.49512129000000016,
+      "exact_query_truth_matches": 14816,
+      "failed_queries": 0,
+      "failed_requests": 0,
+      "http_429_count": 0,
+      "intended_route_valid": true,
+      "isa_deltas_by_node": [
+        {
+          "amx_calls": 0,
+          "avx512vnni_calls": 3052891,
+          "node": 0
+        },
+        {
+          "amx_calls": 0,
+          "avx512vnni_calls": 3092269,
+          "node": 1
+        },
+        {
+          "amx_calls": 0,
+          "avx512vnni_calls": 2673027,
+          "node": 2
+        }
+      ],
+      "manifest_sha256": "9070d0a687a78a9c85f1eada9e51294c0c946621fd35eed0b9fc892c6d1d8a5a",
+      "measurement_accepted": true,
+      "ordinal": 1,
+      "p50_ms": 460.973711,
+      "p95_ms": 716.728987,
+      "p99_ms": 733.487443,
+      "quality_valid": true,
+      "query_qps": 245.1761157557234,
+      "raw_client_report_file": "01-veortex-unfiltered_no_payload-b1-c128.json",
+      "raw_client_report_sha256": "96d54c68a33b8daeda46e569cb48941ae98b7a19ebcceb3d211a8834ad05a1b2",
+      "successful_http_rps": 245.1761157557234,
+      "successful_queries": 14816,
+      "successful_requests": 14816
+    },
+    {
+      "actual_elapsed_s": 60.240101074,
+      "backend": "avx512vnni",
+      "backend_valid": true,
+      "batch_size": 1,
+      "category": "unfiltered_payload",
+      "client_sha256": "9dab9e7f2292d6b3ccae108335317b2f249cf0e83a7cada02650060c91b9c251",
+      "concurrency": 128,
+      "cpu": {
+        "active_compute_work_proven_all_nodes": true,
+        "coverage_complete": true,
+        "elapsed_s": 61.621824509929866,
+        "nodes": [
+          {
+            "active_compute_work_proven": true,
+            "compute_cpu": 4,
+            "node": 0,
+            "required_active_role": "kernel_compute",
+            "required_active_role_cpu_ticks": 5447,
+            "sampling_races": 0,
+            "successful_process_samples": 295,
+            "support_cpus": [
+              5,
+              6
+            ],
+            "task_enumeration_errors": 0
+          },
+          {
+            "active_compute_work_proven": true,
+            "compute_cpu": 7,
+            "node": 1,
+            "required_active_role": "kernel_compute",
+            "required_active_role_cpu_ticks": 5151,
+            "sampling_races": 0,
+            "successful_process_samples": 295,
+            "support_cpus": [
+              8,
+              9
+            ],
+            "task_enumeration_errors": 0
+          },
+          {
+            "active_compute_work_proven": true,
+            "compute_cpu": 10,
+            "node": 2,
+            "required_active_role": "kernel_compute",
+            "required_active_role_cpu_ticks": 5973,
+            "sampling_races": 1,
+            "successful_process_samples": 295,
+            "support_cpus": [
+              11,
+              12
+            ],
+            "task_enumeration_errors": 0
+          }
+        ],
+        "required_active_role_cpu_ticks_positive_all_nodes": true,
+        "status": "PASSED",
+        "violation_count": 0
+      },
+      "dispatch_duration_s": 59.703707977,
+      "dispatched_queries": 14432,
+      "drain_duration_s": 0.5363930970000013,
+      "exact_query_truth_matches": 14432,
+      "failed_queries": 0,
+      "failed_requests": 0,
+      "http_429_count": 0,
+      "intended_route_valid": true,
+      "isa_deltas_by_node": [
+        {
+          "amx_calls": 0,
+          "avx512vnni_calls": 3126007,
+          "node": 0
+        },
+        {
+          "amx_calls": 0,
+          "avx512vnni_calls": 3284736,
+          "node": 1
+        },
+        {
+          "amx_calls": 0,
+          "avx512vnni_calls": 2609823,
+          "node": 2
+        }
+      ],
+      "manifest_sha256": "a73416ad626d2584c34241b9c43987f58bf4aeb04a6bf9f55550a75d48ac0b37",
+      "measurement_accepted": true,
+      "ordinal": 2,
+      "p50_ms": 463.086174,
+      "p95_ms": 739.5497009999999,
+      "p99_ms": 753.967584,
+      "quality_valid": true,
+      "query_qps": 239.57463122897946,
+      "raw_client_report_file": "02-veortex-unfiltered_payload-b1-c128.json",
+      "raw_client_report_sha256": "053fb520d81fed512c721a7952da1c2c3cca67da1782ebf1ee981d681b2cda44",
+      "successful_http_rps": 239.57463122897946,
+      "successful_queries": 14432,
+      "successful_requests": 14432
+    },
+    {
+      "actual_elapsed_s": 60.277729602,
+      "backend": "avx512vnni",
+      "backend_valid": true,
+      "batch_size": 1,
+      "category": "active_only",
+      "client_sha256": "9dab9e7f2292d6b3ccae108335317b2f249cf0e83a7cada02650060c91b9c251",
+      "concurrency": 128,
+      "cpu": {
+        "active_compute_work_proven_all_nodes": true,
+        "coverage_complete": true,
+        "elapsed_s": 62.12588477600366,
+        "nodes": [
+          {
+            "active_compute_work_proven": true,
+            "compute_cpu": 4,
+            "node": 0,
+            "required_active_role": "kernel_compute",
+            "required_active_role_cpu_ticks": 5822,
+            "sampling_races": 1,
+            "successful_process_samples": 297,
+            "support_cpus": [
+              5,
+              6
+            ],
+            "task_enumeration_errors": 0
+          },
+          {
+            "active_compute_work_proven": true,
+            "compute_cpu": 7,
+            "node": 1,
+            "required_active_role": "kernel_compute",
+            "required_active_role_cpu_ticks": 5971,
+            "sampling_races": 3,
+            "successful_process_samples": 297,
+            "support_cpus": [
+              8,
+              9
+            ],
+            "task_enumeration_errors": 0
+          },
+          {
+            "active_compute_work_proven": true,
+            "compute_cpu": 10,
+            "node": 2,
+            "required_active_role": "kernel_compute",
+            "required_active_role_cpu_ticks": 5962,
+            "sampling_races": 3,
+            "successful_process_samples": 297,
+            "support_cpus": [
+              11,
+              12
+            ],
+            "task_enumeration_errors": 0
+          }
+        ],
+        "required_active_role_cpu_ticks_positive_all_nodes": true,
+        "status": "PASSED",
+        "violation_count": 0
+      },
+      "dispatch_duration_s": 59.88026835,
+      "dispatched_queries": 14560,
+      "drain_duration_s": 0.3974612519999994,
+      "exact_query_truth_matches": 14560,
+      "failed_queries": 0,
+      "failed_requests": 0,
+      "http_429_count": 0,
+      "intended_route_valid": true,
+      "isa_deltas_by_node": [
+        {
+          "amx_calls": 0,
+          "avx512vnni_calls": 2843549,
+          "node": 0
+        },
+        {
+          "amx_calls": 0,
+          "avx512vnni_calls": 3346182,
+          "node": 1
+        },
+        {
+          "amx_calls": 0,
+          "avx512vnni_calls": 2631208,
+          "node": 2
+        }
+      ],
+      "manifest_sha256": "5a9fae6e28535953d4d5aca4434aef9010f64107b29aaa96293827aa72e94307",
+      "measurement_accepted": true,
+      "ordinal": 3,
+      "p50_ms": 546.47776,
+      "p95_ms": 657.934668,
+      "p99_ms": 728.673585,
+      "quality_valid": true,
+      "query_qps": 241.54858014952345,
+      "raw_client_report_file": "03-veortex-active_only-b1-c128.json",
+      "raw_client_report_sha256": "f72c539ba1526ac6291fe7d9d7937371fbf6a35993374146f089ef89a90286bd",
+      "successful_http_rps": 241.54858014952345,
+      "successful_queries": 14560,
+      "successful_requests": 14560
+    },
+    {
+      "actual_elapsed_s": 60.043722544,
+      "backend": "avx512vnni",
+      "backend_valid": true,
+      "batch_size": 1,
+      "category": "active_position_exclude",
+      "client_sha256": "9dab9e7f2292d6b3ccae108335317b2f249cf0e83a7cada02650060c91b9c251",
+      "concurrency": 128,
+      "cpu": {
+        "active_compute_work_proven_all_nodes": true,
+        "coverage_complete": true,
+        "elapsed_s": 61.61698596691713,
+        "nodes": [
+          {
+            "active_compute_work_proven": true,
+            "compute_cpu": 4,
+            "node": 0,
+            "required_active_role": "kernel_compute",
+            "required_active_role_cpu_ticks": 5942,
+            "sampling_races": 0,
+            "successful_process_samples": 295,
+            "support_cpus": [
+              5,
+              6
+            ],
+            "task_enumeration_errors": 0
+          },
+          {
+            "active_compute_work_proven": true,
+            "compute_cpu": 7,
+            "node": 1,
+            "required_active_role": "kernel_compute",
+            "required_active_role_cpu_ticks": 5900,
+            "sampling_races": 0,
+            "successful_process_samples": 295,
+            "support_cpus": [
+              8,
+              9
+            ],
+            "task_enumeration_errors": 0
+          },
+          {
+            "active_compute_work_proven": true,
+            "compute_cpu": 10,
+            "node": 2,
+            "required_active_role": "kernel_compute",
+            "required_active_role_cpu_ticks": 5907,
+            "sampling_races": 0,
+            "successful_process_samples": 295,
+            "support_cpus": [
+              11,
+              12
+            ],
+            "task_enumeration_errors": 0
+          }
+        ],
+        "required_active_role_cpu_ticks_positive_all_nodes": true,
+        "status": "PASSED",
+        "violation_count": 0
+      },
+      "dispatch_duration_s": 59.999826982,
+      "dispatched_queries": 116092,
+      "drain_duration_s": 0.04389556199999589,
+      "exact_query_truth_matches": 116092,
+      "failed_queries": 0,
+      "failed_requests": 0,
+      "http_429_count": 0,
+      "intended_route_valid": true,
+      "isa_deltas_by_node": [
+        {
+          "amx_calls": 0,
+          "avx512vnni_calls": 2238681,
+          "node": 0
+        },
+        {
+          "amx_calls": 0,
+          "avx512vnni_calls": 2039844,
+          "node": 1
+        },
+        {
+          "amx_calls": 0,
+          "avx512vnni_calls": 1929572,
+          "node": 2
+        }
+      ],
+      "manifest_sha256": "89095656ea851d616e497fd2e746db095eeaeec9de0156f01a9070b85d4c3914",
+      "measurement_accepted": true,
+      "ordinal": 4,
+      "p50_ms": 65.468561,
+      "p95_ms": 74.776187,
+      "p99_ms": 89.304151,
+      "quality_valid": true,
+      "query_qps": 1933.4577384826175,
+      "raw_client_report_file": "04-veortex-active_position_exclude-b1-c128.json",
+      "raw_client_report_sha256": "92fd09ecd0d4a85d611133145adad37f72790e4a8b07b5af9430a61aebb00ac9",
+      "successful_http_rps": 1933.4577384826175,
+      "successful_queries": 116092,
+      "successful_requests": 116092
+    },
+    {
+      "actual_elapsed_s": 60.137670992,
+      "backend": "auto",
+      "backend_valid": true,
+      "batch_size": 1,
+      "category": "unfiltered_no_payload",
+      "client_sha256": "9dab9e7f2292d6b3ccae108335317b2f249cf0e83a7cada02650060c91b9c251",
+      "concurrency": 128,
+      "cpu": {
+        "active_compute_work_proven_all_nodes": true,
+        "coverage_complete": true,
+        "elapsed_s": 61.62262429436669,
+        "nodes": [
+          {
+            "active_compute_work_proven": true,
+            "compute_cpu": 4,
+            "node": 0,
+            "required_active_role": "kernel_compute",
+            "required_active_role_cpu_ticks": 5136,
+            "sampling_races": 0,
+            "successful_process_samples": 295,
+            "support_cpus": [
+              5,
+              6
+            ],
+            "task_enumeration_errors": 0
+          },
+          {
+            "active_compute_work_proven": true,
+            "compute_cpu": 7,
+            "node": 1,
+            "required_active_role": "kernel_compute",
+            "required_active_role_cpu_ticks": 5926,
+            "sampling_races": 3,
+            "successful_process_samples": 295,
+            "support_cpus": [
+              8,
+              9
+            ],
+            "task_enumeration_errors": 0
+          },
+          {
+            "active_compute_work_proven": true,
+            "compute_cpu": 10,
+            "node": 2,
+            "required_active_role": "kernel_compute",
+            "required_active_role_cpu_ticks": 5441,
+            "sampling_races": 7,
+            "successful_process_samples": 295,
+            "support_cpus": [
+              11,
+              12
+            ],
+            "task_enumeration_errors": 0
+          }
+        ],
+        "required_active_role_cpu_ticks_positive_all_nodes": true,
+        "status": "PASSED",
+        "violation_count": 0
+      },
+      "dispatch_duration_s": 59.992967983,
+      "dispatched_queries": 54060,
+      "drain_duration_s": 0.144703008999997,
+      "exact_query_truth_matches": 54060,
+      "failed_queries": 0,
+      "failed_requests": 0,
+      "http_429_count": 0,
+      "intended_route_valid": true,
+      "isa_deltas_by_node": [
+        {
+          "amx_calls": 551028,
+          "avx512vnni_calls": 250000,
+          "node": 0
+        },
+        {
+          "amx_calls": 648635,
+          "avx512vnni_calls": 250256,
+          "node": 1
+        },
+        {
+          "amx_calls": 715409,
+          "avx512vnni_calls": 251024,
+          "node": 2
+        }
+      ],
+      "manifest_sha256": "9070d0a687a78a9c85f1eada9e51294c0c946621fd35eed0b9fc892c6d1d8a5a",
+      "measurement_accepted": true,
+      "ordinal": 5,
+      "p50_ms": 129.079548,
+      "p95_ms": 198.40830300000002,
+      "p99_ms": 211.321082,
+      "quality_valid": true,
+      "query_qps": 898.9373733344529,
+      "raw_client_report_file": "05-veortex-unfiltered_no_payload-b1-c128.json",
+      "raw_client_report_sha256": "3ff4d383bcd160b52bdbf64dd99e28091f1bbedf658c5708463e0a59391b31bf",
+      "successful_http_rps": 898.9373733344529,
+      "successful_queries": 54060,
+      "successful_requests": 54060
+    },
+    {
+      "actual_elapsed_s": 60.093319989,
+      "backend": "auto",
+      "backend_valid": true,
+      "batch_size": 1,
+      "category": "unfiltered_payload",
+      "client_sha256": "9dab9e7f2292d6b3ccae108335317b2f249cf0e83a7cada02650060c91b9c251",
+      "concurrency": 128,
+      "cpu": {
+        "active_compute_work_proven_all_nodes": true,
+        "coverage_complete": true,
+        "elapsed_s": 61.62136207893491,
+        "nodes": [
+          {
+            "active_compute_work_proven": true,
+            "compute_cpu": 4,
+            "node": 0,
+            "required_active_role": "kernel_compute",
+            "required_active_role_cpu_ticks": 5063,
+            "sampling_races": 0,
+            "successful_process_samples": 295,
+            "support_cpus": [
+              5,
+              6
+            ],
+            "task_enumeration_errors": 0
+          },
+          {
+            "active_compute_work_proven": true,
+            "compute_cpu": 7,
+            "node": 1,
+            "required_active_role": "kernel_compute",
+            "required_active_role_cpu_ticks": 5935,
+            "sampling_races": 0,
+            "successful_process_samples": 295,
+            "support_cpus": [
+              8,
+              9
+            ],
+            "task_enumeration_errors": 0
+          },
+          {
+            "active_compute_work_proven": true,
+            "compute_cpu": 10,
+            "node": 2,
+            "required_active_role": "kernel_compute",
+            "required_active_role_cpu_ticks": 5926,
+            "sampling_races": 3,
+            "successful_process_samples": 295,
+            "support_cpus": [
+              11,
+              12
+            ],
+            "task_enumeration_errors": 0
+          }
+        ],
+        "required_active_role_cpu_ticks_positive_all_nodes": true,
+        "status": "PASSED",
+        "violation_count": 0
+      },
+      "dispatch_duration_s": 59.981928687,
+      "dispatched_queries": 54331,
+      "drain_duration_s": 0.11139130200000125,
+      "exact_query_truth_matches": 54331,
+      "failed_queries": 0,
+      "failed_requests": 0,
+      "http_429_count": 0,
+      "intended_route_valid": true,
+      "isa_deltas_by_node": [
+        {
+          "amx_calls": 553442,
+          "avx512vnni_calls": 250000,
+          "node": 0
+        },
+        {
+          "amx_calls": 657724,
+          "avx512vnni_calls": 250384,
+          "node": 1
+        },
+        {
+          "amx_calls": 719924,
+          "avx512vnni_calls": 250448,
+          "node": 2
+        }
+      ],
+      "manifest_sha256": "a73416ad626d2584c34241b9c43987f58bf4aeb04a6bf9f55550a75d48ac0b37",
+      "measurement_accepted": true,
+      "ordinal": 6,
+      "p50_ms": 147.57586799999999,
+      "p95_ms": 172.715791,
+      "p99_ms": 185.616947,
+      "quality_valid": true,
+      "query_qps": 904.1104736756967,
+      "raw_client_report_file": "06-veortex-unfiltered_payload-b1-c128.json",
+      "raw_client_report_sha256": "2b3a03860d0e37cd3aed9248c6ee2603b7ac95ada62bc08f44f0c9fe5bcb5dc6",
+      "successful_http_rps": 904.1104736756967,
+      "successful_queries": 54331,
+      "successful_requests": 54331
+    },
+    {
+      "actual_elapsed_s": 60.077205536,
+      "backend": "auto",
+      "backend_valid": true,
+      "batch_size": 1,
+      "category": "active_only",
+      "client_sha256": "9dab9e7f2292d6b3ccae108335317b2f249cf0e83a7cada02650060c91b9c251",
+      "concurrency": 128,
+      "cpu": {
+        "active_compute_work_proven_all_nodes": true,
+        "coverage_complete": true,
+        "elapsed_s": 61.623181430157274,
+        "nodes": [
+          {
+            "active_compute_work_proven": true,
+            "compute_cpu": 4,
+            "node": 0,
+            "required_active_role": "kernel_compute",
+            "required_active_role_cpu_ticks": 5153,
+            "sampling_races": 1,
+            "successful_process_samples": 296,
+            "support_cpus": [
+              5,
+              6
+            ],
+            "task_enumeration_errors": 0
+          },
+          {
+            "active_compute_work_proven": true,
+            "compute_cpu": 7,
+            "node": 1,
+            "required_active_role": "kernel_compute",
+            "required_active_role_cpu_ticks": 5955,
+            "sampling_races": 0,
+            "successful_process_samples": 296,
+            "support_cpus": [
+              8,
+              9
+            ],
+            "task_enumeration_errors": 0
+          },
+          {
+            "active_compute_work_proven": true,
+            "compute_cpu": 10,
+            "node": 2,
+            "required_active_role": "kernel_compute",
+            "required_active_role_cpu_ticks": 5963,
+            "sampling_races": 0,
+            "successful_process_samples": 296,
+            "support_cpus": [
+              11,
+              12
+            ],
+            "task_enumeration_errors": 0
+          }
+        ],
+        "required_active_role_cpu_ticks_positive_all_nodes": true,
+        "status": "PASSED",
+        "violation_count": 0
+      },
+      "dispatch_duration_s": 59.982605156,
+      "dispatched_queries": 53600,
+      "drain_duration_s": 0.09460038000000281,
+      "exact_query_truth_matches": 53600,
+      "failed_queries": 0,
+      "failed_requests": 0,
+      "http_429_count": 0,
+      "intended_route_valid": true,
+      "isa_deltas_by_node": [
+        {
+          "amx_calls": 546143,
+          "avx512vnni_calls": 250000,
+          "node": 0
+        },
+        {
+          "amx_calls": 628503,
+          "avx512vnni_calls": 250064,
+          "node": 1
+        },
+        {
+          "amx_calls": 670838,
+          "avx512vnni_calls": 250000,
+          "node": 2
+        }
+      ],
+      "manifest_sha256": "5a9fae6e28535953d4d5aca4434aef9010f64107b29aaa96293827aa72e94307",
+      "measurement_accepted": true,
+      "ordinal": 7,
+      "p50_ms": 139.792788,
+      "p95_ms": 184.752712,
+      "p99_ms": 192.740885,
+      "quality_valid": true,
+      "query_qps": 892.185305920751,
+      "raw_client_report_file": "07-veortex-active_only-b1-c128.json",
+      "raw_client_report_sha256": "24588ab752742f8ddda915b18bb6652f95c56641b37183519cae2c0da4fb874e",
+      "successful_http_rps": 892.185305920751,
+      "successful_queries": 53600,
+      "successful_requests": 53600
+    },
+    {
+      "actual_elapsed_s": 60.035540519,
+      "backend": "auto",
+      "backend_valid": true,
+      "batch_size": 1,
+      "category": "active_position_exclude",
+      "client_sha256": "9dab9e7f2292d6b3ccae108335317b2f249cf0e83a7cada02650060c91b9c251",
+      "concurrency": 128,
+      "cpu": {
+        "active_compute_work_proven_all_nodes": true,
+        "coverage_complete": true,
+        "elapsed_s": 61.61787351407111,
+        "nodes": [
+          {
+            "active_compute_work_proven": true,
+            "compute_cpu": 4,
+            "node": 0,
+            "required_active_role": "kernel_compute",
+            "required_active_role_cpu_ticks": 5956,
+            "sampling_races": 0,
+            "successful_process_samples": 294,
+            "support_cpus": [
+              5,
+              6
+            ],
+            "task_enumeration_errors": 0
+          },
+          {
+            "active_compute_work_proven": true,
+            "compute_cpu": 7,
+            "node": 1,
+            "required_active_role": "kernel_compute",
+            "required_active_role_cpu_ticks": 5943,
+            "sampling_races": 3,
+            "successful_process_samples": 294,
+            "support_cpus": [
+              8,
+              9
+            ],
+            "task_enumeration_errors": 0
+          },
+          {
+            "active_compute_work_proven": true,
+            "compute_cpu": 10,
+            "node": 2,
+            "required_active_role": "kernel_compute",
+            "required_active_role_cpu_ticks": 5939,
+            "sampling_races": 3,
+            "successful_process_samples": 294,
+            "support_cpus": [
+              11,
+              12
+            ],
+            "task_enumeration_errors": 0
+          }
+        ],
+        "required_active_role_cpu_ticks_positive_all_nodes": true,
+        "status": "PASSED",
+        "violation_count": 0
+      },
+      "dispatch_duration_s": 59.999253133,
+      "dispatched_queries": 188471,
+      "drain_duration_s": 0.03628738599999792,
+      "exact_query_truth_matches": 188471,
+      "failed_queries": 0,
+      "failed_requests": 0,
+      "http_429_count": 0,
+      "intended_route_valid": true,
+      "isa_deltas_by_node": [
+        {
+          "amx_calls": 3309704,
+          "avx512vnni_calls": 375818,
+          "node": 0
+        },
+        {
+          "amx_calls": 3666066,
+          "avx512vnni_calls": 413777,
+          "node": 1
+        },
+        {
+          "amx_calls": 3509581,
+          "avx512vnni_calls": 399706,
+          "node": 2
+        }
+      ],
+      "manifest_sha256": "89095656ea851d616e497fd2e746db095eeaeec9de0156f01a9070b85d4c3914",
+      "measurement_accepted": true,
+      "ordinal": 8,
+      "p50_ms": 39.007367,
+      "p95_ms": 56.347196000000004,
+      "p99_ms": 69.96519099999999,
+      "quality_valid": true,
+      "query_qps": 3139.3237800591273,
+      "raw_client_report_file": "08-veortex-active_position_exclude-b1-c128.json",
+      "raw_client_report_sha256": "46f61fc3827c07072664b114710a6471a13f12a2db7eea05518d28654c249e57",
+      "successful_http_rps": 3139.3237800591273,
+      "successful_queries": 188471,
+      "successful_requests": 188471
+    }
+  ],
+  "runner_sha256": "07e9580556c020ce39231057c7ba4f4790cdcefaed6b752b2821327adc25323b",
+  "schema": "sq8_avx512_vs_auto_amx_report_v1",
+  "started_utc": "2026-11-09T23:03:19.473395+00:00",
+  "validation": {
+    "accepted_rows": 8,
+    "accuracy_passes": [
+      {
+        "backend": "avx512vnni",
+        "category": "unfiltered_no_payload",
+        "failed": 0,
+        "passed": 1024
+      },
+      {
+        "backend": "avx512vnni",
+        "category": "unfiltered_payload",
+        "failed": 0,
+        "passed": 1024
+      },
+      {
+        "backend": "avx512vnni",
+        "category": "active_only",
+        "failed": 0,
+        "passed": 1024
+      },
+      {
+        "backend": "avx512vnni",
+        "category": "active_position_exclude",
+        "failed": 0,
+        "passed": 1024
+      },
+      {
+        "backend": "auto",
+        "category": "unfiltered_no_payload",
+        "failed": 0,
+        "passed": 1024
+      },
+      {
+        "backend": "auto",
+        "category": "unfiltered_payload",
+        "failed": 0,
+        "passed": 1024
+      },
+      {
+        "backend": "auto",
+        "category": "active_only",
+        "failed": 0,
+        "passed": 1024
+      },
+      {
+        "backend": "auto",
+        "category": "active_position_exclude",
+        "failed": 0,
+        "passed": 1024
+      }
+    ],
+    "immutable_lower_metadata_unchanged": true,
+    "original_ids_restored_healthy": true,
+    "overlays_removed_before_original_restart": true,
+    "status": "MEASUREMENTS_COMPLETE_RECORDED_SCOPE",
+    "timing_rows": 8
+  },
+  "workload_notes": [
+    "Metadata is present in all four categories; active-only is approximately the 90% active slice and active/position-exclude is approximately the 9% combined-filter slice.",
+    "The historical fixture seed is unknown; the exact query corpus is pinned by the four manifest SHA-256 values in each row.",
+    "No engine source change or rebuild occurred for this comparison; both arms use the same V45.1 binary and the 640 MiB queued-query cap."
+  ]
+}

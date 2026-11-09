@@ -12,6 +12,8 @@ The chart uses recorded **SQ8 B1/C128** results: one query per HTTP request, 128
 
 Read the [chart guide, data and reproduction commands](benchmarks/CHARTS.md), or download the [editable SVG](assets/benchmarks/sq8-b1-c128-comparison.svg). These are finite end-to-end observations with differing support-stage placement and unmatched compiler flags, not maximum-capacity or isolated kernel-speedup claims.
 
+A separate [same-binary AVX-512 versus AMX follow-up](benchmarks/sq8-avx512-vs-amx-20261110.md) keeps the ring active and disables AMX. At SQ8 B1/C128, no filter/no payload measured **245.18 HTTP RPS with AVX-512 VNNI**, versus **898.94 with AMX-eligible Auto**. All eight filter/payload cells passed, with zero failed requests and ordered Top10 matching FP32. This V45.1 follow-up uses the same 640 MiB queue budget in both arms; it does not replace the earlier V45 matrix.
+
 ## Download the research binary
 
 The [V45.1 admission-budget release](https://github.com/nicabreon/qdrant-veortex-releases/releases/tag/v1.20.0-veortex.v45.1.20261109) adds an opt-in queue-byte ceiling of **2 GiB**, with the default still **384 MiB**. Its tested B64/C4 profile uses **640 MiB** and completed all four categories without HTTP 429s. It requires the [new environment example](configs/admission-budget-node0.env.example). Its executable SHA-256 is `90d54aeabbaa17350b94161f6a7926528b13452b0b50296f0bc45fc0e96969e0`; see the [manifest](releases/admission-budget-20261109-manifest.json).
