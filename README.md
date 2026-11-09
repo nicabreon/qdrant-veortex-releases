@@ -4,6 +4,14 @@ This repository publishes **binary-only research builds** of Qdrant 1.20.0 with 
 
 Qdrant remains the database and cluster manager: its API, WAL, shard routing, Raft, replication, and internal gRPC remain in use. Veortex is an in-process path for eligible flat quantized searches. There is no Veortex sidecar or separate Veortex cluster.
 
+## Performance comparison
+
+The chart uses recorded **SQ8 B1/C128** results: one query per HTTP request, 128 concurrent requests, ordered Top10, and three million vectors searched across the three-node cluster. All four request categories use the same dataset with metadata present. It also shows C1 context, where native was faster.
+
+![Recorded native Qdrant 1.20 versus Veortex V45: B1/C128 HTTP throughput and full-response p95/p99, with isolated-request C1 context](assets/benchmarks/sq8-b1-c128-comparison.png)
+
+Read the [chart guide, data and reproduction commands](benchmarks/CHARTS.md), or download the [editable SVG](assets/benchmarks/sq8-b1-c128-comparison.svg). These are finite end-to-end observations with differing support-stage placement and unmatched compiler flags, not maximum-capacity or isolated kernel-speedup claims.
+
 ## Download the research binary
 
 The [V45.1 admission-budget release](https://github.com/nicabreon/qdrant-veortex-releases/releases/tag/v1.20.0-veortex.v45.1.20261109) adds an opt-in queue-byte ceiling of **2 GiB**, with the default still **384 MiB**. Its tested B64/C4 profile uses **640 MiB** and completed all four categories without HTTP 429s. It requires the [new environment example](configs/admission-budget-node0.env.example). Its executable SHA-256 is `90d54aeabbaa17350b94161f6a7926528b13452b0b50296f0bc45fc0e96969e0`; see the [manifest](releases/admission-budget-20261109-manifest.json).
@@ -100,6 +108,14 @@ The V45.1 follow-up changes the configurable reservation ceiling and tests a 640
 | Active + position + exclusion (~9% eligible), payload | 45.25 | 2,895.74 | 110.04 / 121.89 |
 
 These are **B64/C4**, so query/s is not HTTP requests/s. The source is `a1a2af190`, and the scan algorithm is unchanged. B1 was not remeasured for this follow-up. The unfiltered observations are about 3–5% below the earlier B64/C4 values, so these finite runs do not establish a no-regression or maximum-capacity claim. Read the [follow-up results and reused native baseline](benchmarks/h2h-sq8-admission-remediation-20261109.md) and [failure diagnosis](benchmarks/ADMISSION_REMEDIATION.md).
+
+## Concurrency and explicit batches
+
+![SQ8 throughput by concurrency and explicit batch size for four filter/payload categories; B64 diamonds use the successful V45.1 remediation](assets/benchmarks/sq8-concurrency-and-batch.png)
+
+Upper panels report **HTTP RPS at B1**; lower panels report **query/s at C4**, where each batch contains B queries. All Our B64 points use the successful **V45.1 admission remediation** with a 640 MiB queue cap, shown as separate diamonds. Native B64 measurements are reused from the primary campaign; they were not rerun for the follow-up. Other Our points use V45. The original failed rows remain archived in the primary evidence.
+
+Download the [SVG](assets/benchmarks/sq8-concurrency-and-batch.svg), [80 accepted chart measurements as CSV](assets/benchmarks/chart-data-20261109.csv), or [provenance manifest](assets/benchmarks/chart-manifest-20261109.json).
 
 ## Measurement method and limits
 

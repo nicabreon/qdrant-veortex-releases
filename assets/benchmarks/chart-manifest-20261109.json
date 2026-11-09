@@ -1,0 +1,29 @@
+{
+  "schema": "recorded_sq8_chart_selection_v1",
+  "new_benchmarks_run": false,
+  "source_sha256": {
+    "benchmarks/h2h-sq8-batch-20261109.json": "a4eab61cd4abb421a32550b2c9843b813d279386e29cfc2c8338e3cdfbc69f4c",
+    "benchmarks/h2h-sq8-admission-remediation-20261109.json": "7bc071b2a26a704117f9a723691158103d642e75a02b65b898f5d3d71b3c8adb"
+  },
+  "selected_measurements": 80,
+  "remediated_measurements": 4,
+  "selection": "Primary matrix except all four Our B64/C4 cells use successful V45.1 remediation; Native remains primary",
+  "all_selected_rows_accepted": true,
+  "all_selected_failed_request_counts_zero": true,
+  "units": {
+    "overview": "B1/C128 successful HTTP RPS and full-response p95/p99 milliseconds",
+    "sweeps_upper": "B1 successful HTTP RPS",
+    "sweeps_lower": "C4 validated queries/s"
+  },
+  "renderer": {
+    "matplotlib": "3.10.9",
+    "numpy": "2.2.6"
+  },
+  "output_sha256": {
+    "chart-data-20261109.csv": "cb43176746b818849f35438c174332d185469a9a0f2b44609f2f6dbb91518e7e",
+    "sq8-b1-c128-comparison.png": "47c3df06705eaee596e7d342c9b35c2f2b901d5bb1594cafbf52a7aa07595b10",
+    "sq8-b1-c128-comparison.svg": "8dcf066cd05dff0e43306d2cd69d263e4f87d27971b630c90e2c9bb96e1e9ff7",
+    "sq8-concurrency-and-batch.png": "edbbc31f8f1eb9b0034bbefac749482bba891166eaa0a9dcbfd3d76b0810f667",
+    "sq8-concurrency-and-batch.svg": "707612a94a041b8ad31628e28d5701a38b5b2ced5da9294e8bab50cf6c8d5370"
+  }
+}
