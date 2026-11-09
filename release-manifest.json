@@ -42,5 +42,7 @@
     "Native official 1.20 and this binary do not have matched compiler-flag provenance.",
     "CPU feature compatibility must be checked on the target host; measured host exposes AVX512 VNNI and AMX INT8 under KVM.",
     "The engine source is not included in this binary distribution repository. External benchmark helper source and required third-party covered source are included."
-  ]
+  ],
+  "manual_runtime_config": "configs/veortex-v45-node0.env.example",
+  "native120_baseline": "benchmarks/native120-20261109.json"
 }

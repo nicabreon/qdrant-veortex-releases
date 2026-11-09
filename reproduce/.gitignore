@@ -1,3 +1,4 @@
 /.env
 /libqdrant_search_affinity.so
 /search-affinity-selftest
+/bench

@@ -31,33 +31,38 @@ The config generator creates one shared API key and separate node certificates s
 
 Compose health checks only confirm that each HTTP port accepts TCP connections. Before benchmarking, check that all three Qdrant peers have converged, verify process and thread CPU masks, and record the binary and shim hashes. The Compose file uses separate named storage volumes; it does not load or prepare a dataset.
 
-## Generate and run the B1 SQ8 workload
+## Generate and run the B1 stock workload
 
 `workload.py` and `bench.go` provide a separate, portable workload path against
 the public Qdrant API. This path does not build Qdrant, change Docker settings,
 or call fork-only routes. Run commands from the repository root. Python 3 and
-NumPy are required for generation and upload (`python3 -m pip install numpy`).
+NumPy are required for generation and upload (`python3 -m pip install -r reproduce/requirements.txt`).
 
 The default fixture is one seeded normalized-Gaussian 3,000,000 × 512 FP32
 gallery, generated before any category bodies, with deterministic ABIS payloads.
-It records 3 shards, RF1, HNSW `m=0` / `payload_m=0`, and scalar SQ8 (`int8`,
-quantile 1, always in RAM). The raw gallery is 5.72 GiB; deterministic metadata
-adds about 1.1 GB and the query file about 2 MiB, so reserve at least 6.8 GiB
-for the generated files. Generation checks currently free filesystem space
-before writing. That check cannot see per-user or container quotas and excludes
-Qdrant storage, WAL, and temporary segment or optimization space; reserve
-additional capacity for those. The seed and NumPy version are recorded in
-`dataset.json` (default seed `20261109`).
+The same gallery and queries can be loaded into separate SQ8, TQ2, and TQ4
+collections. It records 3 automatic shards, RF1, and HNSW `m=0` / `payload_m=0`;
+the quantization configuration is selected at collection creation. The raw
+gallery is 5.72 GiB; deterministic metadata adds about 1.1 GB and the query
+file about 2 MiB, so reserve at least 6.8 GiB for the generated files.
+Generation checks free filesystem space before writing, but cannot see
+per-user/container quotas and excludes Qdrant storage, WAL, and temporary
+segment or optimization space. Each retained profile collection needs
+additional capacity for raw vectors and quantized segments. The seed and NumPy
+version are recorded in `dataset.json` (default seed `20261109`).
 
 ```sh
 python3 reproduce/workload.py generate --out reproduce-data --seed 20261109
 ```
 
-To create a fresh collection, pass `--create`; it fails if that collection
-already exists. Without `--create`, the helper requires an existing collection
-and verifies the vector, shard, replication, HNSW, and scalar-quantization
-settings before upload. API-key authentication is read from the environment
-variable `QDRANT_API_KEY` and is never saved to the repository or results.
+To create a fresh empty collection, pass `--create`; it fails if that name
+already exists. Without `--create`, the helper requires a matching empty
+collection and verifies the vector, shard, replication, HNSW, and selected
+quantization settings before upload. `load` refuses to add points to a nonempty
+collection; use `prepare-manifests` for an already-loaded compatible
+collection. The helper does not delete or convert collections. API-key
+authentication is read from `QDRANT_API_KEY` and is never saved to the
+repository or results.
 
 ```sh
 export QDRANT_API_KEY='…' # only when the cluster requires an API key
@@ -65,18 +70,55 @@ python3 reproduce/workload.py load \
   --data-dir reproduce-data \
   --endpoint http://127.0.0.1:6333 \
   --collection native120_sq8_3m \
+  --profile sq8 \
   --create
 ```
 
 The default `--peer-endpoints` list matches the three Compose HTTP ports
-6333–6335. The loader verifies all three peer IDs, each active local shard's
+6333–6335. Before collection creation or upload, the loader verifies all three
+endpoints report an enabled cluster, the same three-peer membership, and one
+common Raft leader. After load, it also checks all three peer IDs, each active local shard's
 owner and positive local point estimate, coverage of the three shards, and
 the absence of shard transfers or resharding. Those per-shard counts are
 estimates; the collection-level point count is checked separately. Pass a
-comma-separated replacement list if host ports differ. The loader also
-requires a green collection with exactly the requested point count and an
-empty payload-index schema. Every upsert sends the deterministic payload for
-every point, including runs whose timed request uses `with_payload=false`.
+comma-separated replacement list if host ports differ. The loader creates or
+checks exactly three payload indexes before upload: `abis.subject_id` keyword,
+`abis.active` bool, and `attributes.position` keyword. Each must cover all
+points before preparation succeeds. Every upsert sends the deterministic
+payload for every point, including runs whose timed request uses
+`with_payload=false`.
+
+The loader sets `optimizers_config.indexing_threshold=0` during bulk upload, so
+the global 10,000,000 KB default cannot prevent indexing on this 3M-point
+fixture. After upload it enables threshold 1 and one optimizer thread, then
+waits for a green collection, `optimizer_status=ok`, exact point and
+indexed-vector counts, and all three complete payload indexes. Once quantized
+segments are ready, it freezes the recorded final optimizer config, including
+`max_optimization_threads=0` (which disables further optimization).
+`--readiness-timeout` controls this preparation wait; it is not a latency SLA.
+A collection quantization setting alone does not prove its quantized segments
+finished building. `prepare-manifests` checks the optimized state again.
+
+The historical candidate caps and matching Top10 oversampling are:
+
+| Profile | Candidate cap per segment | Oversampling |
+| --- | ---: | ---: |
+| SQ8 | 12 | 1.2 |
+| TQ2 | 1767 | 176.7 |
+| TQ4 | 40 | 4.0 |
+
+These caps were sufficient on recorded historical conversions, not universal
+minimums for a newly generated seed. Accuracy must pass on the selected gallery
+before performance claims. `--candidate-count N` sets an explicit cap (N >=
+10); every timed body pins `quantization.oversampling=N/10` and records whether
+the cap is historical or an override. Keep one collection per profile; these
+helpers never convert or delete a collection.
+
+```sh
+# Optional additional profile collections; SQ8 was created above.
+python3 reproduce/workload.py load --data-dir reproduce-data --endpoint http://127.0.0.1:6333 --collection native120_tq2_3m --profile tq2 --create
+python3 reproduce/workload.py load --data-dir reproduce-data --endpoint http://127.0.0.1:6333 --collection native120_tq4_3m --profile tq4 --create
+```
 
 Capture native exact-FP32 truth separately from timing, then build manifests
 for all four categories: `nf_false`, `nf_true`, `active90_payload` (90% active),
@@ -92,7 +134,19 @@ python3 reproduce/workload.py prepare-manifests \
   --queries reproduce-data/queries.npy \
   --endpoint http://127.0.0.1:6333 \
   --collection native120_sq8_3m \
+  --profile sq8 \
   --out reproduce-manifests
+```
+
+For TQ2 and TQ4, use their collection and profile, and reuse the SQ8 truth
+directory so every profile uses the same exact references. The query hash and
+profile cap are pinned in each manifest. Cached truth assumes all collections
+hold the same raw gallery and query vectors; cached files alone cannot prove
+that provenance.
+
+```sh
+python3 reproduce/workload.py prepare-manifests --queries reproduce-data/queries.npy --endpoint http://127.0.0.1:6333 --collection native120_tq2_3m --profile tq2 --cached-truth-dir reproduce-manifests/truth --out reproduce-manifests-tq2
+python3 reproduce/workload.py prepare-manifests --queries reproduce-data/queries.npy --endpoint http://127.0.0.1:6333 --collection native120_tq4_3m --profile tq4 --cached-truth-dir reproduce-manifests/truth --out reproduce-manifests-tq4
 ```
 
 Build the standalone Go client and run its offline preflight. `run` repeats the
@@ -105,6 +159,17 @@ for manifest in reproduce-manifests/{nf_false,nf_true,active90_payload,narrow9_p
 done
 ```
 
+Before timing, check every one of the 1,024 approximate requests per category
+against exact-FP32 truth on the live collection. This untimed quality check
+blocks performance claims for a profile if a query fails; historical caps do
+not guarantee accuracy on a fresh gallery.
+
+```sh
+python3 reproduce/verify-accuracy.py \
+  --manifest-dir reproduce-manifests \
+  --out reproduce-quality/accuracy.json
+```
+
 The default run measures all four categories at C1 and C160 for 60 seconds
 each, with max-inflight matched to concurrency and `GOMAXPROCS=7`. Each pass
 uses 16 successful full-response warm-up requests before its measured dispatch
@@ -112,7 +177,7 @@ window; the warm-up is recorded in that Go report and excluded from the timer.
 Each measured request is checked for ordered IDs/scores and its payload contract.
 
 ```sh
-python3 reproduce/workload.py run \
+taskset -c 0,1,2,3,13,14,15 python3 reproduce/workload.py run \
   --manifest-dir reproduce-manifests \
   --bench reproduce/bench \
   --out reproduce-results
@@ -124,7 +189,10 @@ full-response validated latency, warm-up counts, and client, HTTP, transport,
 candidate-truth, payload, and metadata-hash validation counters. RPS divides
 successful completed responses by elapsed time through final response
 validation, including drain. Failed requests remain in the reports and
-summary. For a short smoke run, use
+summary. Each summary row records `passed` and `status`; a failed request,
+capacity rejection, unsuccessful warm-up, candidate-truth mismatch, or payload
+contract mismatch marks that row `COMPLETED_WITH_FAILURES`. The command exits
+nonzero after writing every scheduled row. For a short smoke run, use
 `--concurrency 1 --seconds 10`; the warm-up count can be changed with
 `--warmup-requests 16` or disabled with `--warmup-requests 0`.
 
@@ -204,3 +272,35 @@ The stock shim pins the entire upstream search closure, including TopK/F32
 rerank, to its one search CPU; V45 places scan on one CPU and its TopK/F32
 support pipeline on the other two. Both have the same total three-CPU quota,
 but stage allocation and official/compiler build provenance differ.
+
+## Match the recorded C160 sweep
+
+The published VM has 16 logical CPUs. Its Go client was restricted to
+`0,1,2,3,13,14,15`, disjoint from the engine containers on `4..12`, with
+`GOMAXPROCS=7`. The command above inherits that client affinity. Remap both
+client and engine CPU lists for another host; do not let the load generator
+compete with the measured scan CPUs. Tested helper tools: Python 3.10.12,
+NumPy 2.2.6 (`requirements.txt`), and Go 1.25.1.
+
+The historical V45 table contains four C160 category rows and an unfiltered
+repeat. Select `--concurrency 160` for that sweep, then run its final control row
+using the same manifest, client CPUs, warmup and timer:
+
+```sh
+taskset -c 0,1,2,3,13,14,15 python3 reproduce/workload.py run \
+  --manifest-dir reproduce-manifests --bench reproduce/bench \
+  --concurrency 160 --out reproduce-results-c160
+taskset -c 0,1,2,3,13,14,15 reproduce/bench \
+  --manifest reproduce-manifests/nf_false.json \
+  --mode closed-loop --concurrency 160 --max-inflight 160 \
+  --seconds 60 --gomaxprocs 7 --warmup-requests 16 --timeout 30s \
+  --score-tolerance 0.000001 --output reproduce-results-c160/nf-repeat.json
+```
+
+For the native1.20 measurement order, first run a separate `--concurrency 1`
+sweep, then the C160 sweep and repeat. The generic default `1,160` alternates
+those two concurrency levels within each category. Run each quantization
+profile sequentially using its own manifests and saved exact truth. Keeping
+three 3M collections simultaneously requires substantially more disk than one
+profile; save results before manually retiring any disposable collection. No
+helper deletes a collection or volume automatically.

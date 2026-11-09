@@ -1,0 +1,22 @@
+{
+  "scope": "Offline quality-helper validation with mocked API responses; no engine throughput measurement. Workload generator/load lifecycle validated separately.",
+  "utc": "2026-11-09T06:30:44.321971+00:00",
+  "quality_helper": {
+    "valid_responses_checked": 4096,
+    "valid_passed": 4096,
+    "injected_score_error_responses": 4,
+    "injected_errors_detected": 4,
+    "network_requests": 0,
+    "nonfinite_reference_rejected": true
+  },
+  "toolchain": {
+    "python": "3.10.12",
+    "numpy": "2.2.6",
+    "go": "go1.25.1 linux/amd64"
+  },
+  "source_sha256s": {
+    "reproduce/verify-accuracy.py": "17665b9f1fa8604ba17db30d3ff473bd7a4980750a6c3ec3ac6cab4d23bceae5",
+    "reproduce/bench.go": "073f260b10fa0df6ec4c0e135df7b6c7b64ecd66e5d61fc9c1dcdfef9fad7e4a",
+    "reproduce/search_affinity.c": "5bc7a35a80962f3be89a9d2e259f5885e1b515a178b5d8bf4653850c8a297289"
+  }
+}

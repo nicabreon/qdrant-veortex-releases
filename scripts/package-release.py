@@ -35,7 +35,7 @@ def main():
     # Package only reviewed, committed public files. Local secrets, data, compiled
     # helper outputs, and ignored configs cannot enter through a recursive walk.
     tracked = subprocess.check_output(['git', '-C', str(root), 'ls-files', '-z']).decode().split('\0')
-    files = [name for name in tracked if name and not name.startswith('.') and '/.' not in name]
+    files = [name for name in tracked if name]
     if not all(name in files for name in ['LICENSE', 'NOTICE', 'DEPLOYMENT.md', 'release-manifest.json']):
         raise SystemExit('Commit the reviewed public release files before packaging')
     with tarfile.open(asset, 'w:gz', compresslevel=6) as archive:

@@ -67,3 +67,45 @@ The receipt used `VX_PFH=9`, a bitmask of bits 8 and 1. Bit 8 selects the tested
 The S8 receipt reports its stated SQ8 target met and records observed one-compute-CPU affinity for the measured rows on that VM. This is evidence for that run and its configured host, not a guarantee for another kernel, hypervisor, container runtime, or CPU layout. The published C160 results are finite closed-loop measurements; they do not establish maximum throughput, single-request latency, or long-duration stability. The benchmark report describes the workload, the limited interpretation, and the results for other tested modes.
 
 For a reproducible local cluster configuration, follow [the frozen V45 environment profile](reproduce/README.veortex.md) and [its safe environment example](reproduce/veortex-v45.env.example). Those files pin the receipt settings and binary hash; they do not replace the operational security and backup steps above.
+
+## Set the engine environment without Docker
+
+Copy [the node0 engine environment](configs/veortex-v45-node0.env.example)
+to an administrator-owned local file, for example
+`/etc/qdrant-veortex/engine.env`. It contains all 24 measured V45 values,
+including the support pipeline and bounded caches; copying only the eight
+variables below does not reproduce that complete profile. Change compute and
+support CPU IDs for each node. Set the environment before starting the process;
+these settings are read at startup or cached on first use, so changing the
+file requires a process restart.
+
+For a shell launch as the dedicated service user, with the test node0 CPU IDs:
+
+```sh
+set -a
+. /etc/qdrant-veortex/engine.env
+set +a
+exec taskset -c 4,5,6 /opt/qdrant-veortex/bin/qdrant \
+  --config-path /etc/qdrant-veortex/config.yaml
+```
+
+For systemd, use `EnvironmentFile=/etc/qdrant-veortex/engine.env` and
+`CPUAffinity=4 5 6` in the service instead. The process must initially be allowed
+to use the compute CPU and both support CPUs; do not restrict it to just the
+support pair before its own CPU initialization.
+
+| Setting | Meaning in the measured profile |
+|---|---|
+| `QDRANT_VEORTEX_COMPUTE_CPUS=4` | Linux logical CPU IDs used by ring scan workers. This is CPU ID 4, not four CPUs. |
+| `QDRANT_VEORTEX_SUPPORT_CPUS=5,6` | Two distinct CPUs for the support pipeline and service work, outside the scan CPU. |
+| `QDRANT_VEORTEX_MAX_RING_WORKERS=1` | Maximum ring workers per local shard; one shard/node was measured. More workers share or require explicit compute CPUs. |
+| `QDRANT_VEORTEX_SINGLETON_ADMISSION_PERMITS=160` | Per-shard limit on admitted singleton requests; a permit lasts for the request lifecycle. This is not a batch size or a ring lane count. |
+| `QDRANT_VEORTEX_SINGLETON_ADMISSION_WAIT_MS=90` | Maximum wait for an admission permit before refusal/backpressure. It does not add 90 ms to every request or cap total latency. |
+| `QDRANT_VEORTEX_COALESCE_WINDOW_US=1000` | Up to 1 ms to combine compatible incoming queries; distinct from the admission queue wait. |
+| `QDRANT__STORAGE__PERFORMANCE__MAX_SEARCH_THREADS=1` | Qdrant search-pool configuration, separate from the ring worker count; it does not limit every thread in the server. |
+| `RAYON_NUM_THREADS=2` | Rayon pool parallelism; it does not mean two scan CPUs or two total process threads. |
+| `VX_PFH=9` | The schedule/prefetch bitmask described above; it is not a vector dimension, tile size, or worker count. |
+
+The measured split also enables `QDRANT_VEORTEX_SEPARATE_TOPK=1` and the other
+values in the complete environment example. Keep scan scoring on its designated
+CPU and verify active ring/support worker affinity during a disposable load test.

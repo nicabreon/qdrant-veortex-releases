@@ -1,6 +1,6 @@
 # Qdrant–Veortex V45 research binary
 
-This is a binary-only research distribution of a Qdrant 1.20.0 build containing the Veortex search engine. It does not include the Qdrant or Veortex engine source. The runtime executable is distributed as a separate release archive; download it from the [V45 release page](https://github.com/nicabreon/qdrant-veortex-releases/releases/tag/v1.20.0-veortex.v45.20261109).
+This is a binary-only research distribution of a Qdrant 1.20.0 build with integrated Veortex flat-search kernels. It does not include the Qdrant or Veortex engine source. The runtime executable is distributed as a separate release archive; download it from the [V45 release page](https://github.com/nicabreon/qdrant-veortex-releases/releases/tag/v1.20.0-veortex.v45.20261109).
 
 The release artifact is identified by its provenance and hash:
 
@@ -26,3 +26,18 @@ The benchmark helpers in `reproduce/` are separate from the engine binary. They 
 ## License scope
 
 [`LICENSE`](LICENSE) contains the Apache License 2.0 text. Qdrant and the external reproduction and benchmark helper source in `reproduce/` are identified as Apache-2.0 components in [`NOTICE`](NOTICE). That license notice does not assign a standalone license to Veortex source or grant rights to engine source code that is not included here. The owner authorized redistribution of this specific Veortex-containing binary. See [`third_party/`](third_party/THIRD_PARTY_NOTICES.md) for component-specific attributions and dependency terms.
+
+## Search architecture
+
+Qdrant keeps the database API, WAL, segment lifecycle, shard routing, Raft,
+replication and internal gRPC. Eligible flat searches enter a per-shard ring
+that shares gallery reads between queries. Quantized scoring runs on the
+designated scan CPU; TopK/F32 reranking and payload completion use support
+workers. Qdrant then merges shard results into the usual response. The result
+limit is Top10; 1,024 denotes the test-query corpus, not returned candidates.
+
+See [recorded SQ8/TQ2/TQ4 results](benchmarks/historical-v45-20261102.md). These
+measurements cover the documented search paths; the research release does not
+claim that every Qdrant operation or scoring mode uses the ring.
+
+The [official native Qdrant 1.20 baseline](benchmarks/native120-20261109.md) was measured separately on 9 November. It includes C1/C160 latency, success counts, F32 checks and comparison limits.

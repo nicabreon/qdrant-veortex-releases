@@ -9,3 +9,9 @@ reproduce/.env.*
 !reproduce/*.env.example
 **/__pycache__/
 *.pyc
+
+# Optional local Python environment
+.venv/
+reproduce-quality/
+reproduce-results-*/
+reproduce-manifests-*/

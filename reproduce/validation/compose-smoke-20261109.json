@@ -6,27 +6,35 @@
     "preexisting_reproduce_dotenv": "absent and untouched",
     "temporary_env_files": "removed"
   },
-  "config_correction": "Mounted host CA bundle read-only and set SSL_CERT_FILE in native Compose; Veortex override carries the same mount and setting. Corrected Compose models are validated; runtime retry deferred until native benchmark timing finishes.",
+  "config_correction": "Initial native startup lacked system CA roots. Both Compose modes now mount the host CA bundle read-only and set SSL_CERT_FILE; the subsequent three-node native and V45 startup/peer checks passed.",
   "cpu_overlap": {
     "native_benchmark": "CPUs 4-12; no CPU overlap.",
     "smoke": "CPUs 0-2 shared only among the three short-lived smoke nodes."
   },
-  "data_state": "Fresh generated node config/certs, empty dedicated volumes; no data or API request submitted.",
-  "native_benchmark_at_interruption": "TIMING; smoke was immediately stopped.",
+  "data_state": "Dedicated initially empty volumes. V45 created/upserted/read/deleted one temporary 4D point and removed its collection. No benchmark fixture or performance traffic.",
+  "native_benchmark_at_interruption": "First smoke was stopped during native TIMING. Successful retry occurred only after the native benchmark finished and original cluster restoration passed.",
   "native_binary": "Official Qdrant v1.20.0 GNU release; observed build 222b2e44.",
   "native_phase": {
-    "cluster_peer_check": "not run",
+    "authenticated_api_versions": [
+      "1.20.0",
+      "1.20.0",
+      "1.20.0"
+    ],
+    "cluster_each_node": {
+      "peer_count": 3,
+      "status": "enabled"
+    },
+    "collections_after_start": "0",
     "compose_config_validation": "passed",
-    "node0_startup": "failed before healthy startup; exit code 101",
-    "node1_node2": "created but not started because node0 dependency failed",
-    "sanitized_error": "Qdrant inference client initialization reported that no system CA certificates were loaded.",
-    "version_banner": "1.20.0 build 222b2e44"
+    "initial_failure_corrected": "first attempt exited 101 because the Ubuntu runner image lacked CA roots; corrected configuration passed on retry",
+    "startup": "all three nodes healthy after mounting the host CA bundle and setting SSL_CERT_FILE"
   },
+  "performance_claims": "none",
   "project": "qvr-release-smoke-20261109",
-  "recorded_utc": "2026-11-09T06:06:04.294540+00:00",
+  "recorded_utc": "2026-11-09T06:19:38.901334+00:00",
   "runner_image": "ubuntu@sha256:353675e2a41babd526e2b837d7ec780c2a05bca0164f7ea5dbbd433d21d166fc",
   "schema": "qdrant_release_compose_smoke_v1",
-  "scope": "Empty-data startup/configuration smoke only; no collection, fixture, benchmark query, or performance measurement.",
+  "scope": "Configuration and startup smoke only; no fixture or benchmark traffic. One ephemeral 4-dimensional point was used for authenticated create/upsert/read/delete verification and the collection count returned to zero.",
   "smoke_topology": {
     "compute_cpu_each": 0,
     "cpus_per_node": 3,
@@ -39,7 +47,25 @@
     "nodes": 3,
     "support_cpus_each": "1,2"
   },
-  "status": "SMOKE_NATIVE_START_FAILED_CLEANED_RETRY_PENDING",
+  "status": "PASSED_NATIVE_AND_VEORTEX_EMPTY_CLUSTER_SMOKE",
+  "tls": "Generated node certificates and CA were mounted; Qdrant reported internal gRPC TLS enabled and all peers converged.",
   "veortex_binary_sha256": "9a44f09da70af7921da7b2a6893b98c1ea3d9dcab61986d3504b63f4e3dfa0e8",
-  "veortex_phase": "not started"
+  "veortex_phase": {
+    "authenticated_api_versions": [
+      "1.20.0",
+      "1.20.0",
+      "1.20.0"
+    ],
+    "binary_sha256_expected": "9a44f09da70af7921da7b2a6893b98c1ea3d9dcab61986d3504b63f4e3dfa0e8",
+    "binary_sha256_observed_in_container": "9a44f09da70af7921da7b2a6893b98c1ea3d9dcab61986d3504b63f4e3dfa0e8",
+    "cluster_each_node": {
+      "peer_count": 3,
+      "status": "enabled"
+    },
+    "collections_after_start": "0",
+    "compose_config_validation": "passed",
+    "native_affinity_shim": "not preloaded and not mounted",
+    "startup": "all three nodes healthy on the same six dedicated volumes after the native smoke",
+    "synthetic_api_smoke": "one temporary collection and one 4D point: create, upsert, retrieve exact vector, delete; final collection count 0"
+  }
 }

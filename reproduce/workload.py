@@ -13,7 +13,9 @@ import os
 from pathlib import Path
 import shutil
 import subprocess
+import struct
 import sys
+import time
 from urllib.error import HTTPError, URLError
 from urllib.parse import quote, urlsplit
 from urllib.request import Request, urlopen
@@ -48,6 +50,36 @@ CATEGORIES = {
     },
 }
 MANIFEST_SCHEMA = "benchmark_abis_payload_b1_top10_go_manifest_v1"
+PROFILE_SETTINGS = {
+    "sq8": {
+        "quantization_config": {"scalar": {"type": "int8", "quantile": 1.0, "always_ram": True}},
+        "branch": "scalar",
+        "default_candidate_count": 12,
+    },
+    "tq2": {
+        "quantization_config": {"turbo": {"bits": "bits2", "always_ram": True}},
+        "branch": "turbo",
+        "default_candidate_count": 1767,
+    },
+    "tq4": {
+        "quantization_config": {"turbo": {"bits": "bits4", "always_ram": True}},
+        "branch": "turbo",
+        "default_candidate_count": 40,
+    },
+}
+PAYLOAD_INDEXES = {
+    "abis.subject_id": "keyword",
+    "abis.active": "bool",
+    "attributes.position": "keyword",
+}
+OPTIMIZER_SETTINGS = {
+    "indexing_threshold": 1,
+    "default_segment_number": 1,
+    "max_segment_size": 4_194_304,
+    "max_optimization_threads": 0,
+}
+OPTIMIZER_BULK_SETTINGS = {**OPTIMIZER_SETTINGS, "indexing_threshold": 0}
+OPTIMIZER_BUILD_SETTINGS = {**OPTIMIZER_SETTINGS, "indexing_threshold": 1, "max_optimization_threads": 1}
 LEGACY_TRUTH_FILES = {
     "nf_false": ("nf_false.jsonl", "unfiltered_payload-independent-f32.jsonl.gz"),
     "nf_true": ("nf_true.jsonl", "unfiltered_payload-independent-f32.jsonl.gz"),
@@ -88,6 +120,170 @@ def payload_for_id(point_id: int) -> dict:
 def metadata_digest(hits: list[dict]) -> str:
     rows = [{"id": int(hit["id"]), "payload": payload_for_id(int(hit["id"]))} for hit in hits]
     return hashlib.sha256(compact_json(rows)).hexdigest()
+
+
+def profile_candidate_params(profile: str, candidate_count=None) -> dict:
+    if profile not in PROFILE_SETTINGS:
+        raise ValueError(f"unsupported quantization profile {profile!r}; choose sq8, tq2, or tq4")
+    default_count = PROFILE_SETTINGS[profile]["default_candidate_count"]
+    cap = default_count if candidate_count is None else candidate_count
+    if isinstance(cap, bool) or not isinstance(cap, int) or cap < TOPK:
+        raise ValueError(f"candidate count must be an integer >= {TOPK}")
+    return {
+        "profile": profile,
+        "candidate_count_per_segment": cap,
+        "oversampling": cap / TOPK,
+        "default_candidate_count_per_segment": default_count,
+        "candidate_count_source": "historical_sufficient_cap" if candidate_count is None else "explicit_override",
+    }
+
+
+def quantization_matches(actual, profile: str) -> bool:
+    expected = PROFILE_SETTINGS[profile]["quantization_config"]
+    if not isinstance(actual, dict) or set(actual) != set(expected):
+        return False
+    branch = PROFILE_SETTINGS[profile]["branch"]
+    actual_values = actual.get(branch)
+    return isinstance(actual_values, dict) and all(actual_values.get(key) == value for key, value in expected[branch].items())
+
+
+def payload_schema_errors(schema, *, expected_points=None, allow_missing=False):
+    if not isinstance(schema, dict):
+        return ["payload_schema is not an object"]
+    errors = []
+    unexpected = sorted(set(schema) - set(PAYLOAD_INDEXES))
+    if unexpected:
+        errors.append(f"unexpected indexed payload fields: {unexpected}")
+    if not allow_missing:
+        missing = sorted(set(PAYLOAD_INDEXES) - set(schema))
+        if missing:
+            errors.append(f"missing indexed payload fields: {missing}")
+    for field, value in schema.items():
+        expected_type = PAYLOAD_INDEXES.get(field)
+        if expected_type is None:
+            continue
+        if not isinstance(value, dict) or value.get("data_type") != expected_type:
+            errors.append(f"payload index {field} must have data_type={expected_type}")
+            continue
+        points = value.get("points")
+        if expected_points is not None and points != expected_points:
+            errors.append(f"payload index {field} covers {points!r} points; expected {expected_points}")
+        elif points is not None and (isinstance(points, bool) or not isinstance(points, int) or points < 0):
+            errors.append(f"payload index {field} has invalid points count {points!r}")
+    return errors
+
+
+def optimizer_readiness_errors(result, profile: str, *, expected_points=None, optimizer_settings=None):
+    result = result if isinstance(result, dict) else {}
+    errors = []
+    if result.get("status") != "green":
+        errors.append(f"collection status is {result.get('status')!r}, expected 'green'")
+    if result.get("optimizer_status") != "ok":
+        errors.append(f"optimizer_status is {result.get('optimizer_status')!r}, expected 'ok'")
+    points = result.get("points_count")
+    if isinstance(points, bool) or not isinstance(points, int) or points < TOPK:
+        errors.append(f"points_count is invalid: {points!r}")
+    elif expected_points is not None and points != expected_points:
+        errors.append(f"points_count is {points}, expected {expected_points}")
+    indexed = result.get("indexed_vectors_count")
+    if indexed != points:
+        errors.append(f"indexed_vectors_count is {indexed!r}, expected points_count {points!r}")
+    config = result.get("config") or {}
+    optimizer = config.get("optimizer_config") or {}
+    for key, expected in (optimizer_settings or OPTIMIZER_SETTINGS).items():
+        if optimizer.get(key) != expected:
+            errors.append(f"optimizer_config.{key} is {optimizer.get(key)!r}, expected {expected}")
+    if not quantization_matches(config.get("quantization_config") or {}, profile):
+        errors.append(f"quantization_config does not match profile {profile}")
+    errors.extend(payload_schema_errors(result.get("payload_schema"), expected_points=points))
+    return errors
+
+
+def get_collection_info(collection_url, api_key_env, timeout=60):
+    return api_request(collection_url, "GET", api_key_env=api_key_env, timeout=timeout).get("result") or {}
+
+
+def update_collection_optimizers(collection_url, settings, *, api_key_env, timeout):
+    body = {"optimizers_config": settings}
+    api_request(f"{collection_url}?timeout={timeout}", "PATCH", body=body,
+                api_key_env=api_key_env, timeout=timeout)
+
+
+def ensure_payload_indexes(collection_url, schema, *, api_key_env, timeout):
+    errors = payload_schema_errors(schema, allow_missing=True)
+    if errors:
+        raise RuntimeError("collection payload indexes are incompatible: " + "; ".join(errors))
+    for field_name, field_schema in PAYLOAD_INDEXES.items():
+        if field_name in schema:
+            continue
+        endpoint = f"{collection_url}/index?wait=true"
+        api_request(endpoint, "PUT", body={"field_name": field_name, "field_schema": field_schema},
+                    api_key_env=api_key_env, timeout=timeout)
+
+
+def verify_cluster_membership(endpoints: list[str], *, api_key_env: str):
+    if len(endpoints) != 3:
+        raise RuntimeError("--peer-endpoints must list all 3 node HTTP endpoints before collection creation")
+    observations = []
+    peer_ids = set()
+    leaders = set()
+    membership = None
+    for endpoint in endpoints:
+        endpoint = validate_base_url(endpoint)
+        result = api_request(endpoint_for(endpoint, "/cluster"), "GET", api_key_env=api_key_env).get("result") or {}
+        if result.get("status") != "enabled":
+            raise RuntimeError(f"{endpoint}/cluster reports status={result.get('status')!r}, expected 'enabled'")
+        peer_id = result.get("peer_id")
+        if isinstance(peer_id, bool) or not isinstance(peer_id, int):
+            raise RuntimeError(f"{endpoint}/cluster does not report an integer peer ID")
+        peer_id = str(peer_id)
+        if peer_id in peer_ids:
+            raise RuntimeError("--peer-endpoints did not resolve to three distinct cluster peer IDs")
+        peer_ids.add(peer_id)
+        peers = result.get("peers") or {}
+        normalized = {
+            str(key): (value.get("uri") if isinstance(value, dict) else value)
+            for key, value in peers.items()
+        }
+        if len(normalized) != 3:
+            raise RuntimeError(f"{endpoint}/cluster reports {len(normalized)} peers, expected 3")
+        raft = result.get("raft_info") or {}
+        leader = raft.get("leader")
+        if leader is None:
+            raise RuntimeError(f"{endpoint}/cluster reports no Raft leader")
+        leaders.add(str(leader))
+        if membership is None:
+            membership = normalized
+        elif normalized != membership:
+            raise RuntimeError("the three /cluster endpoints disagree on peer membership")
+        observations.append({"endpoint": endpoint, "peer_id": peer_id, "leader": str(leader)})
+    if set(membership or {}) != peer_ids:
+        raise RuntimeError(f"cluster membership {sorted(membership or {})} does not match contacted peers {sorted(peer_ids)}")
+    if len(leaders) != 1 or next(iter(leaders)) not in peer_ids:
+        raise RuntimeError(f"the three nodes do not report one common Raft leader: {sorted(leaders)}")
+    return {"members": membership, "leader_id": next(iter(leaders)), "observations": observations}
+
+
+def wait_collection_ready(collection_url, *, profile, expected_points, api_key_env, timeout,
+                          readiness_timeout, poll_interval, optimizer_settings=None):
+    deadline = time.monotonic() + readiness_timeout
+    last_result = {}
+    last_errors = ["collection has not been checked yet"]
+    while True:
+        last_result = get_collection_info(collection_url, api_key_env, timeout=timeout)
+        last_errors = optimizer_readiness_errors(
+            last_result, profile, expected_points=expected_points,
+            optimizer_settings=optimizer_settings,
+        )
+        if not last_errors:
+            return last_result
+        remaining = deadline - time.monotonic()
+        if remaining <= 0:
+            raise RuntimeError(
+                f"collection did not reach benchmark-ready state within {readiness_timeout}s: "
+                + "; ".join(last_errors)
+            )
+        time.sleep(min(poll_interval, remaining))
 
 
 def validate_base_url(value: str) -> str:
@@ -290,12 +486,16 @@ def cmd_load(args):
     np = require_numpy()
     if args.batch_size < 1:
         raise SystemExit("--batch-size must be positive")
+    if args.timeout < 1 or args.readiness_timeout <= 0 or args.poll_interval <= 0:
+        raise SystemExit("--timeout, --readiness-timeout, and --poll-interval must be positive")
     data_dir = Path(args.data_dir).resolve()
     dataset = json.loads((data_dir / "dataset.json").read_text(encoding="utf-8"))
     count = int(dataset["points"])
     dimension = int(dataset["dimension"])
     if dataset.get("schema") != "qdrant_stock_sq8_synthetic_dataset_v1" or count < TOPK or count > MAX_POINTS or dimension != DIM:
         raise SystemExit("dataset.json does not match the supported normalized 512D workload schema")
+    if args.profile not in PROFILE_SETTINGS:
+        raise SystemExit("--profile must be sq8, tq2, or tq4")
     gallery_path = data_dir / dataset["gallery"]
     metadata_path = data_dir / dataset["metadata"]
     expected_bytes = count * dimension * 4
@@ -314,24 +514,26 @@ def cmd_load(args):
     base = validate_base_url(args.endpoint)
     collection = quote(args.collection, safe="")
     collection_url = endpoint_for(base, f"/collections/{collection}")
+    endpoints = [value.strip() for value in args.peer_endpoints.split(",") if value.strip()]
+    cluster_membership = verify_cluster_membership(endpoints, api_key_env=args.api_key_env)
     if args.create:
         create_body = {
             "vectors": {"gallery": {"size": dimension, "distance": "Cosine"}},
             "shard_number": 3,
             "replication_factor": 1,
             "hnsw_config": {"m": 0, "payload_m": 0},
-            "quantization_config": {"scalar": {"type": "int8", "quantile": 1.0, "always_ram": True}},
+            "optimizers_config": OPTIMIZER_BULK_SETTINGS,
+            "quantization_config": PROFILE_SETTINGS[args.profile]["quantization_config"],
         }
         result = api_request(collection_url + "?wait=true", "PUT", body=create_body, api_key_env=args.api_key_env)
         print(f"collection creation: {result}", file=sys.stderr)
-    collection_info = api_request(collection_url, "GET", api_key_env=args.api_key_env)
-    config = (collection_info.get("result") or {}).get("config") or {}
+    collection_result = get_collection_info(collection_url, args.api_key_env, timeout=args.timeout)
+    config = collection_result.get("config") or {}
     params = config.get("params") or {}
     vectors = params.get("vectors") or {}
     vector_config = vectors.get("gallery") if isinstance(vectors, dict) else None
     hnsw = config.get("hnsw_config") or {}
     quantization = config.get("quantization_config") or {}
-    scalar = quantization.get("scalar") or {}
     expected = (
         isinstance(vector_config, dict)
         and vector_config.get("size") == dimension
@@ -339,16 +541,31 @@ def cmd_load(args):
         and params.get("shard_number") == 3
         and params.get("replication_factor") == 1
         and hnsw.get("m") == 0 and hnsw.get("payload_m") == 0
-        and scalar.get("type") == "int8" and scalar.get("quantile") == 1.0
-        and scalar.get("always_ram") is True
+        and quantization_matches(quantization, args.profile)
     )
     if not expected:
-        raise SystemExit("collection config does not match named gallery/512/Cosine, 3 shards/RF1, m=0/payload_m=0, scalar int8 quantile=1 always_ram=true")
-    if (collection_info.get("result") or {}).get("payload_schema"):
-        raise SystemExit("collection has indexed payload fields; this workload requires payload presence without payload indexes")
-    starting_points = (collection_info.get("result") or {}).get("points_count")
-    if not isinstance(starting_points, int) or starting_points > count:
-        raise SystemExit(f"collection starts with {starting_points!r} points; expected an empty or partial collection with at most {count}")
+        raise SystemExit(f"collection config does not match named gallery/512/Cosine, 3 shards/RF1, m=0/payload_m=0, profile={args.profile}")
+    starting_points = collection_result.get("points_count")
+    if isinstance(starting_points, bool) or not isinstance(starting_points, int) or starting_points != 0:
+        raise SystemExit(
+            f"load requires an empty collection; found points_count={starting_points!r}. "
+            "Use prepare-manifests for an already-loaded collection."
+        )
+
+    schema = collection_result.get("payload_schema") or {}
+    schema_errors = payload_schema_errors(schema, expected_points=0, allow_missing=True)
+    if schema_errors:
+        raise SystemExit("collection payload indexes are incompatible: " + "; ".join(schema_errors))
+    # Disable vector indexing while uploading so the global 10,000,000 KB
+    # threshold cannot prevent quantization on this 3M-point fixture. Create
+    # the three payload indexes before any point is uploaded.
+    update_collection_optimizers(collection_url, OPTIMIZER_BULK_SETTINGS,
+                                 api_key_env=args.api_key_env, timeout=args.timeout)
+    ensure_payload_indexes(collection_url, schema, api_key_env=args.api_key_env, timeout=args.timeout)
+    indexed_result = get_collection_info(collection_url, args.api_key_env, timeout=args.timeout)
+    index_errors = payload_schema_errors(indexed_result.get("payload_schema"), allow_missing=False)
+    if index_errors:
+        raise RuntimeError("payload indexes are not ready for loading: " + "; ".join(index_errors))
 
     payload_iter = iter(qdrant_payload_rows(metadata_path, count))
     points_url = endpoint_for(base, f"/collections/{collection}/points?wait=true")
@@ -366,20 +583,32 @@ def cmd_load(args):
         api_request(points_url, "PUT", body={"points": points}, api_key_env=args.api_key_env, timeout=args.timeout)
         sent += len(points)
         print(f"uploaded {sent}/{count}", file=sys.stderr, flush=True)
-    final_info = api_request(collection_url, "GET", api_key_env=args.api_key_env)
-    final_result = final_info.get("result") or {}
-    if final_result.get("status") != "green" or final_result.get("points_count") != count:
-        raise RuntimeError(
-            f"collection did not finish green with exactly {count} points: "
-            f"status={final_result.get('status')!r}, points_count={final_result.get('points_count')!r}"
-        )
-    if final_result.get("payload_schema"):
-        raise RuntimeError("payload schema became non-empty; a payload index exists")
-    endpoints = [value.strip() for value in args.peer_endpoints.split(",") if value.strip()]
+    # max_optimization_threads=0 disables optimization in Qdrant. Enable one
+    # optimizer thread while threshold=1 builds quantized segments, then freeze
+    # the recorded final config only after every vector is indexed.
+    update_collection_optimizers(collection_url, OPTIMIZER_BUILD_SETTINGS,
+                                 api_key_env=args.api_key_env, timeout=args.timeout)
+    wait_collection_ready(
+        collection_url, profile=args.profile, expected_points=count,
+        api_key_env=args.api_key_env, timeout=args.timeout,
+        readiness_timeout=args.readiness_timeout, poll_interval=args.poll_interval,
+        optimizer_settings=OPTIMIZER_BUILD_SETTINGS,
+    )
+    update_collection_optimizers(collection_url, OPTIMIZER_SETTINGS,
+                                 api_key_env=args.api_key_env, timeout=args.timeout)
+    final_result = wait_collection_ready(
+        collection_url, profile=args.profile, expected_points=count,
+        api_key_env=args.api_key_env, timeout=args.timeout,
+        readiness_timeout=args.readiness_timeout, poll_interval=args.poll_interval,
+    )
     shard_owners = verify_shard_layout(endpoints, collection, expected_points=count, api_key_env=args.api_key_env)
     print(json.dumps({
         "status": "uploaded", "collection": args.collection, "points": sent,
-        "endpoint": base, "payload_schema": final_result.get("payload_schema") or {},
+        "endpoint": base, "profile": args.profile,
+        "indexed_vectors_count": final_result.get("indexed_vectors_count"),
+        "optimizer_config": (final_result.get("config") or {}).get("optimizer_config"),
+        "payload_schema": final_result.get("payload_schema") or {},
+        "cluster_membership": cluster_membership,
         "shard_owners": shard_owners,
     }))
 
@@ -490,13 +719,13 @@ def exact_body(query, category_filter):
     return body
 
 
-def measured_body(query, category_filter, with_payload):
+def measured_body(query, category_filter, with_payload, oversampling):
     body = {
         "vector": {"name": "gallery", "vector": query.tolist()},
         "limit": TOPK,
         "with_payload": with_payload,
         "with_vector": False,
-        "params": {"exact": False, "quantization": {"rescore": True, "ignore": False}},
+        "params": {"exact": False, "quantization": {"rescore": True, "ignore": False, "oversampling": oversampling}},
     }
     if category_filter is not None:
         body["filter"] = category_filter
@@ -505,9 +734,31 @@ def measured_body(query, category_filter, with_payload):
 
 def cmd_prepare(args):
     np = require_numpy()
+    try:
+        candidate_params = profile_candidate_params(args.profile, args.candidate_count)
+    except ValueError as exc:
+        raise SystemExit(str(exc)) from exc
     queries = parse_query_file(Path(args.queries).resolve())
     base = validate_base_url(args.endpoint)
     collection = quote(args.collection, safe="")
+    collection_url = endpoint_for(base, f"/collections/{collection}")
+    collection_info = api_request(collection_url, "GET", api_key_env=args.api_key_env)
+    collection_result = collection_info.get("result") or {}
+    collection_config = collection_result.get("config") or {}
+    point_count = collection_result.get("points_count")
+    readiness_errors = optimizer_readiness_errors(collection_result, args.profile, expected_points=point_count)
+    params = collection_config.get("params") or {}
+    vectors = params.get("vectors") or {}
+    vector_config = vectors.get("gallery") if isinstance(vectors, dict) else None
+    hnsw = collection_config.get("hnsw_config") or {}
+    if not isinstance(vector_config, dict) or vector_config.get("size") != DIM or vector_config.get("distance") != "Cosine":
+        readiness_errors.append("collection vector gallery must be 512D Cosine")
+    if params.get("replication_factor") != 1:
+        readiness_errors.append(f"replication_factor is {params.get('replication_factor')!r}, expected 1")
+    if hnsw.get("m") != 0 or hnsw.get("payload_m") != 0:
+        readiness_errors.append("collection HNSW config must use m=0 and payload_m=0")
+    if readiness_errors:
+        raise SystemExit("collection is not benchmark-ready: " + "; ".join(readiness_errors))
     search_url = endpoint_for(base, f"/collections/{collection}/points/search")
     out = Path(args.out).resolve()
     truth_dir = out / "truth"
@@ -559,7 +810,7 @@ def cmd_prepare(args):
         hits_by_query, truth_source, truth_sha = truth_for_filter[filter_key]
         truths[category] = hits_by_query
         truth_hashes[category] = truth_sha
-        bodies = [measured_body(query, spec["filter"], spec["with_payload"]) for query in queries]
+        bodies = [measured_body(query, spec["filter"], spec["with_payload"], candidate_params["oversampling"]) for query in queries]
         selected = [{"metadata_sha256": metadata_digest(hits)} for hits in hits_by_query]
         manifest = {
             "schema": MANIFEST_SCHEMA,
@@ -577,14 +828,25 @@ def cmd_prepare(args):
                 "with_payload": spec["with_payload"],
                 "filter": spec["filter"],
                 "category": category,
+                "profile": candidate_params["profile"],
+                "candidate_count_per_segment": candidate_params["candidate_count_per_segment"],
+                "default_candidate_count_per_segment": candidate_params["default_candidate_count_per_segment"],
+                "candidate_count_source": candidate_params["candidate_count_source"],
+                "oversampling": candidate_params["oversampling"],
                 "query_vectors_sha256_f32le": query_hash,
                 "query_source": str(Path(args.queries).resolve()),
                 "truth_source": truth_source,
                 "truth_jsonl_sha256": truth_sha,
                 "truth_params": {"exact": True, "quantization": {"ignore": True}},
                 "collection": args.collection,
+                "collection_points_count": point_count,
+                "indexed_vectors_count": collection_result.get("indexed_vectors_count"),
+                "collection_status": collection_result.get("status"),
+                "optimizer_status": collection_result.get("optimizer_status"),
+                "optimizer_config": collection_config.get("optimizer_config"),
+                "payload_schema": collection_result.get("payload_schema"),
                 "vector_name": "gallery",
-                "timed_params": {"exact": False, "quantization": {"rescore": True, "ignore": False}},
+                "timed_params": {"exact": False, "quantization": {"rescore": True, "ignore": False, "oversampling": candidate_params["oversampling"]}},
             },
         }
         target = out / f"{category}.json"
@@ -598,7 +860,7 @@ def percentile_field(report, field, percentile):
     return value.get(f"p{percentile}_ms") if isinstance(value, dict) else None
 
 
-def run_one(args, manifest: Path, output: Path, concurrency: int, seconds: float, *, allow_errors=False):
+def run_one(args, manifest: Path, output: Path, concurrency: int, seconds: float):
     command = [
         str(Path(args.bench).resolve()),
         "--manifest", str(manifest.resolve()),
@@ -613,12 +875,18 @@ def run_one(args, manifest: Path, output: Path, concurrency: int, seconds: float
         "--warmup-requests", str(args.warmup_requests),
     ]
     print("+ " + " ".join(command), file=sys.stderr, flush=True)
-    completed = subprocess.run(command, check=False)
+    try:
+        completed = subprocess.run(command, check=False)
+        exit_code = completed.returncode
+    except OSError as exc:
+        return {}, None, f"could not start load generator: {exc}"
     if not output.is_file():
-        raise RuntimeError(f"load generator exited {completed.returncode} without writing {output}")
-    if completed.returncode and not allow_errors:
-        raise RuntimeError(f"load generator exited {completed.returncode}; see {output}")
-    return json.loads(output.read_text(encoding="utf-8"))
+        return {}, exit_code, f"load generator exited {exit_code} without writing {output}"
+    try:
+        report = json.loads(output.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        return {}, exit_code, f"load generator report is unreadable: {exc}"
+    return report, exit_code, None
 
 
 def cmd_run(args):
@@ -636,8 +904,79 @@ def cmd_run(args):
     missing = [name for name in CATEGORIES if not (manifest_dir / f"{name}.json").is_file()]
     if missing:
         raise SystemExit(f"manifest directory is missing required categories: {', '.join(missing)}")
+    manifest_identity = None
+    manifest_documents = {}
+    canonical_queries = None
+    for category in CATEGORIES:
+        path = manifest_dir / f"{category}.json"
+        document = json.loads(path.read_text(encoding="utf-8"))
+        pins = document.get("pins") or {}
+        profile = pins.get("profile")
+        if profile not in PROFILE_SETTINGS:
+            raise SystemExit(f"{path} does not pin a supported quantization profile")
+        try:
+            candidate = profile_candidate_params(profile, pins.get("candidate_count_per_segment"))
+        except ValueError as exc:
+            raise SystemExit(f"{path}: {exc}") from exc
+        if pins.get("category") != category:
+            raise SystemExit(f"{path} does not pin category {category}")
+        if document.get("with_payload") is not CATEGORIES[category]["with_payload"]:
+            raise SystemExit(f"{path} payload mode does not match category {category}")
+        if pins.get("candidate_count_source") not in ("historical_sufficient_cap", "explicit_override"):
+            raise SystemExit(f"{path} does not record the candidate cap source")
+        if (pins.get("candidate_count_source") == "historical_sufficient_cap"
+                and candidate["candidate_count_per_segment"] != candidate["default_candidate_count_per_segment"]):
+            raise SystemExit(f"{path} labels a nondefault candidate cap as historical")
+        oversampling = pins.get("oversampling")
+        if not isinstance(oversampling, (int, float)) or not math.isclose(
+            float(oversampling), candidate["oversampling"], rel_tol=0.0, abs_tol=1e-12
+        ):
+            raise SystemExit(f"{path} has inconsistent candidate count and oversampling pins")
+        timed_quantization = (pins.get("timed_params") or {}).get("quantization") or {}
+        if not math.isclose(float(timed_quantization.get("oversampling", -1)), candidate["oversampling"],
+                            rel_tol=0.0, abs_tol=1e-12):
+            raise SystemExit(f"{path} timed_params oversampling disagrees with its pins")
+        bodies = document.get("request_bodies_base64") or []
+        if len(bodies) != QUERY_COUNT:
+            raise SystemExit(f"{path} must contain exactly {QUERY_COUNT} timed requests")
+        query_digest = hashlib.sha256()
+        category_queries = []
+        for index, encoded in enumerate(bodies):
+            body = json.loads(base64.b64decode(encoded))
+            query = body.get("vector", {}).get("vector")
+            if not isinstance(query, list) or len(query) != DIM:
+                raise SystemExit(f"{path} request {index} does not contain a {DIM}D vector")
+            try:
+                query_digest.update(struct.pack(f"<{DIM}f", *(float(value) for value in query)))
+            except (OverflowError, TypeError, ValueError, struct.error) as exc:
+                raise SystemExit(f"{path} request {index} contains an invalid query vector") from exc
+            category_queries.append(query)
+            body_quantization = ((body.get("params") or {}).get("quantization") or {})
+            if not math.isclose(float(body_quantization.get("oversampling", -1)), candidate["oversampling"],
+                                rel_tol=0.0, abs_tol=1e-12):
+                raise SystemExit(f"{path} request {index} oversampling disagrees with its pins")
+        pinned_query_hash = pins.get("query_vectors_sha256_f32le")
+        if query_digest.hexdigest() != pinned_query_hash:
+            raise SystemExit(f"{path} query vectors do not match their SHA-256 pin")
+        if canonical_queries is None:
+            canonical_queries = category_queries
+        elif category_queries != canonical_queries:
+            raise SystemExit("all four manifests must use the same ordered query vectors")
+        identity = (profile, candidate["candidate_count_per_segment"], candidate["oversampling"],
+                    pins.get("query_vectors_sha256_f32le"), pins.get("candidate_count_source"))
+        if manifest_identity is None:
+            manifest_identity = identity
+        elif identity != manifest_identity:
+            raise SystemExit("all four manifests must use the same profile, cap, oversampling, and query vectors")
+        manifest_documents[category] = document
+    if manifest_documents["nf_false"].get("candidate_truth") != manifest_documents["nf_true"].get("candidate_truth"):
+        raise SystemExit("nf_false and nf_true must share the same exact Top10 truth")
     summary = {
-        "schema": "qdrant_stock_sq8_benchmark_run_summary_v1",
+        "schema": "qdrant_stock_benchmark_run_summary_v1",
+        "profile": manifest_identity[0],
+        "candidate_count_per_segment": manifest_identity[1],
+        "oversampling": manifest_identity[2],
+        "candidate_count_source": manifest_identity[4],
         "run_mode": "closed-loop; B1; HTTP/1.1; Go warm-up requests complete before each timed dispatch window",
         "measured_seconds": args.seconds,
         "warmup_requests_per_run": args.warmup_requests,
@@ -665,10 +1004,36 @@ def cmd_run(args):
         for concurrency in concurrencies:
             stem = f"{category}-C{concurrency}"
             report_path = out / f"{stem}-{args.seconds:g}s.json"
-            report = run_one(args, manifest, report_path, concurrency, args.seconds, allow_errors=True)
+            report, exit_code, runner_error = run_one(args, manifest, report_path, concurrency, args.seconds)
+            successful = report.get("successful_requests")
+            candidate_matches = report.get("exact_candidate_truth_matches")
+            payload_matches = report.get("exact_payload_contract_matches")
+            metadata_matches = report.get("exact_metadata_hash_matches")
+            failed = report.get("failed_requests")
+            capacity_rejections = report.get("client_capacity_rejections")
+            warmup_requests = report.get("warmup_requests")
+            warmup_successes = report.get("warmup_successes")
+            passed = (
+                runner_error is None
+                and exit_code == 0
+                and failed == 0
+                and capacity_rejections == 0
+                and warmup_requests == args.warmup_requests
+                and warmup_successes == warmup_requests
+                and successful == candidate_matches
+                and successful == payload_matches
+                and (not CATEGORIES[category]["with_payload"] or successful == metadata_matches)
+            )
             summary["runs"].append({
                 "category": category,
                 "concurrency": concurrency,
+                "profile": manifest_identity[0],
+                "candidate_count_per_segment": manifest_identity[1],
+                "oversampling": manifest_identity[2],
+                "passed": passed,
+                "status": "PASSED" if passed else "COMPLETED_WITH_FAILURES",
+                "go_exit_code": exit_code,
+                "runner_error": runner_error,
                 "report": str(report_path),
                 "actual_elapsed_s": report.get("actual_elapsed_s"),
                 "actual_dispatch_duration_s": report.get("actual_dispatch_duration_s"),
@@ -696,9 +1061,14 @@ def cmd_run(args):
                 "p99_ms": percentile_field(report, "successful_full_response_validated_latency_ms", 99),
             })
             print(json.dumps(summary["runs"][-1], sort_keys=True), flush=True)
+    summary["passed"] = all(row["passed"] for row in summary["runs"])
+    summary["status"] = "PASSED" if summary["passed"] else "COMPLETED_WITH_FAILURES"
     summary_path = out / "summary.json"
     summary_path.write_text(json.dumps(summary, indent=2, allow_nan=False) + "\n", encoding="utf-8")
-    print(json.dumps({"status": "complete", "summary": str(summary_path), "runs": len(summary["runs"])}, indent=2))
+    print(json.dumps({"status": summary["status"], "passed": summary["passed"],
+                      "summary": str(summary_path), "runs": len(summary["runs"])}, indent=2))
+    if not summary["passed"]:
+        raise SystemExit(2)
 
 
 def main():
@@ -719,18 +1089,28 @@ def main():
     load.add_argument("--data-dir", default="reproduce-data")
     load.add_argument("--endpoint", default="http://127.0.0.1:6333")
     load.add_argument("--collection", default="native120_sq8_3m")
+    load.add_argument("--profile", choices=tuple(PROFILE_SETTINGS), default="sq8",
+                      help="quantization config to create or require: sq8, tq2, or tq4")
     load.add_argument("--peer-endpoints", default="http://127.0.0.1:6333,http://127.0.0.1:6334,http://127.0.0.1:6335",
                       help="comma-separated HTTP endpoints for all 3 peers; used to verify each shard has one active RF1 owner")
-    load.add_argument("--create", action="store_true", help="create the collection with 3 shards, RF1, m=0, payload_m=0, scalar SQ8")
+    load.add_argument("--create", action="store_true", help="create an empty collection with 3 shards, RF1, m=0, payload_m=0, and the selected profile")
     load.add_argument("--batch-size", type=int, default=128)
     load.add_argument("--timeout", type=int, default=120)
+    load.add_argument("--readiness-timeout", type=float, default=3600,
+                      help="preparation-only timeout for indexing/quantization readiness; not a latency SLA")
+    load.add_argument("--poll-interval", type=float, default=5,
+                      help="seconds between collection readiness checks")
     load.add_argument("--api-key-env", default="QDRANT_API_KEY")
     load.set_defaults(func=cmd_load)
 
-    prepare = sub.add_parser("prepare-manifests", help="capture native exact FP32 truth and build timed SQ8 Go manifests")
+    prepare = sub.add_parser("prepare-manifests", help="capture native exact FP32 truth and build timed stock Go manifests")
     prepare.add_argument("--queries", default="reproduce-data/queries.npy", help=".npy, JSON/JSONL vectors, or a cached Go manifest")
     prepare.add_argument("--endpoint", default="http://127.0.0.1:6333")
     prepare.add_argument("--collection", default="native120_sq8_3m")
+    prepare.add_argument("--profile", choices=tuple(PROFILE_SETTINGS), default="sq8",
+                         help="quantization profile already configured on the collection")
+    prepare.add_argument("--candidate-count", type=int,
+                         help="override the historical sufficient per-segment candidate count (integer >= 10)")
     prepare.add_argument("--out", default="reproduce-manifests")
     prepare.add_argument("--cached-truth-dir", help="optional category JSONL from a matching exact-FP32 corpus/query fixture")
     prepare.add_argument("--timeout", type=int, default=120)
