@@ -1,0 +1,1531 @@
+{
+  "schema": "published_fresh_paired_sq8_batch_matrix_v1",
+  "started_utc": "2026-11-09T10:25:40.434124+00:00",
+  "finished_utc": "2026-11-09T10:30:33.130329+00:00",
+  "status": "MEASUREMENTS_COMPLETE_RECORDED_SCOPE",
+  "expected_rows": 1,
+  "recorded_rows": 1,
+  "contract": {
+    "points": 3000000,
+    "dimension": 512,
+    "quantization": "SQ8",
+    "topk_per_query": 10,
+    "query_count": 1024,
+    "nodes": 3,
+    "cpus_per_node": 3,
+    "compute_cpus_per_node": 1,
+    "support_cpus_per_node": 2,
+    "hnsw": false,
+    "candidates_per_segment": 12,
+    "timed_dispatch_seconds": 60,
+    "warmup_http_requests": 16,
+    "request_timeout_seconds": 60,
+    "quality_score_tolerance": 1e-06,
+    "metadata_present_all_categories": true,
+    "client_cpus": "0,1,2,3,13,14,15",
+    "same_client_all_arms": true,
+    "rps_denominator": "actual elapsed including final drain",
+    "comparison_limit": "Native full search closure shares its one compute CPU; V45 moves support stages onto the two support CPUs. Official native compiler flags are not matched to V45."
+  },
+  "engines": {
+    "native": {
+      "sha256": "5081acd073ef29701415dc2d1655d98750be8c08008541febc20cf2935800f2f",
+      "source_commit": "222b2e44ab1c3f17e8246396ead6558e45041df7"
+    },
+    "veortex": {
+      "sha256": "9a44f09da70af7921da7b2a6893b98c1ea3d9dcab61986d3504b63f4e3dfa0e8",
+      "source_commit": "bc0eec0015771e8c59134b1b83a740418efcff7e"
+    }
+  },
+  "client": {
+    "preflight_binary_sha256": "9dab9e7f2292d6b3ccae108335317b2f249cf0e83a7cada02650060c91b9c251",
+    "state": "FROZEN",
+    "binary_sha256": "9dab9e7f2292d6b3ccae108335317b2f249cf0e83a7cada02650060c91b9c251",
+    "source_sha256": "9f43d61405f3354554e719a66f25a71eb897d3f1f45daa8a73ceced0299eca57",
+    "validation_receipt_sha256": "f1207b17b2c25d8370ec28468b83d6f7b0018184128daa6d93331b8d5478556b",
+    "independent_validation_receipt_sha256": "45ccd9f3ad96f23783637754fe8a255b4a10df55f768a0280e5c94f5e78abd81"
+  },
+  "private_full_receipt_sha256": "324b7692cc632f1e57ed167841ca2249e3612ed7780c7a19805634ded0220d7d",
+  "validation_summary": {
+    "recorded_rows": 1,
+    "accepted_rows": 0,
+    "quality_failed_rows": 1,
+    "intended_route_unresolved_rows": 0
+  },
+  "hardware": {
+    "observed_utc": "2026-11-09T10:06:54.434109+00:00",
+    "scope": "Guest-reported hardware; three Docker nodes share one KVM VM. Physical host isolation/cache topology not established.",
+    "cpu_model_reported": "INTEL(R) XEON(R) SILVER 4510",
+    "vcpus": 16,
+    "hypervisor": "KVM",
+    "memory_bytes": 50509139968,
+    "swap_bytes": 0,
+    "kernel": "5.15.0-198-generic",
+    "cpu_features_reported": [
+      "avx2",
+      "avx512f",
+      "avx512_vnni",
+      "amx_tile",
+      "amx_int8"
+    ],
+    "node_cpusets": [
+      "4,5,6",
+      "7,8,9",
+      "10,11,12"
+    ],
+    "compute_cpus": [
+      4,
+      7,
+      10
+    ],
+    "support_cpus": [
+      [
+        5,
+        6
+      ],
+      [
+        8,
+        9
+      ],
+      [
+        11,
+        12
+      ]
+    ],
+    "client_cpus": "0,1,2,3,13,14,15",
+    "docker_cpu_quota_per_node": 3,
+    "storage_guest_device": "QEMU HARDDISK, ext4 on LVM",
+    "storage_backend_user_reported": "Proxmox/Ceph; 2 Gbps storage network reported by operator, not independently measured in this campaign",
+    "memory_GiB": 47.04
+  },
+  "initial_accuracy": [],
+  "rows": [
+    {
+      "engine": "veortex",
+      "category": "active_only",
+      "batch_size": 64,
+      "concurrency": 4,
+      "ordinal": 1,
+      "successful_http_rps": 3.9105963128609345,
+      "query_qps": 250.2781640230998,
+      "p50_ms": 3.028673,
+      "p95_ms": 189.01249,
+      "p99_ms": 215.870343,
+      "successful_requests": 235,
+      "failed_requests": 5694,
+      "dispatched_queries": 379456,
+      "successful_queries": 15040,
+      "exact_query_truth_matches": 15040,
+      "actual_elapsed_s": 60.093137005,
+      "drain_duration_s": 0.1422802720000007,
+      "warmup_successes": 16,
+      "http_429_count": 5694,
+      "transport_failures": 0,
+      "transport_timeouts": 0,
+      "correctness_failed_requests": 0,
+      "server_p95_ms": 220.158496,
+      "server_p99_ms": 229.314232,
+      "connection_acquire_p95_ms": 0.009303,
+      "cpu_observer_status": "PASSED",
+      "intended_route_valid": true,
+      "quality_valid": false,
+      "measurement_accepted": false,
+      "manifest_sha256": "f1dce93259dc00776a4ec33738cab802696519e5e0d96cd5d9ae263891a8e82d",
+      "client_sha256": "9dab9e7f2292d6b3ccae108335317b2f249cf0e83a7cada02650060c91b9c251",
+      "client_report_sha256": "909461ec17a9a138256eb81aeb5351b90096951c970a8a631de438f434724cb7",
+      "admission_metrics_before": [
+        {
+          "node": 0,
+          "metrics": {
+            "veortex_coalescer_total{kind=\"coalesced_batches_executed\"}": 0.0,
+            "veortex_coalescer_total{kind=\"coalesced_requests_total\"}": 0.0,
+            "veortex_coalescer_total{kind=\"coalesced_followers_served\"}": 0.0,
+            "veortex_coalescer_total{kind=\"coalescer_bypass_cap_hits\"}": 0.0,
+            "veortex_coalescer_total{kind=\"coalescer_incompatible_bypasses\"}": 0.0,
+            "veortex_coalescer_total{kind=\"direct_admission_rejections\"}": 0.0,
+            "veortex_coalescer_total{kind=\"singleton_admission_rejections\"}": 0.0,
+            "veortex_coalescer_total{kind=\"local_shard_search_batches_total\"}": 0.0,
+            "veortex_coalescer_total{kind=\"local_shard_logical_queries_total\"}": 0.0,
+            "veortex_coalescer_total{kind=\"remote_rpc_calls_total\"}": 0.0,
+            "veortex_coalescer_total{kind=\"coordinator_fanout_calls_total\"}": 0.0,
+            "veortex_coalescer_total{kind=\"coordinator_merge_calls_total\"}": 0.0,
+            "veortex_ring_admission_rejections_total{reason=\"active_groups\"}": 0.0,
+            "veortex_ring_admission_rejections_total{reason=\"waiters\"}": 0.0,
+            "veortex_ring_admission_rejections_total{reason=\"query_bytes\"}": 0.0,
+            "veortex_ring_admission_rejections_total{reason=\"result_slots\"}": 0.0,
+            "veortex_ring_admission_rejections_total{reason=\"ring_queue\"}": 0.0,
+            "veortex_ring_admission_rejections_total{reason=\"ring_channel\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"active_coalesced_batches\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"total_queued_waiters\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"total_queued_query_bytes\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"query_byte_admission_limit_bytes\"}": 402653184.0,
+            "veortex_coalescer_resources{resource=\"max_single_query_estimate_bytes_since_start\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"total_queued_result_slots\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"inflight_shard_searches\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"peak_active_coalesced_batches\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"peak_queued_waiters\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"peak_queued_query_bytes\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"peak_queued_result_slots\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"peak_inflight_shard_searches\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"singleton_admitted_inflight\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"peak_singleton_admitted_inflight\"}": 0.0
+          }
+        },
+        {
+          "node": 1,
+          "metrics": {
+            "veortex_coalescer_total{kind=\"coalesced_batches_executed\"}": 0.0,
+            "veortex_coalescer_total{kind=\"coalesced_requests_total\"}": 0.0,
+            "veortex_coalescer_total{kind=\"coalesced_followers_served\"}": 0.0,
+            "veortex_coalescer_total{kind=\"coalescer_bypass_cap_hits\"}": 0.0,
+            "veortex_coalescer_total{kind=\"coalescer_incompatible_bypasses\"}": 0.0,
+            "veortex_coalescer_total{kind=\"direct_admission_rejections\"}": 0.0,
+            "veortex_coalescer_total{kind=\"singleton_admission_rejections\"}": 0.0,
+            "veortex_coalescer_total{kind=\"local_shard_search_batches_total\"}": 0.0,
+            "veortex_coalescer_total{kind=\"local_shard_logical_queries_total\"}": 0.0,
+            "veortex_coalescer_total{kind=\"remote_rpc_calls_total\"}": 0.0,
+            "veortex_coalescer_total{kind=\"coordinator_fanout_calls_total\"}": 0.0,
+            "veortex_coalescer_total{kind=\"coordinator_merge_calls_total\"}": 0.0,
+            "veortex_ring_admission_rejections_total{reason=\"active_groups\"}": 0.0,
+            "veortex_ring_admission_rejections_total{reason=\"waiters\"}": 0.0,
+            "veortex_ring_admission_rejections_total{reason=\"query_bytes\"}": 0.0,
+            "veortex_ring_admission_rejections_total{reason=\"result_slots\"}": 0.0,
+            "veortex_ring_admission_rejections_total{reason=\"ring_queue\"}": 0.0,
+            "veortex_ring_admission_rejections_total{reason=\"ring_channel\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"active_coalesced_batches\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"total_queued_waiters\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"total_queued_query_bytes\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"query_byte_admission_limit_bytes\"}": 402653184.0,
+            "veortex_coalescer_resources{resource=\"max_single_query_estimate_bytes_since_start\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"total_queued_result_slots\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"inflight_shard_searches\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"peak_active_coalesced_batches\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"peak_queued_waiters\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"peak_queued_query_bytes\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"peak_queued_result_slots\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"peak_inflight_shard_searches\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"singleton_admitted_inflight\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"peak_singleton_admitted_inflight\"}": 0.0
+          }
+        },
+        {
+          "node": 2,
+          "metrics": {
+            "veortex_coalescer_total{kind=\"coalesced_batches_executed\"}": 0.0,
+            "veortex_coalescer_total{kind=\"coalesced_requests_total\"}": 0.0,
+            "veortex_coalescer_total{kind=\"coalesced_followers_served\"}": 0.0,
+            "veortex_coalescer_total{kind=\"coalescer_bypass_cap_hits\"}": 0.0,
+            "veortex_coalescer_total{kind=\"coalescer_incompatible_bypasses\"}": 0.0,
+            "veortex_coalescer_total{kind=\"direct_admission_rejections\"}": 0.0,
+            "veortex_coalescer_total{kind=\"singleton_admission_rejections\"}": 0.0,
+            "veortex_coalescer_total{kind=\"local_shard_search_batches_total\"}": 0.0,
+            "veortex_coalescer_total{kind=\"local_shard_logical_queries_total\"}": 0.0,
+            "veortex_coalescer_total{kind=\"remote_rpc_calls_total\"}": 0.0,
+            "veortex_coalescer_total{kind=\"coordinator_fanout_calls_total\"}": 0.0,
+            "veortex_coalescer_total{kind=\"coordinator_merge_calls_total\"}": 0.0,
+            "veortex_ring_admission_rejections_total{reason=\"active_groups\"}": 0.0,
+            "veortex_ring_admission_rejections_total{reason=\"waiters\"}": 0.0,
+            "veortex_ring_admission_rejections_total{reason=\"query_bytes\"}": 0.0,
+            "veortex_ring_admission_rejections_total{reason=\"result_slots\"}": 0.0,
+            "veortex_ring_admission_rejections_total{reason=\"ring_queue\"}": 0.0,
+            "veortex_ring_admission_rejections_total{reason=\"ring_channel\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"active_coalesced_batches\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"total_queued_waiters\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"total_queued_query_bytes\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"query_byte_admission_limit_bytes\"}": 402653184.0,
+            "veortex_coalescer_resources{resource=\"max_single_query_estimate_bytes_since_start\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"total_queued_result_slots\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"inflight_shard_searches\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"peak_active_coalesced_batches\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"peak_queued_waiters\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"peak_queued_query_bytes\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"peak_queued_result_slots\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"peak_inflight_shard_searches\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"singleton_admitted_inflight\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"peak_singleton_admitted_inflight\"}": 0.0
+          }
+        }
+      ],
+      "admission_metrics_after": [
+        {
+          "node": 0,
+          "metrics": {
+            "veortex_coalescer_total{kind=\"coalesced_batches_executed\"}": 0.0,
+            "veortex_coalescer_total{kind=\"coalesced_requests_total\"}": 0.0,
+            "veortex_coalescer_total{kind=\"coalesced_followers_served\"}": 0.0,
+            "veortex_coalescer_total{kind=\"coalescer_bypass_cap_hits\"}": 0.0,
+            "veortex_coalescer_total{kind=\"coalescer_incompatible_bypasses\"}": 0.0,
+            "veortex_coalescer_total{kind=\"direct_admission_rejections\"}": 0.0,
+            "veortex_coalescer_total{kind=\"singleton_admission_rejections\"}": 0.0,
+            "veortex_coalescer_total{kind=\"local_shard_search_batches_total\"}": 17.0,
+            "veortex_coalescer_total{kind=\"local_shard_logical_queries_total\"}": 33226.0,
+            "veortex_coalescer_total{kind=\"remote_rpc_calls_total\"}": 1939.0,
+            "veortex_coalescer_total{kind=\"coordinator_fanout_calls_total\"}": 5945.0,
+            "veortex_coalescer_total{kind=\"coordinator_merge_calls_total\"}": 251.0,
+            "veortex_ring_admission_rejections_total{reason=\"active_groups\"}": 0.0,
+            "veortex_ring_admission_rejections_total{reason=\"waiters\"}": 0.0,
+            "veortex_ring_admission_rejections_total{reason=\"query_bytes\"}": 46589.0,
+            "veortex_ring_admission_rejections_total{reason=\"result_slots\"}": 0.0,
+            "veortex_ring_admission_rejections_total{reason=\"ring_queue\"}": 0.0,
+            "veortex_ring_admission_rejections_total{reason=\"ring_channel\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"active_coalesced_batches\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"total_queued_waiters\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"total_queued_query_bytes\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"query_byte_admission_limit_bytes\"}": 402653184.0,
+            "veortex_coalescer_resources{resource=\"max_single_query_estimate_bytes_since_start\"}": 2116940.0,
+            "veortex_coalescer_resources{resource=\"total_queued_result_slots\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"inflight_shard_searches\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"peak_active_coalesced_batches\"}": 1.0,
+            "veortex_coalescer_resources{resource=\"peak_queued_waiters\"}": 191.0,
+            "veortex_coalescer_resources{resource=\"peak_queued_query_bytes\"}": 402218600.0,
+            "veortex_coalescer_resources{resource=\"peak_queued_result_slots\"}": 2280.0,
+            "veortex_coalescer_resources{resource=\"peak_inflight_shard_searches\"}": 1.0,
+            "veortex_coalescer_resources{resource=\"singleton_admitted_inflight\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"peak_singleton_admitted_inflight\"}": 0.0
+          }
+        },
+        {
+          "node": 1,
+          "metrics": {
+            "veortex_coalescer_total{kind=\"coalesced_batches_executed\"}": 0.0,
+            "veortex_coalescer_total{kind=\"coalesced_requests_total\"}": 0.0,
+            "veortex_coalescer_total{kind=\"coalesced_followers_served\"}": 0.0,
+            "veortex_coalescer_total{kind=\"coalescer_bypass_cap_hits\"}": 0.0,
+            "veortex_coalescer_total{kind=\"coalescer_incompatible_bypasses\"}": 0.0,
+            "veortex_coalescer_total{kind=\"direct_admission_rejections\"}": 0.0,
+            "veortex_coalescer_total{kind=\"singleton_admission_rejections\"}": 0.0,
+            "veortex_coalescer_total{kind=\"local_shard_search_batches_total\"}": 17.0,
+            "veortex_coalescer_total{kind=\"local_shard_logical_queries_total\"}": 43757.0,
+            "veortex_coalescer_total{kind=\"remote_rpc_calls_total\"}": 0.0,
+            "veortex_coalescer_total{kind=\"coordinator_fanout_calls_total\"}": 1043.0,
+            "veortex_coalescer_total{kind=\"coordinator_merge_calls_total\"}": 386.0,
+            "veortex_ring_admission_rejections_total{reason=\"active_groups\"}": 0.0,
+            "veortex_ring_admission_rejections_total{reason=\"waiters\"}": 0.0,
+            "veortex_ring_admission_rejections_total{reason=\"query_bytes\"}": 26733.0,
+            "veortex_ring_admission_rejections_total{reason=\"result_slots\"}": 0.0,
+            "veortex_ring_admission_rejections_total{reason=\"ring_queue\"}": 0.0,
+            "veortex_ring_admission_rejections_total{reason=\"ring_channel\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"active_coalesced_batches\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"total_queued_waiters\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"total_queued_query_bytes\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"query_byte_admission_limit_bytes\"}": 402653184.0,
+            "veortex_coalescer_resources{resource=\"max_single_query_estimate_bytes_since_start\"}": 2116940.0,
+            "veortex_coalescer_resources{resource=\"total_queued_result_slots\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"inflight_shard_searches\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"peak_active_coalesced_batches\"}": 1.0,
+            "veortex_coalescer_resources{resource=\"peak_queued_waiters\"}": 191.0,
+            "veortex_coalescer_resources{resource=\"peak_queued_query_bytes\"}": 402218600.0,
+            "veortex_coalescer_resources{resource=\"peak_queued_result_slots\"}": 2280.0,
+            "veortex_coalescer_resources{resource=\"peak_inflight_shard_searches\"}": 1.0,
+            "veortex_coalescer_resources{resource=\"singleton_admitted_inflight\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"peak_singleton_admitted_inflight\"}": 0.0
+          }
+        },
+        {
+          "node": 2,
+          "metrics": {
+            "veortex_coalescer_total{kind=\"coalesced_batches_executed\"}": 0.0,
+            "veortex_coalescer_total{kind=\"coalesced_requests_total\"}": 0.0,
+            "veortex_coalescer_total{kind=\"coalesced_followers_served\"}": 0.0,
+            "veortex_coalescer_total{kind=\"coalescer_bypass_cap_hits\"}": 0.0,
+            "veortex_coalescer_total{kind=\"coalescer_incompatible_bypasses\"}": 0.0,
+            "veortex_coalescer_total{kind=\"direct_admission_rejections\"}": 0.0,
+            "veortex_coalescer_total{kind=\"singleton_admission_rejections\"}": 0.0,
+            "veortex_coalescer_total{kind=\"local_shard_search_batches_total\"}": 17.0,
+            "veortex_coalescer_total{kind=\"local_shard_logical_queries_total\"}": 46448.0,
+            "veortex_coalescer_total{kind=\"remote_rpc_calls_total\"}": 0.0,
+            "veortex_coalescer_total{kind=\"coordinator_fanout_calls_total\"}": 1055.0,
+            "veortex_coalescer_total{kind=\"coordinator_merge_calls_total\"}": 390.0,
+            "veortex_ring_admission_rejections_total{reason=\"active_groups\"}": 0.0,
+            "veortex_ring_admission_rejections_total{reason=\"waiters\"}": 0.0,
+            "veortex_ring_admission_rejections_total{reason=\"query_bytes\"}": 27039.0,
+            "veortex_ring_admission_rejections_total{reason=\"result_slots\"}": 0.0,
+            "veortex_ring_admission_rejections_total{reason=\"ring_queue\"}": 0.0,
+            "veortex_ring_admission_rejections_total{reason=\"ring_channel\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"active_coalesced_batches\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"total_queued_waiters\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"total_queued_query_bytes\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"query_byte_admission_limit_bytes\"}": 402653184.0,
+            "veortex_coalescer_resources{resource=\"max_single_query_estimate_bytes_since_start\"}": 2116940.0,
+            "veortex_coalescer_resources{resource=\"total_queued_result_slots\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"inflight_shard_searches\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"peak_active_coalesced_batches\"}": 1.0,
+            "veortex_coalescer_resources{resource=\"peak_queued_waiters\"}": 191.0,
+            "veortex_coalescer_resources{resource=\"peak_queued_query_bytes\"}": 402218600.0,
+            "veortex_coalescer_resources{resource=\"peak_queued_result_slots\"}": 2280.0,
+            "veortex_coalescer_resources{resource=\"peak_inflight_shard_searches\"}": 1.0,
+            "veortex_coalescer_resources{resource=\"singleton_admitted_inflight\"}": 0.0,
+            "veortex_coalescer_resources{resource=\"peak_singleton_admitted_inflight\"}": 0.0
+          }
+        }
+      ]
+    }
+  ],
+  "row_runtime_evidence": [
+    {
+      "ordinal": 1,
+      "engine": "veortex",
+      "category": "active_only",
+      "batch_size": 64,
+      "concurrency": 4,
+      "runtime_cpu_observation": {
+        "schema": "h2h_sq8_runtime_observation_v2",
+        "status": "PASSED",
+        "engine": "veortex",
+        "sample_interval_s": 0.2,
+        "elapsed_s": 143.26537309074774,
+        "proc_cpu_ticks_scope": "Same TID starttime and unchanged comm across observations after start(); first-seen lifetime ticks excluded.",
+        "schedstat_scope": "Newborn active-thread schedstat lifetime runtime is diagnostic proof only and is never added to interval CPU ticks or used as utilization.",
+        "affinity_scope": "Each sampled Cpus_allowed_list is checked; unsampled transients and maximum wrong-mask duration are not inferred.",
+        "rename_policy": "For comm changes during the mask read, the mask must satisfy at least one adjacent source phase; transition samples are recorded.",
+        "observer_start_boottime_ns": 2256206791093790,
+        "observer_start_ticks_per_second": 100,
+        "observer_start_tick_ceiling": 225620680,
+        "required_active_role_cpu_ticks_positive_all_nodes": true,
+        "active_compute_work_proven_all_nodes": true,
+        "coverage_complete": true,
+        "violation_count": 0,
+        "errors": [],
+        "error_counts": {},
+        "nodes": [
+          {
+            "node": 0,
+            "pid": 282588,
+            "compute_cpu": 4,
+            "support_cpus": [
+              5,
+              6
+            ],
+            "successful_process_samples": 688,
+            "task_enumeration_errors": 0,
+            "sampling_races": 0,
+            "role_cpu_ticks": {
+              "kernel_ring": 5333,
+              "support": 2181,
+              "support_topk": 1320
+            },
+            "role_tick_intervals": {
+              "kernel_ring": 287,
+              "support": 1195,
+              "support_topk": 572
+            },
+            "role_sample_counts": {
+              "kernel_flat": 688,
+              "kernel_ring": 298,
+              "support": 16453,
+              "support_filter": 1,
+              "support_topk": 594
+            },
+            "required_active_role": "kernel_compute",
+            "required_active_role_cpu_ticks": 5333,
+            "required_active_role_cpu_ticks_positive": true,
+            "active_compute_work_proven": true,
+            "active_compute_proof_method": "stable_interval_ticks_and_newborn_schedstat_runtime",
+            "newborn_active_first_seen_threads_by_role": {
+              "kernel_ring": 11
+            },
+            "newborn_active_lifetime_runtime_positive_threads_by_role": {
+              "kernel_ring": 11
+            },
+            "newborn_active_lifetime_runtime_ns_max_by_role": {
+              "kernel_ring": 86473750
+            },
+            "newborn_active_runtime_unavailable_samples_by_role": {},
+            "schedstat_runtime_samples": 18034,
+            "schedstat_unavailable_samples": 0,
+            "schedstat_coverage": "AVAILABLE",
+            "support_coverage": {
+              "topk": "OBSERVED",
+              "filter": "OBSERVED",
+              "payload": "NOT_OBSERVED",
+              "other_threads": "SAMPLED_SUBSET_CHECKED"
+            },
+            "sample_counts_and_masks_by_name": {
+              "actix-rt|system": {
+                "samples": 2064,
+                "mask_counts": {
+                  "5,6": 2064
+                },
+                "roles": {
+                  "support": 2064
+                },
+                "rename_samples": 0
+              },
+              "actix-server ac": {
+                "samples": 688,
+                "mask_counts": {
+                  "5,6": 688
+                },
+                "roles": {
+                  "support": 688
+                },
+                "rename_samples": 0
+              },
+              "consensus": {
+                "samples": 688,
+                "mask_counts": {
+                  "5,6": 688
+                },
+                "roles": {
+                  "support": 688
+                },
+                "rename_samples": 0
+              },
+              "forward-proposa": {
+                "samples": 688,
+                "mask_counts": {
+                  "5,6": 688
+                },
+                "roles": {
+                  "support": 688
+                },
+                "rename_samples": 0
+              },
+              "general-0": {
+                "samples": 688,
+                "mask_counts": {
+                  "5,6": 688
+                },
+                "roles": {
+                  "support": 688
+                },
+                "rename_samples": 0
+              },
+              "general-1": {
+                "samples": 688,
+                "mask_counts": {
+                  "5,6": 688
+                },
+                "roles": {
+                  "support": 688
+                },
+                "rename_samples": 0
+              },
+              "general-3": {
+                "samples": 48,
+                "mask_counts": {
+                  "5,6": 48
+                },
+                "roles": {
+                  "support": 48
+                },
+                "rename_samples": 0
+              },
+              "general-4": {
+                "samples": 48,
+                "mask_counts": {
+                  "5,6": 48
+                },
+                "roles": {
+                  "support": 48
+                },
+                "rename_samples": 0
+              },
+              "grpc": {
+                "samples": 688,
+                "mask_counts": {
+                  "5,6": 688
+                },
+                "roles": {
+                  "support": 688
+                },
+                "rename_samples": 0
+              },
+              "grpc_internal": {
+                "samples": 688,
+                "mask_counts": {
+                  "5,6": 688
+                },
+                "roles": {
+                  "support": 688
+                },
+                "rename_samples": 0
+              },
+              "jemalloc_bg_thd": {
+                "samples": 2752,
+                "mask_counts": {
+                  "5,6": 2752
+                },
+                "roles": {
+                  "support": 2752
+                },
+                "rename_samples": 0
+              },
+              "payload-materia": {
+                "samples": 1372,
+                "mask_counts": {
+                  "5": 686,
+                  "6": 686
+                },
+                "roles": {
+                  "support": 1372
+                },
+                "rename_samples": 0
+              },
+              "qdrant-sha256-9": {
+                "samples": 688,
+                "mask_counts": {
+                  "5,6": 688
+                },
+                "roles": {
+                  "support": 688
+                },
+                "rename_samples": 0
+              },
+              "search-cpu-0": {
+                "samples": 688,
+                "mask_counts": {
+                  "5,6": 688
+                },
+                "roles": {
+                  "support": 688
+                },
+                "rename_samples": 0
+              },
+              "search-io-0": {
+                "samples": 688,
+                "mask_counts": {
+                  "5,6": 688
+                },
+                "roles": {
+                  "support": 688
+                },
+                "rename_samples": 0
+              },
+              "search-io-1": {
+                "samples": 445,
+                "mask_counts": {
+                  "5,6": 445
+                },
+                "roles": {
+                  "support": 445
+                },
+                "rename_samples": 0
+              },
+              "tokio-rt-worker": {
+                "samples": 92,
+                "mask_counts": {
+                  "5,6": 92
+                },
+                "roles": {
+                  "support": 92
+                },
+                "rename_samples": 0
+              },
+              "update-0": {
+                "samples": 688,
+                "mask_counts": {
+                  "5,6": 688
+                },
+                "roles": {
+                  "support": 688
+                },
+                "rename_samples": 0
+              },
+              "update-1": {
+                "samples": 688,
+                "mask_counts": {
+                  "5,6": 688
+                },
+                "roles": {
+                  "support": 688
+                },
+                "rename_samples": 0
+              },
+              "update-2": {
+                "samples": 688,
+                "mask_counts": {
+                  "5,6": 688
+                },
+                "roles": {
+                  "support": 688
+                },
+                "rename_samples": 0
+              },
+              "veortex-filter-": {
+                "samples": 1,
+                "mask_counts": {
+                  "5": 1
+                },
+                "roles": {
+                  "support_filter": 1
+                },
+                "rename_samples": 0
+              },
+              "veortex-flat-c4": {
+                "samples": 688,
+                "mask_counts": {
+                  "4": 688
+                },
+                "roles": {
+                  "kernel_flat": 688
+                },
+                "rename_samples": 0
+              },
+              "veortex-ring-s1": {
+                "samples": 298,
+                "mask_counts": {
+                  "4": 298
+                },
+                "roles": {
+                  "kernel_ring": 298
+                },
+                "rename_samples": 0
+              },
+              "veortex-topk-0": {
+                "samples": 297,
+                "mask_counts": {
+                  "5": 297
+                },
+                "roles": {
+                  "support_topk": 297
+                },
+                "rename_samples": 0
+              },
+              "veortex-topk-1": {
+                "samples": 297,
+                "mask_counts": {
+                  "6": 297
+                },
+                "roles": {
+                  "support_topk": 297
+                },
+                "rename_samples": 0
+              },
+              "web": {
+                "samples": 688,
+                "mask_counts": {
+                  "5,6": 688
+                },
+                "roles": {
+                  "support": 688
+                },
+                "rename_samples": 0
+              }
+            },
+            "omitted_thread_names_after_cap": 0,
+            "violations": []
+          },
+          {
+            "node": 1,
+            "pid": 282678,
+            "compute_cpu": 7,
+            "support_cpus": [
+              8,
+              9
+            ],
+            "successful_process_samples": 688,
+            "task_enumeration_errors": 0,
+            "sampling_races": 1,
+            "role_cpu_ticks": {
+              "kernel_ring": 5795,
+              "support": 695,
+              "support_topk": 1630
+            },
+            "role_tick_intervals": {
+              "kernel_ring": 286,
+              "support": 678,
+              "support_topk": 572
+            },
+            "role_sample_counts": {
+              "kernel_flat": 688,
+              "kernel_ring": 297,
+              "support": 16453,
+              "support_topk": 592
+            },
+            "required_active_role": "kernel_compute",
+            "required_active_role_cpu_ticks": 5795,
+            "required_active_role_cpu_ticks_positive": true,
+            "active_compute_work_proven": true,
+            "active_compute_proof_method": "stable_interval_ticks_and_newborn_schedstat_runtime",
+            "newborn_active_first_seen_threads_by_role": {
+              "kernel_ring": 11
+            },
+            "newborn_active_lifetime_runtime_positive_threads_by_role": {
+              "kernel_ring": 11
+            },
+            "newborn_active_lifetime_runtime_ns_max_by_role": {
+              "kernel_ring": 101478892
+            },
+            "newborn_active_runtime_unavailable_samples_by_role": {},
+            "schedstat_runtime_samples": 18030,
+            "schedstat_unavailable_samples": 0,
+            "schedstat_coverage": "AVAILABLE",
+            "support_coverage": {
+              "topk": "OBSERVED",
+              "filter": "NOT_OBSERVED",
+              "payload": "NOT_OBSERVED",
+              "other_threads": "SAMPLED_SUBSET_CHECKED"
+            },
+            "sample_counts_and_masks_by_name": {
+              "actix-rt|system": {
+                "samples": 2064,
+                "mask_counts": {
+                  "8,9": 2064
+                },
+                "roles": {
+                  "support": 2064
+                },
+                "rename_samples": 0
+              },
+              "actix-server ac": {
+                "samples": 688,
+                "mask_counts": {
+                  "8,9": 688
+                },
+                "roles": {
+                  "support": 688
+                },
+                "rename_samples": 0
+              },
+              "consensus": {
+                "samples": 688,
+                "mask_counts": {
+                  "8,9": 688
+                },
+                "roles": {
+                  "support": 688
+                },
+                "rename_samples": 0
+              },
+              "forward-proposa": {
+                "samples": 688,
+                "mask_counts": {
+                  "8,9": 688
+                },
+                "roles": {
+                  "support": 688
+                },
+                "rename_samples": 0
+              },
+              "general-0": {
+                "samples": 688,
+                "mask_counts": {
+                  "8,9": 688
+                },
+                "roles": {
+                  "support": 688
+                },
+                "rename_samples": 0
+              },
+              "general-1": {
+                "samples": 688,
+                "mask_counts": {
+                  "8,9": 688
+                },
+                "roles": {
+                  "support": 688
+                },
+                "rename_samples": 0
+              },
+              "general-3": {
+                "samples": 48,
+                "mask_counts": {
+                  "8,9": 48
+                },
+                "roles": {
+                  "support": 48
+                },
+                "rename_samples": 0
+              },
+              "general-4": {
+                "samples": 48,
+                "mask_counts": {
+                  "8,9": 48
+                },
+                "roles": {
+                  "support": 48
+                },
+                "rename_samples": 0
+              },
+              "grpc": {
+                "samples": 688,
+                "mask_counts": {
+                  "8,9": 688
+                },
+                "roles": {
+                  "support": 688
+                },
+                "rename_samples": 0
+              },
+              "grpc_internal": {
+                "samples": 688,
+                "mask_counts": {
+                  "8,9": 688
+                },
+                "roles": {
+                  "support": 688
+                },
+                "rename_samples": 0
+              },
+              "jemalloc_bg_thd": {
+                "samples": 2752,
+                "mask_counts": {
+                  "8,9": 2752
+                },
+                "roles": {
+                  "support": 2752
+                },
+                "rename_samples": 0
+              },
+              "payload-materia": {
+                "samples": 1372,
+                "mask_counts": {
+                  "8": 686,
+                  "9": 686
+                },
+                "roles": {
+                  "support": 1372
+                },
+                "rename_samples": 0
+              },
+              "qdrant-sha256-9": {
+                "samples": 688,
+                "mask_counts": {
+                  "8,9": 688
+                },
+                "roles": {
+                  "support": 688
+                },
+                "rename_samples": 0
+              },
+              "search-cpu-0": {
+                "samples": 688,
+                "mask_counts": {
+                  "8,9": 688
+                },
+                "roles": {
+                  "support": 688
+                },
+                "rename_samples": 0
+              },
+              "search-io-0": {
+                "samples": 688,
+                "mask_counts": {
+                  "8,9": 688
+                },
+                "roles": {
+                  "support": 688
+                },
+                "rename_samples": 0
+              },
+              "search-io-1": {
+                "samples": 445,
+                "mask_counts": {
+                  "8,9": 445
+                },
+                "roles": {
+                  "support": 445
+                },
+                "rename_samples": 0
+              },
+              "tokio-rt-worker": {
+                "samples": 92,
+                "mask_counts": {
+                  "8,9": 92
+                },
+                "roles": {
+                  "support": 92
+                },
+                "rename_samples": 0
+              },
+              "update-0": {
+                "samples": 688,
+                "mask_counts": {
+                  "8,9": 688
+                },
+                "roles": {
+                  "support": 688
+                },
+                "rename_samples": 0
+              },
+              "update-1": {
+                "samples": 688,
+                "mask_counts": {
+                  "8,9": 688
+                },
+                "roles": {
+                  "support": 688
+                },
+                "rename_samples": 0
+              },
+              "update-2": {
+                "samples": 688,
+                "mask_counts": {
+                  "8,9": 688
+                },
+                "roles": {
+                  "support": 688
+                },
+                "rename_samples": 0
+              },
+              "veortex-flat-c7": {
+                "samples": 688,
+                "mask_counts": {
+                  "7": 688
+                },
+                "roles": {
+                  "kernel_flat": 688
+                },
+                "rename_samples": 0
+              },
+              "veortex-ring-s2": {
+                "samples": 297,
+                "mask_counts": {
+                  "7": 297
+                },
+                "roles": {
+                  "kernel_ring": 297
+                },
+                "rename_samples": 0
+              },
+              "veortex-topk-0": {
+                "samples": 296,
+                "mask_counts": {
+                  "8": 296
+                },
+                "roles": {
+                  "support_topk": 296
+                },
+                "rename_samples": 0
+              },
+              "veortex-topk-1": {
+                "samples": 296,
+                "mask_counts": {
+                  "9": 296
+                },
+                "roles": {
+                  "support_topk": 296
+                },
+                "rename_samples": 0
+              },
+              "web": {
+                "samples": 688,
+                "mask_counts": {
+                  "8,9": 688
+                },
+                "roles": {
+                  "support": 688
+                },
+                "rename_samples": 0
+              }
+            },
+            "omitted_thread_names_after_cap": 0,
+            "violations": []
+          },
+          {
+            "node": 2,
+            "pid": 282750,
+            "compute_cpu": 10,
+            "support_cpus": [
+              11,
+              12
+            ],
+            "successful_process_samples": 688,
+            "task_enumeration_errors": 0,
+            "sampling_races": 3,
+            "role_cpu_ticks": {
+              "kernel_ring": 5794,
+              "support": 701,
+              "support_topk": 1225
+            },
+            "role_tick_intervals": {
+              "kernel_ring": 288,
+              "support": 681,
+              "support_topk": 573
+            },
+            "role_sample_counts": {
+              "kernel_flat": 688,
+              "kernel_ring": 299,
+              "support": 16453,
+              "support_topk": 598
+            },
+            "required_active_role": "kernel_compute",
+            "required_active_role_cpu_ticks": 5794,
+            "required_active_role_cpu_ticks_positive": true,
+            "active_compute_work_proven": true,
+            "active_compute_proof_method": "stable_interval_ticks_and_newborn_schedstat_runtime",
+            "newborn_active_first_seen_threads_by_role": {
+              "kernel_ring": 11
+            },
+            "newborn_active_lifetime_runtime_positive_threads_by_role": {
+              "kernel_ring": 11
+            },
+            "newborn_active_lifetime_runtime_ns_max_by_role": {
+              "kernel_ring": 94600534
+            },
+            "newborn_active_runtime_unavailable_samples_by_role": {},
+            "schedstat_runtime_samples": 18038,
+            "schedstat_unavailable_samples": 0,
+            "schedstat_coverage": "AVAILABLE",
+            "support_coverage": {
+              "topk": "OBSERVED",
+              "filter": "NOT_OBSERVED",
+              "payload": "NOT_OBSERVED",
+              "other_threads": "SAMPLED_SUBSET_CHECKED"
+            },
+            "sample_counts_and_masks_by_name": {
+              "actix-rt|system": {
+                "samples": 2064,
+                "mask_counts": {
+                  "11,12": 2064
+                },
+                "roles": {
+                  "support": 2064
+                },
+                "rename_samples": 0
+              },
+              "actix-server ac": {
+                "samples": 688,
+                "mask_counts": {
+                  "11,12": 688
+                },
+                "roles": {
+                  "support": 688
+                },
+                "rename_samples": 0
+              },
+              "consensus": {
+                "samples": 688,
+                "mask_counts": {
+                  "11,12": 688
+                },
+                "roles": {
+                  "support": 688
+                },
+                "rename_samples": 0
+              },
+              "forward-proposa": {
+                "samples": 688,
+                "mask_counts": {
+                  "11,12": 688
+                },
+                "roles": {
+                  "support": 688
+                },
+                "rename_samples": 0
+              },
+              "general-0": {
+                "samples": 688,
+                "mask_counts": {
+                  "11,12": 688
+                },
+                "roles": {
+                  "support": 688
+                },
+                "rename_samples": 0
+              },
+              "general-1": {
+                "samples": 688,
+                "mask_counts": {
+                  "11,12": 688
+                },
+                "roles": {
+                  "support": 688
+                },
+                "rename_samples": 0
+              },
+              "general-2": {
+                "samples": 48,
+                "mask_counts": {
+                  "11,12": 48
+                },
+                "roles": {
+                  "support": 48
+                },
+                "rename_samples": 0
+              },
+              "general-4": {
+                "samples": 48,
+                "mask_counts": {
+                  "11,12": 48
+                },
+                "roles": {
+                  "support": 48
+                },
+                "rename_samples": 0
+              },
+              "grpc": {
+                "samples": 688,
+                "mask_counts": {
+                  "11,12": 688
+                },
+                "roles": {
+                  "support": 688
+                },
+                "rename_samples": 0
+              },
+              "grpc_internal": {
+                "samples": 688,
+                "mask_counts": {
+                  "11,12": 688
+                },
+                "roles": {
+                  "support": 688
+                },
+                "rename_samples": 0
+              },
+              "jemalloc_bg_thd": {
+                "samples": 2752,
+                "mask_counts": {
+                  "11,12": 2752
+                },
+                "roles": {
+                  "support": 2752
+                },
+                "rename_samples": 0
+              },
+              "payload-materia": {
+                "samples": 1372,
+                "mask_counts": {
+                  "11": 686,
+                  "12": 686
+                },
+                "roles": {
+                  "support": 1372
+                },
+                "rename_samples": 0
+              },
+              "qdrant-sha256-9": {
+                "samples": 688,
+                "mask_counts": {
+                  "11,12": 688
+                },
+                "roles": {
+                  "support": 688
+                },
+                "rename_samples": 0
+              },
+              "search-cpu-0": {
+                "samples": 688,
+                "mask_counts": {
+                  "11,12": 688
+                },
+                "roles": {
+                  "support": 688
+                },
+                "rename_samples": 0
+              },
+              "search-io-0": {
+                "samples": 688,
+                "mask_counts": {
+                  "11,12": 688
+                },
+                "roles": {
+                  "support": 688
+                },
+                "rename_samples": 0
+              },
+              "search-io-1": {
+                "samples": 445,
+                "mask_counts": {
+                  "11,12": 445
+                },
+                "roles": {
+                  "support": 445
+                },
+                "rename_samples": 0
+              },
+              "tokio-rt-worker": {
+                "samples": 92,
+                "mask_counts": {
+                  "11,12": 92
+                },
+                "roles": {
+                  "support": 92
+                },
+                "rename_samples": 0
+              },
+              "update-0": {
+                "samples": 688,
+                "mask_counts": {
+                  "11,12": 688
+                },
+                "roles": {
+                  "support": 688
+                },
+                "rename_samples": 0
+              },
+              "update-1": {
+                "samples": 688,
+                "mask_counts": {
+                  "11,12": 688
+                },
+                "roles": {
+                  "support": 688
+                },
+                "rename_samples": 0
+              },
+              "update-2": {
+                "samples": 688,
+                "mask_counts": {
+                  "11,12": 688
+                },
+                "roles": {
+                  "support": 688
+                },
+                "rename_samples": 0
+              },
+              "veortex-flat-c1": {
+                "samples": 688,
+                "mask_counts": {
+                  "10": 688
+                },
+                "roles": {
+                  "kernel_flat": 688
+                },
+                "rename_samples": 0
+              },
+              "veortex-ring-s3": {
+                "samples": 299,
+                "mask_counts": {
+                  "10": 299
+                },
+                "roles": {
+                  "kernel_ring": 299
+                },
+                "rename_samples": 0
+              },
+              "veortex-topk-0": {
+                "samples": 299,
+                "mask_counts": {
+                  "11": 299
+                },
+                "roles": {
+                  "support_topk": 299
+                },
+                "rename_samples": 0
+              },
+              "veortex-topk-1": {
+                "samples": 299,
+                "mask_counts": {
+                  "12": 299
+                },
+                "roles": {
+                  "support_topk": 299
+                },
+                "rename_samples": 0
+              },
+              "web": {
+                "samples": 688,
+                "mask_counts": {
+                  "11,12": 688
+                },
+                "roles": {
+                  "support": 688
+                },
+                "rename_samples": 0
+              }
+            },
+            "omitted_thread_names_after_cap": 0,
+            "violations": []
+          }
+        ],
+        "source_audit": {
+          "schema": "v45_source_affinity_audit_v1",
+          "git_head": "bc0eec0015771e8c59134b1b83a740418efcff7e",
+          "files": [
+            {
+              "path": "lib/collection/src/common/adaptive_handle.rs",
+              "sha256": "0c72afc07133fe07975c9d8c10a0887e054a5bf745e5b6971ec0ad20c7fb34c4",
+              "lines": "140-168",
+              "claim": "veortex-flat-c{core_id} pins to core_id before readiness and re-pins before each job"
+            },
+            {
+              "path": "lib/collection/src/shards/local_shard/search.rs",
+              "sha256": "d4c172fa7a84ac09e7fc7133fd25e9fae7d0eff89274efc56f576dba8658de9c",
+              "lines": "324-358,4865-4896",
+              "claim": "ring startup has an explicit transition name; activation pins to the selected compute core before setting the active ring name"
+            }
+          ],
+          "phase_observer_sha256": "345c3441cee9b7248a265eab206a424c17b1c94d4d545449cfb5566880d42ce9",
+          "proof_sha256": "c91c22a73609153307caac2081246c07944fd930d1de5bce0949a01c6eaf7f32"
+        }
+      },
+      "route_metric_delta": {
+        "schema": "h2h_sq8_route_counter_delta_v1",
+        "status": "PASSED",
+        "scope": "Process-global Prometheus counters bracket one timed row on each node",
+        "zero_required": [
+          "batch4_vectors",
+          "hnsw_build_calls",
+          "hnsw_search_calls",
+          "ring_fallback_queries"
+        ],
+        "positive_required": [
+          "query_vector_dots",
+          "gallery_blocks_decoded"
+        ],
+        "informative_only": [
+          "amx_calls"
+        ],
+        "nodes": [
+          {
+            "node": 0,
+            "deltas": {
+              "amx_calls": 561710,
+              "query_vector_dots": 54106363200,
+              "gallery_blocks_decoded": 4599471104,
+              "batch4_vectors": 0,
+              "ring_fallback_queries": 0,
+              "hnsw_build_calls": 0,
+              "hnsw_search_calls": 0
+            },
+            "zero_route_checks": {
+              "batch4_vectors": true,
+              "hnsw_build_calls": true,
+              "hnsw_search_calls": true,
+              "ring_fallback_queries": true
+            },
+            "positive_work_checks": {
+              "query_vector_dots": true,
+              "gallery_blocks_decoded": true
+            },
+            "informative_measurements": {
+              "amx_calls": 561710
+            }
+          },
+          {
+            "node": 1,
+            "deltas": {
+              "amx_calls": 637340,
+              "query_vector_dots": 61583650624,
+              "gallery_blocks_decoded": 5218752512,
+              "batch4_vectors": 0,
+              "ring_fallback_queries": 0,
+              "hnsw_build_calls": 0,
+              "hnsw_search_calls": 0
+            },
+            "zero_route_checks": {
+              "batch4_vectors": true,
+              "hnsw_build_calls": true,
+              "hnsw_search_calls": true,
+              "ring_fallback_queries": true
+            },
+            "positive_work_checks": {
+              "query_vector_dots": true,
+              "gallery_blocks_decoded": true
+            },
+            "informative_measurements": {
+              "amx_calls": 637340
+            }
+          },
+          {
+            "node": 2,
+            "deltas": {
+              "amx_calls": 643546,
+              "query_vector_dots": 62174849600,
+              "gallery_blocks_decoded": 5269570560,
+              "batch4_vectors": 0,
+              "ring_fallback_queries": 0,
+              "hnsw_build_calls": 0,
+              "hnsw_search_calls": 0
+            },
+            "zero_route_checks": {
+              "batch4_vectors": true,
+              "hnsw_build_calls": true,
+              "hnsw_search_calls": true,
+              "ring_fallback_queries": true
+            },
+            "positive_work_checks": {
+              "query_vector_dots": true,
+              "gallery_blocks_decoded": true
+            },
+            "informative_measurements": {
+              "amx_calls": 643546
+            }
+          }
+        ],
+        "errors": []
+      }
+    }
+  ],
+  "original_cluster_restored_healthy": true,
+  "immutable_lower_metadata_unchanged": true,
+  "remediation": {
+    "only_our_environment_change": {
+      "QDRANT_VEORTEX_SINGLETON_ADMISSION_WAIT_MS": "1000"
+    },
+    "memory_cap_bytes": 402653184,
+    "diagnostic_row": 1,
+    "diagnostic_contract": "B64/C4 filtered, same workload; determine rejection reason with 1s singleton wait",
+    "remediation_contract": "Diagnostic only: unchanged B64/C4 and384MiB cap; source remedy measured separately",
+    "full_accuracy_reuse": "Primary same-binary, same-manifest independent F32 8192 checks; every B64 warmup covers all1024 queries and all timed returned queries validated"
+  },
+  "primary_receipt": "/home/dev/anas/qdrant-veortex-integration/review-artifacts/h2h-sq8-c1-c160-20261109/runs/h2h-20261109t084100z/receipt.json",
+  "primary_receipt_sha256": "59780e2863cbef85ff7cd449c3b398cee635c774a88792a5b9df12dbaf4738d9",
+  "initial_accuracy_reused": [
+    {
+      "engine": "native",
+      "category": "unfiltered_no_payload",
+      "queries": 1024,
+      "passed": 1024,
+      "failed": 0,
+      "errors": [],
+      "elapsed_s": 47.334352587815374
+    },
+    {
+      "engine": "native",
+      "category": "unfiltered_payload",
+      "queries": 1024,
+      "passed": 1024,
+      "failed": 0,
+      "errors": [],
+      "elapsed_s": 48.26925247302279
+    },
+    {
+      "engine": "native",
+      "category": "active_only",
+      "queries": 1024,
+      "passed": 1024,
+      "failed": 0,
+      "errors": [],
+      "elapsed_s": 55.30575395701453
+    },
+    {
+      "engine": "native",
+      "category": "active_position_exclude",
+      "queries": 1024,
+      "passed": 1024,
+      "failed": 0,
+      "errors": [],
+      "elapsed_s": 24.19885708298534
+    },
+    {
+      "engine": "veortex",
+      "category": "unfiltered_no_payload",
+      "queries": 1024,
+      "passed": 1024,
+      "failed": 0,
+      "errors": [],
+      "elapsed_s": 3.8554667532444
+    },
+    {
+      "engine": "veortex",
+      "category": "unfiltered_payload",
+      "queries": 1024,
+      "passed": 1024,
+      "failed": 0,
+      "errors": [],
+      "elapsed_s": 6.247693748213351
+    },
+    {
+      "engine": "veortex",
+      "category": "active_only",
+      "queries": 1024,
+      "passed": 1024,
+      "failed": 0,
+      "errors": [],
+      "elapsed_s": 2.783663135021925
+    },
+    {
+      "engine": "veortex",
+      "category": "active_position_exclude",
+      "queries": 1024,
+      "passed": 1024,
+      "failed": 0,
+      "errors": [],
+      "elapsed_s": 2.743477988988161
+    }
+  ]
+}

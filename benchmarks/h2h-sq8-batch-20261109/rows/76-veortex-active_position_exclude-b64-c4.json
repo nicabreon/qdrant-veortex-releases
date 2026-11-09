@@ -1,0 +1,394 @@
+{
+  "schema": "qdrant_search_batch_matrix_http_v1",
+  "status": "COMPLETED_WITH_FAILURES",
+  "passed": false,
+  "started_utc": "2026-11-09T10:12:18.13373637Z",
+  "finished_utc": "2026-11-09T10:13:19.656946097Z",
+  "manifest_sha256": "6a12f3f9229f5b9749bb2877fa6e5f73e4f7dec66585d4237f5ee36efb951680",
+  "executable_sha256": "9dab9e7f2292d6b3ccae108335317b2f249cf0e83a7cada02650060c91b9c251",
+  "endpoint": "http://127.0.0.1:19402/collections/tq2_cosine512_3m_20261014t154824z_666273_c8702714/points/search/batch?consistency=quorum",
+  "request_protocol": "HTTP/1.1",
+  "batch_size": 64,
+  "concurrency": 4,
+  "max_inflight": 4,
+  "gomaxprocs": 7,
+  "dispatch_window_s": 60,
+  "actual_dispatch_duration_s": 59.99373313,
+  "drain_duration_s": 0.05767443699999575,
+  "actual_elapsed_s": 60.051407567,
+  "throughput_basis": "closed-loop successful HTTP responses / monotonic time from measurement barrier through final body validation; actual_elapsed_s includes drain; query_qps = successful requests * batch size / actual_elapsed_s",
+  "warmup_requests": 16,
+  "warmup_configured_requests": 16,
+  "warmup_successes": 16,
+  "warmup_failed_requests": 0,
+  "warmup_queries": 1024,
+  "warmup_successful_queries": 1024,
+  "warmup_failed_queries": 0,
+  "warmup_exact_query_truth_matches": 1024,
+  "warmup_payload_contract_matches": 1024,
+  "result_limit": 10,
+  "with_payload": true,
+  "score_tolerance": 0.000001,
+  "max_response_body_bytes": 8388608,
+  "planned_requests": 6400,
+  "dispatched_requests": 6400,
+  "dispatched_queries": 409600,
+  "http_responses": 6400,
+  "warmup_http_responses": 16,
+  "successful_requests": 1189,
+  "failed_requests": 5211,
+  "successful_queries": 76096,
+  "failed_queries": 333504,
+  "exact_query_truth_matches": 76096,
+  "payload_contract_matches": 76096,
+  "http_429_count": 5211,
+  "warmup_http_429_count": 0,
+  "http_error_requests": 5211,
+  "warmup_http_error_requests": 0,
+  "transport_failures": 0,
+  "transport_timeouts": 0,
+  "protocol_errors": 0,
+  "correctness_failed_requests": 0,
+  "peak_inflight": 4,
+  "successful_http_rps": 19.799702424517193,
+  "query_qps": 1267.1809551691003,
+  "http_status_counts": {
+    "200": 1205,
+    "429": 5211
+  },
+  "response_protocol_counts": {
+    "HTTP/1.1": 6416
+  },
+  "failure_counts": {
+    "http_status_429": 5211
+  },
+  "full_response_validated_latency_ms": {
+    "count": 6400,
+    "p50_ms": 47.315971999999995,
+    "p95_ms": 85.538942,
+    "p99_ms": 107.882154,
+    "mean_ms": 37.5099315021875,
+    "max_ms": 153.861352
+  },
+  "server_json_time_ms": {
+    "count": 1189,
+    "p50_ms": 61.144637,
+    "p95_ms": 90.79908400000001,
+    "p99_ms": 110.000771,
+    "mean_ms": 62.74675766778807,
+    "max_ms": 138.12007200000002
+  },
+  "connection_acquire_ms": {
+    "count": 6400,
+    "p50_ms": 0.005628,
+    "p95_ms": 0.010439,
+    "p99_ms": 0.018776,
+    "mean_ms": 0.006796072031249994,
+    "max_ms": 0.307464
+  },
+  "failure_details": [
+    {
+      "request_index": 19,
+      "http_status": 429,
+      "failure": "http_status_429",
+      "query_start_index": 192
+    },
+    {
+      "request_index": 39,
+      "http_status": 429,
+      "failure": "http_status_429",
+      "query_start_index": 448
+    },
+    {
+      "request_index": 40,
+      "http_status": 429,
+      "failure": "http_status_429",
+      "query_start_index": 512
+    },
+    {
+      "request_index": 41,
+      "http_status": 429,
+      "failure": "http_status_429",
+      "query_start_index": 576
+    },
+    {
+      "request_index": 42,
+      "http_status": 429,
+      "failure": "http_status_429",
+      "query_start_index": 640
+    },
+    {
+      "request_index": 43,
+      "http_status": 429,
+      "failure": "http_status_429",
+      "query_start_index": 704
+    },
+    {
+      "request_index": 44,
+      "http_status": 429,
+      "failure": "http_status_429",
+      "query_start_index": 768
+    },
+    {
+      "request_index": 45,
+      "http_status": 429,
+      "failure": "http_status_429",
+      "query_start_index": 832
+    },
+    {
+      "request_index": 47,
+      "http_status": 429,
+      "failure": "http_status_429",
+      "query_start_index": 960
+    },
+    {
+      "request_index": 49,
+      "http_status": 429,
+      "failure": "http_status_429",
+      "query_start_index": 64
+    },
+    {
+      "request_index": 52,
+      "http_status": 429,
+      "failure": "http_status_429",
+      "query_start_index": 256
+    },
+    {
+      "request_index": 54,
+      "http_status": 429,
+      "failure": "http_status_429",
+      "query_start_index": 384
+    },
+    {
+      "request_index": 58,
+      "http_status": 429,
+      "failure": "http_status_429",
+      "query_start_index": 640
+    },
+    {
+      "request_index": 61,
+      "http_status": 429,
+      "failure": "http_status_429",
+      "query_start_index": 832
+    },
+    {
+      "request_index": 65,
+      "http_status": 429,
+      "failure": "http_status_429",
+      "query_start_index": 64
+    },
+    {
+      "request_index": 79,
+      "http_status": 429,
+      "failure": "http_status_429",
+      "query_start_index": 960
+    },
+    {
+      "request_index": 88,
+      "http_status": 429,
+      "failure": "http_status_429",
+      "query_start_index": 512
+    },
+    {
+      "request_index": 96,
+      "http_status": 429,
+      "failure": "http_status_429",
+      "query_start_index": 0
+    },
+    {
+      "request_index": 112,
+      "http_status": 429,
+      "failure": "http_status_429",
+      "query_start_index": 0
+    },
+    {
+      "request_index": 120,
+      "http_status": 429,
+      "failure": "http_status_429",
+      "query_start_index": 512
+    },
+    {
+      "request_index": 144,
+      "http_status": 429,
+      "failure": "http_status_429",
+      "query_start_index": 0
+    },
+    {
+      "request_index": 156,
+      "http_status": 429,
+      "failure": "http_status_429",
+      "query_start_index": 768
+    },
+    {
+      "request_index": 157,
+      "http_status": 429,
+      "failure": "http_status_429",
+      "query_start_index": 832
+    },
+    {
+      "request_index": 160,
+      "http_status": 429,
+      "failure": "http_status_429",
+      "query_start_index": 0
+    },
+    {
+      "request_index": 165,
+      "http_status": 429,
+      "failure": "http_status_429",
+      "query_start_index": 320
+    },
+    {
+      "request_index": 176,
+      "http_status": 429,
+      "failure": "http_status_429",
+      "query_start_index": 0
+    },
+    {
+      "request_index": 177,
+      "http_status": 429,
+      "failure": "http_status_429",
+      "query_start_index": 64
+    },
+    {
+      "request_index": 178,
+      "http_status": 429,
+      "failure": "http_status_429",
+      "query_start_index": 128
+    },
+    {
+      "request_index": 179,
+      "http_status": 429,
+      "failure": "http_status_429",
+      "query_start_index": 192
+    },
+    {
+      "request_index": 180,
+      "http_status": 429,
+      "failure": "http_status_429",
+      "query_start_index": 256
+    },
+    {
+      "request_index": 183,
+      "http_status": 429,
+      "failure": "http_status_429",
+      "query_start_index": 448
+    },
+    {
+      "request_index": 187,
+      "http_status": 429,
+      "failure": "http_status_429",
+      "query_start_index": 704
+    },
+    {
+      "request_index": 195,
+      "http_status": 429,
+      "failure": "http_status_429",
+      "query_start_index": 192
+    },
+    {
+      "request_index": 199,
+      "http_status": 429,
+      "failure": "http_status_429",
+      "query_start_index": 448
+    },
+    {
+      "request_index": 208,
+      "http_status": 429,
+      "failure": "http_status_429",
+      "query_start_index": 0
+    },
+    {
+      "request_index": 212,
+      "http_status": 429,
+      "failure": "http_status_429",
+      "query_start_index": 256
+    },
+    {
+      "request_index": 213,
+      "http_status": 429,
+      "failure": "http_status_429",
+      "query_start_index": 320
+    },
+    {
+      "request_index": 217,
+      "http_status": 429,
+      "failure": "http_status_429",
+      "query_start_index": 576
+    },
+    {
+      "request_index": 218,
+      "http_status": 429,
+      "failure": "http_status_429",
+      "query_start_index": 640
+    },
+    {
+      "request_index": 220,
+      "http_status": 429,
+      "failure": "http_status_429",
+      "query_start_index": 768
+    },
+    {
+      "request_index": 227,
+      "http_status": 429,
+      "failure": "http_status_429",
+      "query_start_index": 192
+    },
+    {
+      "request_index": 229,
+      "http_status": 429,
+      "failure": "http_status_429",
+      "query_start_index": 320
+    },
+    {
+      "request_index": 233,
+      "http_status": 429,
+      "failure": "http_status_429",
+      "query_start_index": 576
+    },
+    {
+      "request_index": 235,
+      "http_status": 429,
+      "failure": "http_status_429",
+      "query_start_index": 704
+    },
+    {
+      "request_index": 237,
+      "http_status": 429,
+      "failure": "http_status_429",
+      "query_start_index": 832
+    },
+    {
+      "request_index": 239,
+      "http_status": 429,
+      "failure": "http_status_429",
+      "query_start_index": 960
+    },
+    {
+      "request_index": 241,
+      "http_status": 429,
+      "failure": "http_status_429",
+      "query_start_index": 64
+    },
+    {
+      "request_index": 243,
+      "http_status": 429,
+      "failure": "http_status_429",
+      "query_start_index": 192
+    },
+    {
+      "request_index": 246,
+      "http_status": 429,
+      "failure": "http_status_429",
+      "query_start_index": 384
+    },
+    {
+      "request_index": 247,
+      "http_status": 429,
+      "failure": "http_status_429",
+      "query_start_index": 448
+    }
+  ],
+  "failure_details_omitted": 5161,
+  "api_key_handling": "read only from QDRANT_API_KEY; never included in output",
+  "credentials_included_in_report": false
+}

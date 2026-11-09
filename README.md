@@ -1,47 +1,101 @@
-# Qdrant–Veortex V45 research binary
+# Qdrant 1.20.0 with Veortex V45: a reproducible search study
 
-This is a binary-only research distribution of a Qdrant 1.20.0 build with integrated Veortex flat-search kernels. It does not include the Qdrant or Veortex engine source. The runtime executable is distributed as a separate release archive; download it from the [V45 release page](https://github.com/nicabreon/qdrant-veortex-releases/releases/tag/v1.20.0-veortex.v45.20261109).
+This repository publishes a **binary-only research build** of Qdrant 1.20.0 with Veortex flat-search kernels integrated into the Qdrant process. It is a study of how flat quantized search behaves when several queries share gallery reads under a fixed CPU budget. It does not claim that every query is faster or that a single isolated query has lower latency.
 
-The release artifact is identified by its provenance and hash:
+Qdrant remains the database and cluster manager: its API, WAL, shard routing, Raft, replication, and internal gRPC remain in use. Veortex is an in-process path for eligible flat quantized searches. There is no Veortex sidecar or separate Veortex cluster.
 
-- Qdrant source commit: `bc0eec0015771e8c59134b1b83a740418efcff7e`
-- Source tree: `f3335fe4f9474c3bbc5274785c4bde930fc272be`
-- ELF SHA-256: `9a44f09da70af7921da7b2a6893b98c1ea3d9dcab61986d3504b63f4e3dfa0e8`
-- Target: x86_64 GNU/Linux; glibc 2.34 or later
+## Download the research binary
 
-Verify the downloaded file against the SHA-256 before running it. Follow [manual deployment](DEPLOYMENT.md) for host requirements, configuration, and operational guidance.
+Download the Linux x86_64 release archive from the [V45 release page](https://github.com/nicabreon/qdrant-veortex-releases/releases/tag/v1.20.0-veortex.v45.20261109). The executable requires glibc 2.34 or later. Verify the executable after extracting it:
 
-The V45 S8 SQ8 run met its stated target and recorded one-compute-CPU affinity during its measured rows on the tested VM. The published results use a finite workload and a reused query corpus; they are empirical coverage, not a universal recall guarantee. The TQ2/TQ4 throughput-parity target against SQ8 was not met in this cohort. C160 closed-loop runs do not establish maximum throughput, single-request latency, or long-duration stability. These results are not general capacity recommendations or hardware-compatibility guarantees. The [recorded results](benchmarks/historical-v45-20261102.md) document the measured scope and limitations.
+```sh
+sha256sum /opt/qdrant-veortex/bin/qdrant
+```
+
+Expected SHA-256: `9a44f09da70af7921da7b2a6893b98c1ea3d9dcab61986d3504b63f4e3dfa0e8`.
+
+Release provenance: Qdrant source commit `bc0eec0015771e8c59134b1b83a740418efcff7e`, source tree `f3335fe4f9474c3bbc5274785c4bde930fc272be`.
+
+See [manual deployment](DEPLOYMENT.md) for host checks, CA trust, configuration, TLS, API access, backups, and the reference CPU profile. The public repository contains reproduction helpers and notices, but does not include Qdrant or Veortex engine source.
+
+## What the test measures
+
+The fresh comparison runs stock Qdrant 1.20.0 and the frozen Veortex V45 binary on a synthetic flat-search workload:
+
+- A 3,000,000-vector, 512-dimensional normalized FP32 Gaussian gallery, split into three one-million-point shards with numeric point IDs.
+- Synthetic ABIS-shaped metadata on all points. It is generated test data, not biometric data and not derived from people or fingerprints.
+- A fixed 1,024-query corpus, SHA-256 `90c486e454c29d3145ae220447defc0eaca8b3c828d7fededa8b76ee43a77111`, using a named `gallery` vector and cosine distance.
+- SQ8 quantized flat search with HNSW disabled, candidate cap 12 per segment, oversampling 1.2, then FP32 reranking to return ordered Top10 results. This is not an exhaustive full-precision scan of all three million vectors.
+- Four request categories: no filter/no payload; no filter/with payload; active-only (about 90% eligible); and active plus `left_index` position with one subject excluded (about 9% eligible). Those percentages describe filter eligibility, not recall.
+
+Before timing, each engine passed 4,096 exact-search checks: all 1,024 queries in each of the four categories. The timed client then validates every ordered Top10 ID, each score within `1e-6` of the exact FP32 truth, and the payload contract. The exact query vectors and truth are tied to the recorded manifest hashes.
+
+The workload varies batch size **B** (queries per HTTP request) and concurrency **C** (in-flight HTTP requests): B1 at C1, 4, 32, 64, 128, and 160; and B4, B16, B32, and B64 at C4. The complete plan has 40 rows per engine and 80 total.
+
+## Search path and CPU budget
+
+The intended Veortex path groups eligible searches in a per-shard ring so concurrent queries can share gallery reads. The simplified flow is:
+
+```mermaid
+flowchart LR
+    A[Qdrant API] --> B[Existing shard routing]
+    B --> C[Per-shard flat-search ring<br/>queries share gallery reads]
+    C --> D[1 compute CPU per node<br/>SQ8 scan and score]
+    D --> E[2 support CPUs per node<br/>TopK, FP32 rerank, payload]
+    E --> F[Qdrant shard merge<br/>Top10 response]
+```
+
+All nodes had a three-vCPU container quota. Veortex placed scan and score work on one designated compute CPU and support stages such as TopK, FP32 reranking, and payload completion on two support CPUs. The stock native search closure, including scoring, TopK, and reranking, ran on its one designated compute CPU; the other two CPUs remained available for support and service work. This is an end-to-end comparison under a matched three-vCPU budget, not a kernel-only comparison. Compiler-flag provenance is not matched between the upstream native binary and V45.
+
+The measurement VM reported an Intel Xeon Silver 4510, 16 guest vCPUs, 47.04 GiB RAM, KVM, and AVX2, AVX-512F, AVX-512 VNNI, AMX tile, and AMX INT8 features. Three Docker nodes shared that VM:
+
+| Node | Three-vCPU cpuset | Compute CPU | Support CPUs |
+|---|---|---:|---|
+| 0 | `4,5,6` | `4` | `5,6` |
+| 1 | `7,8,9` | `7` | `8,9` |
+| 2 | `10,11,12` | `10` | `11,12` |
+
+The client used CPUs `0,1,2,3,13,14,15`. These are guest-reported properties: physical-core isolation and physical cache topology were not established. Memory bandwidth and network capacity were not measured. The [final JSON report](benchmarks/h2h-sq8-batch-20261109.json) preserves row-level runtime observations.
+
+## Results
+
+The completed campaign contains all **80 scheduled rows**; **78 were accepted** by the row validators. The table below reports B1/C1 and B1/C128. Each cell shows **successful HTTP requests per second / full-response p95 milliseconds**. At B1, HTTP RPS and query-vector QPS have the same numeric value.
+
+| Workload | C1 native | C1 V45 | C128 native | C128 V45 |
+|---|---:|---:|---:|---:|
+| No filter, no payload | 20.56 / 50.83 ms | 18.96 / 55.76 ms | 22.17 / 7,585.02 ms | 902.33 / 173.22 ms |
+| No filter, payload | 19.85 / 52.16 ms | 19.08 / 56.43 ms | 20.16 / 9,682.57 ms | 1,008.27 / 171.72 ms |
+| Active-only (~90% eligible), payload | 17.56 / 58.67 ms | 15.85 / 69.28 ms | 18.02 / 9,800.18 ms | 958.59 / 168.55 ms |
+| Active + position + subject exclusion (~9% eligible), payload | 36.50 / 30.41 ms | 24.17 / 47.97 ms | 40.72 / 4,761.38 ms | 2,557.91 / 79.47 ms |
+
+In these B1 rows V45 has lower throughput and higher p95 at C1 in all four categories; at C128 the accepted V45 rows have higher throughput and lower p95 in all four. That pattern is consistent with the ring's intended sharing under concurrency, but this comparison does not isolate that mechanism or establish a universal speedup. The C128 p95 values are under closed-loop load, not isolated-request latency or an SLA; the run does not establish maximum capacity.
+
+The two rejected rows are filtered V45 B64/C4 (rows 75–76), which returned 5,969 and 5,211 HTTP 429 responses. The unfiltered B64/C4 rows on both engines had zero failed requests. Across responses that returned results, the client reported no Top10 ID, score, or payload mismatches, and there were no transport timeouts. The failed rows remain in the complete data. Their runtime logs include `Flat TQ2 circular ring admission capacity exceeded`; a separate diagnostic confirmed query-byte reservation exhaustion on all three nodes. See the [failure diagnosis and bounded-memory remediation](benchmarks/ADMISSION_REMEDIATION.md). For rows with failures, reported latency percentiles include all attempts, including HTTP 429 responses, and are not success-only percentiles.
+
+Read the [English results report](benchmarks/h2h-sq8-batch-20261109.md), [80-row CSV](benchmarks/h2h-sq8-batch-20261109.csv), or [JSON with runtime evidence](benchmarks/h2h-sq8-batch-20261109.json). The CSV and JSON preserve row-level throughput, latency, validation, binary, client, and manifest hashes.
+
+## Measurement method and limits
+
+The same frozen Go client was used across both arms and every batch size: executable SHA-256 `9dab9e7f2292d6b3ccae108335317b2f249cf0e83a7cada02650060c91b9c251`. Engine order alternated by B/C block, and each arm used its own copy-on-write data copy. Each row uses 16 successful validated HTTP warm-up requests, then a 60-second dispatch window and drains in-flight requests. Throughput counts successful fully validated HTTP requests and uses actual elapsed time including drain; full-response latency includes reading and validating the response. On rows with failures, latency percentiles include failed attempts such as HTTP 429, not only successful responses. The 60-second request timeout is a client failure bound, not a latency target. At B1 the 16-request warm-up covers 16 queries; at B64 it covers all 1,024 queries. Warm-up is not a guarantee of exhaustive cache priming; cache state can differ across recorded restarts.
+
+These results support conclusions only about the accepted rows, this synthetic corpus, these filters, SQ8 cap, Top10 contract, CPU placement, builds, and run window. They do not establish maximum RPS, long-duration stability, production capacity, behavior on other hosts, universal recall, or a pure kernel speedup. Historical TQ2/TQ4 measurements are separate; their throughput-parity target against SQ8 was not met in that cohort. The head-to-head matrix is SQ8 only.
 
 ## Reproduce and inspect
 
-- [General benchmark and cluster reproduction guide](reproduce/README.md)
+- [Benchmark protocol and paired run order](reproduce/BATCH_MATRIX_PROTOCOL.md)
+- [Reproduction and deployment guide](reproduce/README.md)
+- [One-arm batch-matrix runner](reproduce/run-batch-matrix.py)
 - [Veortex V45 environment profile](reproduce/README.veortex.md)
-- [Third-party notices and dependency inventory](third_party/THIRD_PARTY_NOTICES.md)
-- [License audit manifest and hashes](third_party/license-audit.json)
-- [colored 3.1.1 MPL-2.0 source availability](third_party/SOURCE-AVAILABILITY.md)
+- [Earlier V45 SQ8/TQ2/TQ4 results](benchmarks/historical-v45-20261102.md)
+- [Separate stock Qdrant 1.20 baseline](benchmarks/native120-20261109.md)
 
-The benchmark helpers in `reproduce/` are separate from the engine binary. They do not build Qdrant. They include workload-generation and validation tools plus an external affinity helper for benchmark setups; they are not part of the Qdrant executable.
+The public generator uses seed `20261109` by default for a distributionally similar synthetic gallery. The original historical fixture seed is unknown, so regeneration does not recreate the old gallery bytes, rankings, or performance results. The original query corpus and manifests are identified by their hashes in the benchmark records.
 
-## License scope
+## Provenance and license scope
 
-[`LICENSE`](LICENSE) contains the Apache License 2.0 text. Qdrant and the external reproduction and benchmark helper source in `reproduce/` are identified as Apache-2.0 components in [`NOTICE`](NOTICE). That license notice does not assign a standalone license to Veortex source or grant rights to engine source code that is not included here. The owner authorized redistribution of this specific Veortex-containing binary. See [`third_party/`](third_party/THIRD_PARTY_NOTICES.md) for component-specific attributions and dependency terms.
+| Component | Source commit | Binary SHA-256 |
+|---|---|---|
+| Stock Qdrant 1.20.0 baseline | `222b2e44ab1c3f17e8246396ead6558e45041df7` | `5081acd073ef29701415dc2d1655d98750be8c08008541febc20cf2935800f2f` |
+| Qdrant–Veortex V45 release | `bc0eec0015771e8c59134b1b83a740418efcff7e` | `9a44f09da70af7921da7b2a6893b98c1ea3d9dcab61986d3504b63f4e3dfa0e8` |
 
-## Search architecture
-
-Qdrant keeps the database API, WAL, segment lifecycle, shard routing, Raft,
-replication and internal gRPC. Eligible flat searches enter a per-shard ring
-that shares gallery reads between queries. Quantized scoring runs on the
-designated scan CPU; TopK/F32 reranking and payload completion use support
-workers. Qdrant then merges shard results into the usual response. The result
-limit is Top10; 1,024 denotes the test-query corpus, not returned candidates.
-
-See [recorded SQ8/TQ2/TQ4 results](benchmarks/historical-v45-20261102.md). These
-measurements cover the documented search paths; the research release does not
-claim that every Qdrant operation or scoring mode uses the ring.
-
-The [official native Qdrant 1.20 baseline](benchmarks/native120-20261109.md) was measured separately on 9 November. It includes C1/C160 latency, success counts, F32 checks and comparison limits.
-
-## Fresh batch comparison
-
-The [matched B1/B4/B16/B32/B64 protocol](reproduce/BATCH_MATRIX_PROTOCOL.md) and [common Go client](reproduce/cmd/bench-matrix/main.go) cover the new stock 1.20.0 versus V45 campaign. Results will be added after measurement and validation. The published engine archive remains unchanged.
+[`LICENSE`](LICENSE) contains Apache-2.0 terms for Qdrant and the external benchmark/reproduction helpers; [`NOTICE`](NOTICE) identifies their component scope. This does not assign a standalone license to Veortex source or grant rights to engine source that is not included. The owner authorized redistribution of this specific Veortex-containing binary. See [third-party notices](third_party/THIRD_PARTY_NOTICES.md), the [license audit manifest](third_party/license-audit.json), and the [colored 3.1.1 MPL-2.0 source availability record](third_party/SOURCE-AVAILABILITY.md) for dependency terms.
