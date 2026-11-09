@@ -1,0 +1,73 @@
+{
+  "schema": "sq8_batch_matrix_retired_observer_attempt_v1",
+  "status": "FAILED_RESTORING",
+  "started_utc": "2026-11-09T08:14:56.205007+00:00",
+  "finished_utc": "2026-11-09T08:28:22.622691+00:00",
+  "private_receipt_sha256": "597f84c54509782f5f54bbf9ca536cca70e997d145a8513717c772f9e9dcf215",
+  "client_sha256": "9dab9e7f2292d6b3ccae108335317b2f249cf0e83a7cada02650060c91b9c251",
+  "observer_sha256": "f3e46df17080225a5c5a63ec105b6863b7fba26e03855e83eac174d83c5cf9fc",
+  "reason": "The observer incorrectly applied support CPU affinity to veortex-flat compute threads and required stable interval CPU ticks for short-lived ring workers. No engine/client change is involved in the observer correction. This attempt is retained and is not the primary paired matrix.",
+  "original_cluster_restored_healthy": true,
+  "rows": [
+    {
+      "engine": "native",
+      "category": "unfiltered_no_payload",
+      "batch_size": 1,
+      "concurrency": 1,
+      "successful_http_rps": 19.136829854445864,
+      "p95_ms": 54.58999,
+      "p99_ms": 57.861737000000005,
+      "failed_requests": 0,
+      "cpu_observer_status": "PASSED",
+      "quality_valid": true
+    },
+    {
+      "engine": "native",
+      "category": "unfiltered_payload",
+      "batch_size": 1,
+      "concurrency": 1,
+      "successful_http_rps": 18.66193844652759,
+      "p95_ms": 55.702111,
+      "p99_ms": 57.10362,
+      "failed_requests": 0,
+      "cpu_observer_status": "PASSED",
+      "quality_valid": true
+    },
+    {
+      "engine": "native",
+      "category": "active_only",
+      "batch_size": 1,
+      "concurrency": 1,
+      "successful_http_rps": 16.450725562921562,
+      "p95_ms": 64.09849,
+      "p99_ms": 65.51396299999999,
+      "failed_requests": 0,
+      "cpu_observer_status": "PASSED",
+      "quality_valid": true
+    },
+    {
+      "engine": "native",
+      "category": "active_position_exclude",
+      "batch_size": 1,
+      "concurrency": 1,
+      "successful_http_rps": 33.259610308852196,
+      "p95_ms": 34.263338999999995,
+      "p99_ms": 37.305034,
+      "failed_requests": 0,
+      "cpu_observer_status": "PASSED",
+      "quality_valid": true
+    },
+    {
+      "engine": "veortex",
+      "category": "unfiltered_no_payload",
+      "batch_size": 1,
+      "concurrency": 1,
+      "successful_http_rps": 18.361633801292935,
+      "p95_ms": 57.590901,
+      "p99_ms": 61.671963000000005,
+      "failed_requests": 0,
+      "cpu_observer_status": "FAIL",
+      "quality_valid": true
+    }
+  ]
+}

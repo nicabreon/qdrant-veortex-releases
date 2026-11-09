@@ -43,6 +43,36 @@ reproduce/bench-matrix \
 
 Run that command once for each category and matrix cell, setting `MANIFEST`, `ROW_OUTPUT`, `B`, and `C` to the planned values. The B1 manifests bind the endpoint and frozen query/truth inputs; use the matching engine-specific manifest for its independent data copy. The matrix client keeps the manifest query string and uses `/points/search/batch` for B greater than 1. Export the local cluster's API key as `QDRANT_API_KEY`; never place credentials in a checked-in manifest or receipt. Keep the query, truth, and gallery identity the same across engine manifests; endpoint or collection identifiers may differ. `--help` is the source of truth for the finalized command interface.
 
+### One-arm runner
+
+`reproduce/run-batch-matrix.py` automates the 40 timed rows for one already-started engine arm. It accepts the short manifest filenames emitted by `workload.py` (`nf_false.json`, `nf_true.json`, `active90_payload.json`, and `narrow9_payload.json`) and the canonical `*-manifest.json` names used by paired-run preparation. It first checks the category filters, payload modes, shared endpoint and ordered queries, then runs the common client's offline validator on every manifest. No timed request starts unless all four offline checks pass.
+
+Build the common client before invoking the wrapper. Preview the row plan and complete offline validation without setting an API key:
+
+```sh
+python3 reproduce/run-batch-matrix.py \
+  --manifest-dir ./reproduce-manifests \
+  --client ./reproduce/bench-matrix \
+  --engine-label native120 \
+  --output ./matrix-output/native120-plan \
+  --plan-only
+```
+
+For timed rows, point the wrapper at the currently healthy engine arm and use a new output directory:
+
+```sh
+export QDRANT_API_KEY='…'
+python3 reproduce/run-batch-matrix.py \
+  --manifest-dir ./reproduce-manifests \
+  --client ./reproduce/bench-matrix \
+  --engine-label native120 \
+  --output ./matrix-output/native120-run
+```
+
+Use `--engine-label veortex-v45` for the other arm. The default run is serial and follows the listed B/C blocks, with all four categories in the protocol order inside each block. `--batch-sizes 1` selects only the six B1 concurrency settings; all four manifests are still preflighted. The optional `--client-cpus` value uses `taskset` on the client process only and does not set server worker affinity. Each invocation requires an output path that does not already exist. It writes `plan.json`, per-manifest offline reports, one report and stdout/stderr pair per timed row, and an incrementally updated `summary.json`; it never retries a row and exits nonzero if any row fails.
+
+This helper runs a single engine arm. It does not start or stop Docker, prepare or switch copy-on-write datasets, run the separate live 4,096-query accuracy preflight, capture node runtime/CPU receipts, or alternate engines. Those lifecycle and paired-order steps remain external to the helper; running the helper for all cells on one engine does not implement the interleaved two-engine campaign schedule below. The `--plan-only` mode and manifest validation make no HTTP calls and do not read `QDRANT_API_KEY`.
+
 Each row is a `qdrant_search_batch_matrix_http_v1` JSON report. Preserve its manifest and client executable hashes, concurrency and batch settings, warm-up and timed request/query totals, `actual_elapsed_s`, dispatch and drain durations, `successful_http_rps`, `query_qps`, full-response latency percentiles, server-time and connection-acquire percentiles, and HTTP/protocol/failure counts. The report's `executable_sha256` identifies the `bench-matrix` client; record the Qdrant server ELF hash separately from the per-row runtime capture. The report reads the API key only from `QDRANT_API_KEY` and records no credential value.
 
 Each cell receives 16 successful, fully validated warm-up HTTP requests before its timed dispatch window; this applies to B1 and every larger batch. Begin the 60-second dispatch window after warm-up, stop dispatch at its deadline, and drain all in-flight requests before closing the row. Include drain time in actual elapsed time. The 60-second request timeout includes response-body reading; it is a client-side failure bound, not a latency target or service-level objective. Record timeouts and every other failed request; never remove failed work from a row or silently rerun it as if the original row passed.
@@ -93,3 +123,9 @@ Keep every scheduled row, including failures, in the final matrix. A complete ca
 ## Interpretation boundary
 
 Only a complete, validated, receipt-backed matrix supports claims about this workload and host. Results describe the fixed gallery, query corpus, categories, Top10 response, candidate cap, CPU allocation, software builds, and run window. They do not establish maximum RPS, single-request latency, long-duration stability, production capacity, or all-host behavior. The different placement of native versus Veortex support work and the unmatched compiler provenance also preclude interpreting an end-to-end difference as a pure kernel effect.
+
+## Observer correction before the primary matrix
+
+The initial R1 attempt stopped after five rows because the external observer classified the dedicated `veortex-flat-*` compute pool as support threads and required stable CPU-tick intervals for short-lived ring threads. The engine and common client did not change. R1 results remain in [the retired-attempt receipt](../benchmarks/h2h-sq8-batch-r1-observer-failure-20261109.json); they are not substituted into the primary matrix.
+
+The corrected observer requires exact compute affinity for both dedicated flat workers and active ring workers. It preserves stable interval CPU-tick totals and separately records positive nanosecond lifetime execution for workers whose verified birth time falls after observation began. Lifetime values are evidence of activity, not an interval-utilization estimate. Process-global quantized search counters still establish positive work on all three shards; actual wrong CPU masks remain failures. The new observer hash is pinned before the primary campaign.
