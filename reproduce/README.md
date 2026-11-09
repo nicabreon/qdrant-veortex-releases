@@ -4,6 +4,8 @@ This directory contains public, external benchmark helpers. The affinity shim in
 
 The official GNU v1.20 binary needs a newer glibc than the host provides. The Compose file uses a pinned Ubuntu 24.04 image (glibc 2.39) and bind-mounts the exact binary supplied by the caller. Set `QDRANT_BINARY_PATH` to that executable in `reproduce/.env`.
 
+The published native results used the official downloaded GNU executable with a verified release-archive digest; Qdrant was not rebuilt by these helpers. Its effective compiler flags were not matched to Veortex. See [build provenance and per-path CPU acceleration](../benchmarks/BUILD_FLAGS_AND_CPU_ACCELERATION.md) before interpreting the comparison.
+
 Build and self-check the small affinity library:
 
 ```sh

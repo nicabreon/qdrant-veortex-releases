@@ -124,6 +124,8 @@ Keep every scheduled row, including failures, in the final matrix. A complete ca
 
 Only a complete, validated, receipt-backed matrix supports claims about this workload and host. Results describe the fixed gallery, query corpus, categories, Top10 response, candidate cap, CPU allocation, software builds, and run window. They do not establish maximum RPS, single-request latency, long-duration stability, production capacity, or all-host behavior. The different placement of native versus Veortex support work and the unmatched compiler provenance also preclude interpreting an end-to-end difference as a pure kernel effect.
 
+The recorded native arm uses the official downloaded GNU executable, not a matched local rebuild. Read the [build flags and CPU acceleration note](../benchmarks/BUILD_FLAGS_AND_CPU_ACCELERATION.md) for embedded toolchain versions, known versus unknown flags, and the distinction between supported and observed ISA paths.
+
 ## Observer correction before the primary matrix
 
 The initial R1 attempt stopped after five rows because the external observer classified the dedicated `veortex-flat-*` compute pool as support threads and required stable CPU-tick intervals for short-lived ring threads. The engine and common client did not change. R1 results remain in [the retired-attempt receipt](../benchmarks/h2h-sq8-batch-r1-observer-failure-20261109.json); they are not substituted into the primary matrix.

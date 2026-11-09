@@ -1,0 +1,735 @@
+{
+  "schema": "published_build_provenance_and_cpu_dispatch_note_v1",
+  "observed_utc": "2026-11-09T13:45:59.692211+00:00",
+  "scope": "Documentation audit of existing artifacts and pinned sources; no rebuild or benchmark rerun",
+  "engines": {
+    "native120": {
+      "tag": "v1.20.0",
+      "source_commit": "222b2e44ab1c3f17e8246396ead6558e45041df7",
+      "release_url": "https://github.com/qdrant/qdrant/releases/tag/v1.20.0",
+      "asset_url": "https://github.com/qdrant/qdrant/releases/download/v1.20.0/qdrant-x86_64-unknown-linux-gnu.tar.gz",
+      "archive_sha256": "2361f3df0dedfef31f5444f9f15bd15d6b4a6cba6ad952daecc5fbe3867c5ee6",
+      "official_digest_match": true,
+      "binary_sha256": "5081acd073ef29701415dc2d1655d98750be8c08008541febc20cf2935800f2f",
+      "version_output": "qdrant 1.20.0",
+      "execution_image": "sha256:6d79abd4c96299aa91f5a4a46551042407568a3858b00ab460f4ba430984f62c",
+      "host_glibc_compatible": false,
+      "compiler_flags_matched_to_veortex": false,
+      "acquisition": "official_release_gnu_archive_download_not_locally_rebuilt",
+      "elf_comment_strings": [
+        "GCC: (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+        "clang version 23.1.0git",
+        "rustc version 1.99.1 (58cf8f9c3 2026-10-13)",
+        "Linker: LLD 23.1.1 (/checkout/src/llvm-project/llvm 1b9c0d5ff9bbe7634aead059efe6b11a7eeba145)"
+      ],
+      "source": {
+        "commit": "222b2e44ab1c3f17e8246396ead6558e45041df7",
+        "tree": "1a1919b5ce1712bdae0e99dbcc42660c1af52865",
+        "release_profile_source_defaults": {
+          "lto": "fat",
+          "codegen-units": 1
+        },
+        "default_cargo_features_source": [],
+        "reviewed_source_file_sha256": {
+          "Cargo.toml": "eca4fec96021092a63af6e1a143959579190348f585b4f2940efa03ac720f7d7",
+          "lib/quantization/build.rs": "adbf3f9e897f883dcff26c44d6a4510539147e0c8c91866609856edc32f1d8e1",
+          "lib/quantization/src/encoded_vectors_u8.rs": "a9605f7b8950e97e7d7d1f961290a9bddbebbff4cef76a78be4425bf4d74763f",
+          "lib/quantization/src/turboquant/simd/mod.rs": "fc02c982697c303b19e5580eeb9a60d40fc6b03a0ecb3874d45e45508eb05aa2",
+          "lib/segment/src/spaces/simple.rs": "af75786a0c05f47a88651b4660bb99d724b343892342ebc5d03038a3f937ed79",
+          "lib/quantization/src/encoded_vectors_pq.rs": "5740d06827804f93ec96f1a532ffd08eb58c3b054169b035f160077ebc179556",
+          "lib/quantization/src/encoded_vectors_binary.rs": "eee176e8f5bbe26ebca00f7d7ef543edc94029b651fb6eeba80c5911e540f36c",
+          "lib/segment/src/spaces/metric_f16/simple_dot.rs": "c5fc76e70552ad65722d66bb81afe7284a258fa2551ea929c22c6fb056aec332",
+          "lib/segment/src/index/hnsw_index/hnsw/build.rs": "baab986183b7c36152ed480c9a27f3d6295a488861ef66c09281c73d6e5790ac"
+        }
+      },
+      "native_receipt_sha256": "6deee6a16d5a5d6eb54d24d767f5987d186eecb247dea700011ff973843f6227",
+      "effective_full_rustc_invocation": null,
+      "effective_rustflags": null,
+      "effective_feature_set": null,
+      "artifact_profile_overrides_verified": false,
+      "elf_comments_scope": "Embedded linked-component identifiers; not a complete build attestation",
+      "official_asset_digest_recheck": {
+        "observed_utc": "2026-11-09T13:47:53.455546+00:00",
+        "api_url": "https://api.github.com/repos/qdrant/qdrant/releases/tags/v1.20.0",
+        "asset": {
+          "browser_download_url": "https://github.com/qdrant/qdrant/releases/download/v1.20.0/qdrant-x86_64-unknown-linux-gnu.tar.gz",
+          "digest": "sha256:2361f3df0dedfef31f5444f9f15bd15d6b4a6cba6ad952daecc5fbe3867c5ee6",
+          "name": "qdrant-x86_64-unknown-linux-gnu.tar.gz",
+          "size": 33618587
+        },
+        "matches_retained_receipt": true
+      }
+    },
+    "veortex_v45": {
+      "binary_sha256": "9a44f09da70af7921da7b2a6893b98c1ea3d9dcab61986d3504b63f4e3dfa0e8",
+      "source": {
+        "commit": "bc0eec0015771e8c59134b1b83a740418efcff7e",
+        "tree": "f3335fe4f9474c3bbc5274785c4bde930fc272be",
+        "release_profile_source_defaults": {
+          "lto": "fat",
+          "codegen-units": 1
+        },
+        "default_cargo_features_source": [],
+        "reviewed_source_file_sha256": {
+          "Cargo.toml": "f60b086d938581cd26c91a06203792b5b9be2cc52aa65ecd080968b49e31ae7d",
+          "lib/quantization/build.rs": "adbf3f9e897f883dcff26c44d6a4510539147e0c8c91866609856edc32f1d8e1",
+          "lib/quantization/src/encoded_vectors_u8.rs": "4220af749efc17ed67f69139099f5f1d995a3597be536a721214a5e9a3ffce59",
+          "lib/quantization/src/turboquant/simd/mod.rs": "a6716d4ba91cea89b06f362cc88219013d1c38e83c0a2272b906cb2d4dd68dd6",
+          "lib/segment/src/spaces/simple.rs": "85a970ea3da008600474f6e670b171f3a934756abfdeb64212e5bb2ce4a3a627",
+          "lib/quantization/src/turboquant/simd/veortex_multi.rs": "33ae2826c8bdf3a0df0b1100ca23c047fb94a05bdd6f57f8a65fef2ed09d9f83",
+          "lib/quantization/src/turboquant/quantization.rs": "507549d4353c7241812d55d2bcae97703edc670805045430e8873cb0b5a845a7",
+          "lib/quantization/src/encoded_vectors_pq.rs": "5740d06827804f93ec96f1a532ffd08eb58c3b054169b035f160077ebc179556",
+          "lib/quantization/src/encoded_vectors_binary.rs": "eee176e8f5bbe26ebca00f7d7ef543edc94029b651fb6eeba80c5911e540f36c",
+          "lib/segment/src/spaces/metric_f16/simple_dot.rs": "f5a5e5ee3ee9ac46177e4de5cfd1c4bf7ac37c6c84cb3b01f4ad8b74fa08be24",
+          "lib/segment/src/index/hnsw_index/hnsw/build.rs": "f16d50135753426584fd09d5e4047c239f9f2edfaaae42c5c68a0d3c75c32952"
+        }
+      },
+      "elf_comment_strings": [
+        "Linker: LLD 22.1.8 (/checkout/src/llvm-project/llvm 52ed14fcd56afc30f9cccd8ca8ce237c2eef7e04)",
+        "GCC: (Ubuntu 12.3.0-1ubuntu1~22.04.3) 12.3.0",
+        "rustc version 1.98.0 (88d9e12ae 2026-08-18)",
+        "clang version 22.1.0-rc2"
+      ],
+      "engine_build_command_argv": [
+        "taskset",
+        "-c",
+        "0,1",
+        "nice",
+        "-n",
+        "10",
+        "rustup",
+        "run",
+        "1.98.0",
+        "cargo",
+        "build",
+        "--bin",
+        "qdrant",
+        "--release",
+        "--locked",
+        "--offline",
+        "-j",
+        "2",
+        "--message-format=json-render-diagnostics"
+      ],
+      "environment_overrides": {
+        "CARGO_BUILD_JOBS": "2",
+        "CARGO_INCREMENTAL": "0",
+        "CARGO_PROFILE_BENCH_DEBUG": "0",
+        "CARGO_PROFILE_CI_DEBUG": "0",
+        "CARGO_PROFILE_DEV_DEBUG": "0",
+        "CARGO_PROFILE_RELEASE_DEBUG": "0",
+        "CARGO_PROFILE_TEST_DEBUG": "0",
+        "GIT_COMMIT_ID": "bc0eec0015771e8c59134b1b83a740418efcff7e"
+      },
+      "build_paths": "Cargo target and TMPDIR were on disk; absolute private paths omitted",
+      "build_receipt_sha256": "491481e9bfc3499127ebab392730dac7b65da5ddb5b88acf15173259f9cd0a2f",
+      "cargo_artifact_log_sha256": "b659f72cf4c6f56b54c30a8162667b1261b24cbb4b3e9bcb2dbfc184f087a350",
+      "qdrant_cargo_artifact_metadata": {
+        "profile": {
+          "opt_level": "3",
+          "debuginfo": 0,
+          "debug_assertions": false,
+          "overflow_checks": false,
+          "test": false
+        },
+        "features": [
+          "default"
+        ]
+      },
+      "global_cpu_target_flag_in_recorded_command": false,
+      "complete_per_dependency_compiler_commands_captured": false
+    },
+    "veortex_v45_1": {
+      "binary_sha256": "90d54aeabbaa17350b94161f6a7926528b13452b0b50296f0bc45fc0e96969e0",
+      "source": {
+        "commit": "a1a2af190e6f03508efa0b9105b88507dec9f7aa",
+        "tree": "528dfc272465ad105f558aaea638e3eaf223ef3a",
+        "release_profile_source_defaults": {
+          "lto": "fat",
+          "codegen-units": 1
+        },
+        "default_cargo_features_source": [],
+        "reviewed_source_file_sha256": {
+          "Cargo.toml": "f60b086d938581cd26c91a06203792b5b9be2cc52aa65ecd080968b49e31ae7d",
+          "lib/quantization/build.rs": "adbf3f9e897f883dcff26c44d6a4510539147e0c8c91866609856edc32f1d8e1",
+          "lib/quantization/src/encoded_vectors_u8.rs": "4220af749efc17ed67f69139099f5f1d995a3597be536a721214a5e9a3ffce59",
+          "lib/quantization/src/turboquant/simd/mod.rs": "a6716d4ba91cea89b06f362cc88219013d1c38e83c0a2272b906cb2d4dd68dd6",
+          "lib/segment/src/spaces/simple.rs": "85a970ea3da008600474f6e670b171f3a934756abfdeb64212e5bb2ce4a3a627",
+          "lib/quantization/src/turboquant/simd/veortex_multi.rs": "33ae2826c8bdf3a0df0b1100ca23c047fb94a05bdd6f57f8a65fef2ed09d9f83",
+          "lib/quantization/src/turboquant/quantization.rs": "507549d4353c7241812d55d2bcae97703edc670805045430e8873cb0b5a845a7",
+          "lib/quantization/src/encoded_vectors_pq.rs": "5740d06827804f93ec96f1a532ffd08eb58c3b054169b035f160077ebc179556",
+          "lib/quantization/src/encoded_vectors_binary.rs": "eee176e8f5bbe26ebca00f7d7ef543edc94029b651fb6eeba80c5911e540f36c",
+          "lib/segment/src/spaces/metric_f16/simple_dot.rs": "f5a5e5ee3ee9ac46177e4de5cfd1c4bf7ac37c6c84cb3b01f4ad8b74fa08be24",
+          "lib/segment/src/index/hnsw_index/hnsw/build.rs": "f16d50135753426584fd09d5e4047c239f9f2edfaaae42c5c68a0d3c75c32952"
+        }
+      },
+      "elf_comment_strings": [
+        "Linker: LLD 22.1.8 (/checkout/src/llvm-project/llvm 52ed14fcd56afc30f9cccd8ca8ce237c2eef7e04)",
+        "GCC: (Ubuntu 12.3.0-1ubuntu1~22.04.3) 12.3.0",
+        "rustc version 1.98.0 (88d9e12ae 2026-08-18)",
+        "clang version 22.1.0-rc2"
+      ],
+      "engine_build_command_argv": [
+        "taskset",
+        "-c",
+        "0,1",
+        "nice",
+        "-n",
+        "10",
+        "rustup",
+        "run",
+        "1.98.0",
+        "cargo",
+        "build",
+        "--bin",
+        "qdrant",
+        "--release",
+        "--locked",
+        "--offline",
+        "-j",
+        "2",
+        "--message-format=json-render-diagnostics"
+      ],
+      "environment_overrides": {
+        "CARGO_BUILD_JOBS": "2",
+        "CARGO_INCREMENTAL": "0",
+        "CARGO_PROFILE_BENCH_DEBUG": "0",
+        "CARGO_PROFILE_CI_DEBUG": "0",
+        "CARGO_PROFILE_DEV_DEBUG": "0",
+        "CARGO_PROFILE_RELEASE_DEBUG": "0",
+        "CARGO_PROFILE_TEST_DEBUG": "0",
+        "GIT_COMMIT_ID": "a1a2af190e6f03508efa0b9105b88507dec9f7aa"
+      },
+      "build_paths": "Cargo target and TMPDIR were on disk; absolute private paths omitted",
+      "build_receipt_sha256": "9721c788d389a55e8dda4fe74532d904d1c71d986db973a609f1142fa4bc4904",
+      "cargo_artifact_log_sha256": "1ad191e15427a3a5b06ad5315c2710f09c4bad7fc506d585784ad3a9da124131",
+      "qdrant_cargo_artifact_metadata": {
+        "profile": {
+          "opt_level": "3",
+          "debuginfo": 0,
+          "debug_assertions": false,
+          "overflow_checks": false,
+          "test": false
+        },
+        "features": [
+          "default"
+        ]
+      },
+      "global_cpu_target_flag_in_recorded_command": false,
+      "complete_per_dependency_compiler_commands_captured": false,
+      "observed_cargo_fingerprint": {
+        "file_sha256": "18a15c3bcad0d839605e472df0835de41290ec280a7b5a742a0f377d4935bac4",
+        "rustflags": [],
+        "features": [
+          "default"
+        ],
+        "scope": "Observed current V45.1 build cache only; not immutable historical V45 fingerprint evidence"
+      }
+    }
+  },
+  "shared_x86_c_helper_source_recipe": {
+    "flags": [
+      "-march=haswell",
+      "-O3",
+      "-mpopcnt"
+    ],
+    "sources": [
+      "lib/quantization/cpp/sse.c",
+      "lib/quantization/cpp/avx2.c"
+    ],
+    "scope": "C translation units only; native source recipe, not recovered official effective C compiler invocation"
+  },
+  "shared_native_toolchain_matched": false,
+  "native_effective_flags_fully_recovered": false,
+  "native_exact_isa_per_timed_row_profiled": false,
+  "cpu_memory_bandwidth_measured_in_this_matrix": false,
+  "primary_matrix_sha256": "a4eab61cd4abb421a32550b2c9843b813d279386e29cfc2c8338e3cdfbc69f4c",
+  "veortex_amx_counter_observations": [
+    {
+      "ordinal": 5,
+      "batch_size": 1,
+      "concurrency": 1,
+      "category": "unfiltered_no_payload",
+      "amx_call_deltas_by_node": [
+        0,
+        0,
+        0
+      ],
+      "measurement_accepted": true
+    },
+    {
+      "ordinal": 6,
+      "batch_size": 1,
+      "concurrency": 1,
+      "category": "unfiltered_payload",
+      "amx_call_deltas_by_node": [
+        0,
+        0,
+        0
+      ],
+      "measurement_accepted": true
+    },
+    {
+      "ordinal": 7,
+      "batch_size": 1,
+      "concurrency": 1,
+      "category": "active_only",
+      "amx_call_deltas_by_node": [
+        0,
+        0,
+        0
+      ],
+      "measurement_accepted": true
+    },
+    {
+      "ordinal": 8,
+      "batch_size": 1,
+      "concurrency": 1,
+      "category": "active_position_exclude",
+      "amx_call_deltas_by_node": [
+        0,
+        0,
+        0
+      ],
+      "measurement_accepted": true
+    },
+    {
+      "ordinal": 9,
+      "batch_size": 1,
+      "concurrency": 4,
+      "category": "unfiltered_no_payload",
+      "amx_call_deltas_by_node": [
+        1100021,
+        1102671,
+        1102584
+      ],
+      "measurement_accepted": true
+    },
+    {
+      "ordinal": 10,
+      "batch_size": 1,
+      "concurrency": 4,
+      "category": "unfiltered_payload",
+      "amx_call_deltas_by_node": [
+        1115475,
+        1117097,
+        1117999
+      ],
+      "measurement_accepted": true
+    },
+    {
+      "ordinal": 11,
+      "batch_size": 1,
+      "concurrency": 4,
+      "category": "active_only",
+      "amx_call_deltas_by_node": [
+        1012890,
+        1016800,
+        1016947
+      ],
+      "measurement_accepted": true
+    },
+    {
+      "ordinal": 12,
+      "batch_size": 1,
+      "concurrency": 4,
+      "category": "active_position_exclude",
+      "amx_call_deltas_by_node": [
+        2102467,
+        2103348,
+        2102658
+      ],
+      "measurement_accepted": true
+    },
+    {
+      "ordinal": 21,
+      "batch_size": 1,
+      "concurrency": 32,
+      "category": "unfiltered_no_payload",
+      "amx_call_deltas_by_node": [
+        992129,
+        1017155,
+        1105006
+      ],
+      "measurement_accepted": true
+    },
+    {
+      "ordinal": 22,
+      "batch_size": 1,
+      "concurrency": 32,
+      "category": "unfiltered_payload",
+      "amx_call_deltas_by_node": [
+        891392,
+        906492,
+        1001082
+      ],
+      "measurement_accepted": true
+    },
+    {
+      "ordinal": 23,
+      "batch_size": 1,
+      "concurrency": 32,
+      "category": "active_only",
+      "amx_call_deltas_by_node": [
+        963140,
+        984176,
+        1083940
+      ],
+      "measurement_accepted": true
+    },
+    {
+      "ordinal": 24,
+      "batch_size": 1,
+      "concurrency": 32,
+      "category": "active_position_exclude",
+      "amx_call_deltas_by_node": [
+        2753441,
+        2780284,
+        2914148
+      ],
+      "measurement_accepted": true
+    },
+    {
+      "ordinal": 25,
+      "batch_size": 1,
+      "concurrency": 64,
+      "category": "unfiltered_no_payload",
+      "amx_call_deltas_by_node": [
+        754459,
+        793388,
+        948361
+      ],
+      "measurement_accepted": true
+    },
+    {
+      "ordinal": 26,
+      "batch_size": 1,
+      "concurrency": 64,
+      "category": "unfiltered_payload",
+      "amx_call_deltas_by_node": [
+        725414,
+        768358,
+        903116
+      ],
+      "measurement_accepted": true
+    },
+    {
+      "ordinal": 27,
+      "batch_size": 1,
+      "concurrency": 64,
+      "category": "active_only",
+      "amx_call_deltas_by_node": [
+        712581,
+        749415,
+        886894
+      ],
+      "measurement_accepted": true
+    },
+    {
+      "ordinal": 28,
+      "batch_size": 1,
+      "concurrency": 64,
+      "category": "active_position_exclude",
+      "amx_call_deltas_by_node": [
+        3196973,
+        3423223,
+        3569479
+      ],
+      "measurement_accepted": true
+    },
+    {
+      "ordinal": 37,
+      "batch_size": 1,
+      "concurrency": 128,
+      "category": "unfiltered_no_payload",
+      "amx_call_deltas_by_node": [
+        552982,
+        758836,
+        676380
+      ],
+      "measurement_accepted": true
+    },
+    {
+      "ordinal": 38,
+      "batch_size": 1,
+      "concurrency": 128,
+      "category": "unfiltered_payload",
+      "amx_call_deltas_by_node": [
+        624254,
+        689165,
+        682082
+      ],
+      "measurement_accepted": true
+    },
+    {
+      "ordinal": 39,
+      "batch_size": 1,
+      "concurrency": 128,
+      "category": "active_only",
+      "amx_call_deltas_by_node": [
+        594360,
+        677164,
+        610941
+      ],
+      "measurement_accepted": true
+    },
+    {
+      "ordinal": 40,
+      "batch_size": 1,
+      "concurrency": 128,
+      "category": "active_position_exclude",
+      "amx_call_deltas_by_node": [
+        3320157,
+        3849682,
+        3094120
+      ],
+      "measurement_accepted": true
+    },
+    {
+      "ordinal": 41,
+      "batch_size": 1,
+      "concurrency": 160,
+      "category": "unfiltered_no_payload",
+      "amx_call_deltas_by_node": [
+        544381,
+        741307,
+        637214
+      ],
+      "measurement_accepted": true
+    },
+    {
+      "ordinal": 42,
+      "batch_size": 1,
+      "concurrency": 160,
+      "category": "unfiltered_payload",
+      "amx_call_deltas_by_node": [
+        567104,
+        765214,
+        676320
+      ],
+      "measurement_accepted": true
+    },
+    {
+      "ordinal": 43,
+      "batch_size": 1,
+      "concurrency": 160,
+      "category": "active_only",
+      "amx_call_deltas_by_node": [
+        540281,
+        684338,
+        615333
+      ],
+      "measurement_accepted": true
+    },
+    {
+      "ordinal": 44,
+      "batch_size": 1,
+      "concurrency": 160,
+      "category": "active_position_exclude",
+      "amx_call_deltas_by_node": [
+        3199561,
+        3458486,
+        3005931
+      ],
+      "measurement_accepted": true
+    },
+    {
+      "ordinal": 53,
+      "batch_size": 4,
+      "concurrency": 4,
+      "category": "unfiltered_no_payload",
+      "amx_call_deltas_by_node": [
+        1158582,
+        1124341,
+        1175088
+      ],
+      "measurement_accepted": true
+    },
+    {
+      "ordinal": 54,
+      "batch_size": 4,
+      "concurrency": 4,
+      "category": "unfiltered_payload",
+      "amx_call_deltas_by_node": [
+        1082467,
+        1049029,
+        1048960
+      ],
+      "measurement_accepted": true
+    },
+    {
+      "ordinal": 55,
+      "batch_size": 4,
+      "concurrency": 4,
+      "category": "active_only",
+      "amx_call_deltas_by_node": [
+        902964,
+        885957,
+        889858
+      ],
+      "measurement_accepted": true
+    },
+    {
+      "ordinal": 56,
+      "batch_size": 4,
+      "concurrency": 4,
+      "category": "active_position_exclude",
+      "amx_call_deltas_by_node": [
+        1887414,
+        1895264,
+        1878279
+      ],
+      "measurement_accepted": true
+    },
+    {
+      "ordinal": 57,
+      "batch_size": 16,
+      "concurrency": 4,
+      "category": "unfiltered_no_payload",
+      "amx_call_deltas_by_node": [
+        832520,
+        861962,
+        790841
+      ],
+      "measurement_accepted": true
+    },
+    {
+      "ordinal": 58,
+      "batch_size": 16,
+      "concurrency": 4,
+      "category": "unfiltered_payload",
+      "amx_call_deltas_by_node": [
+        775489,
+        812746,
+        745361
+      ],
+      "measurement_accepted": true
+    },
+    {
+      "ordinal": 59,
+      "batch_size": 16,
+      "concurrency": 4,
+      "category": "active_only",
+      "amx_call_deltas_by_node": [
+        679268,
+        713635,
+        678528
+      ],
+      "measurement_accepted": true
+    },
+    {
+      "ordinal": 60,
+      "batch_size": 16,
+      "concurrency": 4,
+      "category": "active_position_exclude",
+      "amx_call_deltas_by_node": [
+        1533648,
+        1524432,
+        1524981
+      ],
+      "measurement_accepted": true
+    },
+    {
+      "ordinal": 69,
+      "batch_size": 32,
+      "concurrency": 4,
+      "category": "unfiltered_no_payload",
+      "amx_call_deltas_by_node": [
+        675822,
+        700957,
+        641961
+      ],
+      "measurement_accepted": true
+    },
+    {
+      "ordinal": 70,
+      "batch_size": 32,
+      "concurrency": 4,
+      "category": "unfiltered_payload",
+      "amx_call_deltas_by_node": [
+        599197,
+        675614,
+        610228
+      ],
+      "measurement_accepted": true
+    },
+    {
+      "ordinal": 71,
+      "batch_size": 32,
+      "concurrency": 4,
+      "category": "active_only",
+      "amx_call_deltas_by_node": [
+        615697,
+        667270,
+        629416
+      ],
+      "measurement_accepted": true
+    },
+    {
+      "ordinal": 72,
+      "batch_size": 32,
+      "concurrency": 4,
+      "category": "active_position_exclude",
+      "amx_call_deltas_by_node": [
+        2318404,
+        2636372,
+        2493504
+      ],
+      "measurement_accepted": true
+    },
+    {
+      "ordinal": 73,
+      "batch_size": 64,
+      "concurrency": 4,
+      "category": "unfiltered_no_payload",
+      "amx_call_deltas_by_node": [
+        649795,
+        691939,
+        647318
+      ],
+      "measurement_accepted": true
+    },
+    {
+      "ordinal": 74,
+      "batch_size": 64,
+      "concurrency": 4,
+      "category": "unfiltered_payload",
+      "amx_call_deltas_by_node": [
+        593183,
+        660179,
+        648580
+      ],
+      "measurement_accepted": true
+    },
+    {
+      "ordinal": 75,
+      "batch_size": 64,
+      "concurrency": 4,
+      "category": "active_only",
+      "amx_call_deltas_by_node": [
+        562687,
+        607706,
+        627140
+      ],
+      "measurement_accepted": false
+    },
+    {
+      "ordinal": 76,
+      "batch_size": 64,
+      "concurrency": 4,
+      "category": "active_position_exclude",
+      "amx_call_deltas_by_node": [
+        2674272,
+        3000839,
+        3122564
+      ],
+      "measurement_accepted": false
+    }
+  ],
+  "amx_counter_scope": "Process-global engine counters bracketing each timed row; not an independent instruction-level profiler",
+  "causal_limits": [
+    "Native and Veortex compiler versions differ; official effective native build flags are incomplete",
+    "Native full search closure including TopK/rerank used compute CPU; Veortex moved support stages to two support CPUs",
+    "Source support is not proof every ISA executed; no controlled kernel ablation or matched-toolchain comparison performed"
+  ]
+}

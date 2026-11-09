@@ -22,6 +22,16 @@ Release provenance: Qdrant source commit `bc0eec0015771e8c59134b1b83a740418efcff
 
 See [manual deployment](DEPLOYMENT.md) for host checks, CA trust, configuration, TLS, API access, backups, and the reference CPU profile. The public repository contains reproduction helpers and notices, but does not include Qdrant or Veortex engine source.
 
+## Which builds and accelerators are compared?
+
+**The native baseline is the official downloaded Qdrant 1.20.0 GNU executable, not a locally rebuilt upstream binary.** Its release-archive digest was verified against the official asset. Veortex V45 and V45.1 were built locally from pinned source. Embedded ELF metadata identifies Rust **1.99.1 / LLD 23.1.1** for native and Rust **1.98.0 / LLD 22.1.8** for Veortex. The complete effective compiler flags of the official executable have not been recovered or matched.
+
+Both source trees specify release **fat LTO** and **one codegen unit**. Our build used `cargo build --release --locked --offline -j 2`, optimization level 3, and no debug information. Those settings do not establish build equivalence: compiler versions differ, and upstream's effective environment overrides remain unknown.
+
+Native Qdrant already has SIMD, including **AVX-512 VNNI and AVX-VNNI for SQ8**, and separate SIMD paths for TurboQuant. Veortex adds **AMX INT8 and a shared-read multi-query ring for eligible SQ8/TQ2/TQ4 flat searches**, with SIMD fallbacks. Turbo8/Turbo16 retain their upstream paths in these releases; they are not covered by that ring. Supported ISA is not the same as the ISA executed on every request.
+
+See [build flags, their meaning, and the per-path CPU acceleration comparison](benchmarks/BUILD_FLAGS_AND_CPU_ACCELERATION.md), with [machine-readable provenance](benchmarks/build-provenance-20261109.json). This is an end-to-end binary comparison with disclosed build and stage-placement differences, not a controlled attribution of the measured gain to one optimization.
+
 ## What the test measures
 
 The fresh comparison runs stock Qdrant 1.20.0 and the frozen Veortex V45 binary on a synthetic flat-search workload:
@@ -103,6 +113,7 @@ These results support conclusions only about the accepted rows, this synthetic c
 - [Reproduction and deployment guide](reproduce/README.md)
 - [One-arm batch-matrix runner](reproduce/run-batch-matrix.py)
 - [Veortex V45 environment profile](reproduce/README.veortex.md)
+- [Build provenance and CPU acceleration](benchmarks/BUILD_FLAGS_AND_CPU_ACCELERATION.md)
 - [Earlier V45 SQ8/TQ2/TQ4 results](benchmarks/historical-v45-20261102.md)
 - [Separate stock Qdrant 1.20 baseline](benchmarks/native120-20261109.md)
 
