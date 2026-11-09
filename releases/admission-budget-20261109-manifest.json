@@ -1,0 +1,107 @@
+{
+  "schema": "qdrant_veortex_binary_release_v1",
+  "release_tag": "v1.20.0-veortex.v45.1.20261109",
+  "status": "research_prerelease",
+  "qdrant_version": "1.20.0",
+  "source_commit": "a1a2af190e6f03508efa0b9105b88507dec9f7aa",
+  "source_tree": "528dfc272465ad105f558aaea638e3eaf223ef3a",
+  "binary_filename": "bin/qdrant",
+  "binary_sha256": "90d54aeabbaa17350b94161f6a7926528b13452b0b50296f0bc45fc0e96969e0",
+  "binary_size_bytes": 97215584,
+  "version_output": "qdrant 1.20.0",
+  "gnu_build_id": "1c879a4f1e0d8fd7963e5abcad4bdd24cc3375d8",
+  "platform": "x86_64-unknown-linux-gnu",
+  "max_required_glibc_symbol_version": "2.34",
+  "runtime_libraries": [
+    "libgcc_s.so.1",
+    "libm.so.6",
+    "libc.so.6",
+    "/lib64/ld-linux-x86-64.so.2"
+  ],
+  "rustc": "rustc 1.98.0 (88d9e12ae 2026-08-18)",
+  "build_command": [
+    "cargo",
+    "build",
+    "--bin",
+    "qdrant",
+    "--release",
+    "--locked",
+    "--offline",
+    "-j",
+    "2"
+  ],
+  "build_receipt_status": "BUILT_AND_FOCUSED_TESTS_PASSED",
+  "recorded_build_receipt_sha256": "9721c788d389a55e8dda4fe74532d904d1c71d986db973a609f1142fa4bc4904",
+  "source_clean_before_and_after_build": true,
+  "binary_recompiled_or_stripped_for_release": false,
+  "queue_byte_budget": {
+    "environment_variable": "QDRANT_VEORTEX_MAX_QUEUED_QUERY_BYTES",
+    "default_bytes": 402653184,
+    "maximum_configured_bytes": 2147483648,
+    "b64_c4_test_profile_bytes": 671088640
+  },
+  "focused_tests": {
+    "status": "passed",
+    "scope": "Selected focused tests passed; this is not the full collection test suite.",
+    "tests": [
+      "shards::local_shard::search::tests::queued_query_bytes_budget_parser_is_bounded_and_keeps_the_default",
+      "shards::local_shard::search::tests::b64_c4_query_byte_estimates_fit_opt_in_budget",
+      "shards::local_shard::search::tests::circular_ring_admission_reasons_are_specific_and_roll_back_partial_reservations"
+    ]
+  },
+  "performance_evidence": "benchmarks/h2h-sq8-admission-remediation-20261109.json",
+  "performance_evidence_status": "passed_recorded_B64_C4_scope",
+  "performance_summary": {
+    "scope": "Four B64/C4 request categories on the admission-budget candidate.",
+    "scheduled_rows": 4,
+    "accepted_rows": 4,
+    "http_failures": 0,
+    "http_429_responses": 0,
+    "transport_timeouts": 0,
+    "correctness_mismatches": 0,
+    "ordered_f32_results": true,
+    "initial_accuracy_checks_passed": 4096,
+    "timed_query_truth_matches": 346368,
+    "effective_queue_byte_cap": 671088640,
+    "all_admission_rejection_counters_zero_on_all_three_nodes": true,
+    "rows": [
+      {
+        "case": "unfiltered_no_payload",
+        "query_qps": 997.604,
+        "full_response_p95_ms": 307.456,
+        "full_response_p99_ms": 320.492
+      },
+      {
+        "case": "unfiltered_payload",
+        "query_qps": 894.437,
+        "full_response_p95_ms": 342.979,
+        "full_response_p99_ms": 354.044
+      },
+      {
+        "case": "active_only_payload",
+        "query_qps": 971.729,
+        "full_response_p95_ms": 317.625,
+        "full_response_p99_ms": 330.216
+      },
+      {
+        "case": "active_and_position_subject_exclusion_payload",
+        "query_qps": 2895.737,
+        "full_response_p95_ms": 110.045,
+        "full_response_p99_ms": 121.888
+      }
+    ]
+  },
+  "runtime_config": "configs/admission-budget-node0.env.example",
+  "license_inventory": "third_party/license-audit.json",
+  "limits": [
+    "The recorded performance evidence covers four B64/C4 request categories only; it does not establish maximum capacity, long-duration stability, or universal recall.",
+    "B1 was not remeasured with this admission-budget candidate, so these results do not update the earlier B1 comparison.",
+    "Focused tests cover queue-byte parsing, estimated memory bounds for the B64/C4 workload profile, and admission rollback behavior; they are not the full collection test suite.",
+    "Fast paths have eligibility gates; Qdrant fallback routes may use different kernels.",
+    "Native official 1.20 and this binary do not have matched compiler-flag provenance.",
+    "CPU feature compatibility must be checked on the target host; measured host exposes AVX512 VNNI and AMX INT8 under KVM.",
+    "The engine source is not included in this binary distribution repository. External benchmark helper source and required third-party covered source are included."
+  ],
+  "manual_runtime_config": "configs/admission-budget-node0.env.example",
+  "native120_baseline": "benchmarks/native120-20261109.json"
+}

@@ -1,6 +1,14 @@
 # Manual deployment
 
-This guide installs the frozen Qdrant 1.20.0–Veortex V45 research executable on Linux x86_64. It describes a single-node launch; configure clustering separately using the Qdrant 1.20 documentation. The archive is distributed from the [V45 GitHub Release](https://github.com/nicabreon/qdrant-veortex-releases/releases/tag/v1.20.0-veortex.v45.20261109) and contains `bin/qdrant` plus release notices.
+This guide installs the Qdrant 1.20.0–Veortex research executable on Linux x86_64. It describes a single-node launch; configure clustering separately using the Qdrant 1.20 documentation. Both release archives contain `bin/qdrant` plus notices.
+
+| Build | Download | Executable SHA-256 | Engine environment |
+|---|---|---|---|
+| V45.1 admission-budget patch | [Release](https://github.com/nicabreon/qdrant-veortex-releases/releases/tag/v1.20.0-veortex.v45.1.20261109) | `90d54aeabbaa17350b94161f6a7926528b13452b0b50296f0bc45fc0e96969e0` | [640 MiB profile](configs/admission-budget-node0.env.example) |
+| Original frozen V45 | [Release](https://github.com/nicabreon/qdrant-veortex-releases/releases/tag/v1.20.0-veortex.v45.20261109) | `9a44f09da70af7921da7b2a6893b98c1ea3d9dcab61986d3504b63f4e3dfa0e8` | [Original profile](configs/veortex-v45-node0.env.example) |
+
+The patch expands the configurable query-reservation ceiling to 2 GiB; the unset default remains 384 MiB. The B64/C4 remediation sets `QDRANT_VEORTEX_MAX_QUEUED_QUERY_BYTES=671088640` (640 MiB). Original V45 rejects values above 512 MiB, so use the matching binary and profile. The cap is a bounded reservation across queued and active work in one server process, not preallocated memory. Apply it before startup and restart the process after changing it. See the [measured scope and results](benchmarks/h2h-sq8-admission-remediation-20261109.md).
+
 
 ## Check the host and artifact
 
@@ -14,14 +22,14 @@ getconf GNU_LIBC_VERSION
 Download the `.tar.gz` asset from the release page, then extract it under `/opt/qdrant-veortex`. Substitute the actual downloaded asset path below:
 
 ```sh
-RELEASE_ARCHIVE=/path/to/downloaded-v45-release.tar.gz
+RELEASE_ARCHIVE=/path/to/downloaded-release.tar.gz
 sudo install -d -m 0755 /opt/qdrant-veortex
 sudo tar -xzf "$RELEASE_ARCHIVE" -C /opt/qdrant-veortex
 sha256sum /opt/qdrant-veortex/bin/qdrant
 /opt/qdrant-veortex/bin/qdrant --version
 ```
 
-The executable SHA-256 must be `9a44f09da70af7921da7b2a6893b98c1ea3d9dcab61986d3504b63f4e3dfa0e8`; the version output should identify Qdrant 1.20.0. The release manifest records the source commit, source tree, build ID, and binary digest. Do not launch the executable unless the digest matches.
+The executable SHA-256 must match the chosen build in the table above; the version output should identify Qdrant 1.20.0. Check the `release-manifest.json` inside that archive for its source commit, source tree, build ID, and binary digest. Do not launch the executable unless the digest matches.
 
 The runtime also needs a readable operating-system CA trust store. Install the distribution's `ca-certificates` package on a host. Minimal container images may not include it; mount a CA bundle into the container and point `SSL_CERT_FILE` at that bundle. These system trust roots are separate from the Qdrant API and peer TLS certificates configured for the deployment.
 
@@ -70,9 +78,9 @@ For a reproducible local cluster configuration, follow [the frozen V45 environme
 
 ## Set the engine environment without Docker
 
-Copy [the node0 engine environment](configs/veortex-v45-node0.env.example)
+Copy [the V45.1 node0 engine environment](configs/admission-budget-node0.env.example)
 to an administrator-owned local file, for example
-`/etc/qdrant-veortex/engine.env`. It contains all 24 measured V45 values,
+`/etc/qdrant-veortex/engine.env`. It contains all original measured V45 values plus the 640 MiB cap,
 including the support pipeline and bounded caches; copying only the eight
 variables below does not reproduce that complete profile. Change compute and
 support CPU IDs for each node. Set the environment before starting the process;
@@ -100,7 +108,7 @@ support pair before its own CPU initialization.
 | `QDRANT_VEORTEX_SUPPORT_CPUS=5,6` | Two distinct CPUs for the support pipeline and service work, outside the scan CPU. |
 | `QDRANT_VEORTEX_MAX_RING_WORKERS=1` | Maximum ring workers per local shard; one shard/node was measured. More workers share or require explicit compute CPUs. |
 | `QDRANT_VEORTEX_SINGLETON_ADMISSION_PERMITS=160` | Per-shard limit on admitted singleton requests; a permit lasts for the request lifecycle. This is not a batch size or a ring lane count. |
-| `QDRANT_VEORTEX_SINGLETON_ADMISSION_WAIT_MS=90` | Maximum wait for an admission permit before refusal/backpressure. It does not add 90 ms to every request or cap total latency. |
+| `QDRANT_VEORTEX_SINGLETON_ADMISSION_WAIT_MS=90` | Maximum admission-permit wait for public B1 requests. Explicit B64 children do not use this gate. It does not cap total latency. |
 | `QDRANT_VEORTEX_COALESCE_WINDOW_US=1000` | Up to 1 ms to combine compatible incoming queries; distinct from the admission queue wait. |
 | `QDRANT__STORAGE__PERFORMANCE__MAX_SEARCH_THREADS=1` | Qdrant search-pool configuration, separate from the ring worker count; it does not limit every thread in the server. |
 | `RAYON_NUM_THREADS=2` | Rayon pool parallelism; it does not mean two scan CPUs or two total process threads. |

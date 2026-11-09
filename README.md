@@ -1,10 +1,14 @@
-# Qdrant 1.20.0 with Veortex V45: a reproducible search study
+# Qdrant 1.20.0 with Veortex: a reproducible flat-search study
 
-This repository publishes a **binary-only research build** of Qdrant 1.20.0 with Veortex flat-search kernels integrated into the Qdrant process. It is a study of how flat quantized search behaves when several queries share gallery reads under a fixed CPU budget. It does not claim that every query is faster or that a single isolated query has lower latency.
+This repository publishes **binary-only research builds** of Qdrant 1.20.0 with Veortex flat-search kernels integrated into the Qdrant process. It is a study of how flat quantized search behaves when several queries share gallery reads under a fixed CPU budget. It does not claim that every query is faster or that a single isolated query has lower latency.
 
 Qdrant remains the database and cluster manager: its API, WAL, shard routing, Raft, replication, and internal gRPC remain in use. Veortex is an in-process path for eligible flat quantized searches. There is no Veortex sidecar or separate Veortex cluster.
 
 ## Download the research binary
+
+The [V45.1 admission-budget release](https://github.com/nicabreon/qdrant-veortex-releases/releases/tag/v1.20.0-veortex.v45.1.20261109) adds an opt-in queue-byte ceiling of **2 GiB**, with the default still **384 MiB**. Its tested B64/C4 profile uses **640 MiB** and completed all four categories without HTTP 429s. It requires the [new environment example](configs/admission-budget-node0.env.example). Its executable SHA-256 is `90d54aeabbaa17350b94161f6a7926528b13452b0b50296f0bc45fc0e96969e0`; see the [manifest](releases/admission-budget-20261109-manifest.json).
+
+The original frozen V45 binary remains available for reproducing the primary 80-row campaign:
 
 Download the Linux x86_64 release archive from the [V45 release page](https://github.com/nicabreon/qdrant-veortex-releases/releases/tag/v1.20.0-veortex.v45.20261109). The executable requires glibc 2.34 or later. Verify the executable after extracting it:
 
@@ -73,6 +77,19 @@ In these B1 rows V45 has lower throughput and higher p95 at C1 in all four categ
 The two rejected rows are filtered V45 B64/C4 (rows 75–76), which returned 5,969 and 5,211 HTTP 429 responses. The unfiltered B64/C4 rows on both engines had zero failed requests. Across responses that returned results, the client reported no Top10 ID, score, or payload mismatches, and there were no transport timeouts. The failed rows remain in the complete data. Their runtime logs include `Flat TQ2 circular ring admission capacity exceeded`; a separate diagnostic confirmed query-byte reservation exhaustion on all three nodes. See the [failure diagnosis and bounded-memory remediation](benchmarks/ADMISSION_REMEDIATION.md). For rows with failures, reported latency percentiles include all attempts, including HTTP 429 responses, and are not success-only percentiles.
 
 Read the [English results report](benchmarks/h2h-sq8-batch-20261109.md), [80-row CSV](benchmarks/h2h-sq8-batch-20261109.csv), or [JSON with runtime evidence](benchmarks/h2h-sq8-batch-20261109.json). The CSV and JSON preserve row-level throughput, latency, validation, binary, client, and manifest hashes.
+
+## B64/C4 admission remediation
+
+The V45.1 follow-up changes the configurable reservation ceiling and tests a 640 MiB profile. **5,412/5,412 HTTP batches succeeded**, covering **346,368/346,368 timed queries with ordered Top10 IDs matching FP32**, with zero admission rejections on all three nodes. The original 384 MiB profile and failed rows remain in the primary raw evidence.
+
+| Workload | HTTP RPS | Query/s | Full-batch p95 / p99 ms |
+|---|---:|---:|---:|
+| No filter, no payload | 15.59 | 997.60 | 307.46 / 320.49 |
+| No filter, payload | 13.98 | 894.44 | 342.98 / 354.04 |
+| Active-only (~90% eligible), payload | 15.18 | 971.73 | 317.63 / 330.22 |
+| Active + position + exclusion (~9% eligible), payload | 45.25 | 2,895.74 | 110.04 / 121.89 |
+
+These are **B64/C4**, so query/s is not HTTP requests/s. The source is `a1a2af190`, and the scan algorithm is unchanged. B1 was not remeasured for this follow-up. The unfiltered observations are about 3–5% below the earlier B64/C4 values, so these finite runs do not establish a no-regression or maximum-capacity claim. Read the [follow-up results and reused native baseline](benchmarks/h2h-sq8-admission-remediation-20261109.md) and [failure diagnosis](benchmarks/ADMISSION_REMEDIATION.md).
 
 ## Measurement method and limits
 

@@ -21,15 +21,20 @@ def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--binary', type=Path, required=True)
     p.add_argument('--out', type=Path, default=Path('release-assets'))
+    p.add_argument('--manifest', type=Path, help='Explicit reviewed manifest; default is release-manifest.json')
+    p.add_argument('--archive-name', default='qdrant-veortex-v45-1.20.0-linux-x86_64.tar.gz')
     a = p.parse_args()
     root = Path(__file__).resolve().parents[1]
-    manifest = json.loads((root/'release-manifest.json').read_text())
+    manifest_path = a.manifest or root/'release-manifest.json'
+    manifest = json.loads(manifest_path.read_text())
+    if Path(a.archive_name).name != a.archive_name or not a.archive_name.endswith('.tar.gz'):
+        raise SystemExit('Archive name must be a plain .tar.gz filename')
     if digest(a.binary) != manifest['binary_sha256']:
         raise SystemExit('Binary SHA differs from frozen release manifest')
     a.out.mkdir(parents=True, exist_ok=True)
     if shutil.disk_usage(a.out).free < 10 * 1024**3 + 256 * 1024**2:
         raise SystemExit('Packaging would violate the 10 GiB disk reserve')
-    asset = a.out/'qdrant-veortex-v45-1.20.0-linux-x86_64.tar.gz'
+    asset = a.out/a.archive_name
     if asset.exists():
         raise SystemExit('Refusing to overwrite an existing release archive')
     # Package only reviewed, committed public files. Local secrets, data, compiled
@@ -44,7 +49,10 @@ def main():
             path = root/name
             if not path.is_file() or path.is_symlink():
                 raise SystemExit('Only tracked regular files may enter the release archive')
-            archive.add(path, arcname=name, recursive=False)
+            if name == 'release-manifest.json':
+                archive.add(manifest_path, arcname=name, recursive=False)
+            else:
+                archive.add(path, arcname=name, recursive=False)
     with tarfile.open(asset, 'r:gz') as archive:
         stream = archive.extractfile('bin/qdrant')
         value = hashlib.sha256()
@@ -52,7 +60,7 @@ def main():
             value.update(chunk)
         if value.hexdigest() != manifest['binary_sha256']:
             raise SystemExit('Packaged binary verification failed')
-    shutil.copyfile(root/'release-manifest.json', a.out/'release-manifest.json')
+    shutil.copyfile(manifest_path, a.out/'release-manifest.json')
     assets = [asset, a.out/'release-manifest.json']
     (a.out/'SHA256SUMS').write_text(''.join(f'{digest(path)}  {path.name}\n' for path in assets))
     print(json.dumps({'assets': [str(path) for path in assets], 'unchanged_binary_sha256': manifest['binary_sha256']}))

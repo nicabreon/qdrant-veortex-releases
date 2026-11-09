@@ -321,7 +321,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--client", default="./reproduce/bench-matrix", help="already-built shared bench-matrix executable")
     parser.add_argument("--client-source", default=str(SCRIPT_DIR / "cmd/bench-matrix/main.go"), help="Go source file whose hash will be recorded")
     parser.add_argument("--output", required=True, help="new, nonexistent output directory")
-    parser.add_argument("--engine-label", required=True, choices=("native120", "veortex-v45"), help="label for this one already-running engine arm")
+    parser.add_argument("--engine-label", required=True, choices=("native120", "veortex-v45", "veortex-v45.1"), help="label for this one already-running engine arm")
     parser.add_argument("--seconds", type=float, default=60, help="timed dispatch window per row (default: 60)")
     parser.add_argument("--warmup-requests", type=int, default=16, help="fully validated warm-up HTTP requests per row")
     parser.add_argument("--timeout", type=parse_timeout, default="60s", help="per-request timeout, including response body read")

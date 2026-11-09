@@ -53,3 +53,50 @@ python3 reproduce/capture-runtime.py \
 ```
 
 This is an instantaneous CPU-affinity and cumulative thread-tick capture. It does not prove scorer routing or physical host CPU isolation.
+
+## V45.1 admission-budget follow-up
+
+To reproduce the bounded-admission remediation, use release tag
+`v1.20.0-veortex.v45.1.20261109`, executable SHA-256
+`90d54aeabbaa17350b94161f6a7926528b13452b0b50296f0bc45fc0e96969e0`.
+Keep the original V45 overlay unchanged for the primary 80-row campaign.
+The new overlay changes only the runtime byte budget to 640 MiB and identifies
+this separately built binary, whose configurable ceiling is 2 GiB. Default
+admission wait and request timeouts are unchanged.
+
+```sh
+cp reproduce/admission-budget.env.example reproduce/.env
+# Set QDRANT_BINARY_PATH to the extracted V45.1 bin/qdrant; remap CPU IDs if needed.
+./reproduce/generate-native120-configs.sh
+docker compose --env-file reproduce/.env \
+  -f reproduce/docker-compose.native120.yml \
+  -f reproduce/docker-compose.admission-budget.override.yml config --quiet
+docker compose --env-file reproduce/.env \
+  -f reproduce/docker-compose.native120.yml \
+  -f reproduce/docker-compose.admission-budget.override.yml up -d --wait
+```
+
+Use the dataset, metadata, exact truth, and manifest preparation described in
+[README.md](README.md). After the collection and its payload indexes are ready,
+run the same common client and four B64/C4 cases:
+
+```sh
+python3 reproduce/run-batch-matrix.py \
+  --engine-label veortex-v45.1 \
+  --manifest-dir reproduce-manifests \
+  --client reproduce/bench-matrix \
+  --batch-sizes 64 \
+  --seconds 60 --warmup-requests 16 --timeout 60s \
+  --gomaxprocs 7 --client-cpus 0,1,2,3,13,14,15 \
+  --output admission-budget-results
+```
+
+The runner reads the API key from `QDRANT_API_KEY` in the local environment;
+it is not a CLI argument. Capture runtime CPU evidence separately while requests
+are active, following the command above with the new overlay. The public
+`capture-runtime.py` is a snapshot collector; the published campaign retains
+its separate interval CPU observations in the result JSON.
+Generated fixtures use the documented reproduction seed and will not recreate
+the older unknown-seed gallery byte-for-byte. Validate the new fixture against
+FP32; do not assume the old rankings, candidate cap recall, or measured speed.
+See the [recorded four-category results](../benchmarks/h2h-sq8-admission-remediation-20261109.md).
