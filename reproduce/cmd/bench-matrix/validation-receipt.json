@@ -1,0 +1,160 @@
+{
+  "schema": "qdrant_search_batch_matrix_fake_server_validation_v1",
+  "status": "PASS",
+  "live_network_or_cluster_requests": false,
+  "api_key_value_written": false,
+  "binary_sha256": "9dab9e7f2292d6b3ccae108335317b2f249cf0e83a7cada02650060c91b9c251",
+  "source_sha256": "9f43d61405f3354554e719a66f25a71eb897d3f1f45daa8a73ceced0299eca57",
+  "manifest_sha256_payload": "e0cc6c185363a2a8c3d9881c40b1badf54f3e61e4210976e6a439c0bd63c2978",
+  "manifest_sha256_no_payload": "790b5ff239e98bf586270c4ba152f882855d5db1b8f741a4add3d37bca1ef007",
+  "cases": [
+    {
+      "case": "success",
+      "batch_size": 1,
+      "returncode": 0,
+      "status": "COMPLETED",
+      "passed": true,
+      "timed_requests": 1,
+      "warmup_requests": 1,
+      "actual_elapsed_s": 0.043128417,
+      "successful_http_rps": 23.186568614377848,
+      "query_qps": 23.186568614377848,
+      "latency_count": 1,
+      "server_time_count": 1,
+      "connection_acquire_count": 1
+    },
+    {
+      "case": "success",
+      "batch_size": 4,
+      "returncode": 0,
+      "status": "COMPLETED",
+      "passed": true,
+      "timed_requests": 1,
+      "warmup_requests": 1,
+      "actual_elapsed_s": 0.045028839,
+      "successful_http_rps": 22.20798986178613,
+      "query_qps": 88.83195944714453,
+      "latency_count": 1,
+      "server_time_count": 1,
+      "connection_acquire_count": 1
+    },
+    {
+      "case": "success",
+      "batch_size": 16,
+      "returncode": 0,
+      "status": "COMPLETED",
+      "passed": true,
+      "timed_requests": 1,
+      "warmup_requests": 1,
+      "actual_elapsed_s": 0.005083871,
+      "successful_http_rps": 196.70050636611353,
+      "query_qps": 3147.2081018578165,
+      "latency_count": 1,
+      "server_time_count": 1,
+      "connection_acquire_count": 1
+    },
+    {
+      "case": "success",
+      "batch_size": 32,
+      "returncode": 0,
+      "status": "COMPLETED",
+      "passed": true,
+      "timed_requests": 1,
+      "warmup_requests": 1,
+      "actual_elapsed_s": 0.009919435,
+      "successful_http_rps": 100.81219343642051,
+      "query_qps": 3225.9901899654565,
+      "latency_count": 1,
+      "server_time_count": 1,
+      "connection_acquire_count": 1
+    },
+    {
+      "case": "success",
+      "batch_size": 64,
+      "returncode": 0,
+      "status": "COMPLETED",
+      "passed": true,
+      "timed_requests": 1,
+      "warmup_requests": 1,
+      "actual_elapsed_s": 0.020612906,
+      "successful_http_rps": 48.51329550525287,
+      "query_qps": 3104.8509123361837,
+      "latency_count": 1,
+      "server_time_count": 1,
+      "connection_acquire_count": 1
+    },
+    {
+      "case": "no_payload_omitted_valid",
+      "status": "COMPLETED",
+      "passed": true,
+      "payload_contract_matches": 1
+    },
+    {
+      "case": "injected_id",
+      "returncode": 1,
+      "status": "COMPLETED_WITH_FAILURES",
+      "passed": false,
+      "failed_requests": 1,
+      "failed_queries": 1,
+      "failure_counts": {
+        "candidate_id_or_score_mismatch": 1
+      }
+    },
+    {
+      "case": "injected_score",
+      "returncode": 1,
+      "status": "COMPLETED_WITH_FAILURES",
+      "passed": false,
+      "failed_requests": 1,
+      "failed_queries": 1,
+      "failure_counts": {
+        "candidate_id_or_score_mismatch": 1
+      }
+    },
+    {
+      "case": "injected_payload",
+      "returncode": 1,
+      "status": "COMPLETED_WITH_FAILURES",
+      "passed": false,
+      "failed_requests": 1,
+      "failed_queries": 1,
+      "failure_counts": {
+        "payload_contract_mismatch": 1
+      }
+    },
+    {
+      "case": "injected_missing_false_active",
+      "returncode": 1,
+      "status": "COMPLETED_WITH_FAILURES",
+      "passed": false,
+      "failed_requests": 1,
+      "failed_queries": 1,
+      "failure_counts": {
+        "payload_contract_mismatch": 1
+      }
+    },
+    {
+      "case": "timed_429",
+      "returncode": 1,
+      "status": "COMPLETED_WITH_FAILURES",
+      "http_429_count": 1,
+      "failure_counts": {
+        "http_status_429": 1
+      }
+    },
+    {
+      "case": "warmup_429",
+      "returncode": 1,
+      "status": "WARMUP_FAILED",
+      "warmup_http_429_count": 1,
+      "timed_http_responses": 0
+    },
+    {
+      "case": "drain_in_elapsed",
+      "actual_dispatch_duration_s": 1.472e-06,
+      "drain_duration_s": 0.061751142999999994,
+      "actual_elapsed_s": 0.061752615,
+      "successful_http_rps": 16.19364621239117
+    }
+  ]
+}

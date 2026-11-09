@@ -41,3 +41,7 @@ measurements cover the documented search paths; the research release does not
 claim that every Qdrant operation or scoring mode uses the ring.
 
 The [official native Qdrant 1.20 baseline](benchmarks/native120-20261109.md) was measured separately on 9 November. It includes C1/C160 latency, success counts, F32 checks and comparison limits.
+
+## Fresh batch comparison
+
+The [matched B1/B4/B16/B32/B64 protocol](reproduce/BATCH_MATRIX_PROTOCOL.md) and [common Go client](reproduce/cmd/bench-matrix/main.go) cover the new stock 1.20.0 versus V45 campaign. Results will be added after measurement and validation. The published engine archive remains unchanged.

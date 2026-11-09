@@ -15,3 +15,5 @@ reproduce/.env.*
 reproduce-quality/
 reproduce-results-*/
 reproduce-manifests-*/
+
+reproduce/bench-matrix
