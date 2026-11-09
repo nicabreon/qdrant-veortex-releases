@@ -69,6 +69,12 @@ flowchart LR
 
 All nodes had a three-vCPU container quota. Veortex placed scan and score work on one designated compute CPU and support stages such as TopK, FP32 reranking, and payload completion on two support CPUs. The stock native search closure, including scoring, TopK, and reranking, ran on its one designated compute CPU; the other two CPUs remained available for support and service work. This is an end-to-end comparison under a matched three-vCPU budget, not a kernel-only comparison. Compiler-flag provenance is not matched between the upstream native binary and V45.
 
+The following diagram focuses on one shard: compatible requests enter a bounded query ring, reuse gallery tiles, and complete through the support pipeline. The illustrated slots show how queries can join and finish independently.
+
+![Per-shard continuous query ring: tile-boundary admission, shared gallery tiles, SIMD/AMX scoring and pipelined TopK/rerank/payload](assets/architecture/continuous-query-ring.png)
+
+[Short explanation for discussion](benchmarks/RING_SCHEDULING.md) · [PNG](assets/architecture/continuous-query-ring.png) · [SVG](assets/architecture/continuous-query-ring.svg)
+
 The measurement VM reported an Intel Xeon Silver 4510, 16 guest vCPUs, 47.04 GiB RAM, KVM, and AVX2, AVX-512F, AVX-512 VNNI, AMX tile, and AMX INT8 features. Three Docker nodes shared that VM:
 
 | Node | Three-vCPU cpuset | Compute CPU | Support CPUs |
