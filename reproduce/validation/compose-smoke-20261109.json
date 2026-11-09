@@ -1,0 +1,45 @@
+{
+  "cleanup": {
+    "generated_configs_and_certs_created_for_smoke": "removed",
+    "owned_project_containers_network_volumes": "removed",
+    "preexisting_configs_generated": "absent and untouched",
+    "preexisting_reproduce_dotenv": "absent and untouched",
+    "temporary_env_files": "removed"
+  },
+  "config_correction": "Mounted host CA bundle read-only and set SSL_CERT_FILE in native Compose; Veortex override carries the same mount and setting. Corrected Compose models are validated; runtime retry deferred until native benchmark timing finishes.",
+  "cpu_overlap": {
+    "native_benchmark": "CPUs 4-12; no CPU overlap.",
+    "smoke": "CPUs 0-2 shared only among the three short-lived smoke nodes."
+  },
+  "data_state": "Fresh generated node config/certs, empty dedicated volumes; no data or API request submitted.",
+  "native_benchmark_at_interruption": "TIMING; smoke was immediately stopped.",
+  "native_binary": "Official Qdrant v1.20.0 GNU release; observed build 222b2e44.",
+  "native_phase": {
+    "cluster_peer_check": "not run",
+    "compose_config_validation": "passed",
+    "node0_startup": "failed before healthy startup; exit code 101",
+    "node1_node2": "created but not started because node0 dependency failed",
+    "sanitized_error": "Qdrant inference client initialization reported that no system CA certificates were loaded.",
+    "version_banner": "1.20.0 build 222b2e44"
+  },
+  "project": "qvr-release-smoke-20261109",
+  "recorded_utc": "2026-11-09T06:06:04.294540+00:00",
+  "runner_image": "ubuntu@sha256:353675e2a41babd526e2b837d7ec780c2a05bca0164f7ea5dbbd433d21d166fc",
+  "schema": "qdrant_release_compose_smoke_v1",
+  "scope": "Empty-data startup/configuration smoke only; no collection, fixture, benchmark query, or performance measurement.",
+  "smoke_topology": {
+    "compute_cpu_each": 0,
+    "cpus_per_node": 3,
+    "cpuset_each": "0,1,2",
+    "host_ports": [
+      29402,
+      29405,
+      29408
+    ],
+    "nodes": 3,
+    "support_cpus_each": "1,2"
+  },
+  "status": "SMOKE_NATIVE_START_FAILED_CLEANED_RETRY_PENDING",
+  "veortex_binary_sha256": "9a44f09da70af7921da7b2a6893b98c1ea3d9dcab61986d3504b63f4e3dfa0e8",
+  "veortex_phase": "not started"
+}

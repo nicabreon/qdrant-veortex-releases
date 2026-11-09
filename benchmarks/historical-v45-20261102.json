@@ -1,0 +1,341 @@
+{
+  "schema": "three_profile_3m_top10_retest_comparison_v1",
+  "created_utc": "2026-11-02T04:10:08.354805+00:00",
+  "status": "RETESTS_COMPLETE_GLOBAL_PERFORMANCE_GOAL_UNMET",
+  "source_head": "bc0eec0015771e8c59134b1b83a740418efcff7e",
+  "engine_sha256": "9a44f09da70af7921da7b2a6893b98c1ea3d9dcab61986d3504b63f4e3dfa0e8",
+  "contract": {
+    "points": 3000000,
+    "dimensions": 512,
+    "nodes": 3,
+    "cpus_per_node": 3,
+    "compute_cpus_per_node": 1,
+    "support_cpus_per_node": 2,
+    "compute_cpu_ids": [
+      4,
+      7,
+      10
+    ],
+    "batch_size": 1,
+    "result_limit": 10,
+    "queries_per_category": 1024,
+    "query_sha256": "90c486e454c29d3145ae220447defc0eaca8b3c828d7fededa8b76ee43a77111",
+    "concurrency": 160,
+    "seconds_per_timed_row": 60,
+    "metadata_present_for_all_categories": true,
+    "mode": "closed-loop",
+    "rps_definition": "successful complete-body HTTP requests / actual elapsed seconds, including drain",
+    "f32_score_tolerance": 1e-06,
+    "full_flat_search": "Pinned frozen-runner route proof and per-node counters; no HNSW performance mixed into these rows."
+  },
+  "goals": {
+    "sq8_unfiltered_above_1000_both_rows": true,
+    "sq8_payload_and_active_filter_above_900": true,
+    "tq2_at_least_current_sq8_each_row": false,
+    "tq4_at_least_current_sq8_each_row": false,
+    "current_caps_proven_minimal": false,
+    "maximum_rps_or_long_duration_stability_measured": false
+  },
+  "interpretation_limits": [
+    "C40 is sufficient on this conversion and corpus, not a proven minimum.",
+    "This conversion differs from the failed C24 conversion; this is not a same-generation C24/C40 causal experiment.",
+    "TQ full logical readbacks bracket the prefetch configuration switch before timing. SQ8 full readbacks bracket the timed sweep.",
+    "The same 1024-query corpus is reused during accuracy and timing; results are not a disjoint holdout guarantee.",
+    "C160 closed-loop points are not a maximum-RPS sweep, single-request latency, or production stability certification.",
+    "SQ8/TQ2/TQ4 were measured sequentially. No causal attribution of throughput differences to a single code path or host effect is established.",
+    "Stage counters describe shared and overlapping elapsed work. They are not additive HTTP latency or CPU time; logical bytes are not measured DRAM traffic.",
+    "TQ2 cap1767 came from a historical local rank bound. Median90 and p95337 describe the historical captured workload, not a production-safe fixed cap.",
+    "TQ+ calibration samples random iterator indices, so conversions can produce different quantized data. The C24 mismatch still lacks retained per-hit IDs/scores to isolate its cause."
+  ],
+  "stage_work_scope": "Cumulative elapsed work normalized by completed requests. Shared and overlapping; do not sum as HTTP latency, infer CPU time, or treat logical bytes as DRAM traffic.",
+  "nf_first_row_stage_work_mean_across_nodes_ms_per_completed_query": {
+    "fresh_sq8": {
+      "flat_scan_score": 0.7045787433529066,
+      "ring_epoch_scan": 0.9723142408321066,
+      "topk_work": 0.0639572236637064,
+      "f32_rescore": 0.014065233504262442,
+      "support_score_buffer_wait": 0.00036136054179675077,
+      "support_command_queue_wait": 0.019165299050453746
+    },
+    "fresh_tq2": {
+      "flat_scan_score": 0.7486413463747259,
+      "ring_epoch_scan": 1.2329846538240132,
+      "topk_work": 0.9016210438733553,
+      "f32_rescore": 0.6438514685307019,
+      "support_score_buffer_wait": 0.03196452040158991,
+      "support_command_queue_wait": 0.07929551955866228
+    },
+    "fresh_tq4_c40": {
+      "flat_scan_score": 0.801701173610687,
+      "ring_epoch_scan": 1.2066644662365242,
+      "topk_work": 0.13826661403865856,
+      "f32_rescore": 0.067170594471922,
+      "support_score_buffer_wait": 0.0010172720074901793,
+      "support_command_queue_wait": 0.070256697699348
+    },
+    "historical_tq4_c24": {
+      "flat_scan_score": 0.7518882127441618,
+      "ring_epoch_scan": 1.0433944077495152,
+      "topk_work": 0.08511481683016466,
+      "f32_rescore": 0.01927504011343577,
+      "support_score_buffer_wait": 0.00044641797030992275,
+      "support_command_queue_wait": 0.024033284318661922
+    }
+  },
+  "cap_analysis": {
+    "historical_tq2_query_rank_requirement": {
+      "queries": 1024,
+      "median": 90,
+      "p95_nearest_rank": 337,
+      "maximum": 1767
+    },
+    "historical_witness": {
+      "query": 177,
+      "truth_id": 827253,
+      "f32_rank_one_based": 8,
+      "local_quantized_rank": 1767,
+      "tie_end": 1767,
+      "C1766_failed": true
+    },
+    "gallery_codebook_levels": {
+      "tq2": 4,
+      "tq4": 16
+    },
+    "query_precompute": "Same Q7 query path on x86 in these TQ2/TQ4 runs.",
+    "current_sufficient_caps": {
+      "tq2": 1767,
+      "tq4": 40,
+      "sq8": 12
+    },
+    "minimum_claim": "Current-generation minima are not established. TQ2 historical cap was rank-derived; TQ4 C24 failed this session and C40 passed on another conversion.",
+    "logical_f32_candidate_vector_bytes_per_query_per_populated_segment": {
+      "tq2_C1767": 3618816,
+      "tq4_C24": 49152,
+      "tq4_C40": 81920,
+      "sq8_C12": 24576
+    }
+  },
+  "historical_source_file_sha256": "b96dfa20e84f8a38b4b16ac0823ec75502c0bee73e68a61ba78ed2de1c30712f",
+  "public_export": "Selected recorded results, not a new benchmark",
+  "profiles": {
+    "sq8": {
+      "receipt_sha256": "3f585ab29fc5a95dad16efce266f0bd626e1eaeb62c1c85fad90aa688c03e163",
+      "candidate_count_per_segment": 12,
+      "accuracy_requests": 4096,
+      "accuracy_passed": true,
+      "rows": [
+        {
+          "ordinal": 1,
+          "category": "unfiltered_no_payload",
+          "http_rps": 1027.6422622763819,
+          "actual_elapsed_s": 60.15614798,
+          "p50_ms": 159.344632,
+          "p95_ms": 205.8646421,
+          "p99_ms": 228.57211356,
+          "success": 61819,
+          "failures": 0,
+          "exact_f32_matches": 61819,
+          "cpu_proof": "OBSERVED"
+        },
+        {
+          "ordinal": 2,
+          "category": "unfiltered_payload",
+          "http_rps": 1016.1510075824598,
+          "actual_elapsed_s": 60.115080873,
+          "p50_ms": 161.86149749999998,
+          "p95_ms": 209.32582075,
+          "p99_ms": 226.0694514,
+          "success": 61086,
+          "failures": 0,
+          "exact_f32_matches": 61086,
+          "cpu_proof": "OBSERVED"
+        },
+        {
+          "ordinal": 3,
+          "category": "active_only",
+          "http_rps": 1007.5602625844649,
+          "actual_elapsed_s": 60.12444342,
+          "p50_ms": 163.279113,
+          "p95_ms": 200.44319009999998,
+          "p99_ms": 219.90303908,
+          "success": 60579,
+          "failures": 0,
+          "exact_f32_matches": 60579,
+          "cpu_proof": "OBSERVED"
+        },
+        {
+          "ordinal": 4,
+          "category": "active_position_exclude",
+          "http_rps": 2773.197292929051,
+          "actual_elapsed_s": 60.034675652,
+          "p50_ms": 53.0935465,
+          "p95_ms": 89.84286879999998,
+          "p99_ms": 110.78047625,
+          "success": 166488,
+          "failures": 0,
+          "exact_f32_matches": 166488,
+          "cpu_proof": "OBSERVED"
+        },
+        {
+          "ordinal": 5,
+          "category": "unfiltered_no_payload",
+          "http_rps": 1009.4187547772926,
+          "actual_elapsed_s": 60.110830825,
+          "p50_ms": 164.05587,
+          "p95_ms": 204.0999956,
+          "p99_ms": 220.44185224,
+          "success": 60677,
+          "failures": 0,
+          "exact_f32_matches": 60677,
+          "cpu_proof": "OBSERVED"
+        }
+      ]
+    },
+    "tq2": {
+      "receipt_sha256": "02bb3b8d7c398f0c41cb66d8e1a36fdb42231625baf404cc79f5a72199460059",
+      "candidate_count_per_segment": 1767,
+      "accuracy_requests": 4096,
+      "accuracy_passed": true,
+      "rows": [
+        {
+          "ordinal": 1,
+          "category": "unfiltered_no_payload",
+          "http_rps": 809.1516309905008,
+          "actual_elapsed_s": 60.112342529,
+          "p50_ms": 189.4740065,
+          "p95_ms": 263.3388213999999,
+          "p99_ms": 287.74386865,
+          "success": 48640,
+          "failures": 0,
+          "exact_f32_matches": 48640,
+          "cpu_proof": "OBSERVED"
+        },
+        {
+          "ordinal": 2,
+          "category": "unfiltered_payload",
+          "http_rps": 854.6913158732082,
+          "actual_elapsed_s": 60.111760873,
+          "p50_ms": 181.420911,
+          "p95_ms": 243.89957279999996,
+          "p99_ms": 276.8214449999999,
+          "success": 51377,
+          "failures": 0,
+          "exact_f32_matches": 51377,
+          "cpu_proof": "OBSERVED"
+        },
+        {
+          "ordinal": 3,
+          "category": "active_only",
+          "http_rps": 795.297253933076,
+          "actual_elapsed_s": 60.123431539,
+          "p50_ms": 196.85451,
+          "p95_ms": 242.75755175,
+          "p99_ms": 281.60056695,
+          "success": 47816,
+          "failures": 0,
+          "exact_f32_matches": 47816,
+          "cpu_proof": "OBSERVED"
+        },
+        {
+          "ordinal": 4,
+          "category": "active_position_exclude",
+          "http_rps": 1280.1825906201568,
+          "actual_elapsed_s": 60.063307034,
+          "p50_ms": 124.2517615,
+          "p95_ms": 194.68940485,
+          "p99_ms": 206.22354509,
+          "success": 76892,
+          "failures": 0,
+          "exact_f32_matches": 76892,
+          "cpu_proof": "OBSERVED"
+        },
+        {
+          "ordinal": 5,
+          "category": "unfiltered_no_payload",
+          "http_rps": 836.0191851784059,
+          "actual_elapsed_s": 60.111060716,
+          "p50_ms": 183.04549350000002,
+          "p95_ms": 256.559051,
+          "p99_ms": 278.87338346999996,
+          "success": 50254,
+          "failures": 0,
+          "exact_f32_matches": 50254,
+          "cpu_proof": "OBSERVED"
+        }
+      ]
+    },
+    "tq4": {
+      "receipt_sha256": "4f3dd361aee49f1f7f236ee1b22844a35fa734a54147adae1e302a8dd34cafa0",
+      "candidate_count_per_segment": 40,
+      "accuracy_requests": 4096,
+      "accuracy_passed": true,
+      "rows": [
+        {
+          "ordinal": 1,
+          "category": "unfiltered_no_payload",
+          "http_rps": 816.2841707010986,
+          "actual_elapsed_s": 60.18859824,
+          "p50_ms": 216.601125,
+          "p95_ms": 245.684822,
+          "p99_ms": 258.67209019999984,
+          "success": 49131,
+          "failures": 0,
+          "exact_f32_matches": 49131,
+          "cpu_proof": "OBSERVED"
+        },
+        {
+          "ordinal": 2,
+          "category": "unfiltered_payload",
+          "http_rps": 797.5772724798838,
+          "actual_elapsed_s": 60.142135007,
+          "p50_ms": 205.949454,
+          "p95_ms": 250.4628512,
+          "p99_ms": 263.29347591,
+          "success": 47968,
+          "failures": 0,
+          "exact_f32_matches": 47968,
+          "cpu_proof": "OBSERVED"
+        },
+        {
+          "ordinal": 3,
+          "category": "active_only",
+          "http_rps": 778.1821117140175,
+          "actual_elapsed_s": 60.109323121,
+          "p50_ms": 214.3650235,
+          "p95_ms": 257.18597350000005,
+          "p99_ms": 291.33733225000003,
+          "success": 46776,
+          "failures": 0,
+          "exact_f32_matches": 46776,
+          "cpu_proof": "OBSERVED"
+        },
+        {
+          "ordinal": 4,
+          "category": "active_position_exclude",
+          "http_rps": 2292.1010757388085,
+          "actual_elapsed_s": 60.057124643,
+          "p50_ms": 67.192535,
+          "p95_ms": 102.26832,
+          "p99_ms": 123.33576360000004,
+          "success": 137657,
+          "failures": 0,
+          "exact_f32_matches": 137657,
+          "cpu_proof": "OBSERVED"
+        },
+        {
+          "ordinal": 5,
+          "category": "unfiltered_no_payload",
+          "http_rps": 831.7770088899483,
+          "actual_elapsed_s": 60.144725648,
+          "p50_ms": 192.84174,
+          "p95_ms": 237.9406012,
+          "p99_ms": 257.31627865999997,
+          "success": 50027,
+          "failures": 0,
+          "exact_f32_matches": 50027,
+          "cpu_proof": "OBSERVED"
+        }
+      ]
+    }
+  }
+}

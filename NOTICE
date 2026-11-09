@@ -1,0 +1,17 @@
+Qdrant–Veortex V45 research binary
+
+Qdrant component
+Copyright Qdrant Solutions GmbH and contributors.
+Qdrant 1.20.0 source provenance: commit bc0eec0015771e8c59134b1b83a740418efcff7e, tree f3335fe4f9474c3bbc5274785c4bde930fc272be.
+The Qdrant component is identified as Apache-2.0; see the accompanying LICENSE file.
+
+External reproduction and benchmark helpers
+The external reproduction and benchmark tools in reproduce/, including the workload generator and validator, Go benchmark client, affinity helper source, and separately built helper binaries, are made available under Apache-2.0; see LICENSE. These helper tools are separate from the Qdrant–Veortex engine binary and do not include engine source.
+
+Veortex component
+This binary contains Veortex engine code. Its owner authorized redistribution of this specific binary release. This notice does not assign a general SPDX license to Veortex source and does not grant rights to engine source code, which is not included in this binary-only repository.
+
+Third-party components
+The dependency inventory, selected permissive license alternatives, copied license/notice/copyright texts, and provenance hashes are in third_party/THIRD_PARTY_NOTICES.md and third_party/license-audit.json. The executable includes colored 3.1.1 under MPL-2.0; its unmodified source archive and checksum-matched availability information are in third_party/source/ and third_party/SOURCE-AVAILABILITY.md. Refer to the package inventory for exact declared license expressions and any review flags.
+
+The ELF covered by this release identity has SHA-256 9a44f09da70af7921da7b2a6893b98c1ea3d9dcab61986d3504b63f4e3dfa0e8.

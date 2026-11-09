@@ -1,0 +1,149 @@
+name: qdrant-native120-benchmark
+
+services:
+  node0:
+    image: ${RUNNER_IMAGE:-ubuntu@sha256:353675e2a41babd526e2b837d7ec780c2a05bca0164f7ea5dbbd433d21d166fc}
+    platform: linux/amd64
+    hostname: node0
+    init: true
+    read_only: true
+    cpus: 3.0
+    cpuset: ${NODE0_CPUSET:-4,5,6}
+    stop_grace_period: 60s
+    labels:
+      com.qdrant.benchmark.engine: stock-upstream
+      com.qdrant.benchmark.qdrant-version: 1.20.0
+      com.qdrant.benchmark.node-index: "0"
+      com.qdrant.benchmark.cpu-budget: 3-vcpu
+    entrypoint: ["/opt/qdrant/qdrant"]
+    command: ["--config-path", "/etc/qdrant/config.yaml", "--uri", "https://node0:6335"]
+    environment:
+      LD_PRELOAD: /bench-tools/affinity.so
+      BENCH_COMPUTE_CPU: "${NODE0_COMPUTE_CPU:-4}"
+      BENCH_SUPPORT_CPUS: "${NODE0_SUPPORT_CPUS:-5,6}"
+      SSL_CERT_FILE: /etc/ssl/certs/ca-certificates.crt
+    ports:
+      - "127.0.0.1:${NODE0_HTTP_HOST_PORT:-6333}:6333"
+    volumes:
+      - "${QDRANT_BINARY_PATH:?set QDRANT_BINARY_PATH to the official v1.20.0 GNU binary}:/opt/qdrant/qdrant:ro"
+      - "./libqdrant_search_affinity.so:/bench-tools/affinity.so:ro"
+      - "${HOST_CA_CERT_BUNDLE:-/etc/ssl/certs/ca-certificates.crt}:/etc/ssl/certs/ca-certificates.crt:ro"
+      - "../configs/generated/node0/config.yaml:/etc/qdrant/config.yaml:ro"
+      - "../configs/generated/certs/node0.crt:/etc/qdrant/certs/node.crt:ro"
+      - "../configs/generated/certs/node0.key:/etc/qdrant/certs/node.key:ro"
+      - "../configs/generated/certs/ca.crt:/etc/qdrant/certs/ca.crt:ro"
+      - node0-storage:/qdrant/storage
+      - node0-snapshots:/qdrant/snapshots
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=64m
+    healthcheck:
+      test: ["CMD-SHELL", "env LD_PRELOAD= timeout 2 bash -c '</dev/tcp/127.0.0.1/6333'"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+      start_period: 5s
+    networks: [qdrant-cluster]
+
+  node1:
+    image: ${RUNNER_IMAGE:-ubuntu@sha256:353675e2a41babd526e2b837d7ec780c2a05bca0164f7ea5dbbd433d21d166fc}
+    platform: linux/amd64
+    hostname: node1
+    init: true
+    read_only: true
+    cpus: 3.0
+    cpuset: ${NODE1_CPUSET:-7,8,9}
+    stop_grace_period: 60s
+    labels:
+      com.qdrant.benchmark.engine: stock-upstream
+      com.qdrant.benchmark.qdrant-version: 1.20.0
+      com.qdrant.benchmark.node-index: "1"
+      com.qdrant.benchmark.cpu-budget: 3-vcpu
+    entrypoint: ["/opt/qdrant/qdrant"]
+    command: ["--config-path", "/etc/qdrant/config.yaml", "--bootstrap", "https://node0:6335", "--uri", "https://node1:6335"]
+    environment:
+      LD_PRELOAD: /bench-tools/affinity.so
+      BENCH_COMPUTE_CPU: "${NODE1_COMPUTE_CPU:-7}"
+      BENCH_SUPPORT_CPUS: "${NODE1_SUPPORT_CPUS:-8,9}"
+      SSL_CERT_FILE: /etc/ssl/certs/ca-certificates.crt
+    ports:
+      - "127.0.0.1:${NODE1_HTTP_HOST_PORT:-6334}:6333"
+    volumes:
+      - "${QDRANT_BINARY_PATH:?set QDRANT_BINARY_PATH to the official v1.20.0 GNU binary}:/opt/qdrant/qdrant:ro"
+      - "./libqdrant_search_affinity.so:/bench-tools/affinity.so:ro"
+      - "${HOST_CA_CERT_BUNDLE:-/etc/ssl/certs/ca-certificates.crt}:/etc/ssl/certs/ca-certificates.crt:ro"
+      - "../configs/generated/node1/config.yaml:/etc/qdrant/config.yaml:ro"
+      - "../configs/generated/certs/node1.crt:/etc/qdrant/certs/node.crt:ro"
+      - "../configs/generated/certs/node1.key:/etc/qdrant/certs/node.key:ro"
+      - "../configs/generated/certs/ca.crt:/etc/qdrant/certs/ca.crt:ro"
+      - node1-storage:/qdrant/storage
+      - node1-snapshots:/qdrant/snapshots
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=64m
+    depends_on:
+      node0:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "env LD_PRELOAD= timeout 2 bash -c '</dev/tcp/127.0.0.1/6333'"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+      start_period: 5s
+    networks: [qdrant-cluster]
+
+  node2:
+    image: ${RUNNER_IMAGE:-ubuntu@sha256:353675e2a41babd526e2b837d7ec780c2a05bca0164f7ea5dbbd433d21d166fc}
+    platform: linux/amd64
+    hostname: node2
+    init: true
+    read_only: true
+    cpus: 3.0
+    cpuset: ${NODE2_CPUSET:-10,11,12}
+    stop_grace_period: 60s
+    labels:
+      com.qdrant.benchmark.engine: stock-upstream
+      com.qdrant.benchmark.qdrant-version: 1.20.0
+      com.qdrant.benchmark.node-index: "2"
+      com.qdrant.benchmark.cpu-budget: 3-vcpu
+    entrypoint: ["/opt/qdrant/qdrant"]
+    command: ["--config-path", "/etc/qdrant/config.yaml", "--bootstrap", "https://node0:6335", "--uri", "https://node2:6335"]
+    environment:
+      LD_PRELOAD: /bench-tools/affinity.so
+      BENCH_COMPUTE_CPU: "${NODE2_COMPUTE_CPU:-10}"
+      BENCH_SUPPORT_CPUS: "${NODE2_SUPPORT_CPUS:-11,12}"
+      SSL_CERT_FILE: /etc/ssl/certs/ca-certificates.crt
+    ports:
+      - "127.0.0.1:${NODE2_HTTP_HOST_PORT:-6335}:6333"
+    volumes:
+      - "${QDRANT_BINARY_PATH:?set QDRANT_BINARY_PATH to the official v1.20.0 GNU binary}:/opt/qdrant/qdrant:ro"
+      - "./libqdrant_search_affinity.so:/bench-tools/affinity.so:ro"
+      - "${HOST_CA_CERT_BUNDLE:-/etc/ssl/certs/ca-certificates.crt}:/etc/ssl/certs/ca-certificates.crt:ro"
+      - "../configs/generated/node2/config.yaml:/etc/qdrant/config.yaml:ro"
+      - "../configs/generated/certs/node2.crt:/etc/qdrant/certs/node.crt:ro"
+      - "../configs/generated/certs/node2.key:/etc/qdrant/certs/node.key:ro"
+      - "../configs/generated/certs/ca.crt:/etc/qdrant/certs/ca.crt:ro"
+      - node2-storage:/qdrant/storage
+      - node2-snapshots:/qdrant/snapshots
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=64m
+    depends_on:
+      node0:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "env LD_PRELOAD= timeout 2 bash -c '</dev/tcp/127.0.0.1/6333'"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+      start_period: 5s
+    networks: [qdrant-cluster]
+
+networks:
+  qdrant-cluster:
+    driver: bridge
+
+volumes:
+  node0-storage:
+  node0-snapshots:
+  node1-storage:
+  node1-snapshots:
+  node2-storage:
+  node2-snapshots:

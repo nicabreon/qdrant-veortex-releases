@@ -1,0 +1,11 @@
+# Local binaries, benchmark inputs/results and credentials
+binaries/
+release-assets/
+reproduce-data/
+reproduce-manifests/
+reproduce-results/
+reproduce/.env
+reproduce/.env.*
+!reproduce/*.env.example
+**/__pycache__/
+*.pyc

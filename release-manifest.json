@@ -1,0 +1,46 @@
+{
+  "schema": "qdrant_veortex_binary_release_v1",
+  "release_tag": "v1.20.0-veortex.v45.20261109",
+  "status": "research_prerelease",
+  "qdrant_version": "1.20.0",
+  "source_commit": "bc0eec0015771e8c59134b1b83a740418efcff7e",
+  "source_tree": "f3335fe4f9474c3bbc5274785c4bde930fc272be",
+  "binary_filename": "bin/qdrant",
+  "binary_sha256": "9a44f09da70af7921da7b2a6893b98c1ea3d9dcab61986d3504b63f4e3dfa0e8",
+  "binary_size_bytes": 97215584,
+  "version_output": "qdrant 1.20.0",
+  "gnu_build_id": "ef19af5080a8b3abc90d1ddd85cfeda2cf6c18be",
+  "platform": "x86_64-unknown-linux-gnu",
+  "max_required_glibc_symbol_version": "2.34",
+  "runtime_libraries": [
+    "libgcc_s.so.1",
+    "libm.so.6",
+    "libc.so.6",
+    "ld-linux-x86-64.so.2"
+  ],
+  "rustc": "rustc 1.98.0 (88d9e12ae 2026-08-18)",
+  "build_command": [
+    "cargo",
+    "build",
+    "--bin",
+    "qdrant",
+    "--release",
+    "--locked",
+    "--offline",
+    "-j",
+    "2"
+  ],
+  "recorded_build_receipt_sha256": "491481e9bfc3499127ebab392730dac7b65da5ddb5b88acf15173259f9cd0a2f",
+  "source_clean_before_and_after_build": true,
+  "binary_recompiled_or_stripped_for_release": false,
+  "performance_evidence": "benchmarks/historical-v45-20261102.json",
+  "runtime_config": "reproduce/veortex-v45.env.example",
+  "license_inventory": "third_party/license-audit.json",
+  "limits": [
+    "Historical benchmarks establish the documented cohort only, not universal performance or all-feature correctness.",
+    "Fast paths have eligibility gates; Qdrant fallback routes may use different kernels.",
+    "Native official 1.20 and this binary do not have matched compiler-flag provenance.",
+    "CPU feature compatibility must be checked on the target host; measured host exposes AVX512 VNNI and AMX INT8 under KVM.",
+    "The engine source is not included in this binary distribution repository. External benchmark helper source and required third-party covered source are included."
+  ]
+}

@@ -1,0 +1,2 @@
+# Fixture generation/upload dependency; verified with Python 3.10.12
+numpy==2.2.6

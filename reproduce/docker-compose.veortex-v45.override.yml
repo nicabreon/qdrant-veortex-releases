@@ -1,0 +1,85 @@
+name: qdrant-veortex-v45-benchmark
+
+x-veortex-v45-env: &veortex-v45-env
+  LD_PRELOAD: ""
+  SSL_CERT_FILE: /etc/ssl/certs/ca-certificates.crt
+  QDRANT_VEORTEX_COALESCE_WINDOW_US: "1000"
+  QDRANT_VEORTEX_COOPERATIVE_F32: "1"
+  QDRANT_VEORTEX_DENSE_MASKED_SCORE: "1"
+  QDRANT_VEORTEX_MAX_RING_WORKERS: "1"
+  QDRANT_VEORTEX_PAYLOAD_BYTE_CACHE_BYTES: "134217728"
+  QDRANT_VEORTEX_RAW_PAYLOAD_TRANSPORT: "1"
+  QDRANT_VEORTEX_REST_RAW_VALIDATION_CACHE_BYTES: "134217728"
+  QDRANT_VEORTEX_RING_MAX_LANES: "96"
+  QDRANT_VEORTEX_SEPARATE_TOPK: "1"
+  QDRANT_VEORTEX_SINGLETON_ADMISSION_PERMITS: "160"
+  QDRANT_VEORTEX_SINGLETON_ADMISSION_WAIT_MS: "90"
+  QDRANT_VEORTEX_SQ8_SPARSE_SCORE_HANDOFF: "1"
+  QDRANT_VEORTEX_SQ8_STREAMING_SCORE_STORES: "1"
+  QDRANT_VEORTEX_SUPPORT_PIPELINE_DEPTH: "8"
+  QDRANT_VEORTEX_SUPPORT_SKIP_EMPTY_SPARSE_ROWS: "1"
+  QDRANT_VEORTEX_TQ_POINT_ONLY_OWNER_TOPK: "1"
+  QDRANT_VEORTEX_TQ_QUERY_BYTES: "1"
+  QDRANT__STORAGE__PERFORMANCE__MAX_SEARCH_THREADS: "1"
+  RAYON_NUM_THREADS: "2"
+  VX_ABLATE: "0"
+  VX_PFH: "9"
+  VX_SPF: "2"
+
+services:
+  node0:
+    labels:
+      com.qdrant.benchmark.engine: veortex-frozen-v45
+      com.qdrant.benchmark.qdrant-version: frozen-v45
+      com.qdrant.benchmark.binary-sha256: 9a44f09da70af7921da7b2a6893b98c1ea3d9dcab61986d3504b63f4e3dfa0e8
+    environment: !override
+      <<: *veortex-v45-env
+      QDRANT_VEORTEX_COMPUTE_CPUS: "${NODE0_COMPUTE_CPU:-4}"
+      QDRANT_VEORTEX_SUPPORT_CPUS: "${NODE0_SUPPORT_CPUS:-5,6}"
+    volumes: !override
+      - "${QDRANT_BINARY_PATH:?set QDRANT_BINARY_PATH to the frozen V45 binary}:/opt/qdrant/qdrant:ro"
+      - "${HOST_CA_CERT_BUNDLE:-/etc/ssl/certs/ca-certificates.crt}:/etc/ssl/certs/ca-certificates.crt:ro"
+      - "../configs/generated/node0/config.yaml:/etc/qdrant/config.yaml:ro"
+      - "../configs/generated/certs/node0.crt:/etc/qdrant/certs/node.crt:ro"
+      - "../configs/generated/certs/node0.key:/etc/qdrant/certs/node.key:ro"
+      - "../configs/generated/certs/ca.crt:/etc/qdrant/certs/ca.crt:ro"
+      - node0-storage:/qdrant/storage
+      - node0-snapshots:/qdrant/snapshots
+
+  node1:
+    labels:
+      com.qdrant.benchmark.engine: veortex-frozen-v45
+      com.qdrant.benchmark.qdrant-version: frozen-v45
+      com.qdrant.benchmark.binary-sha256: 9a44f09da70af7921da7b2a6893b98c1ea3d9dcab61986d3504b63f4e3dfa0e8
+    environment: !override
+      <<: *veortex-v45-env
+      QDRANT_VEORTEX_COMPUTE_CPUS: "${NODE1_COMPUTE_CPU:-7}"
+      QDRANT_VEORTEX_SUPPORT_CPUS: "${NODE1_SUPPORT_CPUS:-8,9}"
+    volumes: !override
+      - "${QDRANT_BINARY_PATH:?set QDRANT_BINARY_PATH to the frozen V45 binary}:/opt/qdrant/qdrant:ro"
+      - "${HOST_CA_CERT_BUNDLE:-/etc/ssl/certs/ca-certificates.crt}:/etc/ssl/certs/ca-certificates.crt:ro"
+      - "../configs/generated/node1/config.yaml:/etc/qdrant/config.yaml:ro"
+      - "../configs/generated/certs/node1.crt:/etc/qdrant/certs/node.crt:ro"
+      - "../configs/generated/certs/node1.key:/etc/qdrant/certs/node.key:ro"
+      - "../configs/generated/certs/ca.crt:/etc/qdrant/certs/ca.crt:ro"
+      - node1-storage:/qdrant/storage
+      - node1-snapshots:/qdrant/snapshots
+
+  node2:
+    labels:
+      com.qdrant.benchmark.engine: veortex-frozen-v45
+      com.qdrant.benchmark.qdrant-version: frozen-v45
+      com.qdrant.benchmark.binary-sha256: 9a44f09da70af7921da7b2a6893b98c1ea3d9dcab61986d3504b63f4e3dfa0e8
+    environment: !override
+      <<: *veortex-v45-env
+      QDRANT_VEORTEX_COMPUTE_CPUS: "${NODE2_COMPUTE_CPU:-10}"
+      QDRANT_VEORTEX_SUPPORT_CPUS: "${NODE2_SUPPORT_CPUS:-11,12}"
+    volumes: !override
+      - "${QDRANT_BINARY_PATH:?set QDRANT_BINARY_PATH to the frozen V45 binary}:/opt/qdrant/qdrant:ro"
+      - "${HOST_CA_CERT_BUNDLE:-/etc/ssl/certs/ca-certificates.crt}:/etc/ssl/certs/ca-certificates.crt:ro"
+      - "../configs/generated/node2/config.yaml:/etc/qdrant/config.yaml:ro"
+      - "../configs/generated/certs/node2.crt:/etc/qdrant/certs/node.crt:ro"
+      - "../configs/generated/certs/node2.key:/etc/qdrant/certs/node.key:ro"
+      - "../configs/generated/certs/ca.crt:/etc/qdrant/certs/ca.crt:ro"
+      - node2-storage:/qdrant/storage
+      - node2-snapshots:/qdrant/snapshots
