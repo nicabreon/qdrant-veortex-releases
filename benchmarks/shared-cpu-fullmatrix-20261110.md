@@ -2,13 +2,13 @@
 
 Revision date: 10 November 2026. Native values are explicitly earlier-run H0 references; this campaign measured only Veortex AVX-512 VNNI and Auto.
 
-**Curation state:** PROVISIONAL — RESTORATION PENDING. Campaign `shared-cpu-fullmatrix-20261110t075650z` status `TIMING`. Fresh measurements: 3/3 accepted; 0 rejected; 29 expected cells not recorded. Historical native reference cells: 16 (not new tests).
+**Curation state:** PROVISIONAL — RESTORATION PENDING. Campaign `shared-cpu-fullmatrix-20261110t075650z` status `TIMING`. Fresh measurements: 4/4 accepted; 0 rejected; 28 expected cells not recorded. Historical native reference cells: 16 (not new tests).
 
 Candidate source `560259c84af2b292867b9b2970ec731bcd33e07f`, ELF `63e9c5d1ffb9075bcfa3981c04a65c8240c9b18f1ad095456a93e9943ae466c6`, common Go client `5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0`. Six focused collection tests passed. Four support_cpu tests passed after compiling the exact production module and its four tests directly with a rustc --test wrapper; the full segment test suite was not run. Selected pipeline: `SEPARATE_TOPK=1` (separate TopK and deferred payload materialization). That setting was selected after the passing same-ELF focused A/B: [report](shared-postprocessing-ab-20261110.md).
 
 The fixture is 3 million 512D cosine vectors, SQ8 flat search, three one-million-point shards, three payload indexes, and HNSW disabled. Each node had a three-vCPU quota, a disjoint full three-CPU mask (4–6, 7–9, 10–12), and no per-thread pinning. Veortex used shared postprocessing placement, three ring workers, a 2 GiB queue budget, and three search/Rayon threads. Both fresh Veortex backends ran the same selected pipeline mode and ELF.
 
-Each category uses 1,024 distinct saved Top10 queries, checked against the pinned FP32 oracle before timing. Independent checks currently passed: 1/8; a complete timing matrix requires every category on both fresh backends. Every timed cell has 16 warmup requests, a 60-second dispatch, and a final drain. HTTP req/s = successful HTTP requests / elapsed; query/s = successful query members / elapsed. Both include final drain. p50/p95/p99 are full-response validated latency percentiles. Errors include failed requests/queries, HTTP 429, transport, protocol, and correctness failures.
+Each category uses 1,024 distinct saved Top10 queries, checked against the pinned FP32 oracle before timing. Independent checks currently passed: 2/8; a complete timing matrix requires every category on both fresh backends. Every timed cell has 16 warmup requests, a 60-second dispatch, and a final drain. HTTP req/s = successful HTTP requests / elapsed; query/s = successful query members / elapsed. Both include final drain. p50/p95/p99 are full-response validated latency percentiles. Errors include failed requests/queries, HTTP 429, transport, protocol, and correctness failures.
 
 ## Accepted measurements and historical native references
 
@@ -25,6 +25,7 @@ The tables contain only accepted rows. Measurement acceptance means correctness,
 | B64 / C4 | Qdrant native 1.20 — earlier three-CPU run, not rerun | 4.02 / 257.33 / 986.82 / 1078.83 / 1261.08 / 60.93 | 245 / 0 | 15680 / 0 | 15680 | 0 / 0 / 0 / 0 |
 | B64 / C4 | Veortex AVX-512 VNNI (AMX disabled) | 9.58 / 613.35 / 408.57 / 547.09 / 596.78 / 60.31 | 578 / 0 | 36992 / 0 | 36992 | 0 / 0 / 0 / 0 |
 | B128 / C4 | Qdrant native 1.20 — earlier three-CPU run, not rerun | 2.03 / 259.37 / 1965.13 / 2419.23 / 2990.62 / 61.69 | 125 / 0 | 16000 / 0 | 16000 | 0 / 0 / 0 / 0 |
+| B128 / C4 | Veortex AVX-512 VNNI (AMX disabled) | 5.38 / 688.27 / 740.54 / 844.75 / 898.53 / 60.44 | 325 / 0 | 41600 / 0 | 41600 | 0 / 0 / 0 / 0 |
 
 ### No filter / payload
 
@@ -57,7 +58,7 @@ The tables contain only accepted rows. Measurement acceptance means correctness,
 
 No fresh timing row was rejected.
 
-Independent accuracy: 1/8 fresh runs passed. Per-node ring gates require each node's submitted/completed delta to equal warmup query members plus successful timed query members, with zero fallback and HNSW calls. AVX rows prove VNNI-positive/AMX-zero on each node; Auto rows prove AMX work on each node. CPU evidence requires active work and each sampled thread's full three-CPU mask.
+Independent accuracy: 2/8 fresh runs passed. Per-node ring gates require each node's submitted/completed delta to equal warmup query members plus successful timed query members, with zero fallback and HNSW calls. AVX rows prove VNNI-positive/AMX-zero on each node; Auto rows prove AMX work on each node. CPU evidence requires active work and each sampled thread's full three-CPU mask.
 
 Per-node stage work and queue-wait counter deltas, plus their three-node means, are retained as diagnostics in JSON and CSV. Stage and wait totals can overlap; they are not additive measures of critical-path latency and do not identify a root cause by themselves.
 
