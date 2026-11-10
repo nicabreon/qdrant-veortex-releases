@@ -3,11 +3,11 @@
   "campaign_id": "dynamic-ring-20261110t050818z",
   "campaign_status": "TIMING",
   "expected_rows": 16,
-  "recorded_rows": 1,
-  "accepted_rows": 1,
+  "recorded_rows": 2,
+  "accepted_rows": 2,
   "rejected_rows": 0,
   "rejections": [],
-  "receipt_sha256": "eb52ad88f61dc64cb6a18ccc46a8b3713eb3b8675a89788fe5a0b46beb792cc9",
+  "receipt_sha256": "114b72bdea192e64af93ab156a63f8f7db670448692fcc8d85e90888748674ce",
   "source_commit": "1bd74d911fa8c61f962d5b22fbd4ac2951102a80",
   "veortex_sha256": "a493502c9538e10e66637993432e1d619c13004368c78c423f9041ff6be3d607",
   "client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
@@ -196,6 +196,159 @@
           "avx512vnni_calls": 10451707,
           "ring_submitted_queries": 41984,
           "ring_completed_queries": 41984
+        }
+      ],
+      "failure_notes": [],
+      "backend_valid": true,
+      "quality_valid": true,
+      "intended_route_valid": true,
+      "client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "manifest_sha256": "f5770d81e2e11bfc09bb021264e2698b68aff157ba8a4f353c73544c0b3f2fe9"
+    },
+    {
+      "backend": "avx512vnni",
+      "category": "unfiltered_no_payload",
+      "batch_size": 128,
+      "concurrency": 4,
+      "ordinal": 2,
+      "measurement_accepted": true,
+      "http_rps": 5.700166107130399,
+      "query_qps": 729.6212617126911,
+      "p50_ms": 702.847414,
+      "p95_ms": 792.200346,
+      "p99_ms": 829.062748,
+      "successful_requests": 344,
+      "failed_requests": 0,
+      "successful_queries": 44032,
+      "failed_queries": 0,
+      "dispatched_queries": 44032,
+      "exact_query_truth_matches": 44032,
+      "http_429_count": 0,
+      "correctness_failed_requests": 0,
+      "transport_failures": 0,
+      "transport_timeouts": 0,
+      "actual_elapsed_s": 60.349118523,
+      "client_status": "COMPLETED",
+      "client_passed": true,
+      "cpu_status": "PASSED",
+      "cpu_violations": 0,
+      "cpu_by_node": [
+        {
+          "node": 0,
+          "allowed_cpus": [
+            4,
+            5,
+            6
+          ],
+          "active_work_proven": true,
+          "whole_process_cpu_equivalents": 2.8686791032279144
+        },
+        {
+          "node": 1,
+          "allowed_cpus": [
+            7,
+            8,
+            9
+          ],
+          "active_work_proven": true,
+          "whole_process_cpu_equivalents": 2.8680697183945147
+        },
+        {
+          "node": 2,
+          "allowed_cpus": [
+            10,
+            11,
+            12
+          ],
+          "active_work_proven": true,
+          "whole_process_cpu_equivalents": 2.8639563707690687
+        }
+      ],
+      "route_status": "PASSED",
+      "ring_admission_valid": true,
+      "ring_admission_proof": {
+        "schema": "dynamic_ring_explicit_batch_admission_v1",
+        "counter_semantics": "Process-global per-node counters increment once for each query member submitted/completed; measured-row delta includes 16 warmup requests plus timed requests and final drain.",
+        "warmup_queries_per_node": 2048,
+        "timed_successful_queries": 44032,
+        "expected_queries_per_node": 46080,
+        "warmup_contract_passed": true,
+        "nodes": [
+          {
+            "node": 0,
+            "submitted_delta": 46080,
+            "completed_delta": 46080,
+            "fallback_delta": 0,
+            "hnsw_search_calls_delta": 0,
+            "submitted_matches_expected": true,
+            "completed_matches_expected": true,
+            "no_ring_fallback": true,
+            "no_hnsw_search": true
+          },
+          {
+            "node": 1,
+            "submitted_delta": 46080,
+            "completed_delta": 46080,
+            "fallback_delta": 0,
+            "hnsw_search_calls_delta": 0,
+            "submitted_matches_expected": true,
+            "completed_matches_expected": true,
+            "no_ring_fallback": true,
+            "no_hnsw_search": true
+          },
+          {
+            "node": 2,
+            "submitted_delta": 46080,
+            "completed_delta": 46080,
+            "fallback_delta": 0,
+            "hnsw_search_calls_delta": 0,
+            "submitted_matches_expected": true,
+            "completed_matches_expected": true,
+            "no_ring_fallback": true,
+            "no_hnsw_search": true
+          }
+        ],
+        "passed": true
+      },
+      "ring_route_deltas": [
+        {
+          "node": 0,
+          "amx_calls": 0,
+          "query_vector_dots": 46080000000,
+          "gallery_blocks_decoded": 8401452032,
+          "batch4_vectors": 0,
+          "ring_fallback_queries": 0,
+          "hnsw_build_calls": 0,
+          "hnsw_search_calls": 0,
+          "avx512vnni_calls": 8204543,
+          "ring_submitted_queries": 46080,
+          "ring_completed_queries": 46080
+        },
+        {
+          "node": 1,
+          "amx_calls": 0,
+          "query_vector_dots": 46080000000,
+          "gallery_blocks_decoded": 8224899072,
+          "batch4_vectors": 0,
+          "ring_fallback_queries": 0,
+          "hnsw_build_calls": 0,
+          "hnsw_search_calls": 0,
+          "avx512vnni_calls": 8032128,
+          "ring_submitted_queries": 46080,
+          "ring_completed_queries": 46080
+        },
+        {
+          "node": 2,
+          "amx_calls": 0,
+          "query_vector_dots": 46080000000,
+          "gallery_blocks_decoded": 8196372480,
+          "batch4_vectors": 0,
+          "ring_fallback_queries": 0,
+          "hnsw_build_calls": 0,
+          "hnsw_search_calls": 0,
+          "avx512vnni_calls": 8004270,
+          "ring_submitted_queries": 46080,
+          "ring_completed_queries": 46080
         }
       ],
       "failure_notes": [],
