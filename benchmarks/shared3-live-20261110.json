@@ -2,9 +2,9 @@
   "schema": "shared_three_cpu_live_progress_v1",
   "campaign": "shared3cpu-20261110t021202z",
   "status": "TIMING",
-  "recorded_rows": 21,
+  "recorded_rows": 22,
   "expected_rows": 48,
-  "receipt_sha256": "153a9a111093058ac7ea1e6263c735882545f2e27832f87001cd31321d74133e",
+  "receipt_sha256": "786c98b1349148cae0afa9701b9b6624575872d4d3683e946256de8ff7bda3be",
   "contract": {
     "points": 3000000,
     "dimension": 512,
@@ -1729,6 +1729,161 @@
               "hnsw_build_calls": 0,
               "hnsw_search_calls": 0,
               "avx512vnni_calls": 3872084
+            },
+            "zero_route_checks": {
+              "batch4_vectors": true,
+              "hnsw_build_calls": true,
+              "hnsw_search_calls": true,
+              "ring_fallback_queries": true
+            },
+            "positive_work_checks": {
+              "query_vector_dots": true,
+              "gallery_blocks_decoded": true
+            },
+            "informative_measurements": {
+              "amx_calls": 0
+            }
+          }
+        ],
+        "errors": []
+      }
+    },
+    {
+      "backend": "avx512vnni",
+      "category": "unfiltered_payload",
+      "batch_size": 1,
+      "concurrency": 128,
+      "ordinal": 22,
+      "http_rps": 458.5061805935612,
+      "query_qps": 458.5061805935612,
+      "p50_ms": 280.695713,
+      "p95_ms": 296.12737599999997,
+      "p99_ms": 302.482404,
+      "successful_requests": 27611,
+      "failed_requests": 0,
+      "dispatched_queries": 27611,
+      "exact_query_truth_matches": 27611,
+      "http_429_count": 0,
+      "elapsed_s": 60.219471773,
+      "measurement_accepted": true,
+      "cpu_status": "PASSED",
+      "cpu_violations": 0,
+      "client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "manifest_sha256": "0f7a399788d7029db4d438897c46f52519c988f72e51088c96a3fd84f760a950",
+      "backend_valid": true,
+      "cpu_by_node": [
+        {
+          "node": 0,
+          "allowed_cpus": [
+            4,
+            5,
+            6
+          ],
+          "active_named_workers": 23,
+          "whole_process_cpu_equivalents": 2.2869348219227565
+        },
+        {
+          "node": 1,
+          "allowed_cpus": [
+            7,
+            8,
+            9
+          ],
+          "active_named_workers": 8,
+          "whole_process_cpu_equivalents": 2.0655923755236474
+        },
+        {
+          "node": 2,
+          "allowed_cpus": [
+            10,
+            11,
+            12
+          ],
+          "active_named_workers": 9,
+          "whole_process_cpu_equivalents": 2.069486964023339
+        }
+      ],
+      "route_metric_delta": {
+        "schema": "h2h_sq8_route_counter_delta_v1",
+        "status": "PASSED",
+        "scope": "Process-global Prometheus counters bracket one timed row on each node",
+        "zero_required": [
+          "batch4_vectors",
+          "hnsw_build_calls",
+          "hnsw_search_calls",
+          "ring_fallback_queries"
+        ],
+        "positive_required": [
+          "query_vector_dots",
+          "gallery_blocks_decoded"
+        ],
+        "informative_only": [
+          "amx_calls"
+        ],
+        "nodes": [
+          {
+            "node": 0,
+            "deltas": {
+              "amx_calls": 0,
+              "query_vector_dots": 27627000000,
+              "gallery_blocks_decoded": 8512694272,
+              "batch4_vectors": 0,
+              "ring_fallback_queries": 0,
+              "hnsw_build_calls": 0,
+              "hnsw_search_calls": 0,
+              "avx512vnni_calls": 8313178
+            },
+            "zero_route_checks": {
+              "batch4_vectors": true,
+              "hnsw_build_calls": true,
+              "hnsw_search_calls": true,
+              "ring_fallback_queries": true
+            },
+            "positive_work_checks": {
+              "query_vector_dots": true,
+              "gallery_blocks_decoded": true
+            },
+            "informative_measurements": {
+              "amx_calls": 0
+            }
+          },
+          {
+            "node": 1,
+            "deltas": {
+              "amx_calls": 0,
+              "query_vector_dots": 27627000000,
+              "gallery_blocks_decoded": 8150600704,
+              "batch4_vectors": 0,
+              "ring_fallback_queries": 0,
+              "hnsw_build_calls": 0,
+              "hnsw_search_calls": 0,
+              "avx512vnni_calls": 7959571
+            },
+            "zero_route_checks": {
+              "batch4_vectors": true,
+              "hnsw_build_calls": true,
+              "hnsw_search_calls": true,
+              "ring_fallback_queries": true
+            },
+            "positive_work_checks": {
+              "query_vector_dots": true,
+              "gallery_blocks_decoded": true
+            },
+            "informative_measurements": {
+              "amx_calls": 0
+            }
+          },
+          {
+            "node": 2,
+            "deltas": {
+              "amx_calls": 0,
+              "query_vector_dots": 27627000000,
+              "gallery_blocks_decoded": 7556559872,
+              "batch4_vectors": 0,
+              "ring_fallback_queries": 0,
+              "hnsw_build_calls": 0,
+              "hnsw_search_calls": 0,
+              "avx512vnni_calls": 7379453
             },
             "zero_route_checks": {
               "batch4_vectors": true,
