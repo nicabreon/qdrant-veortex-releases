@@ -2,7 +2,7 @@
 
 **Preliminary live data. Final acceptance and the old/new comparison are deferred until all gates pass.**
 
-Campaign `dynamic-ring-20261110t050818z`: 16/16 timing rows recorded; 16 currently accepted; receipt status `TIMING`.
+Campaign `dynamic-ring-20261110t050818z`: 16/16 timing rows recorded; 16 currently accepted; receipt status `MEASUREMENTS_COMPLETE_RECORDED_SCOPE`.
 
 This focused campaign compares Veortex AVX512 VNNI and Auto at B64/C4 and B128/C4 across four payload/filter categories. It uses the same three-node, three-shared-CPU, 3M × 512D SQ8 fixture and common client as the prior shared-CPU report.
 
