@@ -1,0 +1,213 @@
+{
+  "schema": "dynamic_ring_batches_live_progress_v1",
+  "campaign_id": "dynamic-ring-20261110t044606z",
+  "campaign_status": "TIMING",
+  "expected_rows": 16,
+  "recorded_rows": 1,
+  "accepted_rows": 1,
+  "rejected_rows": 0,
+  "rejections": [],
+  "receipt_sha256": "ed69cea448093ca463e0afd6e4b4880a55372df3bdd5bc3dcacd8b2d3170dc4c",
+  "source_commit": "1bd74d911fa8c61f962d5b22fbd4ac2951102a80",
+  "veortex_sha256": "a493502c9538e10e66637993432e1d619c13004368c78c423f9041ff6be3d607",
+  "client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+  "contract": {
+    "points": 3000000,
+    "dimension": 512,
+    "format": "SQ8",
+    "nodes": 3,
+    "cpus_per_node": 3,
+    "shared_cpus_per_node": 3,
+    "reserved_compute_cpus": 0,
+    "reserved_support_cpus": 0,
+    "per_thread_pinning": false,
+    "cells": [
+      {
+        "batch_size": 64,
+        "concurrency": 4
+      },
+      {
+        "batch_size": 128,
+        "concurrency": 4
+      }
+    ],
+    "seconds_per_cell": 60,
+    "warmup_http_requests": 16,
+    "topk_per_query": 10,
+    "distinct_test_queries": 1024,
+    "candidates_per_segment": 12,
+    "score_tolerance": 1e-06,
+    "hnsw": false,
+    "metadata_present_all_categories": true,
+    "queued_query_budget_bytes": 2147483648,
+    "backend_order": [
+      "avx512vnni",
+      "auto"
+    ],
+    "veortex_max_ring_workers": 3,
+    "rayon_threads_all_arms": 3,
+    "veortex_separate_topk": false,
+    "rps_denominator": "successful completions / elapsed including final drain",
+    "ring_route_gate": "Each node must show exact submitted and completed query-member deltas equal to 16 warmup requests plus successful timed queries; zero ring fallback and HNSW search calls.",
+    "scope_limit": "Only B64/C4 and B128/C4, four metadata categories, AVX-512 VNNI and Auto; native values are a previous-run reference and are not measured again."
+  },
+  "rows": [
+    {
+      "backend": "avx512vnni",
+      "category": "unfiltered_no_payload",
+      "batch_size": 64,
+      "concurrency": 4,
+      "ordinal": 1,
+      "measurement_accepted": true,
+      "http_rps": 10.584847410477977,
+      "query_qps": 677.4302342705905,
+      "p50_ms": 379.104186,
+      "p95_ms": 404.464895,
+      "p99_ms": 439.168925,
+      "successful_requests": 638,
+      "failed_requests": 0,
+      "successful_queries": 40832,
+      "failed_queries": 0,
+      "dispatched_queries": 40832,
+      "exact_query_truth_matches": 40832,
+      "http_429_count": 0,
+      "correctness_failed_requests": 0,
+      "transport_failures": 0,
+      "transport_timeouts": 0,
+      "actual_elapsed_s": 60.274841503,
+      "client_status": "COMPLETED",
+      "client_passed": true,
+      "cpu_status": "PASSED",
+      "cpu_violations": 0,
+      "cpu_by_node": [
+        {
+          "node": 0,
+          "allowed_cpus": [
+            4,
+            5,
+            6
+          ],
+          "active_work_proven": true,
+          "whole_process_cpu_equivalents": 2.8241952051761867
+        },
+        {
+          "node": 1,
+          "allowed_cpus": [
+            7,
+            8,
+            9
+          ],
+          "active_work_proven": true,
+          "whole_process_cpu_equivalents": 2.7250144439615185
+        },
+        {
+          "node": 2,
+          "allowed_cpus": [
+            10,
+            11,
+            12
+          ],
+          "active_work_proven": true,
+          "whole_process_cpu_equivalents": 2.748504624249203
+        }
+      ],
+      "route_status": "PASSED",
+      "ring_admission_valid": true,
+      "ring_admission_proof": {
+        "schema": "dynamic_ring_explicit_batch_admission_v1",
+        "counter_semantics": "Process-global per-node counters increment once for each query member submitted/completed; measured-row delta includes 16 warmup requests plus timed requests and final drain.",
+        "warmup_queries_per_node": 1024,
+        "timed_successful_queries": 40832,
+        "expected_queries_per_node": 41856,
+        "warmup_contract_passed": true,
+        "nodes": [
+          {
+            "node": 0,
+            "submitted_delta": 41856,
+            "completed_delta": 41856,
+            "fallback_delta": 0,
+            "hnsw_search_calls_delta": 0,
+            "submitted_matches_expected": true,
+            "completed_matches_expected": true,
+            "no_ring_fallback": true,
+            "no_hnsw_search": true
+          },
+          {
+            "node": 1,
+            "submitted_delta": 41856,
+            "completed_delta": 41856,
+            "fallback_delta": 0,
+            "hnsw_search_calls_delta": 0,
+            "submitted_matches_expected": true,
+            "completed_matches_expected": true,
+            "no_ring_fallback": true,
+            "no_hnsw_search": true
+          },
+          {
+            "node": 2,
+            "submitted_delta": 41856,
+            "completed_delta": 41856,
+            "fallback_delta": 0,
+            "hnsw_search_calls_delta": 0,
+            "submitted_matches_expected": true,
+            "completed_matches_expected": true,
+            "no_ring_fallback": true,
+            "no_hnsw_search": true
+          }
+        ],
+        "passed": true
+      },
+      "ring_route_deltas": [
+        {
+          "node": 0,
+          "amx_calls": 0,
+          "query_vector_dots": 41856000000,
+          "gallery_blocks_decoded": 8805009408,
+          "batch4_vectors": 0,
+          "ring_fallback_queries": 0,
+          "hnsw_build_calls": 0,
+          "hnsw_search_calls": 0,
+          "avx512vnni_calls": 8598642,
+          "ring_submitted_queries": 41856,
+          "ring_completed_queries": 41856
+        },
+        {
+          "node": 1,
+          "amx_calls": 0,
+          "query_vector_dots": 41856000000,
+          "gallery_blocks_decoded": 10782595072,
+          "batch4_vectors": 0,
+          "ring_fallback_queries": 0,
+          "hnsw_build_calls": 0,
+          "hnsw_search_calls": 0,
+          "avx512vnni_calls": 10529878,
+          "ring_submitted_queries": 41856,
+          "ring_completed_queries": 41856
+        },
+        {
+          "node": 2,
+          "amx_calls": 0,
+          "query_vector_dots": 41856000000,
+          "gallery_blocks_decoded": 10609270784,
+          "batch4_vectors": 0,
+          "ring_fallback_queries": 0,
+          "hnsw_build_calls": 0,
+          "hnsw_search_calls": 0,
+          "avx512vnni_calls": 10360616,
+          "ring_submitted_queries": 41856,
+          "ring_completed_queries": 41856
+        }
+      ],
+      "failure_notes": [],
+      "backend_valid": true,
+      "quality_valid": true,
+      "intended_route_valid": true,
+      "client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "manifest_sha256": "f5770d81e2e11bfc09bb021264e2698b68aff157ba8a4f353c73544c0b3f2fe9"
+    }
+  ],
+  "limitations": [
+    "Progress only; final CPU, ISA, ring-admission, accuracy, restoration, and frozen-source gates are not implied.",
+    "This campaign changes the Veortex dynamic-ring batch path and is not an isolated kernel benchmark."
+  ]
+}
