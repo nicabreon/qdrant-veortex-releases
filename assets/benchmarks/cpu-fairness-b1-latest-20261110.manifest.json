@@ -1,0 +1,147 @@
+{
+  "campaign": {
+    "accuracy_checks": [
+      {
+        "backend": "avx512vnni",
+        "category": "unfiltered_no_payload",
+        "failed": 0,
+        "passed": 1024
+      },
+      {
+        "backend": "avx512vnni",
+        "category": "unfiltered_payload",
+        "failed": 0,
+        "passed": 1024
+      },
+      {
+        "backend": "avx512vnni",
+        "category": "active_only",
+        "failed": 0,
+        "passed": 1024
+      },
+      {
+        "backend": "avx512vnni",
+        "category": "active_position_exclude",
+        "failed": 0,
+        "passed": 1024
+      },
+      {
+        "backend": "auto",
+        "category": "unfiltered_no_payload",
+        "failed": 0,
+        "passed": 1024
+      },
+      {
+        "backend": "auto",
+        "category": "unfiltered_payload",
+        "failed": 0,
+        "passed": 1024
+      },
+      {
+        "backend": "auto",
+        "category": "active_only",
+        "failed": 0,
+        "passed": 1024
+      },
+      {
+        "backend": "auto",
+        "category": "active_position_exclude",
+        "failed": 0,
+        "passed": 1024
+      }
+    ],
+    "backends": [
+      "native earlier three-CPU reference, not rerun",
+      "avx512vnni fresh",
+      "auto fresh"
+    ],
+    "batch_size": 1,
+    "campaign_id": "ring-b1-20261110t054451z",
+    "categories": [
+      "unfiltered_no_payload",
+      "unfiltered_payload",
+      "active_only",
+      "active_position_exclude"
+    ],
+    "concurrencies": [
+      64,
+      128
+    ],
+    "current_accepted_rows": 16,
+    "current_expected_rows": 16,
+    "current_recorded_rows": 16,
+    "historical_native_reference_rows": 8,
+    "plotted_bars": 24,
+    "status": "MEASUREMENTS_COMPLETE_RECORDED_SCOPE"
+  },
+  "cpu_profile": {
+    "cpus_per_node": 3,
+    "nodes": 3,
+    "per_thread_pinning": false,
+    "shared_masks": [
+      [
+        4,
+        5,
+        6
+      ],
+      [
+        7,
+        8,
+        9
+      ],
+      [
+        10,
+        11,
+        12
+      ]
+    ]
+  },
+  "engine_sources": {
+    "fresh_veortex_candidate": {
+      "backends": [
+        "avx512vnni",
+        "auto"
+      ],
+      "engine_sha256": "a493502c9538e10e66637993432e1d619c13004368c78c423f9041ff6be3d607",
+      "source_commit": "1bd74d911fa8c61f962d5b22fbd4ac2951102a80"
+    },
+    "historical_native_reference": {
+      "engine_sha256": "5081acd073ef29701415dc2d1655d98750be8c08008541febc20cf2935800f2f",
+      "scope": "earlier three-CPU Native rows; not rerun",
+      "source_commit": "222b2e44ab1c3f17e8246396ead6558e45041df7"
+    }
+  },
+  "generator": "reproduce/render-cpu-fairness-b1-latest.py",
+  "generator_sha256": "79508fcf2258ab1996f39dfd69b1a90485e349f7b9f159275f6bf4e992e4af74",
+  "new_benchmarks_run_by_renderer": false,
+  "output_sha256": {
+    "cpu-fairness-b1-latest-20261110.csv": "41c98ed861c4419af13c8a4db6be81a9deccea976cf981a56b510726bc5faa37",
+    "cpu-fairness-b1-latest-20261110.png": "9a9bc5162e9e7987b11671ef45ff34e923c6fca6293c988883d1ca740e13ff2e",
+    "cpu-fairness-b1-latest-20261110.svg": "536fdcb795e786bfde40d22c90fb63462159ff3664605b4a12cfa28d35c7409a"
+  },
+  "palette": {
+    "background": "#f5f8fc",
+    "grid": "#dce5ee",
+    "muted": "#52677c",
+    "native": "#31659b",
+    "text": "#152b43",
+    "veortex_auto": "#e39b63",
+    "veortex_avx512vnni": "#cb641b"
+  },
+  "plot": {
+    "annotation": "bar-end labels show actual HTTP RPS",
+    "batch_size": 1,
+    "interpretation": "Fresh Veortex candidate measurements beside earlier three-CPU Native references; Native was not rerun. Selected end-to-end loads, not maximum capacity, scan-only throughput, or causal core scaling. Compiler flags remain unmatched.",
+    "metric": "cluster successful HTTP requests per second",
+    "p95_p99": "not plotted; retained in companion CSV and benchmark report",
+    "query_qps_equals_http_rps": true,
+    "scale": "global shared logarithmic axis"
+  },
+  "renderer": {
+    "matplotlib": "3.10.9",
+    "numpy": "2.2.6"
+  },
+  "schema": "cpu_fairness_b1_figure_manifest_v1",
+  "source_json": "benchmarks/ring-b1-c64-c128-20261110.json",
+  "source_json_sha256": "96ea50f0aed424804b456c834251f04363a7ac84be8f17f92f04a3e9250acce7"
+}

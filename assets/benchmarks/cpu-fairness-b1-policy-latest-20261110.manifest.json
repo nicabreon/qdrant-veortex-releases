@@ -1,0 +1,75 @@
+{
+  "cpu_allocation": {
+    "new_policy": "all three CPUs shared by all phases; no per-thread affinity",
+    "old_native": "1 full-search CPU + 2 service CPUs",
+    "old_veortex": "1 scan CPU + 2-CPU shared support pool for TopK/rerank/payload/service",
+    "total_budget_each_policy": "3 vCPU per node"
+  },
+  "engine_sources": {
+    "current_veortex": {
+      "sha256": "a493502c9538e10e66637993432e1d619c13004368c78c423f9041ff6be3d607",
+      "source_commit": "1bd74d911fa8c61f962d5b22fbd4ac2951102a80"
+    },
+    "native_reference": {
+      "sha256": "5081acd073ef29701415dc2d1655d98750be8c08008541febc20cf2935800f2f",
+      "source_commit": "222b2e44ab1c3f17e8246396ead6558e45041df7"
+    }
+  },
+  "generator": {
+    "path": "reproduce/render-cpu-fairness-b1-latest.py",
+    "sha256": "79508fcf2258ab1996f39dfd69b1a90485e349f7b9f159275f6bf4e992e4af74"
+  },
+  "inputs": {
+    "historical_policy_report": {
+      "path": "benchmarks/cpu-policy-1-vs-3-20261110.json",
+      "sha256": "dcf29c60cb5c6347b7144c29c953e1de8168774cf7efc9afc059331c9a4b0afa"
+    },
+    "latest_b1_report": {
+      "path": "benchmarks/ring-b1-c64-c128-20261110.json",
+      "sha256": "96ea50f0aed424804b456c834251f04363a7ac84be8f17f92f04a3e9250acce7"
+    }
+  },
+  "matrix": {
+    "batch_size": 1,
+    "categories": [
+      "unfiltered_no_payload",
+      "unfiltered_payload",
+      "active_only",
+      "active_position_exclude"
+    ],
+    "concurrency": 128,
+    "modes": [
+      "Native",
+      "AVX-512 VNNI",
+      "Auto"
+    ]
+  },
+  "new_benchmarks_run_by_renderer": false,
+  "output_sha256": {
+    "cpu-fairness-b1-policy-latest-20261110.csv": "cb61c8caa1b7d0f26eaa5effb6b2acf3713b1846860c5613aaa0222301a4cc9e",
+    "cpu-fairness-b1-policy-latest-20261110.png": "5f0dc7ba2268536eeb5ea76046f37dc5ca7b0f83e9d28bf2f2af151d7beb3369",
+    "cpu-fairness-b1-policy-latest-20261110.svg": "3353727352597b2db33f35bb8c4400ce5fb8eb3d73ec49a10101e9cd3960753e"
+  },
+  "plot": {
+    "axis": "one global logarithmic scale",
+    "labels": "both endpoint RPS and percent change",
+    "metric": "cluster successful HTTP requests per second",
+    "regressions": "red connector and new marker outline"
+  },
+  "plotted_pairs": 12,
+  "renderer": {
+    "matplotlib": "3.10.9",
+    "numpy": "2.2.6"
+  },
+  "schema": "cpu_fairness_b1_policy_figure_manifest_v1",
+  "scope": {
+    "b1_kernel_path": "unchanged in current candidate; Veortex ELF differs from historical baseline",
+    "comparison_type": "overall CPU policy comparison; not pure core scaling",
+    "compiler_flags": "unmatched",
+    "native_current": "earlier three-shared-CPU reference, not rerun",
+    "old_process_cpu_aggregate": "not available; role/affinity observer only",
+    "veortex_current": "fresh B1/C128 measurements",
+    "veortex_current_build_sha256": "a493502c9538e10e66637993432e1d619c13004368c78c423f9041ff6be3d607",
+    "veortex_old_build_sha256": "90d54aeabbaa17350b94161f6a7926528b13452b0b50296f0bc45fc0e96969e0"
+  }
+}

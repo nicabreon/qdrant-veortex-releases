@@ -15,6 +15,57 @@ Read the [chart guide, data and reproduction commands](benchmarks/CHARTS.md), or
 A separate [same-binary AVX-512 versus AMX follow-up](benchmarks/sq8-avx512-vs-amx-20261110.md) keeps the ring active and disables AMX. At SQ8 B1/C128, no filter/no payload measured **245.18 HTTP RPS with AVX-512 VNNI**, versus **898.94 with AMX-eligible Auto**. All eight filter/payload cells passed, with zero failed requests and ordered Top10 matching FP32. This V45.1 follow-up uses the same 640 MiB queue budget in both arms; it does not replace the earlier V45 matrix.
 
 ### Revision note — 10 November 2026 (WIB): CPU fairness
+<!-- CPU_FAIRNESS_B1_LATEST_START -->
+
+**CPU policy comparison at B1/C128:** each policy budgets three vCPUs per node. The earlier policy assigned one full-search CPU to Native, or one scan CPU to Veortex, with two CPUs available for support work; the current policy exposes all three CPUs to all phases without per-thread affinity.
+
+| Engine | Earlier 1+2 policy | Current three-shared policy |
+|---|---|---|
+| Native Qdrant 1.20 | 1 full-search CPU + 2 service CPUs; 3 vCPU total | All 3 CPUs shared by search and service; no per-thread affinity |
+| Veortex AVX-512 VNNI / Auto | 1 scan CPU + 2 CPUs in a shared TopK/rerank/payload/service pool; 3 vCPU total | All 3 CPUs shared by every phase; no per-thread affinity |
+
+![B1/C128 end-to-end throughput comparison of the earlier one-search-or-scan plus two-support policy and the current three-shared-CPU policy](assets/benchmarks/cpu-fairness-b1-policy-latest-20261110.png)
+
+Each cell shows **earlier 1+2-policy HTTP RPS → current 3-shared-policy HTTP RPS (percent change)**. All panels use one global logarithmic axis; red marks throughput regressions. At B1, HTTP RPS equals query/s.
+
+| Workload | Native Qdrant 1.20 | Veortex AVX-512 VNNI | Veortex Auto |
+|---|---:|---:|---:|
+| No filter, no payload | 22.2 → 55.7 (+151.3%) | 245.2 → 458.7 (+87.1%) | 898.9 → 1181.9 (+31.5%) |
+| No filter, payload | 20.2 → 54.3 (+169.1%) | 239.6 → 450.9 (+88.2%) | 904.1 → 1184.2 (+31.0%) |
+| Active-only filter (~90% eligible), payload | 18.0 → 48.0 (+166.4%) | 241.5 → 456.3 (+88.9%) | 892.2 → 774.4 (-13.2%) |
+| Active + position + exclusion (~9% eligible), payload | 40.7 → 120.3 (+195.5%) | 1933.5 → 1905.5 (-1.4%) | 3139.3 → 2195.5 (-30.1%) |
+
+The policy comparison reuses the earlier three-CPU Native values (not rerun) and compares historical 1+2-policy rows with the latest B1/C128 observations. The current Veortex candidate is source commit `1bd74d911fa8c61f962d5b22fbd4ac2951102a80` (ELF SHA-256 `a493502c9538e10e66637993432e1d619c13004368c78c423f9041ff6be3d607`); its binary differs from the historical Veortex policy binary, while the B1 kernel path itself is unchanged. Native's current comparison values are also a prior three-shared-CPU reference, not a new measurement. These are overall policy comparisons, not causal core-scaling results; compiler flags remain unmatched. The historical CPU observer records role/affinity activity only, so no old whole-process CPU aggregate is inferred.
+The changes are mixed: each red-marked throughput decline remains an open optimization item, and the available comparison does not establish its cause. Preserve the gains while isolating admission wait, ring wait, scan, TopK/reranking, payload completion, and cross-node join costs.
+
+For Veortex, this also changes pipeline scheduling: the earlier profile used `QDRANT_VEORTEX_SEPARATE_TOPK=1`, whereas these shared-CPU runs used `0`. Separating TopK into other workers and assigning those workers exclusive CPUs are different choices, but the tested implementation couples them. Thus these measurements do not isolate affinity, worker count, or stage separation individually.
+
+**Current shared-CPU B1 load matrix:** all three CPUs per node were shared across server phases with no per-thread affinity. The Native values are prior three-CPU references and were not rerun; Veortex AVX-512 VNNI and Auto values are fresh candidate measurements.
+
+Each cell below is **HTTP RPS / full-response p95 / p99 milliseconds**. Native cells are historical three-shared-CPU references.
+
+| Workload | Concurrency | Native Qdrant 1.20 (earlier run) | Veortex AVX-512 VNNI (fresh) | Veortex Auto (fresh) |
+|---|---:|---:|---:|---:|
+| No filter, no payload | B1/C64 | 55.43 / 1546.88 / 1881.56 | 242.39 / 274.73 / 282.52 | 640.75 / 110.54 / 130.56 |
+| No filter, no payload | B1/C128 | 55.71 / 2461.91 / 2854.50 | 458.72 / 291.95 / 305.12 | 1181.85 / 122.24 / 133.51 |
+| No filter, payload | B1/C64 | 54.08 / 1375.51 / 1662.05 | 235.07 / 278.27 / 400.48 | 618.34 / 114.37 / 122.60 |
+| No filter, payload | B1/C128 | 54.27 / 2899.84 / 3734.77 | 450.86 / 300.60 / 316.08 | 1184.24 / 118.99 / 128.45 |
+| Active-only filter (~90% eligible), payload | B1/C64 | 50.23 / 1386.95 / 1677.05 | 237.91 / 286.99 / 303.38 | 423.67 / 157.07 / 163.43 |
+| Active-only filter (~90% eligible), payload | B1/C128 | 47.99 / 2974.24 / 3420.46 | 456.35 / 295.33 / 306.00 | 774.41 / 182.10 / 253.82 |
+| Active + position + exclusion (~9% eligible), payload | B1/C64 | 119.30 / 601.67 / 669.96 | 970.30 / 76.95 / 84.91 | 1155.87 / 64.61 / 69.29 |
+| Active + position + exclusion (~9% eligible), payload | B1/C128 | 120.32 / 1261.05 / 1473.20 | 1905.54 / 88.94 / 98.53 | 2195.52 / 78.73 / 88.57 |
+
+The workload uses **3M × 512D SQ8 flat search**, three nodes, Top10, metadata in all four categories, and the same fixed **1,024-query corpus**. Each timed dispatch ran for 60 seconds followed by client drain. Across the 16 accepted fresh Veortex rows, **788,981 successful HTTP requests** produced **788,981 timed queries**, all **788,981** matching ordered Top10 IDs from FP32 truth, with score tolerance 1e-6. All eight independent accuracy checks passed 1,024/1,024; the original containers were restored healthy and immutable lower metadata was unchanged.
+
+The candidate is source commit `1bd74d911fa8c61f962d5b22fbd4ac2951102a80` (ELF SHA-256 `a493502c9538e10e66637993432e1d619c13004368c78c423f9041ff6be3d607`). The B1 singleton search path is unchanged by the multi-query batch-admission change, so these new B1 load points do not demonstrate a B1 kernel optimization. The finite end-to-end observations are not maximum-capacity results.
+
+Read the [one-versus-three policy report](benchmarks/cpu-policy-1-vs-3-20261110.json), the [full B1 report](benchmarks/ring-b1-c64-c128-20261110.md), [B1 JSON evidence](benchmarks/ring-b1-c64-c128-20261110.json), and [B1 CSV](benchmarks/ring-b1-c64-c128-20261110.csv). The [B1/C64 and B1/C128 head-to-head figure](assets/benchmarks/cpu-fairness-b1-latest-20261110.png) is available alongside the policy figure. Policy assets: [SVG](assets/benchmarks/cpu-fairness-b1-policy-latest-20261110.svg), [plotted CSV](assets/benchmarks/cpu-fairness-b1-policy-latest-20261110.csv), [provenance manifest](assets/benchmarks/cpu-fairness-b1-policy-latest-20261110.manifest.json); B1 assets: [SVG](assets/benchmarks/cpu-fairness-b1-latest-20261110.svg), [plotted CSV](assets/benchmarks/cpu-fairness-b1-latest-20261110.csv), [provenance manifest](assets/benchmarks/cpu-fairness-b1-latest-20261110.manifest.json), and [renderer](reproduce/render-cpu-fairness-b1-latest.py).
+
+<!-- CPU_FAIRNESS_B1_LATEST_END -->
+
+<details>
+<summary>Historical CPU allocation/B1/C128 revision</summary>
+
 
 The original measurements and sections below are retained. **Equal container quota did not mean equal CPU allocation within the search pipeline.** The published native profile set `max_search_threads=1` and used an external preload to pin native search workers, including scan, TopK, and FP32 rescoring, to one CPU. Its other two CPUs handled service work. Veortex used one CPU for scan/score and the other two for TopK, rescoring, and payload completion. This allocation difference is also identified in [Qdrant's tracking issue #11462](https://github.com/qdrant/qdrant/issues/11462). The historical speedups include that scheduling difference; disabling AMX alone does not remove it.
 
@@ -50,6 +101,8 @@ A new comparison is being measured with **all three CPUs shared by search and se
 **Open implementation gap — dynamic batch admission:** the intended design admits compatible queries from every supported request batch size into the same bounded ring queue. A B128 request should enqueue its 128 queries, admit them as active slots become free, and complete its response when all members finish. The 64-query active capacity should not select a separate execution path solely because a request contains more queries. This behavior is not implemented in the tested binary; queue-memory bounds, deadlines, cancellation, and update consistency must remain valid when it is added.
 
 **Next requested stage:** compare 1, 2, and 3 local shards per node (3, 6, and 9 physical shards in the cluster), keeping total vector count and the same shared three-CPU limit per node. Dataset preparation and actual shard placement must be verified before publishing that comparison.
+
+</details>
 
 ### Completion revision — 10 November 2026 (WIB): three shared CPUs
 
