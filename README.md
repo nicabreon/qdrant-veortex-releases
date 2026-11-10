@@ -22,6 +22,8 @@ A new comparison is being measured with **all three CPUs shared by search and se
 
 **Live report:** [shared three-CPU results](benchmarks/shared3-live-20261110.md), with [JSON evidence](benchmarks/shared3-live-20261110.json) and [CSV](benchmarks/shared3-live-20261110.csv), is updated after each recorded measurement. The report distinguishes accepted rows, rejected rows, and incomplete cleanup; it does not replace the historical tables below.
 
+**Revision clarification — B128 routing:** the tested Veortex binary sends compatible explicit batches of up to 64 queries into the circular ring. B128 uses its direct batched path, split into groups of up to 96 queries. Therefore B64 and B128 measure different existing execution paths; B128 support in the benchmark client does not add B128 ring admission to the engine. Every returned query still has the same Top10/FP32 correctness contract and shared three-CPU limit.
+
 **Next requested stage:** compare 1, 2, and 3 local shards per node (3, 6, and 9 physical shards in the cluster), keeping total vector count and the same shared three-CPU limit per node. Dataset preparation and actual shard placement must be verified before publishing that comparison.
 
 ## Download the research binary
