@@ -2,9 +2,9 @@
   "schema": "shared_three_cpu_live_progress_v1",
   "campaign": "shared3cpu-20261110t021202z",
   "status": "TIMING",
-  "recorded_rows": 20,
+  "recorded_rows": 21,
   "expected_rows": 48,
-  "receipt_sha256": "9885543bb710d1d9350fc88deecf65b62a4052e7a9c6d40bbabaa5b7ba10915d",
+  "receipt_sha256": "153a9a111093058ac7ea1e6263c735882545f2e27832f87001cd31321d74133e",
   "contract": {
     "points": 3000000,
     "dimension": 512,
@@ -1592,6 +1592,161 @@
         ],
         "errors": []
       }
+    },
+    {
+      "backend": "avx512vnni",
+      "category": "unfiltered_payload",
+      "batch_size": 1,
+      "concurrency": 64,
+      "ordinal": 21,
+      "http_rps": 230.54114051124716,
+      "query_qps": 230.54114051124716,
+      "p50_ms": 276.337183,
+      "p95_ms": 284.942865,
+      "p99_ms": 321.453812,
+      "successful_requests": 13888,
+      "failed_requests": 0,
+      "dispatched_queries": 13888,
+      "exact_query_truth_matches": 13888,
+      "http_429_count": 0,
+      "elapsed_s": 60.240874879,
+      "measurement_accepted": true,
+      "cpu_status": "PASSED",
+      "cpu_violations": 0,
+      "client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "manifest_sha256": "0f7a399788d7029db4d438897c46f52519c988f72e51088c96a3fd84f760a950",
+      "backend_valid": true,
+      "cpu_by_node": [
+        {
+          "node": 0,
+          "allowed_cpus": [
+            4,
+            5,
+            6
+          ],
+          "active_named_workers": 26,
+          "whole_process_cpu_equivalents": 1.1244574859483532
+        },
+        {
+          "node": 1,
+          "allowed_cpus": [
+            7,
+            8,
+            9
+          ],
+          "active_named_workers": 23,
+          "whole_process_cpu_equivalents": 1.0379732377505937
+        },
+        {
+          "node": 2,
+          "allowed_cpus": [
+            10,
+            11,
+            12
+          ],
+          "active_named_workers": 8,
+          "whole_process_cpu_equivalents": 1.039595831525411
+        }
+      ],
+      "route_metric_delta": {
+        "schema": "h2h_sq8_route_counter_delta_v1",
+        "status": "PASSED",
+        "scope": "Process-global Prometheus counters bracket one timed row on each node",
+        "zero_required": [
+          "batch4_vectors",
+          "hnsw_build_calls",
+          "hnsw_search_calls",
+          "ring_fallback_queries"
+        ],
+        "positive_required": [
+          "query_vector_dots",
+          "gallery_blocks_decoded"
+        ],
+        "informative_only": [
+          "amx_calls"
+        ],
+        "nodes": [
+          {
+            "node": 0,
+            "deltas": {
+              "amx_calls": 0,
+              "query_vector_dots": 13904000000,
+              "gallery_blocks_decoded": 4448291840,
+              "batch4_vectors": 0,
+              "ring_fallback_queries": 0,
+              "hnsw_build_calls": 0,
+              "hnsw_search_calls": 0,
+              "avx512vnni_calls": 4344035
+            },
+            "zero_route_checks": {
+              "batch4_vectors": true,
+              "hnsw_build_calls": true,
+              "hnsw_search_calls": true,
+              "ring_fallback_queries": true
+            },
+            "positive_work_checks": {
+              "query_vector_dots": true,
+              "gallery_blocks_decoded": true
+            },
+            "informative_measurements": {
+              "amx_calls": 0
+            }
+          },
+          {
+            "node": 1,
+            "deltas": {
+              "amx_calls": 0,
+              "query_vector_dots": 13904000000,
+              "gallery_blocks_decoded": 4509548544,
+              "batch4_vectors": 0,
+              "ring_fallback_queries": 0,
+              "hnsw_build_calls": 0,
+              "hnsw_search_calls": 0,
+              "avx512vnni_calls": 4403856
+            },
+            "zero_route_checks": {
+              "batch4_vectors": true,
+              "hnsw_build_calls": true,
+              "hnsw_search_calls": true,
+              "ring_fallback_queries": true
+            },
+            "positive_work_checks": {
+              "query_vector_dots": true,
+              "gallery_blocks_decoded": true
+            },
+            "informative_measurements": {
+              "amx_calls": 0
+            }
+          },
+          {
+            "node": 2,
+            "deltas": {
+              "amx_calls": 0,
+              "query_vector_dots": 13904000000,
+              "gallery_blocks_decoded": 3965014016,
+              "batch4_vectors": 0,
+              "ring_fallback_queries": 0,
+              "hnsw_build_calls": 0,
+              "hnsw_search_calls": 0,
+              "avx512vnni_calls": 3872084
+            },
+            "zero_route_checks": {
+              "batch4_vectors": true,
+              "hnsw_build_calls": true,
+              "hnsw_search_calls": true,
+              "ring_fallback_queries": true
+            },
+            "positive_work_checks": {
+              "query_vector_dots": true,
+              "gallery_blocks_decoded": true
+            },
+            "informative_measurements": {
+              "amx_calls": 0
+            }
+          }
+        ],
+        "errors": []
+      }
     }
   ],
   "accuracy": [
@@ -1626,6 +1781,13 @@
     {
       "backend": "avx512vnni",
       "category": "unfiltered_no_payload",
+      "queries": 1024,
+      "passed": 1024,
+      "failed": 0
+    },
+    {
+      "backend": "avx512vnni",
+      "category": "unfiltered_payload",
       "queries": 1024,
       "passed": 1024,
       "failed": 0
