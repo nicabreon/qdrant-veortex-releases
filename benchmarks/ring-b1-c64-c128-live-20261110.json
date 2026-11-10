@@ -1,0 +1,225 @@
+{
+  "schema": "ring_b1_c64_c128_live_progress_v1",
+  "campaign_id": "ring-b1-20261110t054451z",
+  "campaign_status": "TIMING",
+  "expected_rows": 16,
+  "recorded_rows": 1,
+  "accepted_rows": 1,
+  "rejected_rows": 0,
+  "rejections": [],
+  "receipt_sha256": "f050badb261a92ce267fc2898259c70fc473e819c147ee72e604ad4e19a702dc",
+  "source_commit": "1bd74d911fa8c61f962d5b22fbd4ac2951102a80",
+  "veortex_sha256": "a493502c9538e10e66637993432e1d619c13004368c78c423f9041ff6be3d607",
+  "client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+  "contract": {
+    "points": 3000000,
+    "dimension": 512,
+    "format": "SQ8",
+    "nodes": 3,
+    "cpus_per_node": 3,
+    "shared_cpus_per_node": 3,
+    "reserved_compute_cpus": 0,
+    "reserved_support_cpus": 0,
+    "per_thread_pinning": false,
+    "cells": [
+      {
+        "batch_size": 1,
+        "concurrency": 64
+      },
+      {
+        "batch_size": 1,
+        "concurrency": 128
+      }
+    ],
+    "seconds_per_cell": 60,
+    "warmup_http_requests": 16,
+    "topk_per_query": 10,
+    "distinct_test_queries": 1024,
+    "candidates_per_segment": 12,
+    "score_tolerance": 1e-06,
+    "hnsw": false,
+    "metadata_present_all_categories": true,
+    "queued_query_budget_bytes": 2147483648,
+    "backend_order": [
+      "avx512vnni",
+      "auto"
+    ],
+    "veortex_max_ring_workers": 3,
+    "rayon_threads_all_arms": 3,
+    "veortex_separate_topk": false,
+    "rps_denominator": "successful completions / elapsed including final drain",
+    "ring_route_gate": "Each node must show exact submitted and completed B1-query deltas equal to 16 warmup requests plus successful timed queries; zero ring fallback and HNSW search calls.",
+    "scope_limit": "Only B1/C64 and B1/C128 across four metadata categories, AVX-512 VNNI and Auto. Prior a1 Veortex and historical native rows are references only; neither is measured again."
+  },
+  "rows": [
+    {
+      "backend": "avx512vnni",
+      "category": "unfiltered_no_payload",
+      "batch_size": 1,
+      "concurrency": 64,
+      "ordinal": 1,
+      "measurement_accepted": true,
+      "http_rps": 242.38754478405357,
+      "query_qps": 242.38754478405357,
+      "p50_ms": 263.144557,
+      "p95_ms": 274.729364,
+      "p99_ms": 282.51987499999996,
+      "successful_requests": 14592,
+      "failed_requests": 0,
+      "successful_queries": 14592,
+      "failed_queries": 0,
+      "dispatched_queries": 14592,
+      "exact_query_truth_matches": 14592,
+      "http_429_count": 0,
+      "correctness_failed_requests": 0,
+      "transport_failures": 0,
+      "transport_timeouts": 0,
+      "actual_elapsed_s": 60.20111311,
+      "client_status": "COMPLETED",
+      "client_passed": true,
+      "cpu_status": "PASSED",
+      "cpu_violations": 0,
+      "cpu_by_node": [
+        {
+          "node": 0,
+          "allowed_cpus": [
+            4,
+            5,
+            6
+          ],
+          "active_work_proven": true,
+          "active_compute_proof_method": "stable_interval_schedstat_runtime",
+          "stable_interval_schedstat_samples": 13,
+          "newborn_schedstat_samples": 27,
+          "interval_proc_stat_ticks": 5761,
+          "whole_process_cpu_equivalents": 1.1033341533592649
+        },
+        {
+          "node": 1,
+          "allowed_cpus": [
+            7,
+            8,
+            9
+          ],
+          "active_work_proven": true,
+          "active_compute_proof_method": "stable_interval_schedstat_runtime",
+          "stable_interval_schedstat_samples": 19,
+          "newborn_schedstat_samples": 25,
+          "interval_proc_stat_ticks": 5828,
+          "whole_process_cpu_equivalents": 1.030146375279396
+        },
+        {
+          "node": 2,
+          "allowed_cpus": [
+            10,
+            11,
+            12
+          ],
+          "active_work_proven": true,
+          "active_compute_proof_method": "stable_interval_schedstat_runtime",
+          "stable_interval_schedstat_samples": 5,
+          "newborn_schedstat_samples": 11,
+          "interval_proc_stat_ticks": 5998,
+          "whole_process_cpu_equivalents": 1.0324182796987267
+        }
+      ],
+      "route_status": "PASSED",
+      "ring_admission_valid": true,
+      "ring_admission_proof": {
+        "schema": "ring_b1_per_node_admission_v1",
+        "counter_semantics": "Process-global per-node ring counters increment once for each B1 query submitted/completed; measured-row delta includes 16 warmup requests plus timed requests and final drain.",
+        "warmup_queries_per_node": 16,
+        "timed_successful_queries": 14592,
+        "expected_queries_per_node": 14608,
+        "warmup_contract_passed": true,
+        "nodes": [
+          {
+            "node": 0,
+            "submitted_delta": 14608,
+            "completed_delta": 14608,
+            "fallback_delta": 0,
+            "hnsw_search_calls_delta": 0,
+            "submitted_matches_expected": true,
+            "completed_matches_expected": true,
+            "no_ring_fallback": true,
+            "no_hnsw_search": true
+          },
+          {
+            "node": 1,
+            "submitted_delta": 14608,
+            "completed_delta": 14608,
+            "fallback_delta": 0,
+            "hnsw_search_calls_delta": 0,
+            "submitted_matches_expected": true,
+            "completed_matches_expected": true,
+            "no_ring_fallback": true,
+            "no_hnsw_search": true
+          },
+          {
+            "node": 2,
+            "submitted_delta": 14608,
+            "completed_delta": 14608,
+            "fallback_delta": 0,
+            "hnsw_search_calls_delta": 0,
+            "submitted_matches_expected": true,
+            "completed_matches_expected": true,
+            "no_ring_fallback": true,
+            "no_hnsw_search": true
+          }
+        ],
+        "passed": true
+      },
+      "ring_route_deltas": [
+        {
+          "node": 0,
+          "amx_calls": 0,
+          "query_vector_dots": 14608000000,
+          "gallery_blocks_decoded": 4395113472,
+          "batch4_vectors": 0,
+          "ring_fallback_queries": 0,
+          "hnsw_build_calls": 0,
+          "hnsw_search_calls": 0,
+          "avx512vnni_calls": 4292103,
+          "ring_submitted_queries": 14608,
+          "ring_completed_queries": 14608
+        },
+        {
+          "node": 1,
+          "amx_calls": 0,
+          "query_vector_dots": 14608000000,
+          "gallery_blocks_decoded": 4162116608,
+          "batch4_vectors": 0,
+          "ring_fallback_queries": 0,
+          "hnsw_build_calls": 0,
+          "hnsw_search_calls": 0,
+          "avx512vnni_calls": 4064567,
+          "ring_submitted_queries": 14608,
+          "ring_completed_queries": 14608
+        },
+        {
+          "node": 2,
+          "amx_calls": 0,
+          "query_vector_dots": 14608000000,
+          "gallery_blocks_decoded": 4227464192,
+          "batch4_vectors": 0,
+          "ring_fallback_queries": 0,
+          "hnsw_build_calls": 0,
+          "hnsw_search_calls": 0,
+          "avx512vnni_calls": 4128383,
+          "ring_submitted_queries": 14608,
+          "ring_completed_queries": 14608
+        }
+      ],
+      "failure_notes": [],
+      "backend_valid": true,
+      "quality_valid": true,
+      "intended_route_valid": true,
+      "client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "manifest_sha256": "62734f6c9f65c9569f9e3a6767053481ee2ba4ad3a994a0c1fe09baefe252559"
+    }
+  ],
+  "limitations": [
+    "Progress only; final CPU, ISA, ring-admission, accuracy, restoration, and frozen-source gates are not implied.",
+    "The B1 singleton request path is unchanged by the multi-query batch fix; this is not a kernel-optimization claim."
+  ]
+}
