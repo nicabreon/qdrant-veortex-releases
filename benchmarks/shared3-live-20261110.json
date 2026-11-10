@@ -1,10 +1,10 @@
 {
   "schema": "shared_three_cpu_live_progress_v1",
   "campaign": "shared3cpu-20261110t021202z",
-  "status": "TIMING",
+  "status": "MEASUREMENTS_COMPLETE_RECORDED_SCOPE",
   "recorded_rows": 48,
   "expected_rows": 48,
-  "receipt_sha256": "1370c18920579dfa0f1413306b7aa97c0ddf6e8d89fd3b031ed0b6f32abe787c",
+  "receipt_sha256": "988be53eed5dc07e605937a786aa5b5fc12de3cc96500dda46b1b627892b423c",
   "contract": {
     "points": 3000000,
     "dimension": 512,
@@ -6020,8 +6020,8 @@
       "failed": 0
     }
   ],
-  "original_ids_restored_healthy": null,
-  "immutable_lower_metadata_unchanged": null,
+  "original_ids_restored_healthy": true,
+  "immutable_lower_metadata_unchanged": true,
   "limitations": [
     "Fresh shared-three-CPU budget; toolchains differ.",
     "Native runtime ISA is not instrumented; Veortex tiers have per-node counter gates.",

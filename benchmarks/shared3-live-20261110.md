@@ -2,7 +2,7 @@
 
 **Revision note — 10 November 2026 (WIB).** Earlier reports and README sections remain unchanged.
 
-Campaign `shared3cpu-20261110t021202z`: **48/48 rows recorded; 48 accepted**. Status: `TIMING`.
+Campaign `shared3cpu-20261110t021202z`: **48/48 rows recorded; 48 accepted**. Status: `MEASUREMENTS_COMPLETE_RECORDED_SCOPE`.
 
 Three Docker nodes, each with three shared CPUs; disjoint cpusets `4,5,6` / `7,8,9` / `10,11,12`. No per-thread pinning or 1+2 reservation. Native search threads = 3; Veortex permits 3 unpinned rings per local shard with split TopK disabled. Every arm uses the same newly validated Go client.
 
@@ -69,4 +69,4 @@ CPU evidence includes full sampled thread masks, active-worker counts, and whole
 
 A separate C160 preflight was stopped when the requested matrix changed. It is retained privately and is not mixed into these C64/C128/B64/B128 results.
 
-Original cluster restored: `pending`. Immutable dataset inventory unchanged: `pending`.
+Original cluster restored: `True`. Immutable dataset inventory unchanged: `True`.
