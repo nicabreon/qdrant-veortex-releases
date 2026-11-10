@@ -33,7 +33,7 @@ The auxiliary sampler reads three existing metrics endpoints every two seconds. 
 
 ## Broader admission profile
 
-This separate profile fixes three workers, fast join 64, 640 singleton permits, a 640 singleton cap and a 640 shard-search cap across C256/C384/C512. The query-byte budget remains 2 GiB and admission wait remains 90 ms. It is not an isolated worker-count comparison. A separately validated client revision lifts only the former C160/inflight160 CLI ceiling to 1,024; query generation, protocol, validation and rate calculations are unchanged. Engine ELF/source are unchanged.
+This separate profile fixes three workers, fast join 64, 640 singleton permits, a 640 singleton cap and a 640 shard-search cap across the concurrency points below. The query-byte budget remains 2 GiB and admission wait remains 90 ms. It is not an isolated worker-count comparison. A separately validated client revision lifts only the former C160/inflight160 CLI ceiling to 1,024; query generation, protocol, validation and rate calculations are unchanged. Engine ELF/source are unchanged.
 
 | Concurrency | Category | HTTP RPS | p50 ms | p95 ms | p99 ms | Successful | Failed |
 | ---: | --- | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -48,13 +48,28 @@ At C512, active filter + payload reaches 83.7% of unfiltered throughput, with p9
 
 The [separate capacity client](../reproduce/cmd/bench-matrix-capacity/README.md) preserves the old C160 client for historical runs. Its source, build context and validation are documented independently.
 
+## Paired worker comparison at B1/C384
+
+Both worker arms use the same broader 640/640/640 admission profile, fast join 64, separate TopK, three shared CPUs per node, client and engine. Only maximum ring workers changes (2 then 3). This separate repeat avoids comparing different concurrency/admission profiles, but remains a single fixed-order short run per point.
+
+| Workers | Category | HTTP RPS | p50 ms | p95 ms | p99 ms | Failed |
+| ---: | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| 2 | No filter / no payload | 1,797.40 | 209.47 | 255.88 | 313.94 | 0 |
+| 2 | Active filter (~90%) + payload | 1,632.72 | 232.09 | 281.26 | 308.82 | 0 |
+| 3 | No filter / no payload | 1,737.43 | 208.80 | 335.22 | 398.41 | 0 |
+| 3 | Active filter (~90%) + payload | 1,618.86 | 229.14 | 356.58 | 419.24 | 0 |
+
+No filter / no payload: worker 2 versus worker 3 changes observed throughput by +3.5%. Whole-process CPU is 2.30–2.55 equivalents per node versus 2.84–2.86, with three CPUs allowed in both arms. This does not establish a hardware-wide default policy.
+
+Active filter + payload: worker 2 versus worker 3 changes observed throughput by +0.9%. Whole-process CPU is 2.31–2.63 equivalents per node versus 2.74–2.80, with three CPUs allowed in both arms. This does not establish a hardware-wide default policy.
+
 ## Interpretation and evidence
 
 5,000 HTTP RPS B1 is an exploratory target, not an achieved result. At C128 it would require mean latency no higher than 25.6 ms. At the measured three-worker fast-join-64 means (~99/108 ms), it would require roughly 494/538 concurrent requests if latency stayed unchanged. Higher concurrency can also raise latency and contention; this arithmetic is not a throughput forecast.
 
 Each campaign uses one COW set across its arms; host page cache is not reset and arm order is fixed. Host/VM I/O variability limits causal comparisons. These short cells do not establish long-run stability, maximum capacity, write/failover acceptance or performance of TQ2/TQ4/AVX-only/other operators. Native results are not rerun here. Payload-only and narrow-filter categories remain available in the complete matrix rather than being inferred from these two categories.
 
-All 14 rows passed, with 568,163 timed HTTP requests matching saved FP32 truth and zero failures/fallback/HNSW calls. Originals were restored healthy after each campaign, immutable lower metadata matched, and cleanup passed.
+All 18 rows passed, with 772,970 timed HTTP requests matching saved FP32 truth and zero failures/fallback/HNSW calls. Originals were restored healthy after each campaign, immutable lower metadata matched, and cleanup passed.
 
 Engine source commit: `0aa62c281b7262368ca6f1ed69de71647be10ac0`. ELF SHA-256: `074f45b364a8e80da3fb9307d637812072fd755f56b91aeb8bdd4bf92b1ba60d`. This measured candidate is distinct from the downloadable V45.1 binary; engine source remains private.
 
@@ -65,5 +80,6 @@ Machine-readable data: [JSON](worker-capacity-diagnostics-20261110.json), [CSV](
 | Worker count | `worker-scaling-warmed-diagnostic-20261110-20261110t141847z` | `52c512f27b06dfc88664de3e87d1be3085d9e8f497710b8d186d84638972973c` |
 | Fast join 32 | `worker-scaling-fastjoin32-diagnostic-20261110-20261110t143034z` | `4f12887f8f0238b150a59178f0d4ca5c1a94fd62a6ede14fe0759e964fe0a287` |
 | Capacity profile | `worker-scaling-capacity-diagnostic-20261110-20261110t150029z` | `bacfd291267594c21b23515f37dc82ac25ac1276009a1b42910c1c1c8baf7cc8` |
+| Paired workers | `worker-scaling-highload-paired-20261110-20261110t151235z` | `2f146bfeac4ac04313d7bb3f0ff7f39ccabb43361a3ef52bdfcc5def270f2fd5` |
 
 ![SQ8 worker-count, ring-fill and capacity diagnostics. Each point is one short run; the two admission profiles are separate experiments.](../assets/worker-capacity-diagnostics-20261110.svg)
