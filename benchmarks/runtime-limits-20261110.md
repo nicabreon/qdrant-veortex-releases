@@ -2,7 +2,7 @@
 
 Revision date: 10 November 2026. Native values are explicitly earlier-run H0 references; this campaign measured only Veortex AVX-512 VNNI and Auto.
 
-**Curation state:** PROVISIONAL — RESTORATION PENDING. Campaign `runtime-limits-fullmatrix-20261110t110031z` status `TIMING`. Fresh measurements: 32/32 accepted; 0 rejected; 0 expected cells not recorded. Historical native reference cells: 16 (not new tests).
+**Curation state:** FINAL CURATION; restoration verified. Campaign `runtime-limits-fullmatrix-20261110t110031z` status `MEASUREMENTS_COMPLETE_RECORDED_SCOPE`. Fresh measurements: 32/32 accepted; 0 rejected; 0 expected cells not recorded. Historical native reference cells: 16 (not new tests).
 
 Candidate source `0aa62c281b7262368ca6f1ed69de71647be10ac0`, ELF `074f45b364a8e80da3fb9307d637812072fd755f56b91aeb8bdd4bf92b1ba60d`, common Go client `5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0`. The candidate passed the frozen focused collection and quantization build-test selection. Exact source-module checks cover 22 cases; this is not a full workspace test claim. The user explicitly selected `SEPARATE_TOPK=1`, retaining separate TopK and deferred payload-materialization worker stages under the shared process CPU mask. This is not a same-ELF A/B result; the earlier `63e9…` A/B ELF is a different binary.
 
@@ -92,6 +92,6 @@ Independent accuracy: 8/8 fresh runs passed. Each recorded 1,024-query check is 
 
 Per-node stage work and queue-wait counter deltas, plus their three-node means, are retained as diagnostics in JSON and CSV. Stage and wait totals can overlap; they are not additive measures of critical-path latency and do not identify a root cause by themselves.
 
-Original-container restoration healthy: False; immutable lower metadata unchanged: False; overlays removed before restart: False; cleanup errors: 0.
+Original-container restoration healthy: True; immutable lower metadata unchanged: True; overlays removed before restart: True; cleanup errors: 0.
 
 The historical native comparison is cross-run, not a concurrent native arm. Builds use unmatched compiler flags; each cell was measured once in a fixed sequence on a shared VM. These are selected load points, not maximum capacity, confidence intervals, or long-duration stability claims. Curated outputs omit raw query bodies, client reports, credentials, and runtime environment values.

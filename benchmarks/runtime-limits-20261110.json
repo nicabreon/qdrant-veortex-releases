@@ -106,7 +106,7 @@
     }
   ],
   "campaign_id": "runtime-limits-fullmatrix-20261110t110031z",
-  "campaign_status": "TIMING",
+  "campaign_status": "MEASUREMENTS_COMPLETE_RECORDED_SCOPE",
   "contract": {
     "backends_fresh": [
       "avx512vnni",
@@ -191,8 +191,8 @@
     "topk_selection_basis": "explicit user instruction; no current-build A/B claim",
     "warmup_requests_per_cell": 16
   },
-  "curation_state": "PROVISIONAL \u2014 RESTORATION PENDING",
-  "finished_utc": null,
+  "curation_state": "FINAL CURATION; restoration verified",
+  "finished_utc": "2026-11-10T11:40:53.170645+00:00",
   "historical_native_provenance": {
     "native_binary_sha256": "5081acd073ef29701415dc2d1655d98750be8c08008541febc20cf2935800f2f",
     "native_source_commit": "222b2e44ab1c3f17e8246396ead6558e45041df7",
@@ -1206,12 +1206,12 @@
     "source_tree": "ae19530f171d177f6e517436e655e0e9571b8b50",
     "test_method_note": "The candidate passed the frozen focused collection and quantization build-test selection. Exact source-module checks cover 22 cases; this is not a full workspace test claim."
   },
-  "receipt_sha256": "a8a551a404adea04bcb63a58946a1ecd7d343b198a199ad647c0e21485adf9b1",
+  "receipt_sha256": "34d4bc01213e51e05ff285f3139f9ee702e22b3a1f005741c35b56118e16466d",
   "restoration": {
     "cleanup_errors": [],
-    "immutable_lower_metadata_unchanged": false,
-    "original_ids_restored_healthy": false,
-    "overlays_removed_before_original_restart": false,
+    "immutable_lower_metadata_unchanged": true,
+    "original_ids_restored_healthy": true,
+    "overlays_removed_before_original_restart": true,
     "three_original_ids_accounted_for": true
   },
   "rows": [
@@ -20039,7 +20039,7 @@
     "accuracy_rows_passed": 8,
     "expected_accuracy_rows": 8,
     "expected_fresh_rows": 32,
-    "final_restoration_claim": false,
+    "final_restoration_claim": true,
     "historical_native_reference_rows": 16,
     "missing_fresh_cells": [],
     "missing_fresh_rows": 0,
