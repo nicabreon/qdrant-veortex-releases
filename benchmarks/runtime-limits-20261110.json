@@ -90,6 +90,19 @@
       "report_sha256": "8df79756b918a893f01fec1518dd19d31ec5e2ae8729dfca67e1f6fb9d1fc352",
       "report_verified": true,
       "score_tolerance": 1e-06
+    },
+    {
+      "backend": "auto",
+      "category": "active_position_exclude",
+      "failed": 0,
+      "failed_query_indices": [],
+      "manifest_sha256": "d9ffa1e428ed72a0fe49ef09af2a7aa4e1ef2eba6ad62bfdf7d476f060236b0f",
+      "oracle_sha256": "675bfedb9adafcb14bcc749e143a37e771745aafa3c5ec1040e1e412beb46d83",
+      "passed": 1024,
+      "queries": 1024,
+      "report_sha256": "f35b64a9064ecd0c956055d928dde953400cad088308601f33157f416ce6832a",
+      "report_verified": true,
+      "score_tolerance": 1e-06
     }
   ],
   "campaign_id": "runtime-limits-fullmatrix-20261110t110031z",
@@ -1193,7 +1206,7 @@
     "source_tree": "ae19530f171d177f6e517436e655e0e9571b8b50",
     "test_method_note": "The candidate passed the frozen focused collection and quantization build-test selection. Exact source-module checks cover 22 cases; this is not a full workspace test claim."
   },
-  "receipt_sha256": "cc25b78575a062e8e2cd531b5c24b8157e50634d8ee9d4c22e7ecbef85486b01",
+  "receipt_sha256": "7df6af25e6443807d4fe7814f857ab7da2d1eec7b6e77e1e3ea605d8092953c2",
   "restoration": {
     "cleanup_errors": [],
     "immutable_lower_metadata_unchanged": false,
@@ -17077,24 +17090,606 @@
       },
       "successful_queries": 96448,
       "successful_requests": 1507
+    },
+    {
+      "backend": "auto",
+      "backend_label": "Veortex Auto (AMX allowed)",
+      "backend_valid": true,
+      "batch_size": 128,
+      "category": "active_only",
+      "category_label": "Active only (~90%) / payload",
+      "client_passed": true,
+      "client_report_sha256": "32bcdecea844d9a7f8f6d23eb64a2507575b5811512032d7331614c1573ffe49",
+      "client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "client_status": "COMPLETED",
+      "concurrency": 4,
+      "cpu_contract_valid": true,
+      "cpu_equivalents_by_node": [
+        {
+          "active_work_proven": true,
+          "node": 0,
+          "observed_full_mask": [
+            4,
+            5,
+            6
+          ],
+          "whole_process_cpu_equivalents": 2.7183684885179646
+        },
+        {
+          "active_work_proven": true,
+          "node": 1,
+          "observed_full_mask": [
+            7,
+            8,
+            9
+          ],
+          "whole_process_cpu_equivalents": 2.678455369651419
+        },
+        {
+          "active_work_proven": true,
+          "node": 2,
+          "observed_full_mask": [
+            10,
+            11,
+            12
+          ],
+          "whole_process_cpu_equivalents": 2.692868440353227
+        }
+      ],
+      "cpu_evidence_recomputed_and_matched": true,
+      "cpu_full_mask_and_work_proven": true,
+      "dispatch_s": 59.955230598,
+      "dispatched_queries": 111232,
+      "drain_s": 0.2464183160000033,
+      "elapsed_s": 60.201648914,
+      "errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "http_error_requests": 0,
+        "protocol_errors": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "exact_query_truth_matches": 111232,
+      "failed_queries": 0,
+      "failed_requests": 0,
+      "failure_reasons": [],
+      "fallback_reason_metric_deltas": {
+        "all_zero": true,
+        "complete": true,
+        "labels": [
+          "materialization_capacity",
+          "materialization_channel_full",
+          "materialization_channel_disconnected",
+          "holder_lock",
+          "segment_lock",
+          "source_segment_changed",
+          "capture",
+          "raw_materialization",
+          "decode",
+          "worker_panic",
+          "scan"
+        ],
+        "metric": "veortex_ring_fallback_reasons_total",
+        "nodes": [
+          {
+            "complete": true,
+            "deltas": {
+              "capture": 0,
+              "decode": 0,
+              "holder_lock": 0,
+              "materialization_capacity": 0,
+              "materialization_channel_disconnected": 0,
+              "materialization_channel_full": 0,
+              "raw_materialization": 0,
+              "scan": 0,
+              "segment_lock": 0,
+              "source_segment_changed": 0,
+              "worker_panic": 0
+            },
+            "invalid_labels": [],
+            "node": 0,
+            "route_mismatch_labels": []
+          },
+          {
+            "complete": true,
+            "deltas": {
+              "capture": 0,
+              "decode": 0,
+              "holder_lock": 0,
+              "materialization_capacity": 0,
+              "materialization_channel_disconnected": 0,
+              "materialization_channel_full": 0,
+              "raw_materialization": 0,
+              "scan": 0,
+              "segment_lock": 0,
+              "source_segment_changed": 0,
+              "worker_panic": 0
+            },
+            "invalid_labels": [],
+            "node": 1,
+            "route_mismatch_labels": []
+          },
+          {
+            "complete": true,
+            "deltas": {
+              "capture": 0,
+              "decode": 0,
+              "holder_lock": 0,
+              "materialization_capacity": 0,
+              "materialization_channel_disconnected": 0,
+              "materialization_channel_full": 0,
+              "raw_materialization": 0,
+              "scan": 0,
+              "segment_lock": 0,
+              "source_segment_changed": 0,
+              "worker_panic": 0
+            },
+            "invalid_labels": [],
+            "node": 2,
+            "route_mismatch_labels": []
+          }
+        ],
+        "schema": "veortex_ring_fallback_reasons_v1"
+      },
+      "historical_native_reference": {
+        "measurement_accepted": true,
+        "receipt_sha256": "988be53eed5dc07e605937a786aa5b5fc12de3cc96500dda46b1b627892b423c",
+        "scope": "earlier three-CPU H0 run; not rerun in this campaign"
+      },
+      "http_rps": 14.434820568476363,
+      "intended_route_valid": true,
+      "isa_deltas_by_node": [
+        {
+          "amx_calls": 1322633,
+          "avx512vnni_calls": 20178,
+          "node": 0
+        },
+        {
+          "amx_calls": 1514913,
+          "avx512vnni_calls": 42587,
+          "node": 1
+        },
+        {
+          "amx_calls": 1509886,
+          "avx512vnni_calls": 57225,
+          "node": 2
+        }
+      ],
+      "latency_sample_count": 869,
+      "manifest_sha256": "8bbc3b094cca453095ffbbf5ec78bb3a45ac02c08806487db2b06961269b1382",
+      "measurement_accepted": true,
+      "measurement_scope": "fresh measurement",
+      "ordinal": 28,
+      "p50_ms": 275.872738,
+      "p95_ms": 352.499541,
+      "p99_ms": 385.053294,
+      "payload_contract_matches": 111232,
+      "postprocessing_worker_proof": {
+        "nodes": [
+          {
+            "base_node_proof_passed": true,
+            "both_worker_families_observed": true,
+            "node": 0,
+            "node_index_matches": true,
+            "passed": true,
+            "payload_materialize_workers": [
+              "payload-materia"
+            ],
+            "veortex_topk_workers": [
+              "veortex-topk-0",
+              "veortex-topk-1"
+            ]
+          },
+          {
+            "base_node_proof_passed": true,
+            "both_worker_families_observed": true,
+            "node": 1,
+            "node_index_matches": true,
+            "passed": true,
+            "payload_materialize_workers": [
+              "payload-materia"
+            ],
+            "veortex_topk_workers": [
+              "veortex-topk-0",
+              "veortex-topk-1"
+            ]
+          },
+          {
+            "base_node_proof_passed": true,
+            "both_worker_families_observed": true,
+            "node": 2,
+            "node_index_matches": true,
+            "passed": true,
+            "payload_materialize_workers": [
+              "payload-materia"
+            ],
+            "veortex_topk_workers": [
+              "veortex-topk-0",
+              "veortex-topk-1"
+            ]
+          }
+        ],
+        "passed": true,
+        "protocol_proof": {
+          "arm": "shared_topk",
+          "nodes": [
+            {
+              "expected_mask": [
+                4,
+                5,
+                6
+              ],
+              "node": 0,
+              "passed": true,
+              "worker_pools": {
+                "payload_materializer": {
+                  "required_and_observed": true,
+                  "workers": [
+                    {
+                      "comm": "payload-materia",
+                      "mask_counts": {
+                        "4,5,6": 594
+                      },
+                      "only_full_expected_mask": true,
+                      "samples": 594
+                    }
+                  ]
+                },
+                "veortex_topk": {
+                  "required_and_observed": true,
+                  "workers": [
+                    {
+                      "comm": "veortex-topk-0",
+                      "mask_counts": {
+                        "4,5,6": 830
+                      },
+                      "only_full_expected_mask": true,
+                      "samples": 830
+                    },
+                    {
+                      "comm": "veortex-topk-1",
+                      "mask_counts": {
+                        "4,5,6": 830
+                      },
+                      "only_full_expected_mask": true,
+                      "samples": 830
+                    }
+                  ]
+                }
+              },
+              "workers": [
+                {
+                  "comm": "payload-materia",
+                  "mask_counts": {
+                    "4,5,6": 594
+                  },
+                  "only_full_expected_mask": true,
+                  "samples": 594
+                },
+                {
+                  "comm": "veortex-topk-0",
+                  "mask_counts": {
+                    "4,5,6": 830
+                  },
+                  "only_full_expected_mask": true,
+                  "samples": 830
+                },
+                {
+                  "comm": "veortex-topk-1",
+                  "mask_counts": {
+                    "4,5,6": 830
+                  },
+                  "only_full_expected_mask": true,
+                  "samples": 830
+                }
+              ]
+            },
+            {
+              "expected_mask": [
+                7,
+                8,
+                9
+              ],
+              "node": 1,
+              "passed": true,
+              "worker_pools": {
+                "payload_materializer": {
+                  "required_and_observed": true,
+                  "workers": [
+                    {
+                      "comm": "payload-materia",
+                      "mask_counts": {
+                        "7,8,9": 594
+                      },
+                      "only_full_expected_mask": true,
+                      "samples": 594
+                    }
+                  ]
+                },
+                "veortex_topk": {
+                  "required_and_observed": true,
+                  "workers": [
+                    {
+                      "comm": "veortex-topk-0",
+                      "mask_counts": {
+                        "7,8,9": 783
+                      },
+                      "only_full_expected_mask": true,
+                      "samples": 783
+                    },
+                    {
+                      "comm": "veortex-topk-1",
+                      "mask_counts": {
+                        "7,8,9": 784
+                      },
+                      "only_full_expected_mask": true,
+                      "samples": 784
+                    }
+                  ]
+                }
+              },
+              "workers": [
+                {
+                  "comm": "payload-materia",
+                  "mask_counts": {
+                    "7,8,9": 594
+                  },
+                  "only_full_expected_mask": true,
+                  "samples": 594
+                },
+                {
+                  "comm": "veortex-topk-0",
+                  "mask_counts": {
+                    "7,8,9": 783
+                  },
+                  "only_full_expected_mask": true,
+                  "samples": 783
+                },
+                {
+                  "comm": "veortex-topk-1",
+                  "mask_counts": {
+                    "7,8,9": 784
+                  },
+                  "only_full_expected_mask": true,
+                  "samples": 784
+                }
+              ]
+            },
+            {
+              "expected_mask": [
+                10,
+                11,
+                12
+              ],
+              "node": 2,
+              "passed": true,
+              "worker_pools": {
+                "payload_materializer": {
+                  "required_and_observed": true,
+                  "workers": [
+                    {
+                      "comm": "payload-materia",
+                      "mask_counts": {
+                        "10,11,12": 594
+                      },
+                      "only_full_expected_mask": true,
+                      "samples": 594
+                    }
+                  ]
+                },
+                "veortex_topk": {
+                  "required_and_observed": true,
+                  "workers": [
+                    {
+                      "comm": "veortex-topk-0",
+                      "mask_counts": {
+                        "10,11,12": 791
+                      },
+                      "only_full_expected_mask": true,
+                      "samples": 791
+                    },
+                    {
+                      "comm": "veortex-topk-1",
+                      "mask_counts": {
+                        "10,11,12": 795
+                      },
+                      "only_full_expected_mask": true,
+                      "samples": 795
+                    }
+                  ]
+                }
+              },
+              "workers": [
+                {
+                  "comm": "payload-materia",
+                  "mask_counts": {
+                    "10,11,12": 594
+                  },
+                  "only_full_expected_mask": true,
+                  "samples": 594
+                },
+                {
+                  "comm": "veortex-topk-0",
+                  "mask_counts": {
+                    "10,11,12": 791
+                  },
+                  "only_full_expected_mask": true,
+                  "samples": 791
+                },
+                {
+                  "comm": "veortex-topk-1",
+                  "mask_counts": {
+                    "10,11,12": 795
+                  },
+                  "only_full_expected_mask": true,
+                  "samples": 795
+                }
+              ]
+            }
+          ],
+          "passed": true,
+          "schema": "shared_postprocessing_worker_mask_v1",
+          "scope": "Requires both sampled deferred materialization and separate TopK worker pools per treatment node, all on the full node mask; control requires neither pool. Sampling presence is not a utilization or phase-coverage estimate."
+        },
+        "requires_topk_and_payload_materialization_per_node": true,
+        "schema": "shared_cpu_fullmatrix_postprocessing_workers_v1",
+        "selected_separate_topk": true
+      },
+      "postprocessing_worker_valid": true,
+      "proof_error": null,
+      "quality_valid": true,
+      "query_qps": 1847.6570327649745,
+      "raw_cpu_observation_present": true,
+      "ring_admission_proof": {
+        "counter_semantics": "Process-global per-node ring counters increment once per query member submitted/completed; measured-row delta includes 16 warmup requests times batch size plus successful timed queries and final drain.",
+        "expected_queries_per_node": 113280,
+        "nodes": [
+          {
+            "completed_delta": 113280,
+            "completed_matches_expected": true,
+            "fallback_delta": 0,
+            "hnsw_search_calls_delta": 0,
+            "no_hnsw_search": true,
+            "no_ring_fallback": true,
+            "node": 0,
+            "node_index_matches": true,
+            "submitted_delta": 113280,
+            "submitted_matches_expected": true
+          },
+          {
+            "completed_delta": 113280,
+            "completed_matches_expected": true,
+            "fallback_delta": 0,
+            "hnsw_search_calls_delta": 0,
+            "no_hnsw_search": true,
+            "no_ring_fallback": true,
+            "node": 1,
+            "node_index_matches": true,
+            "submitted_delta": 113280,
+            "submitted_matches_expected": true
+          },
+          {
+            "completed_delta": 113280,
+            "completed_matches_expected": true,
+            "fallback_delta": 0,
+            "hnsw_search_calls_delta": 0,
+            "no_hnsw_search": true,
+            "no_ring_fallback": true,
+            "node": 2,
+            "node_index_matches": true,
+            "submitted_delta": 113280,
+            "submitted_matches_expected": true
+          }
+        ],
+        "passed": true,
+        "schema": "shared_cpu_matrix_per_node_admission_v1",
+        "timed_successful_queries": 111232,
+        "warmup_contract_passed": true,
+        "warmup_queries_per_node": 2048
+      },
+      "ring_admission_valid": true,
+      "stage_diagnostics": {
+        "mean_per_node": {
+          "coordinator_fanout_ns": 174672397385.0,
+          "coordinator_merge_ns": 610027708.0,
+          "f32_rescore_ns": 698835803.3333334,
+          "flat_scan_score_ns": 105747549081.66667,
+          "query_encode_ns": 336455936.0,
+          "remote_rpc_ns": 108721362347.33333,
+          "ring_filter_mask_build_ns": 3017439241.6666665,
+          "ring_local_materialization_ns": 5783282542.0,
+          "ring_materialization_queue_wait_ns": 62573089214.0,
+          "ring_query_execution_ns": 13816649085766.0,
+          "ring_queue_wait_ns": 2570339656397.3335,
+          "support_command_queue_wait_ns": 12357828172.0,
+          "support_command_queue_waits": 26529.0,
+          "support_score_buffer_wait_ns": 644927590.6666666,
+          "support_score_buffer_waits": 7284.0,
+          "support_score_matrix_bytes": 3235890969.3333335,
+          "support_score_tiles": 1451644.6666666667,
+          "topk_work_ns": 6796807512.666667
+        },
+        "per_node": [
+          {
+            "coordinator_fanout_ns": 213629291223,
+            "coordinator_merge_ns": 1406081639,
+            "f32_rescore_ns": 724109780,
+            "flat_scan_score_ns": 106673858089,
+            "query_encode_ns": 363628137,
+            "remote_rpc_ns": 326164087042,
+            "ring_filter_mask_build_ns": 1220639513,
+            "ring_local_materialization_ns": 5964859383,
+            "ring_materialization_queue_wait_ns": 62574606019,
+            "ring_query_execution_ns": 15382702315373,
+            "ring_queue_wait_ns": 3368284407020,
+            "support_command_queue_wait_ns": 17471951914,
+            "support_command_queue_waits": 21125,
+            "support_score_buffer_wait_ns": 259127785,
+            "support_score_buffer_waits": 2807,
+            "support_score_matrix_bytes": 2229147780,
+            "support_score_tiles": 1323895,
+            "topk_work_ns": 6766321313
+          },
+          {
+            "coordinator_fanout_ns": 154151463647,
+            "coordinator_merge_ns": 210208188,
+            "f32_rescore_ns": 682062612,
+            "flat_scan_score_ns": 105273252863,
+            "query_encode_ns": 338247643,
+            "remote_rpc_ns": 0,
+            "ring_filter_mask_build_ns": 4078000765,
+            "ring_local_materialization_ns": 5693992415,
+            "ring_materialization_queue_wait_ns": 61298520099,
+            "ring_query_execution_ns": 12957753832230,
+            "ring_queue_wait_ns": 2156970804528,
+            "support_command_queue_wait_ns": 9660797083,
+            "support_command_queue_waits": 29706,
+            "support_score_buffer_wait_ns": 795182692,
+            "support_score_buffer_waits": 9928,
+            "support_score_matrix_bytes": 3850246700,
+            "support_score_tiles": 1517576,
+            "topk_work_ns": 6785340360
+          },
+          {
+            "coordinator_fanout_ns": 156236437285,
+            "coordinator_merge_ns": 213793297,
+            "f32_rescore_ns": 690335018,
+            "flat_scan_score_ns": 105295536293,
+            "query_encode_ns": 307492028,
+            "remote_rpc_ns": 0,
+            "ring_filter_mask_build_ns": 3753677447,
+            "ring_local_materialization_ns": 5690995828,
+            "ring_materialization_queue_wait_ns": 63846141524,
+            "ring_query_execution_ns": 13109491109695,
+            "ring_queue_wait_ns": 2185763757644,
+            "support_command_queue_wait_ns": 9940735519,
+            "support_command_queue_waits": 28756,
+            "support_score_buffer_wait_ns": 880472295,
+            "support_score_buffer_waits": 9117,
+            "support_score_matrix_bytes": 3628278428,
+            "support_score_tiles": 1513463,
+            "topk_work_ns": 6838760865
+          }
+        ],
+        "scope": "Per-node metric deltas and their three-node mean; stage work/wait counters can overlap and are not additive critical-path latency."
+      },
+      "successful_queries": 111232,
+      "successful_requests": 869
     }
   ],
   "schema": "runtime_limits_shared_cpu_fullmatrix_v1",
   "started_utc": "2026-11-10T11:00:31.392403+00:00",
   "validation": {
-    "accepted_fresh_rows": 27,
-    "accuracy_rows_passed": 7,
+    "accepted_fresh_rows": 28,
+    "accuracy_rows_passed": 8,
     "expected_accuracy_rows": 8,
     "expected_fresh_rows": 32,
     "final_restoration_claim": false,
     "historical_native_reference_rows": 16,
     "missing_fresh_cells": [
-      {
-        "backend": "auto",
-        "batch_size": 128,
-        "category": "active_only",
-        "concurrency": 4
-      },
       {
         "backend": "auto",
         "batch_size": 1,
@@ -17120,9 +17715,9 @@
         "concurrency": 4
       }
     ],
-    "missing_fresh_rows": 5,
-    "recorded_fresh_rows": 27,
+    "missing_fresh_rows": 4,
+    "recorded_fresh_rows": 28,
     "rejected_fresh_rows": 0,
-    "ring_admission_rows_passed": 27
+    "ring_admission_rows_passed": 28
   }
 }
