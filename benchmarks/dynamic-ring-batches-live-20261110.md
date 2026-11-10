@@ -2,7 +2,7 @@
 
 **Preliminary live data. Final acceptance and the old/new comparison are deferred until all gates pass.**
 
-Campaign `dynamic-ring-20261110t050818z`: 10/16 timing rows recorded; 10 currently accepted; receipt status `TIMING`.
+Campaign `dynamic-ring-20261110t050818z`: 11/16 timing rows recorded; 11 currently accepted; receipt status `TIMING`.
 
 This focused campaign compares Veortex AVX512 VNNI and Auto at B64/C4 and B128/C4 across four payload/filter categories. It uses the same three-node, three-shared-CPU, 3M × 512D SQ8 fixture and common client as the prior shared-CPU report.
 
@@ -18,6 +18,7 @@ This focused campaign compares Veortex AVX512 VNNI and Auto at B64/C4 and B128/C
 | avx512vnni | Active + position exclusion (~9%) / payload | 128/4 | 26.64 | 3410.03 | 184.94 / 200.58 | PASSED / True |
 | auto | No filter / no payload | 64/4 | 26.26 | 1680.82 | 177.01 / 186.25 | PASSED / True |
 | auto | No filter / no payload | 128/4 | 15.71 | 2011.34 | 296.36 / 320.28 | PASSED / True |
+| auto | No filter / payload | 64/4 | 25.11 | 1606.80 | 172.26 / 179.05 | PASSED / True |
 
 Rejected rows: 0. Rejected measurements remain in JSON/CSV with reasons and are excluded from the results table.
 Missing cells are not estimated. A row-level accepted flag remains provisional until the final exporter verifies source, mask, ISA, admission, Top10/F32, zero-error, and restoration evidence.
