@@ -2,7 +2,7 @@
 
 Revision date: 10 November 2026. Native values are explicitly earlier-run H0 references; this campaign measured only Veortex AVX-512 VNNI and Auto.
 
-**Curation state:** PROVISIONAL — RESTORATION PENDING. Campaign `shared-cpu-fullmatrix-20261110t075650z` status `TIMING`. Fresh measurements: 6/6 accepted; 0 rejected; 26 expected cells not recorded. Historical native reference cells: 16 (not new tests).
+**Curation state:** FINAL CURATION; restoration verified; partial/rejected measurements. Campaign `shared-cpu-fullmatrix-20261110t075650z` status `FAILED_RESTORING`. Fresh measurements: 6/7 accepted; 1 rejected; 25 expected cells not recorded. Historical native reference cells: 16 (not new tests).
 
 Candidate source `560259c84af2b292867b9b2970ec731bcd33e07f`, ELF `63e9c5d1ffb9075bcfa3981c04a65c8240c9b18f1ad095456a93e9943ae466c6`, common Go client `5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0`. Six focused collection tests passed. Four support_cpu tests passed after compiling the exact production module and its four tests directly with a rustc --test wrapper; the full segment test suite was not run. Selected pipeline: `SEPARATE_TOPK=1` (separate TopK and deferred payload materialization). That setting was selected after the passing same-ELF focused A/B: [report](shared-postprocessing-ab-20261110.md).
 
@@ -58,12 +58,12 @@ The tables contain only accepted rows. Measurement acceptance means correctness,
 
 ## Rejected fresh-row diagnostics
 
-No fresh timing row was rejected.
+- `avx512vnni` / `unfiltered_payload` B64/C4: intended search route proof, per-node ring admission/completion proof.
 
 Independent accuracy: 2/8 fresh runs passed. Per-node ring gates require each node's submitted/completed delta to equal warmup query members plus successful timed query members, with zero fallback and HNSW calls. AVX rows prove VNNI-positive/AMX-zero on each node; Auto rows prove AMX work on each node. CPU evidence requires active work and each sampled thread's full three-CPU mask.
 
 Per-node stage work and queue-wait counter deltas, plus their three-node means, are retained as diagnostics in JSON and CSV. Stage and wait totals can overlap; they are not additive measures of critical-path latency and do not identify a root cause by themselves.
 
-Original-container restoration healthy: False; immutable lower metadata unchanged: False; overlays removed before restart: False; cleanup errors: 0.
+Original-container restoration healthy: True; immutable lower metadata unchanged: True; overlays removed before restart: True; cleanup errors: 0.
 
 The historical native comparison is cross-run, not a concurrent native arm. Builds use unmatched compiler flags; each cell was measured once in a fixed sequence on a shared VM. These are selected load points, not maximum capacity, confidence intervals, or long-duration stability claims. Curated outputs omit raw query bodies, client reports, credentials, and runtime environment values.
