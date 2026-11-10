@@ -2,7 +2,7 @@
 
 **Revision note — 10 November 2026 (WIB).** Earlier reports and README sections remain unchanged.
 
-Campaign `shared3cpu-20261110t021202z`: **39/48 rows recorded; 39 accepted**. Status: `TIMING`.
+Campaign `shared3cpu-20261110t021202z`: **40/48 rows recorded; 40 accepted**. Status: `TIMING`.
 
 Three Docker nodes, each with three shared CPUs; disjoint cpusets `4,5,6` / `7,8,9` / `10,11,12`. No per-thread pinning or 1+2 reservation. Native search threads = 3; Veortex permits 3 unpinned rings per local shard with split TopK disabled. Every arm uses the same newly validated Go client.
 
@@ -53,6 +53,7 @@ Each row: 16 validated warmup HTTP requests, 60-second dispatch, then drain. HTT
 | auto | Payload only | 1 / 64 | 618.87 | 618.87 | 101.16 / 117.16 / 123.45 | 37167 / 0 |
 | auto | Payload only | 1 / 128 | 1175.70 | 1175.70 | 108.27 / 121.10 / 132.50 | 70633 / 0 |
 | auto | Payload only | 64 / 4 | 24.81 | 1587.62 | 159.46 / 181.91 / 216.86 | 1491 / 0 |
+| auto | Payload only | 128 / 4 | 8.15 | 1042.93 | 478.02 / 627.64 / 713.04 | 492 / 0 |
 
 Rejected measurements: 0. They remain in JSON/CSV and are excluded from the successful-results table.
 
