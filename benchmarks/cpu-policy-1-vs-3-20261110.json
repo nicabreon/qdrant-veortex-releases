@@ -1,0 +1,1769 @@
+{
+  "builds": {
+    "current": {
+      "native": "5081acd073ef29701415dc2d1655d98750be8c08008541febc20cf2935800f2f",
+      "veortex": "90d54aeabbaa17350b94161f6a7926528b13452b0b50296f0bc45fc0e96969e0"
+    },
+    "historical_native": "5081acd073ef29701415dc2d1655d98750be8c08008541febc20cf2935800f2f",
+    "historical_veortex_b1_c128": "90d54aeabbaa17350b94161f6a7926528b13452b0b50296f0bc45fc0e96969e0",
+    "historical_veortex_v45_1": "90d54aeabbaa17350b94161f6a7926528b13452b0b50296f0bc45fc0e96969e0"
+  },
+  "comparisons": [
+    {
+      "batch_size": 1,
+      "category": "unfiltered_no_payload",
+      "category_label": "Unfiltered, no payload",
+      "concurrency": 128,
+      "mode": "Native",
+      "new_accuracy_passes": 1024,
+      "new_build_sha256": "5081acd073ef29701415dc2d1655d98750be8c08008541febc20cf2935800f2f",
+      "new_client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "new_exact_matches": 3464,
+      "new_manifest_sha256": "97b98ee1918d99160207c15d4fbc4c4ec6ee1979bd29e671497c1e0f4b2bd049",
+      "new_metrics": {
+        "http_rps": 55.71423942045841,
+        "p95_ms": 2461.911532,
+        "p99_ms": 2854.497183,
+        "query_qps": 55.71423942045841
+      },
+      "new_over_old_ratios": {
+        "http_rps": 2.512825468465205,
+        "p95_ms": 0.32457532223027263,
+        "p99_ms": 0.3552390073217617,
+        "query_qps": 2.512825468465205
+      },
+      "new_process_cpu_cores_per_node": [
+        2.931156711547195,
+        2.8959551726566435,
+        2.769606791995913
+      ],
+      "new_process_cpu_mean_cores_per_node": 2.865572892066584,
+      "new_source": "/home/dev/anas/qdrant-veortex-releases/benchmarks/shared3-native-veortex-20261110.json",
+      "new_successful_queries": 3464,
+      "new_timed_errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "old_accuracy_passes": 1024,
+      "old_build_sha256": "5081acd073ef29701415dc2d1655d98750be8c08008541febc20cf2935800f2f",
+      "old_client_sha256": "9dab9e7f2292d6b3ccae108335317b2f249cf0e83a7cada02650060c91b9c251",
+      "old_cpu_observer": "PASSED; role/affinity evidence only, no whole-process aggregate",
+      "old_exact_matches": 1458,
+      "old_manifest_sha256": "a19dda69f127982d2abc2549eda65ba3a8ac3d8660c2f63baf74d3b5defe9b75",
+      "old_metrics": {
+        "http_rps": 22.171949512469645,
+        "p95_ms": 7585.023763,
+        "p99_ms": 8035.427202999999,
+        "query_qps": 22.171949512469645
+      },
+      "old_process_cpu_cores_per_node": null,
+      "old_source": "/home/dev/anas/qdrant-veortex-releases/benchmarks/h2h-sq8-batch-20261109.json",
+      "old_successful_queries": 1458,
+      "old_timed_errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "scope": "primary",
+      "system": "Native Qdrant 1.20"
+    },
+    {
+      "batch_size": 1,
+      "category": "unfiltered_payload",
+      "category_label": "Unfiltered, payload",
+      "concurrency": 128,
+      "mode": "Native",
+      "new_accuracy_passes": 1024,
+      "new_build_sha256": "5081acd073ef29701415dc2d1655d98750be8c08008541febc20cf2935800f2f",
+      "new_client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "new_exact_matches": 3375,
+      "new_manifest_sha256": "0f7a399788d7029db4d438897c46f52519c988f72e51088c96a3fd84f760a950",
+      "new_metrics": {
+        "http_rps": 54.26539537497656,
+        "p95_ms": 2899.843405,
+        "p99_ms": 3734.7679590000002,
+        "query_qps": 54.26539537497656
+      },
+      "new_over_old_ratios": {
+        "http_rps": 2.6913920496004,
+        "p95_ms": 0.2994910060568897,
+        "p99_ms": 0.3677169602445883,
+        "query_qps": 2.6913920496004
+      },
+      "new_process_cpu_cores_per_node": [
+        2.933589169094803,
+        2.9186595622450677,
+        2.9306032477248563
+      ],
+      "new_process_cpu_mean_cores_per_node": 2.927617326354909,
+      "new_source": "/home/dev/anas/qdrant-veortex-releases/benchmarks/shared3-native-veortex-20261110.json",
+      "new_successful_queries": 3375,
+      "new_timed_errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "old_accuracy_passes": 1024,
+      "old_build_sha256": "5081acd073ef29701415dc2d1655d98750be8c08008541febc20cf2935800f2f",
+      "old_client_sha256": "9dab9e7f2292d6b3ccae108335317b2f249cf0e83a7cada02650060c91b9c251",
+      "old_cpu_observer": "PASSED; role/affinity evidence only, no whole-process aggregate",
+      "old_exact_matches": 1341,
+      "old_manifest_sha256": "0ffd29bf02c4bad248806fb944cfec0982200d01d4ec3db3f4fbf31f6205c4ff",
+      "old_metrics": {
+        "http_rps": 20.16257549064007,
+        "p95_ms": 9682.572585999998,
+        "p99_ms": 10156.637748,
+        "query_qps": 20.16257549064007
+      },
+      "old_process_cpu_cores_per_node": null,
+      "old_source": "/home/dev/anas/qdrant-veortex-releases/benchmarks/h2h-sq8-batch-20261109.json",
+      "old_successful_queries": 1341,
+      "old_timed_errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "scope": "primary",
+      "system": "Native Qdrant 1.20"
+    },
+    {
+      "batch_size": 1,
+      "category": "active_only",
+      "category_label": "Active only",
+      "concurrency": 128,
+      "mode": "Native",
+      "new_accuracy_passes": 1024,
+      "new_build_sha256": "5081acd073ef29701415dc2d1655d98750be8c08008541febc20cf2935800f2f",
+      "new_client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "new_exact_matches": 3002,
+      "new_manifest_sha256": "7369196baaa2e63284c5ac72cfbedadb1ccc4ca774107264d2c1e9fbbbefdf02",
+      "new_metrics": {
+        "http_rps": 47.989230249657865,
+        "p95_ms": 2974.2353919999996,
+        "p99_ms": 3420.4638809999997,
+        "query_qps": 47.989230249657865
+      },
+      "new_over_old_ratios": {
+        "http_rps": 2.663535230891805,
+        "p95_ms": 0.3034876915898215,
+        "p99_ms": 0.31453103087121637,
+        "query_qps": 2.663535230891805
+      },
+      "new_process_cpu_cores_per_node": [
+        2.8957180279981527,
+        2.876695973323601,
+        2.929552338361905
+      ],
+      "new_process_cpu_mean_cores_per_node": 2.900655446561219,
+      "new_source": "/home/dev/anas/qdrant-veortex-releases/benchmarks/shared3-native-veortex-20261110.json",
+      "new_successful_queries": 3002,
+      "new_timed_errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "old_accuracy_passes": 1024,
+      "old_build_sha256": "5081acd073ef29701415dc2d1655d98750be8c08008541febc20cf2935800f2f",
+      "old_client_sha256": "9dab9e7f2292d6b3ccae108335317b2f249cf0e83a7cada02650060c91b9c251",
+      "old_cpu_observer": "PASSED; role/affinity evidence only, no whole-process aggregate",
+      "old_exact_matches": 1196,
+      "old_manifest_sha256": "f1dce93259dc00776a4ec33738cab802696519e5e0d96cd5d9ae263891a8e82d",
+      "old_metrics": {
+        "http_rps": 18.01711863731951,
+        "p95_ms": 9800.184569000001,
+        "p99_ms": 10874.805806999999,
+        "query_qps": 18.01711863731951
+      },
+      "old_process_cpu_cores_per_node": null,
+      "old_source": "/home/dev/anas/qdrant-veortex-releases/benchmarks/h2h-sq8-batch-20261109.json",
+      "old_successful_queries": 1196,
+      "old_timed_errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "scope": "primary",
+      "system": "Native Qdrant 1.20"
+    },
+    {
+      "batch_size": 1,
+      "category": "active_position_exclude",
+      "category_label": "Active + position exclude",
+      "concurrency": 128,
+      "mode": "Native",
+      "new_accuracy_passes": 1024,
+      "new_build_sha256": "5081acd073ef29701415dc2d1655d98750be8c08008541febc20cf2935800f2f",
+      "new_client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "new_exact_matches": 7337,
+      "new_manifest_sha256": "d86cc5b67b9362a9bcf2cf92213a45a1f1e4754da1e831f0a681b9696355648f",
+      "new_metrics": {
+        "http_rps": 120.32307185151286,
+        "p95_ms": 1261.054152,
+        "p99_ms": 1473.1969629999999,
+        "query_qps": 120.32307185151286
+      },
+      "new_over_old_ratios": {
+        "http_rps": 2.9551761788045416,
+        "p95_ms": 0.26485033511837,
+        "p99_ms": 0.2907883793279467,
+        "query_qps": 2.9551761788045416
+      },
+      "new_process_cpu_cores_per_node": [
+        2.930830777675783,
+        2.9134961816194314,
+        2.897124618677321
+      ],
+      "new_process_cpu_mean_cores_per_node": 2.9138171926575116,
+      "new_source": "/home/dev/anas/qdrant-veortex-releases/benchmarks/shared3-native-veortex-20261110.json",
+      "new_successful_queries": 7337,
+      "new_timed_errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "old_accuracy_passes": 1024,
+      "old_build_sha256": "5081acd073ef29701415dc2d1655d98750be8c08008541febc20cf2935800f2f",
+      "old_client_sha256": "9dab9e7f2292d6b3ccae108335317b2f249cf0e83a7cada02650060c91b9c251",
+      "old_cpu_observer": "PASSED; role/affinity evidence only, no whole-process aggregate",
+      "old_exact_matches": 2574,
+      "old_manifest_sha256": "6a12f3f9229f5b9749bb2877fa6e5f73e4f7dec66585d4237f5ee36efb951680",
+      "old_metrics": {
+        "http_rps": 40.716040117847456,
+        "p95_ms": 4761.384015,
+        "p99_ms": 5066.216767,
+        "query_qps": 40.716040117847456
+      },
+      "old_process_cpu_cores_per_node": null,
+      "old_source": "/home/dev/anas/qdrant-veortex-releases/benchmarks/h2h-sq8-batch-20261109.json",
+      "old_successful_queries": 2574,
+      "old_timed_errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "scope": "primary",
+      "system": "Native Qdrant 1.20"
+    },
+    {
+      "batch_size": 64,
+      "category": "unfiltered_no_payload",
+      "category_label": "Unfiltered, no payload",
+      "concurrency": 4,
+      "mode": "Native",
+      "new_accuracy_passes": 1024,
+      "new_build_sha256": "5081acd073ef29701415dc2d1655d98750be8c08008541febc20cf2935800f2f",
+      "new_client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "new_exact_matches": 15680,
+      "new_manifest_sha256": "97b98ee1918d99160207c15d4fbc4c4ec6ee1979bd29e671497c1e0f4b2bd049",
+      "new_metrics": {
+        "http_rps": 4.020827038669113,
+        "p95_ms": 1078.834152,
+        "p99_ms": 1261.077824,
+        "query_qps": 257.33293047482323
+      },
+      "new_over_old_ratios": {
+        "http_rps": 2.2538269964402624,
+        "p95_ms": 0.38033308114889536,
+        "p99_ms": 0.44196164182609954,
+        "query_qps": 2.2538269964402624
+      },
+      "new_process_cpu_cores_per_node": [
+        2.8675595098976765,
+        2.84774959216162,
+        2.778710550499393
+      ],
+      "new_process_cpu_mean_cores_per_node": 2.83133988418623,
+      "new_source": "/home/dev/anas/qdrant-veortex-releases/benchmarks/shared3-native-veortex-20261110.json",
+      "new_successful_queries": 15680,
+      "new_timed_errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "old_accuracy_passes": 1024,
+      "old_build_sha256": "5081acd073ef29701415dc2d1655d98750be8c08008541febc20cf2935800f2f",
+      "old_client_sha256": "9dab9e7f2292d6b3ccae108335317b2f249cf0e83a7cada02650060c91b9c251",
+      "old_cpu_observer": "PASSED; role/affinity evidence only, no whole-process aggregate",
+      "old_exact_matches": 7040,
+      "old_manifest_sha256": "a19dda69f127982d2abc2549eda65ba3a8ac3d8660c2f63baf74d3b5defe9b75",
+      "old_metrics": {
+        "http_rps": 1.7839998566969355,
+        "p95_ms": 2836.550922,
+        "p99_ms": 2853.364873,
+        "query_qps": 114.17599082860387
+      },
+      "old_process_cpu_cores_per_node": null,
+      "old_source": "/home/dev/anas/qdrant-veortex-releases/benchmarks/h2h-sq8-batch-20261109.json",
+      "old_successful_queries": 7040,
+      "old_timed_errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "scope": "primary",
+      "system": "Native Qdrant 1.20"
+    },
+    {
+      "batch_size": 64,
+      "category": "unfiltered_payload",
+      "category_label": "Unfiltered, payload",
+      "concurrency": 4,
+      "mode": "Native",
+      "new_accuracy_passes": 1024,
+      "new_build_sha256": "5081acd073ef29701415dc2d1655d98750be8c08008541febc20cf2935800f2f",
+      "new_client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "new_exact_matches": 15552,
+      "new_manifest_sha256": "0f7a399788d7029db4d438897c46f52519c988f72e51088c96a3fd84f760a950",
+      "new_metrics": {
+        "http_rps": 3.9974307686643105,
+        "p95_ms": 1260.0583629999999,
+        "p99_ms": 1418.92322,
+        "query_qps": 255.83556919451587
+      },
+      "new_over_old_ratios": {
+        "http_rps": 2.2213301204135747,
+        "p95_ms": 0.4463891191448423,
+        "p99_ms": 0.44194848197380865,
+        "query_qps": 2.2213301204135747
+      },
+      "new_process_cpu_cores_per_node": [
+        2.839206166856684,
+        2.8526593176603265,
+        2.799881572199882
+      ],
+      "new_process_cpu_mean_cores_per_node": 2.8305823522389644,
+      "new_source": "/home/dev/anas/qdrant-veortex-releases/benchmarks/shared3-native-veortex-20261110.json",
+      "new_successful_queries": 15552,
+      "new_timed_errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "old_accuracy_passes": 1024,
+      "old_build_sha256": "5081acd073ef29701415dc2d1655d98750be8c08008541febc20cf2935800f2f",
+      "old_client_sha256": "9dab9e7f2292d6b3ccae108335317b2f249cf0e83a7cada02650060c91b9c251",
+      "old_cpu_observer": "PASSED; role/affinity evidence only, no whole-process aggregate",
+      "old_exact_matches": 7104,
+      "old_manifest_sha256": "0ffd29bf02c4bad248806fb944cfec0982200d01d4ec3db3f4fbf31f6205c4ff",
+      "old_metrics": {
+        "http_rps": 1.7995662742465561,
+        "p95_ms": 2822.7801910000003,
+        "p99_ms": 3210.607747,
+        "query_qps": 115.17224155177959
+      },
+      "old_process_cpu_cores_per_node": null,
+      "old_source": "/home/dev/anas/qdrant-veortex-releases/benchmarks/h2h-sq8-batch-20261109.json",
+      "old_successful_queries": 7104,
+      "old_timed_errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "scope": "primary",
+      "system": "Native Qdrant 1.20"
+    },
+    {
+      "batch_size": 64,
+      "category": "active_only",
+      "category_label": "Active only",
+      "concurrency": 4,
+      "mode": "Native",
+      "new_accuracy_passes": 1024,
+      "new_build_sha256": "5081acd073ef29701415dc2d1655d98750be8c08008541febc20cf2935800f2f",
+      "new_client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "new_exact_matches": 15552,
+      "new_manifest_sha256": "7369196baaa2e63284c5ac72cfbedadb1ccc4ca774107264d2c1e9fbbbefdf02",
+      "new_metrics": {
+        "http_rps": 3.9816024215839305,
+        "p95_ms": 1293.281439,
+        "p99_ms": 1409.848557,
+        "query_qps": 254.82255498137155
+      },
+      "new_over_old_ratios": {
+        "http_rps": 2.119026265622247,
+        "p95_ms": 0.4815729383620529,
+        "p99_ms": 0.515089282039966,
+        "query_qps": 2.119026265622247
+      },
+      "new_process_cpu_cores_per_node": [
+        2.8634342181705223,
+        2.8032743107373506,
+        2.756713203018802
+      ],
+      "new_process_cpu_mean_cores_per_node": 2.8078072439755584,
+      "new_source": "/home/dev/anas/qdrant-veortex-releases/benchmarks/shared3-native-veortex-20261110.json",
+      "new_successful_queries": 15552,
+      "new_timed_errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "old_accuracy_passes": 1024,
+      "old_build_sha256": "5081acd073ef29701415dc2d1655d98750be8c08008541febc20cf2935800f2f",
+      "old_client_sha256": "9dab9e7f2292d6b3ccae108335317b2f249cf0e83a7cada02650060c91b9c251",
+      "old_cpu_observer": "PASSED; role/affinity evidence only, no whole-process aggregate",
+      "old_exact_matches": 7424,
+      "old_manifest_sha256": "f1dce93259dc00776a4ec33738cab802696519e5e0d96cd5d9ae263891a8e82d",
+      "old_metrics": {
+        "http_rps": 1.8789773804029477,
+        "p95_ms": 2685.535951,
+        "p99_ms": 2737.0955019999997,
+        "query_qps": 120.25455234578865
+      },
+      "old_process_cpu_cores_per_node": null,
+      "old_source": "/home/dev/anas/qdrant-veortex-releases/benchmarks/h2h-sq8-batch-20261109.json",
+      "old_successful_queries": 7424,
+      "old_timed_errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "scope": "primary",
+      "system": "Native Qdrant 1.20"
+    },
+    {
+      "batch_size": 64,
+      "category": "active_position_exclude",
+      "category_label": "Active + position exclude",
+      "concurrency": 4,
+      "mode": "Native",
+      "new_accuracy_passes": 1024,
+      "new_build_sha256": "5081acd073ef29701415dc2d1655d98750be8c08008541febc20cf2935800f2f",
+      "new_client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "new_exact_matches": 54784,
+      "new_manifest_sha256": "d86cc5b67b9362a9bcf2cf92213a45a1f1e4754da1e831f0a681b9696355648f",
+      "new_metrics": {
+        "http_rps": 14.211268093190712,
+        "p95_ms": 346.82064499999996,
+        "p99_ms": 386.552175,
+        "query_qps": 909.5211579642056
+      },
+      "new_over_old_ratios": {
+        "http_rps": 1.7612643687703822,
+        "p95_ms": 0.5489603023503487,
+        "p99_ms": 0.5913740251316008,
+        "query_qps": 1.7612643687703822
+      },
+      "new_process_cpu_cores_per_node": [
+        2.8844638269736653,
+        2.8152506327946902,
+        2.853737603470871
+      ],
+      "new_process_cpu_mean_cores_per_node": 2.8511506877464083,
+      "new_source": "/home/dev/anas/qdrant-veortex-releases/benchmarks/shared3-native-veortex-20261110.json",
+      "new_successful_queries": 54784,
+      "new_timed_errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "old_accuracy_passes": 1024,
+      "old_build_sha256": "5081acd073ef29701415dc2d1655d98750be8c08008541febc20cf2935800f2f",
+      "old_client_sha256": "9dab9e7f2292d6b3ccae108335317b2f249cf0e83a7cada02650060c91b9c251",
+      "old_cpu_observer": "PASSED; role/affinity evidence only, no whole-process aggregate",
+      "old_exact_matches": 31232,
+      "old_manifest_sha256": "6a12f3f9229f5b9749bb2877fa6e5f73e4f7dec66585d4237f5ee36efb951680",
+      "old_metrics": {
+        "http_rps": 8.06878759666968,
+        "p95_ms": 631.777277,
+        "p99_ms": 653.650919,
+        "query_qps": 516.4024061868595
+      },
+      "old_process_cpu_cores_per_node": null,
+      "old_source": "/home/dev/anas/qdrant-veortex-releases/benchmarks/h2h-sq8-batch-20261109.json",
+      "old_successful_queries": 31232,
+      "old_timed_errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "scope": "primary",
+      "system": "Native Qdrant 1.20"
+    },
+    {
+      "batch_size": 1,
+      "category": "unfiltered_no_payload",
+      "category_label": "Unfiltered, no payload",
+      "concurrency": 128,
+      "mode": "Auto",
+      "new_accuracy_passes": 1024,
+      "new_build_sha256": "90d54aeabbaa17350b94161f6a7926528b13452b0b50296f0bc45fc0e96969e0",
+      "new_client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "new_exact_matches": 70855,
+      "new_manifest_sha256": "97b98ee1918d99160207c15d4fbc4c4ec6ee1979bd29e671497c1e0f4b2bd049",
+      "new_metrics": {
+        "http_rps": 1179.4799320964844,
+        "p95_ms": 120.30364,
+        "p99_ms": 134.026481,
+        "query_qps": 1179.4799320964844
+      },
+      "new_over_old_ratios": {
+        "http_rps": 1.312082428747408,
+        "p95_ms": 0.6063437778609496,
+        "p99_ms": 0.6342314724661499,
+        "query_qps": 1.312082428747408
+      },
+      "new_process_cpu_cores_per_node": [
+        2.400149492954392,
+        2.1030113102904644,
+        2.0879190923834487
+      ],
+      "new_process_cpu_mean_cores_per_node": 2.197026631876102,
+      "new_source": "/home/dev/anas/qdrant-veortex-releases/benchmarks/shared3-native-veortex-20261110.json",
+      "new_successful_queries": 70855,
+      "new_timed_errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "old_accuracy_passes": 1024,
+      "old_build_sha256": "90d54aeabbaa17350b94161f6a7926528b13452b0b50296f0bc45fc0e96969e0",
+      "old_client_sha256": "9dab9e7f2292d6b3ccae108335317b2f249cf0e83a7cada02650060c91b9c251",
+      "old_cpu_observer": "PASSED; role/affinity evidence only, no whole-process aggregate",
+      "old_exact_matches": 54060,
+      "old_manifest_sha256": "9070d0a687a78a9c85f1eada9e51294c0c946621fd35eed0b9fc892c6d1d8a5a",
+      "old_metrics": {
+        "http_rps": 898.9373733344529,
+        "p95_ms": 198.40830300000002,
+        "p99_ms": 211.321082,
+        "query_qps": 898.9373733344529
+      },
+      "old_process_cpu_cores_per_node": null,
+      "old_source": "/home/dev/anas/qdrant-veortex-releases/benchmarks/sq8-avx512-vs-amx-20261110.json",
+      "old_successful_queries": 54060,
+      "old_timed_errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "scope": "primary",
+      "system": "Our Veortex V45.1"
+    },
+    {
+      "batch_size": 1,
+      "category": "unfiltered_payload",
+      "category_label": "Unfiltered, payload",
+      "concurrency": 128,
+      "mode": "Auto",
+      "new_accuracy_passes": 1024,
+      "new_build_sha256": "90d54aeabbaa17350b94161f6a7926528b13452b0b50296f0bc45fc0e96969e0",
+      "new_client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "new_exact_matches": 70633,
+      "new_manifest_sha256": "0f7a399788d7029db4d438897c46f52519c988f72e51088c96a3fd84f760a950",
+      "new_metrics": {
+        "http_rps": 1175.7013158415853,
+        "p95_ms": 121.096378,
+        "p99_ms": 132.496367,
+        "query_qps": 1175.7013158415853
+      },
+      "new_over_old_ratios": {
+        "http_rps": 1.300395637561553,
+        "p95_ms": 0.7011309000692357,
+        "p99_ms": 0.7138161096895963,
+        "query_qps": 1.300395637561553
+      },
+      "new_process_cpu_cores_per_node": [
+        2.5579114404980867,
+        2.1469837222479025,
+        2.142277204147881
+      ],
+      "new_process_cpu_mean_cores_per_node": 2.2823907889646233,
+      "new_source": "/home/dev/anas/qdrant-veortex-releases/benchmarks/shared3-native-veortex-20261110.json",
+      "new_successful_queries": 70633,
+      "new_timed_errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "old_accuracy_passes": 1024,
+      "old_build_sha256": "90d54aeabbaa17350b94161f6a7926528b13452b0b50296f0bc45fc0e96969e0",
+      "old_client_sha256": "9dab9e7f2292d6b3ccae108335317b2f249cf0e83a7cada02650060c91b9c251",
+      "old_cpu_observer": "PASSED; role/affinity evidence only, no whole-process aggregate",
+      "old_exact_matches": 54331,
+      "old_manifest_sha256": "a73416ad626d2584c34241b9c43987f58bf4aeb04a6bf9f55550a75d48ac0b37",
+      "old_metrics": {
+        "http_rps": 904.1104736756967,
+        "p95_ms": 172.715791,
+        "p99_ms": 185.616947,
+        "query_qps": 904.1104736756967
+      },
+      "old_process_cpu_cores_per_node": null,
+      "old_source": "/home/dev/anas/qdrant-veortex-releases/benchmarks/sq8-avx512-vs-amx-20261110.json",
+      "old_successful_queries": 54331,
+      "old_timed_errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "scope": "primary",
+      "system": "Our Veortex V45.1"
+    },
+    {
+      "batch_size": 1,
+      "category": "active_only",
+      "category_label": "Active only",
+      "concurrency": 128,
+      "mode": "Auto",
+      "new_accuracy_passes": 1024,
+      "new_build_sha256": "90d54aeabbaa17350b94161f6a7926528b13452b0b50296f0bc45fc0e96969e0",
+      "new_client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "new_exact_matches": 46436,
+      "new_manifest_sha256": "7369196baaa2e63284c5ac72cfbedadb1ccc4ca774107264d2c1e9fbbbefdf02",
+      "new_metrics": {
+        "http_rps": 772.3118748752681,
+        "p95_ms": 181.55347999999998,
+        "p99_ms": 200.55826299999998,
+        "query_qps": 772.3118748752681
+      },
+      "new_over_old_ratios": {
+        "http_rps": 0.8656406575517724,
+        "p95_ms": 0.98268370750628,
+        "p99_ms": 1.0405590023102778,
+        "query_qps": 0.8656406575517724
+      },
+      "new_process_cpu_cores_per_node": [
+        2.4710236602236324,
+        2.1247200882188233,
+        2.1213122273884104
+      ],
+      "new_process_cpu_mean_cores_per_node": 2.2390186586102883,
+      "new_source": "/home/dev/anas/qdrant-veortex-releases/benchmarks/shared3-native-veortex-20261110.json",
+      "new_successful_queries": 46436,
+      "new_timed_errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "old_accuracy_passes": 1024,
+      "old_build_sha256": "90d54aeabbaa17350b94161f6a7926528b13452b0b50296f0bc45fc0e96969e0",
+      "old_client_sha256": "9dab9e7f2292d6b3ccae108335317b2f249cf0e83a7cada02650060c91b9c251",
+      "old_cpu_observer": "PASSED; role/affinity evidence only, no whole-process aggregate",
+      "old_exact_matches": 53600,
+      "old_manifest_sha256": "5a9fae6e28535953d4d5aca4434aef9010f64107b29aaa96293827aa72e94307",
+      "old_metrics": {
+        "http_rps": 892.185305920751,
+        "p95_ms": 184.752712,
+        "p99_ms": 192.740885,
+        "query_qps": 892.185305920751
+      },
+      "old_process_cpu_cores_per_node": null,
+      "old_source": "/home/dev/anas/qdrant-veortex-releases/benchmarks/sq8-avx512-vs-amx-20261110.json",
+      "old_successful_queries": 53600,
+      "old_timed_errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "scope": "primary",
+      "system": "Our Veortex V45.1"
+    },
+    {
+      "batch_size": 1,
+      "category": "active_position_exclude",
+      "category_label": "Active + position exclude",
+      "concurrency": 128,
+      "mode": "Auto",
+      "new_accuracy_passes": 1024,
+      "new_build_sha256": "90d54aeabbaa17350b94161f6a7926528b13452b0b50296f0bc45fc0e96969e0",
+      "new_client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "new_exact_matches": 133933,
+      "new_manifest_sha256": "d86cc5b67b9362a9bcf2cf92213a45a1f1e4754da1e831f0a681b9696355648f",
+      "new_metrics": {
+        "http_rps": 2230.9925974399475,
+        "p95_ms": 78.260328,
+        "p99_ms": 86.84170900000001,
+        "query_qps": 2230.9925974399475
+      },
+      "new_over_old_ratios": {
+        "http_rps": 0.7106602420594947,
+        "p95_ms": 1.3888948085367017,
+        "p99_ms": 1.2412130626499687,
+        "query_qps": 0.7106602420594947
+      },
+      "new_process_cpu_cores_per_node": [
+        2.4720520644121042,
+        1.8904309392986676,
+        1.9019530095785375
+      ],
+      "new_process_cpu_mean_cores_per_node": 2.088145337763103,
+      "new_source": "/home/dev/anas/qdrant-veortex-releases/benchmarks/shared3-native-veortex-20261110.json",
+      "new_successful_queries": 133933,
+      "new_timed_errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "old_accuracy_passes": 1024,
+      "old_build_sha256": "90d54aeabbaa17350b94161f6a7926528b13452b0b50296f0bc45fc0e96969e0",
+      "old_client_sha256": "9dab9e7f2292d6b3ccae108335317b2f249cf0e83a7cada02650060c91b9c251",
+      "old_cpu_observer": "PASSED; role/affinity evidence only, no whole-process aggregate",
+      "old_exact_matches": 188471,
+      "old_manifest_sha256": "89095656ea851d616e497fd2e746db095eeaeec9de0156f01a9070b85d4c3914",
+      "old_metrics": {
+        "http_rps": 3139.3237800591273,
+        "p95_ms": 56.347196000000004,
+        "p99_ms": 69.96519099999999,
+        "query_qps": 3139.3237800591273
+      },
+      "old_process_cpu_cores_per_node": null,
+      "old_source": "/home/dev/anas/qdrant-veortex-releases/benchmarks/sq8-avx512-vs-amx-20261110.json",
+      "old_successful_queries": 188471,
+      "old_timed_errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "scope": "primary",
+      "system": "Our Veortex V45.1"
+    },
+    {
+      "batch_size": 64,
+      "category": "unfiltered_no_payload",
+      "category_label": "Unfiltered, no payload",
+      "concurrency": 4,
+      "mode": "Auto",
+      "new_accuracy_passes": 1024,
+      "new_build_sha256": "90d54aeabbaa17350b94161f6a7926528b13452b0b50296f0bc45fc0e96969e0",
+      "new_client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "new_exact_matches": 104000,
+      "new_manifest_sha256": "97b98ee1918d99160207c15d4fbc4c4ec6ee1979bd29e671497c1e0f4b2bd049",
+      "new_metrics": {
+        "http_rps": 27.033257824493955,
+        "p95_ms": 159.15812400000002,
+        "p99_ms": 170.699996,
+        "query_qps": 1730.128500767613
+      },
+      "new_over_old_ratios": {
+        "http_rps": 1.7342830832486045,
+        "p95_ms": 0.5176609484297847,
+        "p99_ms": 0.5326180546229625,
+        "query_qps": 1.7342830832486045
+      },
+      "new_process_cpu_cores_per_node": [
+        2.88522263459141,
+        2.887298334328526,
+        2.844826324322919
+      ],
+      "new_process_cpu_mean_cores_per_node": 2.872449097747618,
+      "new_source": "/home/dev/anas/qdrant-veortex-releases/benchmarks/shared3-native-veortex-20261110.json",
+      "new_successful_queries": 104000,
+      "new_timed_errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "old_accuracy_passes": 1024,
+      "old_build_sha256": "90d54aeabbaa17350b94161f6a7926528b13452b0b50296f0bc45fc0e96969e0",
+      "old_client_sha256": "9dab9e7f2292d6b3ccae108335317b2f249cf0e83a7cada02650060c91b9c251",
+      "old_cpu_observer": "PASSED; role/affinity evidence only, no whole-process aggregate",
+      "old_exact_matches": 60032,
+      "old_manifest_sha256": "a19dda69f127982d2abc2549eda65ba3a8ac3d8660c2f63baf74d3b5defe9b75",
+      "old_metrics": {
+        "http_rps": 15.587569345285953,
+        "p95_ms": 307.45630800000004,
+        "p99_ms": 320.49232,
+        "query_qps": 997.604438098301
+      },
+      "old_process_cpu_cores_per_node": null,
+      "old_source": "/home/dev/anas/qdrant-veortex-releases/benchmarks/h2h-sq8-admission-remediation-20261109.json",
+      "old_successful_queries": 60032,
+      "old_timed_errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "scope": "primary",
+      "system": "Our Veortex V45.1"
+    },
+    {
+      "batch_size": 64,
+      "category": "unfiltered_payload",
+      "category_label": "Unfiltered, payload",
+      "concurrency": 4,
+      "mode": "Auto",
+      "new_accuracy_passes": 1024,
+      "new_build_sha256": "90d54aeabbaa17350b94161f6a7926528b13452b0b50296f0bc45fc0e96969e0",
+      "new_client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "new_exact_matches": 95424,
+      "new_manifest_sha256": "0f7a399788d7029db4d438897c46f52519c988f72e51088c96a3fd84f760a950",
+      "new_metrics": {
+        "http_rps": 24.80656851266239,
+        "p95_ms": 181.912611,
+        "p99_ms": 216.857096,
+        "query_qps": 1587.620384810393
+      },
+      "new_over_old_ratios": {
+        "http_rps": 1.7749931490859945,
+        "p95_ms": 0.5303902114959727,
+        "p99_ms": 0.6125144051626905,
+        "query_qps": 1.7749931490859945
+      },
+      "new_process_cpu_cores_per_node": [
+        2.855307175896763,
+        2.81650833656651,
+        2.77595317117604
+      ],
+      "new_process_cpu_mean_cores_per_node": 2.815922894546438,
+      "new_source": "/home/dev/anas/qdrant-veortex-releases/benchmarks/shared3-native-veortex-20261110.json",
+      "new_successful_queries": 95424,
+      "new_timed_errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "old_accuracy_passes": 1024,
+      "old_build_sha256": "90d54aeabbaa17350b94161f6a7926528b13452b0b50296f0bc45fc0e96969e0",
+      "old_client_sha256": "9dab9e7f2292d6b3ccae108335317b2f249cf0e83a7cada02650060c91b9c251",
+      "old_cpu_observer": "PASSED; role/affinity evidence only, no whole-process aggregate",
+      "old_exact_matches": 53888,
+      "old_manifest_sha256": "0ffd29bf02c4bad248806fb944cfec0982200d01d4ec3db3f4fbf31f6205c4ff",
+      "old_metrics": {
+        "http_rps": 13.975585497575668,
+        "p95_ms": 342.97882400000003,
+        "p99_ms": 354.044075,
+        "query_qps": 894.4374718448428
+      },
+      "old_process_cpu_cores_per_node": null,
+      "old_source": "/home/dev/anas/qdrant-veortex-releases/benchmarks/h2h-sq8-admission-remediation-20261109.json",
+      "old_successful_queries": 53888,
+      "old_timed_errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "scope": "primary",
+      "system": "Our Veortex V45.1"
+    },
+    {
+      "batch_size": 64,
+      "category": "active_only",
+      "category_label": "Active only",
+      "concurrency": 4,
+      "mode": "Auto",
+      "new_accuracy_passes": 1024,
+      "new_build_sha256": "90d54aeabbaa17350b94161f6a7926528b13452b0b50296f0bc45fc0e96969e0",
+      "new_client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "new_exact_matches": 67520,
+      "new_manifest_sha256": "7369196baaa2e63284c5ac72cfbedadb1ccc4ca774107264d2c1e9fbbbefdf02",
+      "new_metrics": {
+        "http_rps": 17.525197773753504,
+        "p95_ms": 252.65205699999999,
+        "p99_ms": 302.21743899999996,
+        "query_qps": 1121.6126575202243
+      },
+      "new_over_old_ratios": {
+        "http_rps": 1.154244823371101,
+        "p95_ms": 0.795440254965727,
+        "p99_ms": 0.9152105700176086,
+        "query_qps": 1.154244823371101
+      },
+      "new_process_cpu_cores_per_node": [
+        2.7268981445668246,
+        2.665926757481483,
+        2.7363267095800214
+      ],
+      "new_process_cpu_mean_cores_per_node": 2.7097172038761097,
+      "new_source": "/home/dev/anas/qdrant-veortex-releases/benchmarks/shared3-native-veortex-20261110.json",
+      "new_successful_queries": 67520,
+      "new_timed_errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "old_accuracy_passes": 1024,
+      "old_build_sha256": "90d54aeabbaa17350b94161f6a7926528b13452b0b50296f0bc45fc0e96969e0",
+      "old_client_sha256": "9dab9e7f2292d6b3ccae108335317b2f249cf0e83a7cada02650060c91b9c251",
+      "old_cpu_observer": "PASSED; role/affinity evidence only, no whole-process aggregate",
+      "old_exact_matches": 58496,
+      "old_manifest_sha256": "f1dce93259dc00776a4ec33738cab802696519e5e0d96cd5d9ae263891a8e82d",
+      "old_metrics": {
+        "http_rps": 15.183258715052503,
+        "p95_ms": 317.62543500000004,
+        "p99_ms": 330.21629,
+        "query_qps": 971.7285577633602
+      },
+      "old_process_cpu_cores_per_node": null,
+      "old_source": "/home/dev/anas/qdrant-veortex-releases/benchmarks/h2h-sq8-admission-remediation-20261109.json",
+      "old_successful_queries": 58496,
+      "old_timed_errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "scope": "primary",
+      "system": "Our Veortex V45.1"
+    },
+    {
+      "batch_size": 64,
+      "category": "active_position_exclude",
+      "category_label": "Active + position exclude",
+      "concurrency": 4,
+      "mode": "Auto",
+      "new_accuracy_passes": 1024,
+      "new_build_sha256": "90d54aeabbaa17350b94161f6a7926528b13452b0b50296f0bc45fc0e96969e0",
+      "new_client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "new_exact_matches": 185408,
+      "new_manifest_sha256": "d86cc5b67b9362a9bcf2cf92213a45a1f1e4754da1e831f0a681b9696355648f",
+      "new_metrics": {
+        "http_rps": 48.272888485006234,
+        "p95_ms": 95.593294,
+        "p99_ms": 105.542517,
+        "query_qps": 3089.464863040399
+      },
+      "new_over_old_ratios": {
+        "http_rps": 1.0669009708395567,
+        "p95_ms": 0.8686762836483009,
+        "p99_ms": 0.865898891757073,
+        "query_qps": 1.0669009708395567
+      },
+      "new_process_cpu_cores_per_node": [
+        2.4830897527531848,
+        2.090228669795698,
+        2.1836974776368847
+      ],
+      "new_process_cpu_mean_cores_per_node": 2.252338633395256,
+      "new_source": "/home/dev/anas/qdrant-veortex-releases/benchmarks/shared3-native-veortex-20261110.json",
+      "new_successful_queries": 185408,
+      "new_timed_errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "old_accuracy_passes": 1024,
+      "old_build_sha256": "90d54aeabbaa17350b94161f6a7926528b13452b0b50296f0bc45fc0e96969e0",
+      "old_client_sha256": "9dab9e7f2292d6b3ccae108335317b2f249cf0e83a7cada02650060c91b9c251",
+      "old_cpu_observer": "PASSED; role/affinity evidence only, no whole-process aggregate",
+      "old_exact_matches": 173952,
+      "old_manifest_sha256": "6a12f3f9229f5b9749bb2877fa6e5f73e4f7dec66585d4237f5ee36efb951680",
+      "old_metrics": {
+        "http_rps": 45.2458942342322,
+        "p95_ms": 110.044784,
+        "p99_ms": 121.887807,
+        "query_qps": 2895.737230990861
+      },
+      "old_process_cpu_cores_per_node": null,
+      "old_source": "/home/dev/anas/qdrant-veortex-releases/benchmarks/h2h-sq8-admission-remediation-20261109.json",
+      "old_successful_queries": 173952,
+      "old_timed_errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "scope": "primary",
+      "system": "Our Veortex V45.1"
+    },
+    {
+      "batch_size": 1,
+      "category": "unfiltered_no_payload",
+      "category_label": "Unfiltered, no payload",
+      "concurrency": 128,
+      "mode": "AVX-512 VNNI",
+      "new_accuracy_passes": 1024,
+      "new_build_sha256": "90d54aeabbaa17350b94161f6a7926528b13452b0b50296f0bc45fc0e96969e0",
+      "new_client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "new_exact_matches": 27299,
+      "new_manifest_sha256": "97b98ee1918d99160207c15d4fbc4c4ec6ee1979bd29e671497c1e0f4b2bd049",
+      "new_metrics": {
+        "http_rps": 453.3150108295738,
+        "p95_ms": 293.975063,
+        "p99_ms": 301.963798,
+        "query_qps": 453.3150108295738
+      },
+      "new_over_old_ratios": {
+        "http_rps": 1.8489362613168472,
+        "p95_ms": 0.41016209520210184,
+        "p99_ms": 0.41168230060620137,
+        "query_qps": 1.8489362613168472
+      },
+      "new_process_cpu_cores_per_node": [
+        2.210630628061215,
+        2.0456000658694617,
+        2.0477096010793856
+      ],
+      "new_process_cpu_mean_cores_per_node": 2.101313431670021,
+      "new_source": "/home/dev/anas/qdrant-veortex-releases/benchmarks/shared3-native-veortex-20261110.json",
+      "new_successful_queries": 27299,
+      "new_timed_errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "old_accuracy_passes": 1024,
+      "old_build_sha256": "90d54aeabbaa17350b94161f6a7926528b13452b0b50296f0bc45fc0e96969e0",
+      "old_client_sha256": "9dab9e7f2292d6b3ccae108335317b2f249cf0e83a7cada02650060c91b9c251",
+      "old_cpu_observer": "PASSED; role/affinity evidence only, no whole-process aggregate",
+      "old_exact_matches": 14816,
+      "old_manifest_sha256": "9070d0a687a78a9c85f1eada9e51294c0c946621fd35eed0b9fc892c6d1d8a5a",
+      "old_metrics": {
+        "http_rps": 245.1761157557234,
+        "p95_ms": 716.728987,
+        "p99_ms": 733.487443,
+        "query_qps": 245.1761157557234
+      },
+      "old_process_cpu_cores_per_node": null,
+      "old_source": "/home/dev/anas/qdrant-veortex-releases/benchmarks/sq8-avx512-vs-amx-20261110.json",
+      "old_successful_queries": 14816,
+      "old_timed_errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "scope": "primary",
+      "system": "Our Veortex V45.1"
+    },
+    {
+      "batch_size": 1,
+      "category": "unfiltered_payload",
+      "category_label": "Unfiltered, payload",
+      "concurrency": 128,
+      "mode": "AVX-512 VNNI",
+      "new_accuracy_passes": 1024,
+      "new_build_sha256": "90d54aeabbaa17350b94161f6a7926528b13452b0b50296f0bc45fc0e96969e0",
+      "new_client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "new_exact_matches": 27611,
+      "new_manifest_sha256": "0f7a399788d7029db4d438897c46f52519c988f72e51088c96a3fd84f760a950",
+      "new_metrics": {
+        "http_rps": 458.5061805935612,
+        "p95_ms": 296.12737599999997,
+        "p99_ms": 302.482404,
+        "query_qps": 458.5061805935612
+      },
+      "new_over_old_ratios": {
+        "http_rps": 1.9138344416581088,
+        "p95_ms": 0.40041578760641,
+        "p99_ms": 0.4011875449541873,
+        "query_qps": 1.9138344416581088
+      },
+      "new_process_cpu_cores_per_node": [
+        2.2869348219227565,
+        2.0655923755236474,
+        2.069486964023339
+      ],
+      "new_process_cpu_mean_cores_per_node": 2.1406713871565812,
+      "new_source": "/home/dev/anas/qdrant-veortex-releases/benchmarks/shared3-native-veortex-20261110.json",
+      "new_successful_queries": 27611,
+      "new_timed_errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "old_accuracy_passes": 1024,
+      "old_build_sha256": "90d54aeabbaa17350b94161f6a7926528b13452b0b50296f0bc45fc0e96969e0",
+      "old_client_sha256": "9dab9e7f2292d6b3ccae108335317b2f249cf0e83a7cada02650060c91b9c251",
+      "old_cpu_observer": "PASSED; role/affinity evidence only, no whole-process aggregate",
+      "old_exact_matches": 14432,
+      "old_manifest_sha256": "a73416ad626d2584c34241b9c43987f58bf4aeb04a6bf9f55550a75d48ac0b37",
+      "old_metrics": {
+        "http_rps": 239.57463122897946,
+        "p95_ms": 739.5497009999999,
+        "p99_ms": 753.967584,
+        "query_qps": 239.57463122897946
+      },
+      "old_process_cpu_cores_per_node": null,
+      "old_source": "/home/dev/anas/qdrant-veortex-releases/benchmarks/sq8-avx512-vs-amx-20261110.json",
+      "old_successful_queries": 14432,
+      "old_timed_errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "scope": "primary",
+      "system": "Our Veortex V45.1"
+    },
+    {
+      "batch_size": 1,
+      "category": "active_only",
+      "category_label": "Active only",
+      "concurrency": 128,
+      "mode": "AVX-512 VNNI",
+      "new_accuracy_passes": 1024,
+      "new_build_sha256": "90d54aeabbaa17350b94161f6a7926528b13452b0b50296f0bc45fc0e96969e0",
+      "new_client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "new_exact_matches": 27194,
+      "new_manifest_sha256": "7369196baaa2e63284c5ac72cfbedadb1ccc4ca774107264d2c1e9fbbbefdf02",
+      "new_metrics": {
+        "http_rps": 451.3717167233899,
+        "p95_ms": 295.644643,
+        "p99_ms": 329.96100900000005,
+        "query_qps": 451.3717167233899
+      },
+      "new_over_old_ratios": {
+        "http_rps": 1.8686581243573517,
+        "p95_ms": 0.4493525837431627,
+        "p99_ms": 0.45282416680439985,
+        "query_qps": 1.8686581243573517
+      },
+      "new_process_cpu_cores_per_node": [
+        2.247857421009357,
+        2.0457015481189265,
+        2.042160601300782
+      ],
+      "new_process_cpu_mean_cores_per_node": 2.111906523476355,
+      "new_source": "/home/dev/anas/qdrant-veortex-releases/benchmarks/shared3-native-veortex-20261110.json",
+      "new_successful_queries": 27194,
+      "new_timed_errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "old_accuracy_passes": 1024,
+      "old_build_sha256": "90d54aeabbaa17350b94161f6a7926528b13452b0b50296f0bc45fc0e96969e0",
+      "old_client_sha256": "9dab9e7f2292d6b3ccae108335317b2f249cf0e83a7cada02650060c91b9c251",
+      "old_cpu_observer": "PASSED; role/affinity evidence only, no whole-process aggregate",
+      "old_exact_matches": 14560,
+      "old_manifest_sha256": "5a9fae6e28535953d4d5aca4434aef9010f64107b29aaa96293827aa72e94307",
+      "old_metrics": {
+        "http_rps": 241.54858014952345,
+        "p95_ms": 657.934668,
+        "p99_ms": 728.673585,
+        "query_qps": 241.54858014952345
+      },
+      "old_process_cpu_cores_per_node": null,
+      "old_source": "/home/dev/anas/qdrant-veortex-releases/benchmarks/sq8-avx512-vs-amx-20261110.json",
+      "old_successful_queries": 14560,
+      "old_timed_errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "scope": "primary",
+      "system": "Our Veortex V45.1"
+    },
+    {
+      "batch_size": 1,
+      "category": "active_position_exclude",
+      "category_label": "Active + position exclude",
+      "concurrency": 128,
+      "mode": "AVX-512 VNNI",
+      "new_accuracy_passes": 1024,
+      "new_build_sha256": "90d54aeabbaa17350b94161f6a7926528b13452b0b50296f0bc45fc0e96969e0",
+      "new_client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "new_exact_matches": 134299,
+      "new_manifest_sha256": "d86cc5b67b9362a9bcf2cf92213a45a1f1e4754da1e831f0a681b9696355648f",
+      "new_metrics": {
+        "http_rps": 2235.337979001806,
+        "p95_ms": 82.91834100000001,
+        "p99_ms": 95.344013,
+        "query_qps": 2235.337979001806
+      },
+      "new_over_old_ratios": {
+        "http_rps": 1.1561349051032814,
+        "p95_ms": 1.1088869909881875,
+        "p99_ms": 1.067632488886211,
+        "query_qps": 1.1561349051032814
+      },
+      "new_process_cpu_cores_per_node": [
+        2.6837724210245635,
+        2.0870359396732105,
+        2.1175462628970494
+      ],
+      "new_process_cpu_mean_cores_per_node": 2.296118207864941,
+      "new_source": "/home/dev/anas/qdrant-veortex-releases/benchmarks/shared3-native-veortex-20261110.json",
+      "new_successful_queries": 134299,
+      "new_timed_errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "old_accuracy_passes": 1024,
+      "old_build_sha256": "90d54aeabbaa17350b94161f6a7926528b13452b0b50296f0bc45fc0e96969e0",
+      "old_client_sha256": "9dab9e7f2292d6b3ccae108335317b2f249cf0e83a7cada02650060c91b9c251",
+      "old_cpu_observer": "PASSED; role/affinity evidence only, no whole-process aggregate",
+      "old_exact_matches": 116092,
+      "old_manifest_sha256": "89095656ea851d616e497fd2e746db095eeaeec9de0156f01a9070b85d4c3914",
+      "old_metrics": {
+        "http_rps": 1933.4577384826175,
+        "p95_ms": 74.776187,
+        "p99_ms": 89.304151,
+        "query_qps": 1933.4577384826175
+      },
+      "old_process_cpu_cores_per_node": null,
+      "old_source": "/home/dev/anas/qdrant-veortex-releases/benchmarks/sq8-avx512-vs-amx-20261110.json",
+      "old_successful_queries": 116092,
+      "old_timed_errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "scope": "primary",
+      "system": "Our Veortex V45.1"
+    },
+    {
+      "batch_size": 1,
+      "category": "unfiltered_no_payload",
+      "category_label": "Unfiltered, no payload",
+      "concurrency": 64,
+      "mode": "Native",
+      "new_accuracy_passes": 1024,
+      "new_build_sha256": "5081acd073ef29701415dc2d1655d98750be8c08008541febc20cf2935800f2f",
+      "new_client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "new_exact_matches": 3387,
+      "new_manifest_sha256": "97b98ee1918d99160207c15d4fbc4c4ec6ee1979bd29e671497c1e0f4b2bd049",
+      "new_metrics": {
+        "http_rps": 55.42823274006081,
+        "p95_ms": 1546.878859,
+        "p99_ms": 1881.5557620000002,
+        "query_qps": 55.42823274006081
+      },
+      "new_over_old_ratios": {
+        "http_rps": 2.5897891698811173,
+        "p95_ms": 0.3340377333606104,
+        "p99_ms": 0.3790977075976517,
+        "query_qps": 2.5897891698811173
+      },
+      "new_process_cpu_cores_per_node": [
+        2.9281503379906506,
+        2.92735204182435,
+        2.721551290152052
+      ],
+      "new_process_cpu_mean_cores_per_node": 2.8590178899890173,
+      "new_source": "/home/dev/anas/qdrant-veortex-releases/benchmarks/shared3-native-veortex-20261110.json",
+      "new_successful_queries": 3387,
+      "new_timed_errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "old_accuracy_passes": 1024,
+      "old_build_sha256": "5081acd073ef29701415dc2d1655d98750be8c08008541febc20cf2935800f2f",
+      "old_client_sha256": "9dab9e7f2292d6b3ccae108335317b2f249cf0e83a7cada02650060c91b9c251",
+      "old_cpu_observer": "PASSED; role/affinity evidence only, no whole-process aggregate",
+      "old_exact_matches": 1344,
+      "old_manifest_sha256": "a19dda69f127982d2abc2549eda65ba3a8ac3d8660c2f63baf74d3b5defe9b75",
+      "old_metrics": {
+        "http_rps": 21.40260426782355,
+        "p95_ms": 4630.850663,
+        "p99_ms": 4963.247533,
+        "query_qps": 21.40260426782355
+      },
+      "old_process_cpu_cores_per_node": null,
+      "old_source": "/home/dev/anas/qdrant-veortex-releases/benchmarks/h2h-sq8-batch-20261109.json",
+      "old_successful_queries": 1344,
+      "old_timed_errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "scope": "supplemental",
+      "system": "Native Qdrant 1.20"
+    },
+    {
+      "batch_size": 1,
+      "category": "unfiltered_payload",
+      "category_label": "Unfiltered, payload",
+      "concurrency": 64,
+      "mode": "Native",
+      "new_accuracy_passes": 1024,
+      "new_build_sha256": "5081acd073ef29701415dc2d1655d98750be8c08008541febc20cf2935800f2f",
+      "new_client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "new_exact_matches": 3303,
+      "new_manifest_sha256": "0f7a399788d7029db4d438897c46f52519c988f72e51088c96a3fd84f760a950",
+      "new_metrics": {
+        "http_rps": 54.083345920091375,
+        "p95_ms": 1375.514097,
+        "p99_ms": 1662.0536829999999,
+        "query_qps": 54.083345920091375
+      },
+      "new_over_old_ratios": {
+        "http_rps": 2.497962254590691,
+        "p95_ms": 0.3347755387127507,
+        "p99_ms": 0.37295836492754686,
+        "query_qps": 2.497962254590691
+      },
+      "new_process_cpu_cores_per_node": [
+        2.885332701101864,
+        2.905292113810095,
+        2.924293474708331
+      ],
+      "new_process_cpu_mean_cores_per_node": 2.904972763206763,
+      "new_source": "/home/dev/anas/qdrant-veortex-releases/benchmarks/shared3-native-veortex-20261110.json",
+      "new_successful_queries": 3303,
+      "new_timed_errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "old_accuracy_passes": 1024,
+      "old_build_sha256": "5081acd073ef29701415dc2d1655d98750be8c08008541febc20cf2935800f2f",
+      "old_client_sha256": "9dab9e7f2292d6b3ccae108335317b2f249cf0e83a7cada02650060c91b9c251",
+      "old_cpu_observer": "PASSED; role/affinity evidence only, no whole-process aggregate",
+      "old_exact_matches": 1363,
+      "old_manifest_sha256": "0ffd29bf02c4bad248806fb944cfec0982200d01d4ec3db3f4fbf31f6205c4ff",
+      "old_metrics": {
+        "http_rps": 21.65098604700627,
+        "p95_ms": 4108.765241,
+        "p99_ms": 4456.405431,
+        "query_qps": 21.65098604700627
+      },
+      "old_process_cpu_cores_per_node": null,
+      "old_source": "/home/dev/anas/qdrant-veortex-releases/benchmarks/h2h-sq8-batch-20261109.json",
+      "old_successful_queries": 1363,
+      "old_timed_errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "scope": "supplemental",
+      "system": "Native Qdrant 1.20"
+    },
+    {
+      "batch_size": 1,
+      "category": "active_only",
+      "category_label": "Active only",
+      "concurrency": 64,
+      "mode": "Native",
+      "new_accuracy_passes": 1024,
+      "new_build_sha256": "5081acd073ef29701415dc2d1655d98750be8c08008541febc20cf2935800f2f",
+      "new_client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "new_exact_matches": 3074,
+      "new_manifest_sha256": "7369196baaa2e63284c5ac72cfbedadb1ccc4ca774107264d2c1e9fbbbefdf02",
+      "new_metrics": {
+        "http_rps": 50.22835694631179,
+        "p95_ms": 1386.954307,
+        "p99_ms": 1677.0499129999998,
+        "query_qps": 50.22835694631179
+      },
+      "new_over_old_ratios": {
+        "http_rps": 2.7116920921105465,
+        "p95_ms": 0.27233903659759506,
+        "p99_ms": 0.28935633972671526,
+        "query_qps": 2.7116920921105465
+      },
+      "new_process_cpu_cores_per_node": [
+        2.9349301519598314,
+        2.9130550945190774,
+        2.8394463245907016
+      ],
+      "new_process_cpu_mean_cores_per_node": 2.8958105236898697,
+      "new_source": "/home/dev/anas/qdrant-veortex-releases/benchmarks/shared3-native-veortex-20261110.json",
+      "new_successful_queries": 3074,
+      "new_timed_errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "old_accuracy_passes": 1024,
+      "old_build_sha256": "5081acd073ef29701415dc2d1655d98750be8c08008541febc20cf2935800f2f",
+      "old_client_sha256": "9dab9e7f2292d6b3ccae108335317b2f249cf0e83a7cada02650060c91b9c251",
+      "old_cpu_observer": "PASSED; role/affinity evidence only, no whole-process aggregate",
+      "old_exact_matches": 1173,
+      "old_manifest_sha256": "f1dce93259dc00776a4ec33738cab802696519e5e0d96cd5d9ae263891a8e82d",
+      "old_metrics": {
+        "http_rps": 18.522883587132632,
+        "p95_ms": 5092.7488189999995,
+        "p99_ms": 5795.794606,
+        "query_qps": 18.522883587132632
+      },
+      "old_process_cpu_cores_per_node": null,
+      "old_source": "/home/dev/anas/qdrant-veortex-releases/benchmarks/h2h-sq8-batch-20261109.json",
+      "old_successful_queries": 1173,
+      "old_timed_errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "scope": "supplemental",
+      "system": "Native Qdrant 1.20"
+    },
+    {
+      "batch_size": 1,
+      "category": "active_position_exclude",
+      "category_label": "Active + position exclude",
+      "concurrency": 64,
+      "mode": "Native",
+      "new_accuracy_passes": 1024,
+      "new_build_sha256": "5081acd073ef29701415dc2d1655d98750be8c08008541febc20cf2935800f2f",
+      "new_client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "new_exact_matches": 7214,
+      "new_manifest_sha256": "d86cc5b67b9362a9bcf2cf92213a45a1f1e4754da1e831f0a681b9696355648f",
+      "new_metrics": {
+        "http_rps": 119.30167207998227,
+        "p95_ms": 601.67178,
+        "p99_ms": 669.964591,
+        "query_qps": 119.30167207998227
+      },
+      "new_over_old_ratios": {
+        "http_rps": 2.8133902636352595,
+        "p95_ms": 0.263556552661877,
+        "p99_ms": 0.26365024002786186,
+        "query_qps": 2.8133902636352595
+      },
+      "new_process_cpu_cores_per_node": [
+        2.9398313715159037,
+        2.862595488259387,
+        2.886123225806015
+      ],
+      "new_process_cpu_mean_cores_per_node": 2.896183361860435,
+      "new_source": "/home/dev/anas/qdrant-veortex-releases/benchmarks/shared3-native-veortex-20261110.json",
+      "new_successful_queries": 7214,
+      "new_timed_errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "old_accuracy_passes": 1024,
+      "old_build_sha256": "5081acd073ef29701415dc2d1655d98750be8c08008541febc20cf2935800f2f",
+      "old_client_sha256": "9dab9e7f2292d6b3ccae108335317b2f249cf0e83a7cada02650060c91b9c251",
+      "old_cpu_observer": "PASSED; role/affinity evidence only, no whole-process aggregate",
+      "old_exact_matches": 2600,
+      "old_manifest_sha256": "6a12f3f9229f5b9749bb2877fa6e5f73e4f7dec66585d4237f5ee36efb951680",
+      "old_metrics": {
+        "http_rps": 42.40494950950362,
+        "p95_ms": 2282.8944070000002,
+        "p99_ms": 2541.11125,
+        "query_qps": 42.40494950950362
+      },
+      "old_process_cpu_cores_per_node": null,
+      "old_source": "/home/dev/anas/qdrant-veortex-releases/benchmarks/h2h-sq8-batch-20261109.json",
+      "old_successful_queries": 2600,
+      "old_timed_errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "scope": "supplemental",
+      "system": "Native Qdrant 1.20"
+    }
+  ],
+  "current_accepted_rows": 48,
+  "current_expected_rows": 48,
+  "current_recorded_rows": 48,
+  "current_status": "MEASUREMENTS_COMPLETE_RECORDED_SCOPE",
+  "generated_from_completed_curated_evidence": "/home/dev/anas/qdrant-veortex-releases/benchmarks/shared3-native-veortex-20261110.json",
+  "interpretation": {
+    "build_flags": "Native binary is the same 5081\u2026 build across arms; Veortex V45.1 is the same 90d54\u2026 build where selected. Official native compiler flags are not matched to Veortex.",
+    "client_change": "Historical client SHA 9dab9e7f2292d6b3ccae108335317b2f249cf0e83a7cada02650060c91b9c251; current client SHA is recorded per row (5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0 in the live campaign). The Go main change is limited to the B128 allowlist/help text.",
+    "comparison_type": "Overall CPU policy comparison; not a pure cores-scaling experiment.",
+    "cpu_measurement": "Historical CPU observers establish role/affinity activity but do not provide a whole-process aggregate. Current rows provide whole-process CPU equivalents per node; no historical process utilization is inferred.",
+    "current_budget": "Both containers use three vCPUs per node shared by all server phases. Native MAX_SEARCH_THREADS=3; Veortex max ring workers=3 and Rayon=3; separate TopK disabled; no per-thread affinity. Current phase permissions use the full three-CPU mask symmetrically.",
+    "current_queue_budget_bytes": 2147483648,
+    "historical_budget": "Both containers always had three vCPUs per node. Native full search was pinned to one search CPU with two support CPUs. Veortex scan was pinned to one scan CPU, while TopK, FP32 reranking, and payload work could use the two support CPUs. Old phase permissions were asymmetric across engines.",
+    "historical_queue_budget_bytes": 671088640,
+    "older_cross_engine_claims": "Older 40\u201350x cross-engine throughput claims are not a compute-equivalent baseline because search/scan and support-phase CPU permissions differed. The matched-resource three-CPU RPS ratios here supersede those figures for full-budget throughput claims.",
+    "quality": "Every included row must be accepted, have zero timed errors, match every returned ordered Top10 against exact FP32 truth, and pass all 1,024 initial category checks. This is empirical corpus coverage, not a universal recall guarantee.",
+    "query_and_manifest": "Pinned query corpus SHA-256 begins 90c486 and is the same. Manifest SHA values can differ because the comparison label differs; this does not imply different query content.",
+    "scaling_clarification": "The old total CPU budget was three vCPUs per node, not one. A 2.8\u20132.9x scan-only throughput target requires three busy scan workers and sufficient shared CPU/memory capacity. This campaign did not isolate 1-vs-3-worker scan throughput; it reports end-to-end performance and current whole-process CPU equivalents.",
+    "timing_order": "Measurements occurred at different times and used fixed run orders; no randomized ABBA replication."
+  },
+  "not_available": [
+    {
+      "batch_size": 128,
+      "categories": [
+        "unfiltered_no_payload",
+        "unfiltered_payload",
+        "active_only",
+        "active_position_exclude"
+      ],
+      "concurrency": 4,
+      "reason": "No prior same-batch/concurrency measurements in the approved historical source set.",
+      "systems": [
+        "Native Qdrant 1.20",
+        "Our Veortex V45.1"
+      ]
+    },
+    {
+      "batch_size": 1,
+      "categories": [
+        "unfiltered_no_payload",
+        "unfiltered_payload",
+        "active_only",
+        "active_position_exclude"
+      ],
+      "concurrency": 64,
+      "reason": "No prior same-build Veortex V45.1 measurement at B1/C64; older matrix rows use a different Veortex binary.",
+      "systems": [
+        "Our Veortex Auto",
+        "Our Veortex AVX-512 VNNI"
+      ]
+    }
+  ],
+  "observed_findings": {
+    "largest_http_rps_drop": {
+      "batch_size": 1,
+      "category": "active_position_exclude",
+      "concurrency": 128,
+      "mode": "Auto",
+      "new_over_old": 0.7106602420594947,
+      "system": "Our Veortex V45.1"
+    },
+    "largest_http_rps_gain": {
+      "batch_size": 1,
+      "category": "active_position_exclude",
+      "concurrency": 128,
+      "mode": "Native",
+      "new_over_old": 2.9551761788045416,
+      "system": "Native Qdrant 1.20"
+    },
+    "primary_http_rps_by_arm": [
+      {
+        "batch_size": 1,
+        "concurrency": 128,
+        "mode": "Native",
+        "rps_decreased_categories": [],
+        "rps_increased_categories": [
+          "unfiltered_no_payload",
+          "unfiltered_payload",
+          "active_only",
+          "active_position_exclude"
+        ],
+        "system": "Native Qdrant 1.20"
+      },
+      {
+        "batch_size": 64,
+        "concurrency": 4,
+        "mode": "Native",
+        "rps_decreased_categories": [],
+        "rps_increased_categories": [
+          "unfiltered_no_payload",
+          "unfiltered_payload",
+          "active_only",
+          "active_position_exclude"
+        ],
+        "system": "Native Qdrant 1.20"
+      },
+      {
+        "batch_size": 1,
+        "concurrency": 128,
+        "mode": "Auto",
+        "rps_decreased_categories": [
+          "active_only",
+          "active_position_exclude"
+        ],
+        "rps_increased_categories": [
+          "unfiltered_no_payload",
+          "unfiltered_payload"
+        ],
+        "system": "Our Veortex V45.1"
+      },
+      {
+        "batch_size": 64,
+        "concurrency": 4,
+        "mode": "Auto",
+        "rps_decreased_categories": [],
+        "rps_increased_categories": [
+          "unfiltered_no_payload",
+          "unfiltered_payload",
+          "active_only",
+          "active_position_exclude"
+        ],
+        "system": "Our Veortex V45.1"
+      },
+      {
+        "batch_size": 1,
+        "concurrency": 128,
+        "mode": "AVX-512 VNNI",
+        "rps_decreased_categories": [],
+        "rps_increased_categories": [
+          "unfiltered_no_payload",
+          "unfiltered_payload",
+          "active_only",
+          "active_position_exclude"
+        ],
+        "system": "Our Veortex V45.1"
+      }
+    ],
+    "primary_http_rps_row_counts_new_over_old": {
+      "decreased": 2,
+      "increased": 18,
+      "unchanged": 0
+    }
+  },
+  "open_optimization_items": [
+    {
+      "category": "active_only",
+      "category_label": "Active only",
+      "change_percent": -13.435934244822755,
+      "item": "Veortex Auto Active only B1/C128 throughput regression",
+      "new_http_rps": 772.3118748752681,
+      "new_process_cpu_cores_per_node": [
+        2.4710236602236324,
+        2.1247200882188233,
+        2.1213122273884104
+      ],
+      "next_isolation": [
+        "admission wait",
+        "ring wait",
+        "scan time",
+        "TopK/FP32 reranking",
+        "payload completion",
+        "cross-node join"
+      ],
+      "old_http_rps": 892.185305920751,
+      "preserve_other_observed_gains": true,
+      "root_cause": "not established",
+      "same_engine_binary": true
+    },
+    {
+      "category": "active_position_exclude",
+      "category_label": "Active + position exclude",
+      "change_percent": -28.933975794050525,
+      "item": "Veortex Auto Active + position exclude B1/C128 throughput regression",
+      "new_http_rps": 2230.9925974399475,
+      "new_process_cpu_cores_per_node": [
+        2.4720520644121042,
+        1.8904309392986676,
+        1.9019530095785375
+      ],
+      "next_isolation": [
+        "admission wait",
+        "ring wait",
+        "scan time",
+        "TopK/FP32 reranking",
+        "payload completion",
+        "cross-node join"
+      ],
+      "old_http_rps": 3139.3237800591273,
+      "preserve_other_observed_gains": true,
+      "root_cause": "not established",
+      "same_engine_binary": true
+    }
+  ],
+  "pinned_query_corpus_sha256_prefix": "90c486",
+  "schema": "three_cpu_policy_comparison_v1",
+  "title": "One pinned search CPU + two support CPUs vs three shared CPUs"
+}

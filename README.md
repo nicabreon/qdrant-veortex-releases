@@ -26,6 +26,25 @@ A new comparison is being measured with **all three CPUs shared by search and se
 
 **Next requested stage:** compare 1, 2, and 3 local shards per node (3, 6, and 9 physical shards in the cluster), keeping total vector count and the same shared three-CPU limit per node. Dataset preparation and actual shard placement must be verified before publishing that comparison.
 
+### Completion revision — 10 November 2026 (WIB): three shared CPUs
+
+The pending status above records the campaign's launch; the campaign is now complete. **All 48/48 measurements were accepted**, with **880,743 successful HTTP requests, zero failed requests, and 2,425,707 timed queries** whose ordered Top10 matched the pinned FP32 truth. The independent prechecks passed **12 × 1,024 queries**. The original cluster was restored healthy and the immutable dataset layers were unchanged.
+
+The table below shows **B1/C128**, with each cell reporting **HTTP RPS / p95 / p99 milliseconds**. All three CPUs per node were available to every server thread, with disjoint node CPU sets and no per-thread affinity.
+
+| Workload | Native Qdrant 1.20 | Veortex AVX-512 VNNI, AMX off | Veortex Auto, AMX observed |
+|---|---:|---:|---:|
+| No filter, no payload | 55.71 / 2,461.91 / 2,854.50 | 453.32 / 293.98 / 301.96 | 1,179.48 / 120.30 / 134.03 |
+| No filter, payload | 54.27 / 2,899.84 / 3,734.77 | 458.51 / 296.13 / 302.48 | 1,175.70 / 121.10 / 132.50 |
+| Active-only (~90% eligible), payload | 47.99 / 2,974.24 / 3,420.46 | 451.37 / 295.64 / 329.96 | 772.31 / 181.55 / 200.56 |
+| Active + position + subject exclusion (~9% eligible), payload | 120.32 / 1,261.05 / 1,473.20 | 2,235.34 / 82.92 / 95.34 | 2,230.99 / 78.26 / 86.84 |
+
+The [complete 48-row report](benchmarks/shared3-native-veortex-20261110.md), [JSON evidence](benchmarks/shared3-native-veortex-20261110.json), and [CSV](benchmarks/shared3-native-veortex-20261110.csv) include B1/C64, B1/C128, B64/C4, B128/C4, all four categories, and actual per-node CPU use. HTTP RPS and query/s are separate for explicit batches. These are selected load points, not maximum-capacity or scan-only scaling measurements. Three available CPUs do not establish three saturated scan workers; compiler flags remain unmatched and the arms ran once in a fixed order.
+
+The shared-CPU policy has mixed results against the previous 1-scan-plus-2-support policy. Auto B1/C128 active-only falls from 892.19 to 772.31 RPS, and the narrower filter falls from 3,139.32 to 2,230.99 RPS, while the two unfiltered categories improve. These regressions remain open optimization items. All older sections, tables, and images are retained as historical measurements under their stated configuration.
+
+The [CPU-policy comparison](benchmarks/cpu-policy-1-vs-3-20261110.md), [JSON](benchmarks/cpu-policy-1-vs-3-20261110.json), and [CSV](benchmarks/cpu-policy-1-vs-3-20261110.csv) pair 20 primary and four supplemental measurements at the same B/C and filter/payload category. Both old and new profiles had three total vCPUs per node. The table reports gains and regressions, p95/p99, exact binary pins, and actual CPU use where measured. A near-3× scan-only gain remains a separate target to verify; these end-to-end results do not measure it.
+
 ## Download the research binary
 
 The [V45.1 admission-budget release](https://github.com/nicabreon/qdrant-veortex-releases/releases/tag/v1.20.0-veortex.v45.1.20261109) adds an opt-in queue-byte ceiling of **2 GiB**, with the default still **384 MiB**. Its tested B64/C4 profile uses **640 MiB** and completed all four categories without HTTP 429s. It requires the [new environment example](configs/admission-budget-node0.env.example). Its executable SHA-256 is `90d54aeabbaa17350b94161f6a7926528b13452b0b50296f0bc45fc0e96969e0`; see the [manifest](releases/admission-budget-20261109-manifest.json).
