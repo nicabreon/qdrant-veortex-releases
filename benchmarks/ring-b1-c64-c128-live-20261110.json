@@ -3,11 +3,11 @@
   "campaign_id": "ring-b1-20261110t054451z",
   "campaign_status": "TIMING",
   "expected_rows": 16,
-  "recorded_rows": 13,
-  "accepted_rows": 13,
+  "recorded_rows": 14,
+  "accepted_rows": 14,
   "rejected_rows": 0,
   "rejections": [],
-  "receipt_sha256": "3884212365333aaf4c6cb2f14a2997331a2192b7532a56aaca097536d8ed8e39",
+  "receipt_sha256": "039f7e2e16483b149b77910110e3469875a0b25b8fe9ab450e7bf78ce08bd67f",
   "source_commit": "1bd74d911fa8c61f962d5b22fbd4ac2951102a80",
   "veortex_sha256": "a493502c9538e10e66637993432e1d619c13004368c78c423f9041ff6be3d607",
   "client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
@@ -2188,6 +2188,171 @@
           "avx512vnni_calls": 645018,
           "ring_submitted_queries": 25478,
           "ring_completed_queries": 25478
+        }
+      ],
+      "failure_notes": [],
+      "backend_valid": true,
+      "quality_valid": true,
+      "intended_route_valid": true,
+      "client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "manifest_sha256": "3ad70cee8fc58a90d9a7faad30a2d8571264aa30b6764edb3cf22ca3b7408182"
+    },
+    {
+      "backend": "auto",
+      "category": "active_only",
+      "batch_size": 1,
+      "concurrency": 128,
+      "ordinal": 14,
+      "measurement_accepted": true,
+      "http_rps": 774.4061116784917,
+      "query_qps": 774.4061116784917,
+      "p50_ms": 162.534757,
+      "p95_ms": 182.100663,
+      "p99_ms": 253.82389799999999,
+      "successful_requests": 46546,
+      "failed_requests": 0,
+      "successful_queries": 46546,
+      "failed_queries": 0,
+      "dispatched_queries": 46546,
+      "exact_query_truth_matches": 46546,
+      "http_429_count": 0,
+      "correctness_failed_requests": 0,
+      "transport_failures": 0,
+      "transport_timeouts": 0,
+      "actual_elapsed_s": 60.105414069,
+      "client_status": "COMPLETED",
+      "client_passed": true,
+      "cpu_status": "PASSED",
+      "cpu_violations": 0,
+      "cpu_by_node": [
+        {
+          "node": 0,
+          "allowed_cpus": [
+            4,
+            5,
+            6
+          ],
+          "active_work_proven": true,
+          "active_compute_proof_method": "stable_interval_schedstat_runtime",
+          "stable_interval_schedstat_samples": 21,
+          "newborn_schedstat_samples": 64,
+          "interval_proc_stat_ticks": 10963,
+          "whole_process_cpu_equivalents": 2.4488614474197377
+        },
+        {
+          "node": 1,
+          "allowed_cpus": [
+            7,
+            8,
+            9
+          ],
+          "active_work_proven": true,
+          "active_compute_proof_method": "stable_interval_schedstat_runtime",
+          "stable_interval_schedstat_samples": 21,
+          "newborn_schedstat_samples": 64,
+          "interval_proc_stat_ticks": 11372,
+          "whole_process_cpu_equivalents": 2.1257759566098047
+        },
+        {
+          "node": 2,
+          "allowed_cpus": [
+            10,
+            11,
+            12
+          ],
+          "active_work_proven": true,
+          "active_compute_proof_method": "stable_interval_schedstat_runtime",
+          "stable_interval_schedstat_samples": 21,
+          "newborn_schedstat_samples": 45,
+          "interval_proc_stat_ticks": 11683,
+          "whole_process_cpu_equivalents": 2.108575021388382
+        }
+      ],
+      "route_status": "PASSED",
+      "ring_admission_valid": true,
+      "ring_admission_proof": {
+        "schema": "ring_b1_per_node_admission_v1",
+        "counter_semantics": "Process-global per-node ring counters increment once for each B1 query submitted/completed; measured-row delta includes 16 warmup requests plus timed requests and final drain.",
+        "warmup_queries_per_node": 16,
+        "timed_successful_queries": 46546,
+        "expected_queries_per_node": 46562,
+        "warmup_contract_passed": true,
+        "nodes": [
+          {
+            "node": 0,
+            "submitted_delta": 46562,
+            "completed_delta": 46562,
+            "fallback_delta": 0,
+            "hnsw_search_calls_delta": 0,
+            "submitted_matches_expected": true,
+            "completed_matches_expected": true,
+            "no_ring_fallback": true,
+            "no_hnsw_search": true
+          },
+          {
+            "node": 1,
+            "submitted_delta": 46562,
+            "completed_delta": 46562,
+            "fallback_delta": 0,
+            "hnsw_search_calls_delta": 0,
+            "submitted_matches_expected": true,
+            "completed_matches_expected": true,
+            "no_ring_fallback": true,
+            "no_hnsw_search": true
+          },
+          {
+            "node": 2,
+            "submitted_delta": 46562,
+            "completed_delta": 46562,
+            "fallback_delta": 0,
+            "hnsw_search_calls_delta": 0,
+            "submitted_matches_expected": true,
+            "completed_matches_expected": true,
+            "no_ring_fallback": true,
+            "no_hnsw_search": true
+          }
+        ],
+        "passed": true
+      },
+      "ring_route_deltas": [
+        {
+          "node": 0,
+          "amx_calls": 50617545,
+          "query_vector_dots": 41905800000,
+          "gallery_blocks_decoded": 6292340736,
+          "batch4_vectors": 0,
+          "ring_fallback_queries": 0,
+          "hnsw_build_calls": 0,
+          "hnsw_search_calls": 0,
+          "avx512vnni_calls": 884369,
+          "ring_submitted_queries": 46562,
+          "ring_completed_queries": 46562
+        },
+        {
+          "node": 1,
+          "amx_calls": 48775734,
+          "query_vector_dots": 41905800000,
+          "gallery_blocks_decoded": 6068178704,
+          "batch4_vectors": 0,
+          "ring_fallback_queries": 0,
+          "hnsw_build_calls": 0,
+          "hnsw_search_calls": 0,
+          "avx512vnni_calls": 886556,
+          "ring_submitted_queries": 46562,
+          "ring_completed_queries": 46562
+        },
+        {
+          "node": 2,
+          "amx_calls": 48083617,
+          "query_vector_dots": 41905800000,
+          "gallery_blocks_decoded": 6003937296,
+          "batch4_vectors": 0,
+          "ring_fallback_queries": 0,
+          "hnsw_build_calls": 0,
+          "hnsw_search_calls": 0,
+          "avx512vnni_calls": 930707,
+          "ring_submitted_queries": 46562,
+          "ring_completed_queries": 46562
         }
       ],
       "failure_notes": [],
