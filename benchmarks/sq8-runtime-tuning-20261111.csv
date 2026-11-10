@@ -1,0 +1,3 @@
+variant,category,fast_join,prefetch_hint,batch_size,concurrency,http_rps,p50_ms,p95_ms,p99_ms,successful_requests,failed_requests,actual_elapsed_s
+Fast join 96,unfiltered_no_payload,96,9,1,512,1942.3024101908654,261.537667,375.36992200000003,406.777865,58785,0,30.265626862
+Fast join 96,active_only,96,9,1,512,1701.0717223247932,286.654019,457.195155,548.5508169999999,51350,0,30.18685181
