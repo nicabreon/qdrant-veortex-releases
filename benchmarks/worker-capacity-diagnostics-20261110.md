@@ -31,13 +31,30 @@ The warmed worker-2 active-filter cell had a 443.08 ms p99 alongside high host I
 
 The auxiliary sampler reads three existing metrics endpoints every two seconds. Its worker-1 timing window was missed in the warmed campaign; ring-limit 1 is not represented as a sampled active-ring observation. All timed rows separately passed full CPU-mask, active-work, ring submit/completion, zero-fallback, zero-HNSW and ISA checks.
 
+## Broader admission profile
+
+This separate profile fixes three workers, fast join 64, 640 singleton permits, a 640 singleton cap and a 640 shard-search cap across C256/C384/C512. The query-byte budget remains 2 GiB and admission wait remains 90 ms. It is not an isolated worker-count comparison. A separately validated client revision lifts only the former C160/inflight160 CLI ceiling to 1,024; query generation, protocol, validation and rate calculations are unchanged. Engine ELF/source are unchanged.
+
+| Concurrency | Category | HTTP RPS | p50 ms | p95 ms | p99 ms | Successful | Failed |
+| ---: | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| 256 | No filter / no payload | 1,476.26 | 170.85 | 226.11 | 247.04 | 44,442 | 0 |
+| 384 | No filter / no payload | 1,710.79 | 215.20 | 342.85 | 391.24 | 51,553 | 0 |
+| 512 | No filter / no payload | 2,025.96 | 246.60 | 378.96 | 418.24 | 61,089 | 0 |
+| 256 | Active filter (~90%) + payload | 1,463.60 | 174.11 | 241.68 | 263.86 | 44,065 | 0 |
+| 384 | Active filter (~90%) + payload | 1,595.19 | 236.41 | 351.79 | 401.22 | 48,122 | 0 |
+| 512 | Active filter (~90%) + payload | 1,695.61 | 287.75 | 461.62 | 525.85 | 51,235 | 0 |
+
+At C512, active filter + payload reaches 83.7% of unfiltered throughput, with p99 525.85 versus 418.24 ms. This point does not demonstrate 90% parity. Higher concurrency raises throughput here but also raises latency.
+
+The [separate capacity client](../reproduce/cmd/bench-matrix-capacity/README.md) preserves the old C160 client for historical runs. Its source, build context and validation are documented independently.
+
 ## Interpretation and evidence
 
 5,000 HTTP RPS B1 is an exploratory target, not an achieved result. At C128 it would require mean latency no higher than 25.6 ms. At the measured three-worker fast-join-64 means (~99/108 ms), it would require roughly 494/538 concurrent requests if latency stayed unchanged. Higher concurrency can also raise latency and contention; this arithmetic is not a throughput forecast.
 
 Each campaign uses one COW set across its arms; host page cache is not reset and arm order is fixed. Host/VM I/O variability limits causal comparisons. These short cells do not establish long-run stability, maximum capacity, write/failover acceptance or performance of TQ2/TQ4/AVX-only/other operators. Native results are not rerun here. Payload-only and narrow-filter categories remain available in the complete matrix rather than being inferred from these two categories.
 
-All 8 rows passed, with 267,657 timed HTTP requests matching saved FP32 truth and zero failures/fallback/HNSW calls. Originals were restored healthy after each campaign, immutable lower metadata matched, and cleanup passed.
+All 14 rows passed, with 568,163 timed HTTP requests matching saved FP32 truth and zero failures/fallback/HNSW calls. Originals were restored healthy after each campaign, immutable lower metadata matched, and cleanup passed.
 
 Engine source commit: `0aa62c281b7262368ca6f1ed69de71647be10ac0`. ELF SHA-256: `074f45b364a8e80da3fb9307d637812072fd755f56b91aeb8bdd4bf92b1ba60d`. This measured candidate is distinct from the downloadable V45.1 binary; engine source remains private.
 
@@ -47,3 +64,6 @@ Machine-readable data: [JSON](worker-capacity-diagnostics-20261110.json), [CSV](
 | --- | --- | --- |
 | Worker count | `worker-scaling-warmed-diagnostic-20261110-20261110t141847z` | `52c512f27b06dfc88664de3e87d1be3085d9e8f497710b8d186d84638972973c` |
 | Fast join 32 | `worker-scaling-fastjoin32-diagnostic-20261110-20261110t143034z` | `4f12887f8f0238b150a59178f0d4ca5c1a94fd62a6ede14fe0759e964fe0a287` |
+| Capacity profile | `worker-scaling-capacity-diagnostic-20261110-20261110t150029z` | `bacfd291267594c21b23515f37dc82ac25ac1276009a1b42910c1c1c8baf7cc8` |
+
+![SQ8 worker-count, ring-fill and capacity diagnostics. Each point is one short run; the two admission profiles are separate experiments.](../assets/worker-capacity-diagnostics-20261110.svg)

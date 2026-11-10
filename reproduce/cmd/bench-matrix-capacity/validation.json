@@ -1,0 +1,97 @@
+{
+  "schema": "worker_scaling_client_capacity_validation_v1",
+  "status": "PASSED",
+  "source_sha256": "16c957e8539df6c91e01b993e97314d464615845b9be7715bfb2a300f9c48126",
+  "binary_sha256": "3ac5765e0116dd6d4776996bc0e717bb2abecdd1950302b63aa4d00e1400436f",
+  "old_source_sha256": "e65540edeefddee0389ffd05e300cbea157ad940b8bc0cb5db6cdfe92970db5c",
+  "source_change": "Only maxInflight 160 to 1024 and two help strings.",
+  "mock_cases_passed": 21,
+  "capacity_boundary_cases": [
+    {
+      "case": "capacity-b1-c256-m256",
+      "status": "PASSED",
+      "concurrency": 256,
+      "requested_max_inflight": 256,
+      "effective_max_inflight": 256,
+      "peak_inflight": 221,
+      "successful_requests": 265,
+      "exact_queries": 265,
+      "duration_s": 0.254905916
+    },
+    {
+      "case": "capacity-b1-c384-m384",
+      "status": "PASSED",
+      "concurrency": 384,
+      "requested_max_inflight": 384,
+      "effective_max_inflight": 384,
+      "peak_inflight": 161,
+      "successful_requests": 161,
+      "exact_queries": 161,
+      "duration_s": 0.175420296
+    },
+    {
+      "case": "capacity-b1-c512-m512",
+      "status": "PASSED",
+      "concurrency": 512,
+      "requested_max_inflight": 512,
+      "effective_max_inflight": 512,
+      "peak_inflight": 293,
+      "successful_requests": 293,
+      "exact_queries": 293,
+      "duration_s": 0.307980839
+    },
+    {
+      "case": "capacity-b1-c256-m0",
+      "status": "PASSED",
+      "concurrency": 256,
+      "requested_max_inflight": 0,
+      "effective_max_inflight": 256,
+      "peak_inflight": 256,
+      "successful_requests": 288,
+      "exact_queries": 288,
+      "duration_s": 0.263382074
+    },
+    {
+      "case": "capacity-c1024-m1024-accepted-by-validation",
+      "status": "PASSED",
+      "concurrency": 1024,
+      "max_inflight": 1024,
+      "observed_validation_message": "QDRANT_API_KEY is empty or unset",
+      "requests_sent": false
+    },
+    {
+      "case": "capacity-concurrency-zero-rejected",
+      "status": "PASSED",
+      "concurrency": 0,
+      "max_inflight": 0,
+      "observed_validation_message": "--concurrency must be in 1..1024",
+      "requests_sent": false
+    },
+    {
+      "case": "capacity-concurrency-1025-rejected",
+      "status": "PASSED",
+      "concurrency": 1025,
+      "max_inflight": 1025,
+      "observed_validation_message": "--concurrency must be in 1..1024",
+      "requests_sent": false
+    },
+    {
+      "case": "capacity-max-inflight-1025-rejected",
+      "status": "PASSED",
+      "concurrency": 1,
+      "max_inflight": 1025,
+      "observed_validation_message": "--max-inflight must be >= --concurrency and <= 1024",
+      "requests_sent": false
+    },
+    {
+      "case": "capacity-max-inflight-below-concurrency-rejected",
+      "status": "PASSED",
+      "concurrency": 256,
+      "max_inflight": 255,
+      "observed_validation_message": "--max-inflight must be >= --concurrency and <= 1024",
+      "requests_sent": false
+    }
+  ],
+  "build_settings": "Go1.25.1; buildmode exe; compiler gc; CGO_ENABLED1; GOOS linux; GOARCH amd64; GOAMD64v1; no DefaultGODEBUG. Matches frozen original client.",
+  "validation_receipt_sha256": "2eac927f2c5f6e92a68341fac5c66fb430b94657dc07f26a8c6cce20208b233f"
+}
