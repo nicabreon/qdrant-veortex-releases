@@ -1,0 +1,1655 @@
+{
+  "accuracy": [
+    {
+      "backend": "avx512vnni",
+      "category": "unfiltered_no_payload",
+      "failed": 0,
+      "manifest_sha256": null,
+      "oracle_sha256": null,
+      "passed": 1024,
+      "queries": 1024,
+      "score_tolerance": null
+    }
+  ],
+  "campaign_id": "shared-cpu-fullmatrix-20261110t075650z",
+  "campaign_status": "TIMING",
+  "contract": {
+    "backends_fresh": [
+      "avx512vnni",
+      "auto"
+    ],
+    "batch_concurrency_cells": [
+      {
+        "batch_size": 1,
+        "concurrency": 64
+      },
+      {
+        "batch_size": 1,
+        "concurrency": 128
+      },
+      {
+        "batch_size": 64,
+        "concurrency": 4
+      },
+      {
+        "batch_size": 128,
+        "concurrency": 4
+      }
+    ],
+    "categories": [
+      "unfiltered_no_payload",
+      "unfiltered_payload",
+      "active_only",
+      "active_position_exclude"
+    ],
+    "category_labels": {
+      "active_only": "Active only (~90%) / payload",
+      "active_position_exclude": "Active + position exclusion (~9%) / payload",
+      "unfiltered_no_payload": "No filter / no payload",
+      "unfiltered_payload": "No filter / payload"
+    },
+    "cpus_per_node": 3,
+    "dataset": "3 million 512D cosine vectors; SQ8 flat search; HNSW disabled",
+    "dispatch_seconds_per_cell": 60,
+    "distinct_queries_per_category": 1024,
+    "elapsed_includes_final_drain": true,
+    "http_rps_basis": "successful HTTP requests / actual elapsed including final drain",
+    "max_ring_workers_per_node": 3,
+    "measurement_accepted_definition": "Correctness, route, CPU-mask/work, ISA, helper provenance, and error gates passed; no throughput target is part of acceptance.",
+    "metadata_indexes": [
+      "abis.active",
+      "abis.subject_id",
+      "attributes.position"
+    ],
+    "node_cpu_masks": [
+      [
+        4,
+        5,
+        6
+      ],
+      [
+        7,
+        8,
+        9
+      ],
+      [
+        10,
+        11,
+        12
+      ]
+    ],
+    "nodes": 3,
+    "per_thread_pinning": false,
+    "pipeline_mode": "separate TopK + deferred payload materialization",
+    "query_qps_basis": "successful query members / actual elapsed including final drain",
+    "queue_budget_bytes": 2147483648,
+    "replication_factor": 1,
+    "search_and_rayon_threads": 3,
+    "separate_topk": true,
+    "shards": 3,
+    "shared_postprocessing_placement": "shared",
+    "stage_diagnostic_scope": "Per-node deltas and mean per node; work/wait counters can overlap and are not additive critical-path latency.",
+    "topk": 10,
+    "warmup_requests_per_cell": 16
+  },
+  "curation_state": "PROVISIONAL \u2014 RESTORATION PENDING",
+  "finished_utc": null,
+  "historical_native_provenance": {
+    "native_binary_sha256": "5081acd073ef29701415dc2d1655d98750be8c08008541febc20cf2935800f2f",
+    "native_source_commit": "222b2e44ab1c3f17e8246396ead6558e45041df7",
+    "owner": "shared3cpu-20261110t021202z",
+    "receipt_sha256": "988be53eed5dc07e605937a786aa5b5fc12de3cc96500dda46b1b627892b423c",
+    "scope": "earlier three-CPU H0 run; not rerun in this campaign",
+    "status": "MEASUREMENTS_COMPLETE_RECORDED_SCOPE"
+  },
+  "historical_native_reference_rows": [
+    {
+      "backend": "native",
+      "backend_label": "Qdrant native 1.20 \u2014 earlier three-CPU run, not rerun",
+      "batch_size": 1,
+      "category": "unfiltered_no_payload",
+      "category_label": "No filter / no payload",
+      "client_passed": true,
+      "client_report_sha256": "ce482b0cc80fce354c7b435d1ca547a44fd77262ccc20815693505616fa4c685",
+      "client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "client_status": "COMPLETED",
+      "concurrency": 64,
+      "cpu_proof_scope": "Accepted by the earlier H0 curator; no new native CPU observation here.",
+      "dispatch_s": 59.987028875,
+      "dispatched_queries": 3387,
+      "drain_s": 1.1190146080000005,
+      "elapsed_s": 61.106043483,
+      "errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "http_error_requests": 0,
+        "protocol_errors": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "exact_query_truth_matches": 3387,
+      "failed_queries": 0,
+      "failed_requests": 0,
+      "failure_reasons": [],
+      "historical_reference_receipt_sha256": "988be53eed5dc07e605937a786aa5b5fc12de3cc96500dda46b1b627892b423c",
+      "http_rps": 55.42823274006081,
+      "latency_sample_count": 3387,
+      "manifest_sha256": "97b98ee1918d99160207c15d4fbc4c4ec6ee1979bd29e671497c1e0f4b2bd049",
+      "measurement_accepted": true,
+      "measurement_scope": "earlier three-CPU H0 reference; not rerun in this campaign",
+      "p50_ms": 1137.38765,
+      "p95_ms": 1546.878859,
+      "p99_ms": 1881.5557620000002,
+      "payload_contract_matches": 3387,
+      "query_qps": 55.42823274006081,
+      "successful_queries": 3387,
+      "successful_requests": 3387
+    },
+    {
+      "backend": "native",
+      "backend_label": "Qdrant native 1.20 \u2014 earlier three-CPU run, not rerun",
+      "batch_size": 1,
+      "category": "unfiltered_no_payload",
+      "category_label": "No filter / no payload",
+      "client_passed": true,
+      "client_report_sha256": "1b5ee1f08265d4b62100271238bee28e440736f5802814fb90dafe19c2e93870",
+      "client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "client_status": "COMPLETED",
+      "concurrency": 128,
+      "cpu_proof_scope": "Accepted by the earlier H0 curator; no new native CPU observation here.",
+      "dispatch_s": 59.972468651,
+      "dispatched_queries": 3464,
+      "drain_s": 2.2019419849999977,
+      "elapsed_s": 62.174410636,
+      "errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "http_error_requests": 0,
+        "protocol_errors": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "exact_query_truth_matches": 3464,
+      "failed_queries": 0,
+      "failed_requests": 0,
+      "failure_reasons": [],
+      "historical_reference_receipt_sha256": "988be53eed5dc07e605937a786aa5b5fc12de3cc96500dda46b1b627892b423c",
+      "http_rps": 55.71423942045841,
+      "latency_sample_count": 3464,
+      "manifest_sha256": "97b98ee1918d99160207c15d4fbc4c4ec6ee1979bd29e671497c1e0f4b2bd049",
+      "measurement_accepted": true,
+      "measurement_scope": "earlier three-CPU H0 reference; not rerun in this campaign",
+      "p50_ms": 2280.236923,
+      "p95_ms": 2461.911532,
+      "p99_ms": 2854.497183,
+      "payload_contract_matches": 3464,
+      "query_qps": 55.71423942045841,
+      "successful_queries": 3464,
+      "successful_requests": 3464
+    },
+    {
+      "backend": "native",
+      "backend_label": "Qdrant native 1.20 \u2014 earlier three-CPU run, not rerun",
+      "batch_size": 64,
+      "category": "unfiltered_no_payload",
+      "category_label": "No filter / no payload",
+      "client_passed": true,
+      "client_report_sha256": "432365d2f2aef78101f73cf7003561ef6fdafe1d91881a65bf5a0fae2600c5ec",
+      "client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "client_status": "COMPLETED",
+      "concurrency": 4,
+      "cpu_proof_scope": "Accepted by the earlier H0 curator; no new native CPU observation here.",
+      "dispatch_s": 59.991007031,
+      "dispatched_queries": 15680,
+      "drain_s": 0.9417308469999952,
+      "elapsed_s": 60.932737878,
+      "errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "http_error_requests": 0,
+        "protocol_errors": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "exact_query_truth_matches": 15680,
+      "failed_queries": 0,
+      "failed_requests": 0,
+      "failure_reasons": [],
+      "historical_reference_receipt_sha256": "988be53eed5dc07e605937a786aa5b5fc12de3cc96500dda46b1b627892b423c",
+      "http_rps": 4.020827038669113,
+      "latency_sample_count": 245,
+      "manifest_sha256": "97b98ee1918d99160207c15d4fbc4c4ec6ee1979bd29e671497c1e0f4b2bd049",
+      "measurement_accepted": true,
+      "measurement_scope": "earlier three-CPU H0 reference; not rerun in this campaign",
+      "p50_ms": 986.816878,
+      "p95_ms": 1078.834152,
+      "p99_ms": 1261.077824,
+      "payload_contract_matches": 15680,
+      "query_qps": 257.33293047482323,
+      "successful_queries": 15680,
+      "successful_requests": 245
+    },
+    {
+      "backend": "native",
+      "backend_label": "Qdrant native 1.20 \u2014 earlier three-CPU run, not rerun",
+      "batch_size": 128,
+      "category": "unfiltered_no_payload",
+      "category_label": "No filter / no payload",
+      "client_passed": true,
+      "client_report_sha256": "f6bdc4634fe364ee83473532b2b373b5332637ebcb5aa42b34974f3f58a1a2a1",
+      "client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "client_status": "COMPLETED",
+      "concurrency": 4,
+      "cpu_proof_scope": "Accepted by the earlier H0 curator; no new native CPU observation here.",
+      "dispatch_s": 59.767679283,
+      "dispatched_queries": 16000,
+      "drain_s": 1.9209152190000012,
+      "elapsed_s": 61.688594502,
+      "errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "http_error_requests": 0,
+        "protocol_errors": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "exact_query_truth_matches": 16000,
+      "failed_queries": 0,
+      "failed_requests": 0,
+      "failure_reasons": [],
+      "historical_reference_receipt_sha256": "988be53eed5dc07e605937a786aa5b5fc12de3cc96500dda46b1b627892b423c",
+      "http_rps": 2.026306499752517,
+      "latency_sample_count": 125,
+      "manifest_sha256": "97b98ee1918d99160207c15d4fbc4c4ec6ee1979bd29e671497c1e0f4b2bd049",
+      "measurement_accepted": true,
+      "measurement_scope": "earlier three-CPU H0 reference; not rerun in this campaign",
+      "p50_ms": 1965.130051,
+      "p95_ms": 2419.229121,
+      "p99_ms": 2990.6214250000003,
+      "payload_contract_matches": 16000,
+      "query_qps": 259.3672319683222,
+      "successful_queries": 16000,
+      "successful_requests": 125
+    },
+    {
+      "backend": "native",
+      "backend_label": "Qdrant native 1.20 \u2014 earlier three-CPU run, not rerun",
+      "batch_size": 1,
+      "category": "unfiltered_payload",
+      "category_label": "No filter / payload",
+      "client_passed": true,
+      "client_report_sha256": "c98c412a500be07890e2634209c91558535b091e00b7c777d3e8a2a6d8e0ed7b",
+      "client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "client_status": "COMPLETED",
+      "concurrency": 64,
+      "cpu_proof_scope": "Accepted by the earlier H0 curator; no new native CPU observation here.",
+      "dispatch_s": 59.993093326,
+      "dispatched_queries": 3303,
+      "drain_s": 1.0793115669999978,
+      "elapsed_s": 61.072404893,
+      "errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "http_error_requests": 0,
+        "protocol_errors": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "exact_query_truth_matches": 3303,
+      "failed_queries": 0,
+      "failed_requests": 0,
+      "failure_reasons": [],
+      "historical_reference_receipt_sha256": "988be53eed5dc07e605937a786aa5b5fc12de3cc96500dda46b1b627892b423c",
+      "http_rps": 54.083345920091375,
+      "latency_sample_count": 3303,
+      "manifest_sha256": "0f7a399788d7029db4d438897c46f52519c988f72e51088c96a3fd84f760a950",
+      "measurement_accepted": true,
+      "measurement_scope": "earlier three-CPU H0 reference; not rerun in this campaign",
+      "p50_ms": 1168.5953149999998,
+      "p95_ms": 1375.514097,
+      "p99_ms": 1662.0536829999999,
+      "payload_contract_matches": 3303,
+      "query_qps": 54.083345920091375,
+      "successful_queries": 3303,
+      "successful_requests": 3303
+    },
+    {
+      "backend": "native",
+      "backend_label": "Qdrant native 1.20 \u2014 earlier three-CPU run, not rerun",
+      "batch_size": 1,
+      "category": "unfiltered_payload",
+      "category_label": "No filter / payload",
+      "client_passed": true,
+      "client_report_sha256": "e39813c6ef8a79508e06aa8bd8f5bbba31e5cf629a2e3cf3b8fac4c040e35baf",
+      "client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "client_status": "COMPLETED",
+      "concurrency": 128,
+      "cpu_proof_scope": "Accepted by the earlier H0 curator; no new native CPU observation here.",
+      "dispatch_s": 59.980388373,
+      "dispatched_queries": 3375,
+      "drain_s": 2.213943331000003,
+      "elapsed_s": 62.194331704,
+      "errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "http_error_requests": 0,
+        "protocol_errors": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "exact_query_truth_matches": 3375,
+      "failed_queries": 0,
+      "failed_requests": 0,
+      "failure_reasons": [],
+      "historical_reference_receipt_sha256": "988be53eed5dc07e605937a786aa5b5fc12de3cc96500dda46b1b627892b423c",
+      "http_rps": 54.26539537497656,
+      "latency_sample_count": 3375,
+      "manifest_sha256": "0f7a399788d7029db4d438897c46f52519c988f72e51088c96a3fd84f760a950",
+      "measurement_accepted": true,
+      "measurement_scope": "earlier three-CPU H0 reference; not rerun in this campaign",
+      "p50_ms": 2329.9174279999997,
+      "p95_ms": 2899.843405,
+      "p99_ms": 3734.7679590000002,
+      "payload_contract_matches": 3375,
+      "query_qps": 54.26539537497656,
+      "successful_queries": 3375,
+      "successful_requests": 3375
+    },
+    {
+      "backend": "native",
+      "backend_label": "Qdrant native 1.20 \u2014 earlier three-CPU run, not rerun",
+      "batch_size": 64,
+      "category": "unfiltered_payload",
+      "category_label": "No filter / payload",
+      "client_passed": true,
+      "client_report_sha256": "bd971c7eb7574989b62049445fe69376e48bd5fba1a87de59fd875553e1a8d9a",
+      "client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "client_status": "COMPLETED",
+      "concurrency": 4,
+      "cpu_proof_scope": "Accepted by the earlier H0 curator; no new native CPU observation here.",
+      "dispatch_s": 59.842068358,
+      "dispatched_queries": 15552,
+      "drain_s": 0.9469769220000046,
+      "elapsed_s": 60.78904528,
+      "errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "http_error_requests": 0,
+        "protocol_errors": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "exact_query_truth_matches": 15552,
+      "failed_queries": 0,
+      "failed_requests": 0,
+      "failure_reasons": [],
+      "historical_reference_receipt_sha256": "988be53eed5dc07e605937a786aa5b5fc12de3cc96500dda46b1b627892b423c",
+      "http_rps": 3.9974307686643105,
+      "latency_sample_count": 243,
+      "manifest_sha256": "0f7a399788d7029db4d438897c46f52519c988f72e51088c96a3fd84f760a950",
+      "measurement_accepted": true,
+      "measurement_scope": "earlier three-CPU H0 reference; not rerun in this campaign",
+      "p50_ms": 982.565329,
+      "p95_ms": 1260.0583629999999,
+      "p99_ms": 1418.92322,
+      "payload_contract_matches": 15552,
+      "query_qps": 255.83556919451587,
+      "successful_queries": 15552,
+      "successful_requests": 243
+    },
+    {
+      "backend": "native",
+      "backend_label": "Qdrant native 1.20 \u2014 earlier three-CPU run, not rerun",
+      "batch_size": 128,
+      "category": "unfiltered_payload",
+      "category_label": "No filter / payload",
+      "client_passed": true,
+      "client_report_sha256": "098a548561858c6cd7eb9970f74fff6b275a04c3900bf986ee60a471d2068a30",
+      "client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "client_status": "COMPLETED",
+      "concurrency": 4,
+      "cpu_proof_scope": "Accepted by the earlier H0 curator; no new native CPU observation here.",
+      "dispatch_s": 59.729907722,
+      "dispatched_queries": 15744,
+      "drain_s": 1.9040527069999982,
+      "elapsed_s": 61.633960429,
+      "errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "http_error_requests": 0,
+        "protocol_errors": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "exact_query_truth_matches": 15744,
+      "failed_queries": 0,
+      "failed_requests": 0,
+      "failure_reasons": [],
+      "historical_reference_receipt_sha256": "988be53eed5dc07e605937a786aa5b5fc12de3cc96500dda46b1b627892b423c",
+      "http_rps": 1.995653031930203,
+      "latency_sample_count": 123,
+      "manifest_sha256": "0f7a399788d7029db4d438897c46f52519c988f72e51088c96a3fd84f760a950",
+      "measurement_accepted": true,
+      "measurement_scope": "earlier three-CPU H0 reference; not rerun in this campaign",
+      "p50_ms": 1989.356275,
+      "p95_ms": 2520.608094,
+      "p99_ms": 2965.356753,
+      "payload_contract_matches": 15744,
+      "query_qps": 255.443588087066,
+      "successful_queries": 15744,
+      "successful_requests": 123
+    },
+    {
+      "backend": "native",
+      "backend_label": "Qdrant native 1.20 \u2014 earlier three-CPU run, not rerun",
+      "batch_size": 1,
+      "category": "active_only",
+      "category_label": "Active only (~90%) / payload",
+      "client_passed": true,
+      "client_report_sha256": "58bb67e846e78c0f0a51b03deeeefac5ee8a7414b04c12adb7d8823cd6be9574",
+      "client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "client_status": "COMPLETED",
+      "concurrency": 64,
+      "cpu_proof_scope": "Accepted by the earlier H0 curator; no new native CPU observation here.",
+      "dispatch_s": 59.997305956,
+      "dispatched_queries": 3074,
+      "drain_s": 1.2031829089999988,
+      "elapsed_s": 61.200488865,
+      "errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "http_error_requests": 0,
+        "protocol_errors": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "exact_query_truth_matches": 3074,
+      "failed_queries": 0,
+      "failed_requests": 0,
+      "failure_reasons": [],
+      "historical_reference_receipt_sha256": "988be53eed5dc07e605937a786aa5b5fc12de3cc96500dda46b1b627892b423c",
+      "http_rps": 50.22835694631179,
+      "latency_sample_count": 3074,
+      "manifest_sha256": "7369196baaa2e63284c5ac72cfbedadb1ccc4ca774107264d2c1e9fbbbefdf02",
+      "measurement_accepted": true,
+      "measurement_scope": "earlier three-CPU H0 reference; not rerun in this campaign",
+      "p50_ms": 1268.736777,
+      "p95_ms": 1386.954307,
+      "p99_ms": 1677.0499129999998,
+      "payload_contract_matches": 3074,
+      "query_qps": 50.22835694631179,
+      "successful_queries": 3074,
+      "successful_requests": 3074
+    },
+    {
+      "backend": "native",
+      "backend_label": "Qdrant native 1.20 \u2014 earlier three-CPU run, not rerun",
+      "batch_size": 1,
+      "category": "active_only",
+      "category_label": "Active only (~90%) / payload",
+      "client_passed": true,
+      "client_report_sha256": "a4623aa239c6e1967765f1e0548b2bb28cfc2cf3dd15aad9eec434ca3d3dde94",
+      "client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "client_status": "COMPLETED",
+      "concurrency": 128,
+      "cpu_proof_scope": "Accepted by the earlier H0 curator; no new native CPU observation here.",
+      "dispatch_s": 59.997434126,
+      "dispatched_queries": 3002,
+      "drain_s": 2.558268151,
+      "elapsed_s": 62.555702277,
+      "errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "http_error_requests": 0,
+        "protocol_errors": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "exact_query_truth_matches": 3002,
+      "failed_queries": 0,
+      "failed_requests": 0,
+      "failure_reasons": [],
+      "historical_reference_receipt_sha256": "988be53eed5dc07e605937a786aa5b5fc12de3cc96500dda46b1b627892b423c",
+      "http_rps": 47.989230249657865,
+      "latency_sample_count": 3002,
+      "manifest_sha256": "7369196baaa2e63284c5ac72cfbedadb1ccc4ca774107264d2c1e9fbbbefdf02",
+      "measurement_accepted": true,
+      "measurement_scope": "earlier three-CPU H0 reference; not rerun in this campaign",
+      "p50_ms": 2666.8759330000003,
+      "p95_ms": 2974.2353919999996,
+      "p99_ms": 3420.4638809999997,
+      "payload_contract_matches": 3002,
+      "query_qps": 47.989230249657865,
+      "successful_queries": 3002,
+      "successful_requests": 3002
+    },
+    {
+      "backend": "native",
+      "backend_label": "Qdrant native 1.20 \u2014 earlier three-CPU run, not rerun",
+      "batch_size": 64,
+      "category": "active_only",
+      "category_label": "Active only (~90%) / payload",
+      "client_passed": true,
+      "client_report_sha256": "7c3abb39f1d36f50333f971992026dde975806cc99b78bb0e415dbb12d7febd1",
+      "client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "client_status": "COMPLETED",
+      "concurrency": 4,
+      "cpu_proof_scope": "Accepted by the earlier H0 curator; no new native CPU observation here.",
+      "dispatch_s": 59.995294996,
+      "dispatched_queries": 15552,
+      "drain_s": 1.0354092960000045,
+      "elapsed_s": 61.030704292,
+      "errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "http_error_requests": 0,
+        "protocol_errors": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "exact_query_truth_matches": 15552,
+      "failed_queries": 0,
+      "failed_requests": 0,
+      "failure_reasons": [],
+      "historical_reference_receipt_sha256": "988be53eed5dc07e605937a786aa5b5fc12de3cc96500dda46b1b627892b423c",
+      "http_rps": 3.9816024215839305,
+      "latency_sample_count": 243,
+      "manifest_sha256": "7369196baaa2e63284c5ac72cfbedadb1ccc4ca774107264d2c1e9fbbbefdf02",
+      "measurement_accepted": true,
+      "measurement_scope": "earlier three-CPU H0 reference; not rerun in this campaign",
+      "p50_ms": 995.397608,
+      "p95_ms": 1293.281439,
+      "p99_ms": 1409.848557,
+      "payload_contract_matches": 15552,
+      "query_qps": 254.82255498137155,
+      "successful_queries": 15552,
+      "successful_requests": 243
+    },
+    {
+      "backend": "native",
+      "backend_label": "Qdrant native 1.20 \u2014 earlier three-CPU run, not rerun",
+      "batch_size": 128,
+      "category": "active_only",
+      "category_label": "Active only (~90%) / payload",
+      "client_passed": true,
+      "client_report_sha256": "f5bb7506290089dfce69afe2ad3973a5702e16b3a9adaab7e97ede9c5bfd7062",
+      "client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "client_status": "COMPLETED",
+      "concurrency": 4,
+      "cpu_proof_scope": "Accepted by the earlier H0 curator; no new native CPU observation here.",
+      "dispatch_s": 59.842032274,
+      "dispatched_queries": 15744,
+      "drain_s": 1.9395770460000037,
+      "elapsed_s": 61.78160932,
+      "errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "http_error_requests": 0,
+        "protocol_errors": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "exact_query_truth_matches": 15744,
+      "failed_queries": 0,
+      "failed_requests": 0,
+      "failure_reasons": [],
+      "historical_reference_receipt_sha256": "988be53eed5dc07e605937a786aa5b5fc12de3cc96500dda46b1b627892b423c",
+      "http_rps": 1.9908837169151294,
+      "latency_sample_count": 123,
+      "manifest_sha256": "7369196baaa2e63284c5ac72cfbedadb1ccc4ca774107264d2c1e9fbbbefdf02",
+      "measurement_accepted": true,
+      "measurement_scope": "earlier three-CPU H0 reference; not rerun in this campaign",
+      "p50_ms": 2004.9659470000001,
+      "p95_ms": 2404.755001,
+      "p99_ms": 2658.871703,
+      "payload_contract_matches": 15744,
+      "query_qps": 254.83311576513657,
+      "successful_queries": 15744,
+      "successful_requests": 123
+    },
+    {
+      "backend": "native",
+      "backend_label": "Qdrant native 1.20 \u2014 earlier three-CPU run, not rerun",
+      "batch_size": 1,
+      "category": "active_position_exclude",
+      "category_label": "Active + position exclusion (~9%) / payload",
+      "client_passed": true,
+      "client_report_sha256": "d362fd7efd9710fda2c6f02bdc3891a322f1d55a86029559b4e802370d910751",
+      "client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "client_status": "COMPLETED",
+      "concurrency": 64,
+      "cpu_proof_scope": "Accepted by the earlier H0 curator; no new native CPU observation here.",
+      "dispatch_s": 59.999252628,
+      "dispatched_queries": 7214,
+      "drain_s": 0.4693047210000003,
+      "elapsed_s": 60.468557349,
+      "errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "http_error_requests": 0,
+        "protocol_errors": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "exact_query_truth_matches": 7214,
+      "failed_queries": 0,
+      "failed_requests": 0,
+      "failure_reasons": [],
+      "historical_reference_receipt_sha256": "988be53eed5dc07e605937a786aa5b5fc12de3cc96500dda46b1b627892b423c",
+      "http_rps": 119.30167207998227,
+      "latency_sample_count": 7214,
+      "manifest_sha256": "d86cc5b67b9362a9bcf2cf92213a45a1f1e4754da1e831f0a681b9696355648f",
+      "measurement_accepted": true,
+      "measurement_scope": "earlier three-CPU H0 reference; not rerun in this campaign",
+      "p50_ms": 534.133744,
+      "p95_ms": 601.67178,
+      "p99_ms": 669.964591,
+      "payload_contract_matches": 7214,
+      "query_qps": 119.30167207998227,
+      "successful_queries": 7214,
+      "successful_requests": 7214
+    },
+    {
+      "backend": "native",
+      "backend_label": "Qdrant native 1.20 \u2014 earlier three-CPU run, not rerun",
+      "batch_size": 1,
+      "category": "active_position_exclude",
+      "category_label": "Active + position exclusion (~9%) / payload",
+      "client_passed": true,
+      "client_report_sha256": "5c5d57868c7e1d1f247fd7e1880b17cd5d635dad695e96e47d2c460cb362294c",
+      "client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "client_status": "COMPLETED",
+      "concurrency": 128,
+      "cpu_proof_scope": "Accepted by the earlier H0 curator; no new native CPU observation here.",
+      "dispatch_s": 59.994211266,
+      "dispatched_queries": 7337,
+      "drain_s": 0.9832877879999984,
+      "elapsed_s": 60.977499054,
+      "errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "http_error_requests": 0,
+        "protocol_errors": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "exact_query_truth_matches": 7337,
+      "failed_queries": 0,
+      "failed_requests": 0,
+      "failure_reasons": [],
+      "historical_reference_receipt_sha256": "988be53eed5dc07e605937a786aa5b5fc12de3cc96500dda46b1b627892b423c",
+      "http_rps": 120.32307185151286,
+      "latency_sample_count": 7337,
+      "manifest_sha256": "d86cc5b67b9362a9bcf2cf92213a45a1f1e4754da1e831f0a681b9696355648f",
+      "measurement_accepted": true,
+      "measurement_scope": "earlier three-CPU H0 reference; not rerun in this campaign",
+      "p50_ms": 1057.460419,
+      "p95_ms": 1261.054152,
+      "p99_ms": 1473.1969629999999,
+      "payload_contract_matches": 7337,
+      "query_qps": 120.32307185151286,
+      "successful_queries": 7337,
+      "successful_requests": 7337
+    },
+    {
+      "backend": "native",
+      "backend_label": "Qdrant native 1.20 \u2014 earlier three-CPU run, not rerun",
+      "batch_size": 64,
+      "category": "active_position_exclude",
+      "category_label": "Active + position exclusion (~9%) / payload",
+      "client_passed": true,
+      "client_report_sha256": "850fd4dd75105b6b3fc0b978166b5ea5e5ba94de8893c5e9f875165758af8766",
+      "client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "client_status": "COMPLETED",
+      "concurrency": 4,
+      "cpu_proof_scope": "Accepted by the earlier H0 curator; no new native CPU observation here.",
+      "dispatch_s": 59.991627663,
+      "dispatched_queries": 54784,
+      "drain_s": 0.24226521599999984,
+      "elapsed_s": 60.233892879,
+      "errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "http_error_requests": 0,
+        "protocol_errors": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "exact_query_truth_matches": 54784,
+      "failed_queries": 0,
+      "failed_requests": 0,
+      "failure_reasons": [],
+      "historical_reference_receipt_sha256": "988be53eed5dc07e605937a786aa5b5fc12de3cc96500dda46b1b627892b423c",
+      "http_rps": 14.211268093190712,
+      "latency_sample_count": 856,
+      "manifest_sha256": "d86cc5b67b9362a9bcf2cf92213a45a1f1e4754da1e831f0a681b9696355648f",
+      "measurement_accepted": true,
+      "measurement_scope": "earlier three-CPU H0 reference; not rerun in this campaign",
+      "p50_ms": 281.14937299999997,
+      "p95_ms": 346.82064499999996,
+      "p99_ms": 386.552175,
+      "payload_contract_matches": 54784,
+      "query_qps": 909.5211579642056,
+      "successful_queries": 54784,
+      "successful_requests": 856
+    },
+    {
+      "backend": "native",
+      "backend_label": "Qdrant native 1.20 \u2014 earlier three-CPU run, not rerun",
+      "batch_size": 128,
+      "category": "active_position_exclude",
+      "category_label": "Active + position exclusion (~9%) / payload",
+      "client_passed": true,
+      "client_report_sha256": "dd567d99ff4d5c4ebd2fe80292252d2c3ec7087d776318e32ea0865c7117f329",
+      "client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "client_status": "COMPLETED",
+      "concurrency": 4,
+      "cpu_proof_scope": "Accepted by the earlier H0 curator; no new native CPU observation here.",
+      "dispatch_s": 59.924175715,
+      "dispatched_queries": 54656,
+      "drain_s": 0.5434332370000021,
+      "elapsed_s": 60.467608952,
+      "errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "http_error_requests": 0,
+        "protocol_errors": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "exact_query_truth_matches": 54656,
+      "failed_queries": 0,
+      "failed_requests": 0,
+      "failure_reasons": [],
+      "historical_reference_receipt_sha256": "988be53eed5dc07e605937a786aa5b5fc12de3cc96500dda46b1b627892b423c",
+      "http_rps": 7.061631961319296,
+      "latency_sample_count": 427,
+      "manifest_sha256": "d86cc5b67b9362a9bcf2cf92213a45a1f1e4754da1e831f0a681b9696355648f",
+      "measurement_accepted": true,
+      "measurement_scope": "earlier three-CPU H0 reference; not rerun in this campaign",
+      "p50_ms": 565.161606,
+      "p95_ms": 685.523889,
+      "p99_ms": 733.466916,
+      "payload_contract_matches": 54656,
+      "query_qps": 903.8888910488699,
+      "successful_queries": 54656,
+      "successful_requests": 427
+    }
+  ],
+  "provenance": {
+    "binary_sha256": "63e9c5d1ffb9075bcfa3981c04a65c8240c9b18f1ad095456a93e9943ae466c6",
+    "build_receipt_sha256": "b0db201a6c82e8cdcaca5ddb0926815e141241d4d6d0f76fc3c51ae1bcf39801",
+    "changed_source_files": [
+      {
+        "path": "src/main.rs",
+        "sha256": "986f41b917b3727bc8e2e1ed3d2e4fffd1acd388376ba16db98144964d16db53",
+        "size_bytes": 34334
+      },
+      {
+        "path": "lib/segment/src/index/support_cpu.rs",
+        "sha256": "3af174c3e4ce7ec2ea9aa54bd5023a3c0f07c57dcaf7ab19069f9edafdfd9c13",
+        "size_bytes": 11162
+      },
+      {
+        "path": "lib/segment/src/index/plain_vector_index/read_view/search.rs",
+        "sha256": "2b367ab15f711943592e9e3bb1c189d90d099aa8621aad7ef0984c35f8d453fe",
+        "size_bytes": 114904
+      },
+      {
+        "path": "lib/collection/src/shards/local_shard/search.rs",
+        "sha256": "617850c612ba3f7b89fc6e4e217a4444a3cad4c39171476f6ffa45dbb40b6c82",
+        "size_bytes": 631206
+      }
+    ],
+    "client_binary_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+    "client_source_sha256": "e65540edeefddee0389ffd05e300cbea157ad940b8bc0cb5db6cdfe92970db5c",
+    "client_validation_cases": 21,
+    "client_validation_receipt_sha256": "99bd4a64e05b65006457140f196ddc7be57e08c06c27158f98c1e9846fc841ce",
+    "focused_ab_receipt_sha256": "bf0bcf034afbf5e8e241bfbc2fb43d55c4b7b647721ff282482eea40b9349806",
+    "focused_ab_selected_separate_topk": true,
+    "focused_tests": [
+      {
+        "executed_cases": 1,
+        "method": null,
+        "name": "shards::local_shard::search::tests::deferred_payload_workers_deliver_independently_and_release_snapshot_for_writes",
+        "package": "collection",
+        "passed": true
+      },
+      {
+        "executed_cases": 1,
+        "method": null,
+        "name": "shards::local_shard::search::tests::circular_ring_new_follower_resumes_during_pending_payload_tail",
+        "package": "collection",
+        "passed": true
+      },
+      {
+        "executed_cases": 1,
+        "method": null,
+        "name": "shards::local_shard::search::tests::queued_writer_precedes_new_circular_ring_joiners",
+        "package": "collection",
+        "passed": true
+      },
+      {
+        "executed_cases": 1,
+        "method": null,
+        "name": "shards::local_shard::search::tests::compatible_explicit_ring_batches_through_b1000_use_one_ordered_scan",
+        "package": "collection",
+        "passed": true
+      },
+      {
+        "executed_cases": 1,
+        "method": null,
+        "name": "shards::local_shard::search::tests::shared_ring_worker_limit_tracks_cpu_budget_and_supports_one_fewer",
+        "package": "collection",
+        "passed": true
+      },
+      {
+        "executed_cases": 1,
+        "method": null,
+        "name": "shards::local_shard::search::tests::default_inflight_worker_scaling_saturates_on_overflow",
+        "package": "collection",
+        "passed": true
+      },
+      {
+        "executed_cases": 4,
+        "method": "rustc --test wrapper includes exact unmodified production source module",
+        "name": "index::support_cpu::tests::",
+        "package": "segment",
+        "passed": true
+      }
+    ],
+    "imported_helpers": {
+      "campaign_runner": {
+        "sha256": "411da4f4238823d859758f5a59fa7e5ccdecd11f65dac81eae7bea68116b6bbe",
+        "size_bytes": 57538
+      },
+      "cow_clone": {
+        "sha256": "ed0f57088712452419be886c4b7f19fc9d21e39980582a7ecea52df8f9f8d5f4",
+        "size_bytes": 223714
+      },
+      "cpu_evidence_v2": {
+        "sha256": "3bab5549586619004077db2ff6aaa32d01c7b3f350a29eccb7c6dfb702102c0e",
+        "size_bytes": 9905
+      },
+      "matrix_client_api": {
+        "sha256": "1993261fee8403cc7a5d6be97443507d977aff3d7e1a3201d7c288faa647cbc1",
+        "size_bytes": 26239
+      },
+      "native_api": {
+        "sha256": "7f021c77f5c55995f2cc192ab32bd74ef4687fd09a451b776c75e7d097754a7f",
+        "size_bytes": 21362
+      },
+      "observer_base": {
+        "sha256": "09fe35ff6f2fa28e01aa9d3178040da99213f41f31c2a0e8a0ade420434d9afd",
+        "size_bytes": 42430
+      },
+      "phase_aware_observer": {
+        "sha256": "345c3441cee9b7248a265eab206a424c17b1c94d4d545449cfb5566880d42ce9",
+        "size_bytes": 24164
+      },
+      "protocol": {
+        "sha256": "63fad046067ac0e97b62601944841cbab56f23317cadf15ffd82a1aafc400b6a",
+        "size_bytes": 10717
+      },
+      "runtime_observer": {
+        "sha256": "7f51898a19da378d4aada98152e8927825bae9abb855bfaf0a894ca4d5fb2eec",
+        "size_bytes": 9479
+      }
+    },
+    "source_base_commit": "1bd74d911fa8c61f962d5b22fbd4ac2951102a80",
+    "source_commit": "560259c84af2b292867b9b2970ec731bcd33e07f",
+    "source_tree": "aa4becec3316b1e2e7e864f6a1aae6911922e0d1",
+    "test_method_note": "Six focused collection tests passed. Four support_cpu tests passed after compiling the exact production module and its four tests directly with a rustc --test wrapper; the full segment test suite was not run."
+  },
+  "receipt_sha256": "6750cdad06a5feb4e6cd2f32fea4984a8a831cdce56d51c3db7bd0d5dc5c125e",
+  "restoration": {
+    "cleanup_errors": [],
+    "immutable_lower_metadata_unchanged": false,
+    "original_ids_restored_healthy": false,
+    "overlays_removed_before_original_restart": false,
+    "three_original_ids_accounted_for": true
+  },
+  "rows": [
+    {
+      "backend": "avx512vnni",
+      "backend_label": "Veortex AVX-512 VNNI (AMX disabled)",
+      "backend_valid": true,
+      "batch_size": 1,
+      "category": "unfiltered_no_payload",
+      "category_label": "No filter / no payload",
+      "client_passed": true,
+      "client_report_sha256": "ad79320d03102e45decd96f2640a26205e2a005340a7727a00570561d11f2995",
+      "client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "client_status": "COMPLETED",
+      "concurrency": 64,
+      "cpu_contract_valid": true,
+      "cpu_equivalents_by_node": [
+        {
+          "active_work_proven": true,
+          "node": 0,
+          "observed_full_mask": [
+            4,
+            5,
+            6
+          ],
+          "whole_process_cpu_equivalents": 1.189168048384802
+        },
+        {
+          "active_work_proven": true,
+          "node": 1,
+          "observed_full_mask": [
+            7,
+            8,
+            9
+          ],
+          "whole_process_cpu_equivalents": 1.1283140611926212
+        },
+        {
+          "active_work_proven": true,
+          "node": 2,
+          "observed_full_mask": [
+            10,
+            11,
+            12
+          ],
+          "whole_process_cpu_equivalents": 1.1331823801679957
+        }
+      ],
+      "cpu_full_mask_and_work_proven": true,
+      "dispatch_s": 59.916712988,
+      "dispatched_queries": 13632,
+      "drain_s": 0.24221515499999668,
+      "elapsed_s": 60.158928143,
+      "errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "http_error_requests": 0,
+        "protocol_errors": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "exact_query_truth_matches": 13632,
+      "failed_queries": 0,
+      "failed_requests": 0,
+      "failure_reasons": [],
+      "historical_native_reference": {
+        "measurement_accepted": true,
+        "receipt_sha256": "988be53eed5dc07e605937a786aa5b5fc12de3cc96500dda46b1b627892b423c",
+        "scope": "earlier three-CPU H0 run; not rerun in this campaign"
+      },
+      "http_rps": 226.5997819574882,
+      "intended_route_valid": true,
+      "isa_deltas_by_node": [
+        {
+          "amx_calls": 0,
+          "avx512vnni_calls": 3858470,
+          "node": 0
+        },
+        {
+          "amx_calls": 0,
+          "avx512vnni_calls": 3934465,
+          "node": 1
+        },
+        {
+          "amx_calls": 0,
+          "avx512vnni_calls": 4061842,
+          "node": 2
+        }
+      ],
+      "latency_sample_count": 13632,
+      "manifest_sha256": "21832266bb63d4bfd75f25924c7d874aeadd704ab3cbb7550de084bd8d55cc17",
+      "measurement_accepted": true,
+      "measurement_scope": "fresh measurement",
+      "ordinal": 1,
+      "p50_ms": 282.704387,
+      "p95_ms": 296.746026,
+      "p99_ms": 313.735791,
+      "payload_contract_matches": 13632,
+      "postprocessing_worker_proof": {
+        "nodes": [
+          {
+            "base_node_proof_passed": true,
+            "both_worker_families_observed": true,
+            "node": 0,
+            "node_index_matches": true,
+            "passed": true,
+            "payload_materialize_workers": [
+              "payload-materia"
+            ],
+            "veortex_topk_workers": [
+              "veortex-topk-0",
+              "veortex-topk-1"
+            ]
+          },
+          {
+            "base_node_proof_passed": true,
+            "both_worker_families_observed": true,
+            "node": 1,
+            "node_index_matches": true,
+            "passed": true,
+            "payload_materialize_workers": [
+              "payload-materia"
+            ],
+            "veortex_topk_workers": [
+              "veortex-topk-0",
+              "veortex-topk-1"
+            ]
+          },
+          {
+            "base_node_proof_passed": true,
+            "both_worker_families_observed": true,
+            "node": 2,
+            "node_index_matches": true,
+            "passed": true,
+            "payload_materialize_workers": [
+              "payload-materia"
+            ],
+            "veortex_topk_workers": [
+              "veortex-topk-0",
+              "veortex-topk-1"
+            ]
+          }
+        ],
+        "passed": true,
+        "protocol_proof": {
+          "arm": "shared_topk",
+          "nodes": [
+            {
+              "expected_mask": [
+                4,
+                5,
+                6
+              ],
+              "node": 0,
+              "passed": true,
+              "worker_pools": {
+                "payload_materializer": {
+                  "required_and_observed": true,
+                  "workers": [
+                    {
+                      "comm": "payload-materia",
+                      "mask_counts": {
+                        "4,5,6": 588
+                      },
+                      "only_full_expected_mask": true,
+                      "samples": 588
+                    }
+                  ]
+                },
+                "veortex_topk": {
+                  "required_and_observed": true,
+                  "workers": [
+                    {
+                      "comm": "veortex-topk-0",
+                      "mask_counts": {
+                        "4,5,6": 290
+                      },
+                      "only_full_expected_mask": true,
+                      "samples": 290
+                    },
+                    {
+                      "comm": "veortex-topk-1",
+                      "mask_counts": {
+                        "4,5,6": 290
+                      },
+                      "only_full_expected_mask": true,
+                      "samples": 290
+                    }
+                  ]
+                }
+              },
+              "workers": [
+                {
+                  "comm": "payload-materia",
+                  "mask_counts": {
+                    "4,5,6": 588
+                  },
+                  "only_full_expected_mask": true,
+                  "samples": 588
+                },
+                {
+                  "comm": "veortex-topk-0",
+                  "mask_counts": {
+                    "4,5,6": 290
+                  },
+                  "only_full_expected_mask": true,
+                  "samples": 290
+                },
+                {
+                  "comm": "veortex-topk-1",
+                  "mask_counts": {
+                    "4,5,6": 290
+                  },
+                  "only_full_expected_mask": true,
+                  "samples": 290
+                }
+              ]
+            },
+            {
+              "expected_mask": [
+                7,
+                8,
+                9
+              ],
+              "node": 1,
+              "passed": true,
+              "worker_pools": {
+                "payload_materializer": {
+                  "required_and_observed": true,
+                  "workers": [
+                    {
+                      "comm": "payload-materia",
+                      "mask_counts": {
+                        "7,8,9": 588
+                      },
+                      "only_full_expected_mask": true,
+                      "samples": 588
+                    }
+                  ]
+                },
+                "veortex_topk": {
+                  "required_and_observed": true,
+                  "workers": [
+                    {
+                      "comm": "veortex-topk-0",
+                      "mask_counts": {
+                        "7,8,9": 290
+                      },
+                      "only_full_expected_mask": true,
+                      "samples": 290
+                    },
+                    {
+                      "comm": "veortex-topk-1",
+                      "mask_counts": {
+                        "7,8,9": 290
+                      },
+                      "only_full_expected_mask": true,
+                      "samples": 290
+                    }
+                  ]
+                }
+              },
+              "workers": [
+                {
+                  "comm": "payload-materia",
+                  "mask_counts": {
+                    "7,8,9": 588
+                  },
+                  "only_full_expected_mask": true,
+                  "samples": 588
+                },
+                {
+                  "comm": "veortex-topk-0",
+                  "mask_counts": {
+                    "7,8,9": 290
+                  },
+                  "only_full_expected_mask": true,
+                  "samples": 290
+                },
+                {
+                  "comm": "veortex-topk-1",
+                  "mask_counts": {
+                    "7,8,9": 290
+                  },
+                  "only_full_expected_mask": true,
+                  "samples": 290
+                }
+              ]
+            },
+            {
+              "expected_mask": [
+                10,
+                11,
+                12
+              ],
+              "node": 2,
+              "passed": true,
+              "worker_pools": {
+                "payload_materializer": {
+                  "required_and_observed": true,
+                  "workers": [
+                    {
+                      "comm": "payload-materia",
+                      "mask_counts": {
+                        "10,11,12": 588
+                      },
+                      "only_full_expected_mask": true,
+                      "samples": 588
+                    }
+                  ]
+                },
+                "veortex_topk": {
+                  "required_and_observed": true,
+                  "workers": [
+                    {
+                      "comm": "veortex-topk-0",
+                      "mask_counts": {
+                        "10,11,12": 289
+                      },
+                      "only_full_expected_mask": true,
+                      "samples": 289
+                    },
+                    {
+                      "comm": "veortex-topk-1",
+                      "mask_counts": {
+                        "10,11,12": 289
+                      },
+                      "only_full_expected_mask": true,
+                      "samples": 289
+                    }
+                  ]
+                }
+              },
+              "workers": [
+                {
+                  "comm": "payload-materia",
+                  "mask_counts": {
+                    "10,11,12": 588
+                  },
+                  "only_full_expected_mask": true,
+                  "samples": 588
+                },
+                {
+                  "comm": "veortex-topk-0",
+                  "mask_counts": {
+                    "10,11,12": 289
+                  },
+                  "only_full_expected_mask": true,
+                  "samples": 289
+                },
+                {
+                  "comm": "veortex-topk-1",
+                  "mask_counts": {
+                    "10,11,12": 289
+                  },
+                  "only_full_expected_mask": true,
+                  "samples": 289
+                }
+              ]
+            }
+          ],
+          "passed": true,
+          "schema": "shared_postprocessing_worker_mask_v1",
+          "scope": "Requires both sampled deferred materialization and separate TopK worker pools per treatment node, all on the full node mask; control requires neither pool. Sampling presence is not a utilization or phase-coverage estimate."
+        },
+        "requires_topk_and_payload_materialization_per_node": true,
+        "schema": "shared_cpu_fullmatrix_postprocessing_workers_v1",
+        "selected_separate_topk": true
+      },
+      "postprocessing_worker_valid": true,
+      "quality_valid": true,
+      "query_qps": 226.5997819574882,
+      "ring_admission_proof": {
+        "counter_semantics": "Process-global per-node ring counters increment once per query member submitted/completed; measured-row delta includes 16 warmup requests times batch size plus successful timed queries and final drain.",
+        "expected_queries_per_node": 13648,
+        "nodes": [
+          {
+            "completed_delta": 13648,
+            "completed_matches_expected": true,
+            "fallback_delta": 0,
+            "hnsw_search_calls_delta": 0,
+            "no_hnsw_search": true,
+            "no_ring_fallback": true,
+            "node": 0,
+            "node_index_matches": true,
+            "submitted_delta": 13648,
+            "submitted_matches_expected": true
+          },
+          {
+            "completed_delta": 13648,
+            "completed_matches_expected": true,
+            "fallback_delta": 0,
+            "hnsw_search_calls_delta": 0,
+            "no_hnsw_search": true,
+            "no_ring_fallback": true,
+            "node": 1,
+            "node_index_matches": true,
+            "submitted_delta": 13648,
+            "submitted_matches_expected": true
+          },
+          {
+            "completed_delta": 13648,
+            "completed_matches_expected": true,
+            "fallback_delta": 0,
+            "hnsw_search_calls_delta": 0,
+            "no_hnsw_search": true,
+            "no_ring_fallback": true,
+            "node": 2,
+            "node_index_matches": true,
+            "submitted_delta": 13648,
+            "submitted_matches_expected": true
+          }
+        ],
+        "passed": true,
+        "schema": "shared_cpu_matrix_per_node_admission_v1",
+        "timed_successful_queries": 13632,
+        "warmup_contract_passed": true,
+        "warmup_queries_per_node": 16
+      },
+      "ring_admission_valid": true,
+      "stage_diagnostics": {
+        "mean_per_node": {
+          "coordinator_fanout_ns": 3649962668253.6665,
+          "coordinator_merge_ns": 95148496.33333333,
+          "f32_rescore_ns": 213718055.66666666,
+          "flat_scan_score_ns": 56079038451.333336,
+          "query_encode_ns": 33260063.0,
+          "remote_rpc_ns": 2375851955918.0,
+          "ring_filter_mask_build_ns": 0.0,
+          "ring_local_materialization_ns": 474959564.0,
+          "ring_materialization_queue_wait_ns": 666166805.3333334,
+          "ring_query_execution_ns": 3578318220018.6665,
+          "ring_queue_wait_ns": 7635356217.333333,
+          "support_command_queue_wait_ns": 206846800.33333334,
+          "support_command_queue_waits": 387.0,
+          "support_score_buffer_wait_ns": 64161.0,
+          "support_score_buffer_waits": 3.0,
+          "support_score_matrix_bytes": 83685632.0,
+          "support_score_tiles": 247084.33333333334,
+          "topk_work_ns": 1146514008.0
+        },
+        "per_node": [
+          {
+            "coordinator_fanout_ns": 3839525493806,
+            "coordinator_merge_ns": 98220647,
+            "f32_rescore_ns": 197899864,
+            "flat_scan_score_ns": 56077075101,
+            "query_encode_ns": 34106186,
+            "remote_rpc_ns": 7127555867754,
+            "ring_filter_mask_build_ns": 0,
+            "ring_local_materialization_ns": 391338941,
+            "ring_materialization_queue_wait_ns": 775736812,
+            "ring_query_execution_ns": 3640632560278,
+            "ring_queue_wait_ns": 9545909936,
+            "support_command_queue_wait_ns": 516280330,
+            "support_command_queue_waits": 920,
+            "support_score_buffer_wait_ns": 90426,
+            "support_score_buffer_waits": 5,
+            "support_score_matrix_bytes": 105763784,
+            "support_score_tiles": 241262,
+            "topk_work_ns": 1177529048
+          },
+          {
+            "coordinator_fanout_ns": 3590587618798,
+            "coordinator_merge_ns": 91596898,
+            "f32_rescore_ns": 210415334,
+            "flat_scan_score_ns": 56148954184,
+            "query_encode_ns": 32613221,
+            "remote_rpc_ns": 0,
+            "ring_filter_mask_build_ns": 0,
+            "ring_local_materialization_ns": 509699442,
+            "ring_materialization_queue_wait_ns": 612492953,
+            "ring_query_execution_ns": 3582314994007,
+            "ring_queue_wait_ns": 6920238332,
+            "support_command_queue_wait_ns": 64914531,
+            "support_command_queue_waits": 129,
+            "support_score_buffer_wait_ns": 45462,
+            "support_score_buffer_waits": 2,
+            "support_score_matrix_bytes": 72280704,
+            "support_score_tiles": 246013,
+            "topk_work_ns": 1121853766
+          },
+          {
+            "coordinator_fanout_ns": 3519774892157,
+            "coordinator_merge_ns": 95627944,
+            "f32_rescore_ns": 232838969,
+            "flat_scan_score_ns": 56011086069,
+            "query_encode_ns": 33060782,
+            "remote_rpc_ns": 0,
+            "ring_filter_mask_build_ns": 0,
+            "ring_local_materialization_ns": 523840309,
+            "ring_materialization_queue_wait_ns": 610270651,
+            "ring_query_execution_ns": 3512007105771,
+            "ring_queue_wait_ns": 6439920384,
+            "support_command_queue_wait_ns": 39345540,
+            "support_command_queue_waits": 112,
+            "support_score_buffer_wait_ns": 56595,
+            "support_score_buffer_waits": 2,
+            "support_score_matrix_bytes": 73012408,
+            "support_score_tiles": 253978,
+            "topk_work_ns": 1140159210
+          }
+        ],
+        "scope": "Per-node metric deltas and their three-node mean; stage work/wait counters can overlap and are not additive critical-path latency."
+      },
+      "successful_queries": 13632,
+      "successful_requests": 13632
+    }
+  ],
+  "schema": "shared_cpu_fullmatrix_v1",
+  "started_utc": "2026-11-10T07:56:50.651974+00:00",
+  "validation": {
+    "accepted_fresh_rows": 1,
+    "accuracy_rows_passed": 1,
+    "expected_accuracy_rows": 8,
+    "expected_fresh_rows": 32,
+    "final_restoration_claim": false,
+    "historical_native_reference_rows": 16,
+    "missing_fresh_cells": [
+      {
+        "backend": "avx512vnni",
+        "batch_size": 1,
+        "category": "unfiltered_no_payload",
+        "concurrency": 128
+      },
+      {
+        "backend": "avx512vnni",
+        "batch_size": 64,
+        "category": "unfiltered_no_payload",
+        "concurrency": 4
+      },
+      {
+        "backend": "avx512vnni",
+        "batch_size": 128,
+        "category": "unfiltered_no_payload",
+        "concurrency": 4
+      },
+      {
+        "backend": "avx512vnni",
+        "batch_size": 1,
+        "category": "unfiltered_payload",
+        "concurrency": 64
+      },
+      {
+        "backend": "avx512vnni",
+        "batch_size": 1,
+        "category": "unfiltered_payload",
+        "concurrency": 128
+      },
+      {
+        "backend": "avx512vnni",
+        "batch_size": 64,
+        "category": "unfiltered_payload",
+        "concurrency": 4
+      },
+      {
+        "backend": "avx512vnni",
+        "batch_size": 128,
+        "category": "unfiltered_payload",
+        "concurrency": 4
+      },
+      {
+        "backend": "avx512vnni",
+        "batch_size": 1,
+        "category": "active_only",
+        "concurrency": 64
+      },
+      {
+        "backend": "avx512vnni",
+        "batch_size": 1,
+        "category": "active_only",
+        "concurrency": 128
+      },
+      {
+        "backend": "avx512vnni",
+        "batch_size": 64,
+        "category": "active_only",
+        "concurrency": 4
+      },
+      {
+        "backend": "avx512vnni",
+        "batch_size": 128,
+        "category": "active_only",
+        "concurrency": 4
+      },
+      {
+        "backend": "avx512vnni",
+        "batch_size": 1,
+        "category": "active_position_exclude",
+        "concurrency": 64
+      },
+      {
+        "backend": "avx512vnni",
+        "batch_size": 1,
+        "category": "active_position_exclude",
+        "concurrency": 128
+      },
+      {
+        "backend": "avx512vnni",
+        "batch_size": 64,
+        "category": "active_position_exclude",
+        "concurrency": 4
+      },
+      {
+        "backend": "avx512vnni",
+        "batch_size": 128,
+        "category": "active_position_exclude",
+        "concurrency": 4
+      },
+      {
+        "backend": "auto",
+        "batch_size": 1,
+        "category": "unfiltered_no_payload",
+        "concurrency": 64
+      },
+      {
+        "backend": "auto",
+        "batch_size": 1,
+        "category": "unfiltered_no_payload",
+        "concurrency": 128
+      },
+      {
+        "backend": "auto",
+        "batch_size": 64,
+        "category": "unfiltered_no_payload",
+        "concurrency": 4
+      },
+      {
+        "backend": "auto",
+        "batch_size": 128,
+        "category": "unfiltered_no_payload",
+        "concurrency": 4
+      },
+      {
+        "backend": "auto",
+        "batch_size": 1,
+        "category": "unfiltered_payload",
+        "concurrency": 64
+      },
+      {
+        "backend": "auto",
+        "batch_size": 1,
+        "category": "unfiltered_payload",
+        "concurrency": 128
+      },
+      {
+        "backend": "auto",
+        "batch_size": 64,
+        "category": "unfiltered_payload",
+        "concurrency": 4
+      },
+      {
+        "backend": "auto",
+        "batch_size": 128,
+        "category": "unfiltered_payload",
+        "concurrency": 4
+      },
+      {
+        "backend": "auto",
+        "batch_size": 1,
+        "category": "active_only",
+        "concurrency": 64
+      },
+      {
+        "backend": "auto",
+        "batch_size": 1,
+        "category": "active_only",
+        "concurrency": 128
+      },
+      {
+        "backend": "auto",
+        "batch_size": 64,
+        "category": "active_only",
+        "concurrency": 4
+      },
+      {
+        "backend": "auto",
+        "batch_size": 128,
+        "category": "active_only",
+        "concurrency": 4
+      },
+      {
+        "backend": "auto",
+        "batch_size": 1,
+        "category": "active_position_exclude",
+        "concurrency": 64
+      },
+      {
+        "backend": "auto",
+        "batch_size": 1,
+        "category": "active_position_exclude",
+        "concurrency": 128
+      },
+      {
+        "backend": "auto",
+        "batch_size": 64,
+        "category": "active_position_exclude",
+        "concurrency": 4
+      },
+      {
+        "backend": "auto",
+        "batch_size": 128,
+        "category": "active_position_exclude",
+        "concurrency": 4
+      }
+    ],
+    "missing_fresh_rows": 31,
+    "recorded_fresh_rows": 1,
+    "rejected_fresh_rows": 0,
+    "ring_admission_rows_passed": 1
+  }
+}
