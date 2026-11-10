@@ -27,6 +27,11 @@
       "name": "Fast join 96",
       "receipt_sha256": "111ae7de33fe7ee69f0a5cf81658e69ff2b1562c5625e09b0ef567187152dc37",
       "runner_sha256": "96a0181d822c57bda4f386bd991dcdc98af0749c12998a44f83dc431b0a43a7e"
+    },
+    {
+      "name": "Query tile load hint 13",
+      "receipt_sha256": "00a30aecb1764862080387e7d5bd4c3bd3dfbeed6ec1ffb89b336d7c1931099d",
+      "runner_sha256": "b2439c5c815769f3f5e475f55116ae89f73ec10986fd508eae12f5648fb980f0"
     }
   ],
   "rows": [
@@ -81,6 +86,58 @@
         66.18792205334248
       ],
       "raw_report_sha256": "472eaee8c99ab8ba87cae71dbb37a20676658a6c1f72d49baa0fbc55fe73101a"
+    },
+    {
+      "variant": "Query tile load hint 13",
+      "fast_join": 64,
+      "prefetch_hint": 13,
+      "category": "unfiltered_no_payload",
+      "batch_size": 1,
+      "concurrency": 512,
+      "http_rps": 1922.0112248058376,
+      "p50_ms": 257.248398,
+      "p95_ms": 402.021994,
+      "p99_ms": 456.78063299999997,
+      "successful_requests": 57996,
+      "failed_requests": 0,
+      "actual_elapsed_s": 30.174641673,
+      "cpu_equivalents_by_node": [
+        2.833472583265242,
+        2.82162357279269,
+        2.824741733443361
+      ],
+      "logical_query_reuse_by_node": [
+        93.18342703034114,
+        69.93514293059333,
+        68.07923993544456
+      ],
+      "raw_report_sha256": "a3a59342c42db8d29ebe0b0a62b98da8b2605258f43431e583bc06de62ca3ca1"
+    },
+    {
+      "variant": "Query tile load hint 13",
+      "fast_join": 64,
+      "prefetch_hint": 13,
+      "category": "active_only",
+      "batch_size": 1,
+      "concurrency": 512,
+      "http_rps": 1704.449635629664,
+      "p50_ms": 295.736876,
+      "p95_ms": 440.768908,
+      "p99_ms": 489.076558,
+      "successful_requests": 51500,
+      "failed_requests": 0,
+      "actual_elapsed_s": 30.215031834,
+      "cpu_equivalents_by_node": [
+        2.8059928175944315,
+        2.8063046638733375,
+        2.677823996964146
+      ],
+      "logical_query_reuse_by_node": [
+        92.74769619302789,
+        65.90267392411057,
+        58.84623760943783
+      ],
+      "raw_report_sha256": "1029f65bd70abf773beb2094bb90161541f76df39086e4da3b53d41cb0a05ba2"
     }
   ]
 }
