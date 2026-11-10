@@ -2,7 +2,7 @@
 
 Revision date: 10 November 2026. Native values are explicitly earlier-run H0 references; this campaign measured only Veortex AVX-512 VNNI and Auto.
 
-**Curation state:** PROVISIONAL — RESTORATION PENDING. Campaign `runtime-limits-fullmatrix-20261110t110031z` status `TIMING`. Fresh measurements: 22/22 accepted; 0 rejected; 10 expected cells not recorded. Historical native reference cells: 16 (not new tests).
+**Curation state:** PROVISIONAL — RESTORATION PENDING. Campaign `runtime-limits-fullmatrix-20261110t110031z` status `TIMING`. Fresh measurements: 23/23 accepted; 0 rejected; 9 expected cells not recorded. Historical native reference cells: 16 (not new tests).
 
 Candidate source `0aa62c281b7262368ca6f1ed69de71647be10ac0`, ELF `074f45b364a8e80da3fb9307d637812072fd755f56b91aeb8bdd4bf92b1ba60d`, common Go client `5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0`. The candidate passed the frozen focused collection and quantization build-test selection. Exact source-module checks cover 22 cases; this is not a full workspace test claim. The user explicitly selected `SEPARATE_TOPK=1`, retaining separate TopK and deferred payload-materialization worker stages under the shared process CPU mask. This is not a same-ELF A/B result; the earlier `63e9…` A/B ELF is a different binary.
 
@@ -45,6 +45,7 @@ The tables contain only accepted rows. Measurement acceptance means correctness,
 | B1 / C128 | Veortex Auto (AMX allowed) | 1350.94 / 1350.94 / 91.94 / 117.79 / 136.22 / 60.07 | 81151 / 0 | 81151 / 0 | 81151 | 0 / 0 / 0 / 0 |
 | B64 / C4 | Qdrant native 1.20 — earlier three-CPU run, not rerun | 4.00 / 255.84 / 982.57 / 1260.06 / 1418.92 / 60.79 | 243 / 0 | 15552 / 0 | 15552 | 0 / 0 / 0 / 0 |
 | B64 / C4 | Veortex AVX-512 VNNI (AMX disabled) | 9.50 / 607.89 / 418.23 / 469.12 / 490.06 / 60.33 | 573 / 0 | 36672 / 0 | 36672 | 0 / 0 / 0 / 0 |
+| B64 / C4 | Veortex Auto (AMX allowed) | 26.53 / 1697.95 / 147.84 / 186.96 / 211.18 / 60.12 | 1595 / 0 | 102080 / 0 | 102080 | 0 / 0 / 0 / 0 |
 | B128 / C4 | Qdrant native 1.20 — earlier three-CPU run, not rerun | 2.00 / 255.44 / 1989.36 / 2520.61 / 2965.36 / 61.63 | 123 / 0 | 15744 / 0 | 15744 | 0 / 0 / 0 / 0 |
 | B128 / C4 | Veortex AVX-512 VNNI (AMX disabled) | 5.17 / 661.12 / 770.87 / 873.23 / 1000.88 / 60.41 | 312 / 0 | 39936 / 0 | 39936 | 0 / 0 / 0 / 0 |
 
