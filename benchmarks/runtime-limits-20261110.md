@@ -2,7 +2,7 @@
 
 Revision date: 10 November 2026. Native values are explicitly earlier-run H0 references; this campaign measured only Veortex AVX-512 VNNI and Auto.
 
-**Curation state:** PROVISIONAL — RESTORATION PENDING. Campaign `runtime-limits-fullmatrix-20261110t110031z` status `TIMING`. Fresh measurements: 23/23 accepted; 0 rejected; 9 expected cells not recorded. Historical native reference cells: 16 (not new tests).
+**Curation state:** PROVISIONAL — RESTORATION PENDING. Campaign `runtime-limits-fullmatrix-20261110t110031z` status `TIMING`. Fresh measurements: 24/24 accepted; 0 rejected; 8 expected cells not recorded. Historical native reference cells: 16 (not new tests).
 
 Candidate source `0aa62c281b7262368ca6f1ed69de71647be10ac0`, ELF `074f45b364a8e80da3fb9307d637812072fd755f56b91aeb8bdd4bf92b1ba60d`, common Go client `5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0`. The candidate passed the frozen focused collection and quantization build-test selection. Exact source-module checks cover 22 cases; this is not a full workspace test claim. The user explicitly selected `SEPARATE_TOPK=1`, retaining separate TopK and deferred payload-materialization worker stages under the shared process CPU mask. This is not a same-ELF A/B result; the earlier `63e9…` A/B ELF is a different binary.
 
@@ -10,7 +10,7 @@ The full-matrix nodes omitted the deprecated COMPUTE_CPUS/SUPPORT_CPUS environme
 
 The fixture is 3 million 512D cosine vectors, SQ8 flat search, three one-million-point shards, three payload indexes, and HNSW disabled. Each node had a three-vCPU quota, a disjoint full three-CPU mask (4–6, 7–9, 10–12), and no per-thread pinning. Veortex used shared postprocessing placement, three ring workers, a 2 GiB queue budget, and three search/Rayon threads. Both fresh Veortex backends ran the same selected pipeline mode and ELF.
 
-Each category uses 1,024 distinct saved Top10 queries, checked against the pinned FP32 oracle before timing. Independent checks currently passed: 6/8; a complete timing matrix requires every category on both fresh backends. Every timed cell has 16 warmup requests, a 60-second dispatch, and a final drain. HTTP req/s = successful HTTP requests / elapsed; query/s = successful query members / elapsed. Both include final drain. p50/p95/p99 are full-response validated latency percentiles. Errors include failed requests/queries, HTTP 429, transport, protocol, and correctness failures.
+Each category uses 1,024 distinct saved Top10 queries, checked against the pinned FP32 oracle before timing. Independent checks currently passed: 7/8; a complete timing matrix requires every category on both fresh backends. Every timed cell has 16 warmup requests, a 60-second dispatch, and a final drain. HTTP req/s = successful HTTP requests / elapsed; query/s = successful query members / elapsed. Both include final drain. p50/p95/p99 are full-response validated latency percentiles. Errors include failed requests/queries, HTTP 429, transport, protocol, and correctness failures.
 
 ## Accepted measurements and historical native references
 
@@ -48,6 +48,7 @@ The tables contain only accepted rows. Measurement acceptance means correctness,
 | B64 / C4 | Veortex Auto (AMX allowed) | 26.53 / 1697.95 / 147.84 / 186.96 / 211.18 / 60.12 | 1595 / 0 | 102080 / 0 | 102080 | 0 / 0 / 0 / 0 |
 | B128 / C4 | Qdrant native 1.20 — earlier three-CPU run, not rerun | 2.00 / 255.44 / 1989.36 / 2520.61 / 2965.36 / 61.63 | 123 / 0 | 15744 / 0 | 15744 | 0 / 0 / 0 / 0 |
 | B128 / C4 | Veortex AVX-512 VNNI (AMX disabled) | 5.17 / 661.12 / 770.87 / 873.23 / 1000.88 / 60.41 | 312 / 0 | 39936 / 0 | 39936 | 0 / 0 / 0 / 0 |
+| B128 / C4 | Veortex Auto (AMX allowed) | 15.16 / 1940.89 / 265.28 / 333.65 / 359.62 / 60.21 | 913 / 0 | 116864 / 0 | 116864 | 0 / 0 / 0 / 0 |
 
 ### Active only (~90%) / payload
 
@@ -79,7 +80,7 @@ The tables contain only accepted rows. Measurement acceptance means correctness,
 
 No fresh timing row was rejected.
 
-Independent accuracy: 6/8 fresh runs passed. Each recorded 1,024-query check is bound to its saved report bytes, exact category manifest and F32 oracle; the score tolerance is 1e-6 from the pinned checker. Failed query indices remain in JSON diagnostics. Per-node ring gates require each node's submitted/completed delta to equal warmup query members plus successful timed query members, with zero total fallback and HNSW calls. All eleven per-node fallback-reason counters are separately recorded and validated; their values are diagnostics and are not treated as disjoint HTTP failures. AVX rows prove VNNI-positive/AMX-zero on each node; Auto rows prove AMX work on each node. CPU evidence requires active work and each sampled thread's full three-CPU mask.
+Independent accuracy: 7/8 fresh runs passed. Each recorded 1,024-query check is bound to its saved report bytes, exact category manifest and F32 oracle; the score tolerance is 1e-6 from the pinned checker. Failed query indices remain in JSON diagnostics. Per-node ring gates require each node's submitted/completed delta to equal warmup query members plus successful timed query members, with zero total fallback and HNSW calls. All eleven per-node fallback-reason counters are separately recorded and validated; their values are diagnostics and are not treated as disjoint HTTP failures. AVX rows prove VNNI-positive/AMX-zero on each node; Auto rows prove AMX work on each node. CPU evidence requires active work and each sampled thread's full three-CPU mask.
 
 Per-node stage work and queue-wait counter deltas, plus their three-node means, are retained as diagnostics in JSON and CSV. Stage and wait totals can overlap; they are not additive measures of critical-path latency and do not identify a root cause by themselves.
 
