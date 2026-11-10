@@ -2,7 +2,7 @@
 
 Revision date: 10 November 2026. Native values are explicitly earlier-run H0 references; this campaign measured only Veortex AVX-512 VNNI and Auto.
 
-**Curation state:** PROVISIONAL — RESTORATION PENDING. Campaign `shared-cpu-fullmatrix-20261110t075650z` status `TIMING`. Fresh measurements: 4/4 accepted; 0 rejected; 28 expected cells not recorded. Historical native reference cells: 16 (not new tests).
+**Curation state:** PROVISIONAL — RESTORATION PENDING. Campaign `shared-cpu-fullmatrix-20261110t075650z` status `TIMING`. Fresh measurements: 5/5 accepted; 0 rejected; 27 expected cells not recorded. Historical native reference cells: 16 (not new tests).
 
 Candidate source `560259c84af2b292867b9b2970ec731bcd33e07f`, ELF `63e9c5d1ffb9075bcfa3981c04a65c8240c9b18f1ad095456a93e9943ae466c6`, common Go client `5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0`. Six focused collection tests passed. Four support_cpu tests passed after compiling the exact production module and its four tests directly with a rustc --test wrapper; the full segment test suite was not run. Selected pipeline: `SEPARATE_TOPK=1` (separate TopK and deferred payload materialization). That setting was selected after the passing same-ELF focused A/B: [report](shared-postprocessing-ab-20261110.md).
 
@@ -32,6 +32,7 @@ The tables contain only accepted rows. Measurement acceptance means correctness,
 | B / C | Engine and scope | HTTP req/s / query/s / p50 / p95 / p99 / elapsed | Requests success/fail | Queries success/fail | Exact truth matches | 429 / transport / protocol / correctness errors |
 |---:|---|---:|---:|---:|---:|---:|
 | B1 / C64 | Qdrant native 1.20 — earlier three-CPU run, not rerun | 54.08 / 54.08 / 1168.60 / 1375.51 / 1662.05 / 61.07 | 3303 / 0 | 3303 / 0 | 3303 | 0 / 0 / 0 / 0 |
+| B1 / C64 | Veortex AVX-512 VNNI (AMX disabled) | 222.42 / 222.42 / 287.29 / 304.65 / 317.05 / 60.18 | 13385 / 0 | 13385 / 0 | 13385 | 0 / 0 / 0 / 0 |
 | B1 / C128 | Qdrant native 1.20 — earlier three-CPU run, not rerun | 54.27 / 54.27 / 2329.92 / 2899.84 / 3734.77 / 62.19 | 3375 / 0 | 3375 / 0 | 3375 | 0 / 0 / 0 / 0 |
 | B64 / C4 | Qdrant native 1.20 — earlier three-CPU run, not rerun | 4.00 / 255.84 / 982.57 / 1260.06 / 1418.92 / 60.79 | 243 / 0 | 15552 / 0 | 15552 | 0 / 0 / 0 / 0 |
 | B128 / C4 | Qdrant native 1.20 — earlier three-CPU run, not rerun | 2.00 / 255.44 / 1989.36 / 2520.61 / 2965.36 / 61.63 | 123 / 0 | 15744 / 0 | 15744 | 0 / 0 / 0 / 0 |

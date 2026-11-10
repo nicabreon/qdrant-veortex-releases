@@ -943,7 +943,7 @@
     "source_tree": "aa4becec3316b1e2e7e864f6a1aae6911922e0d1",
     "test_method_note": "Six focused collection tests passed. Four support_cpu tests passed after compiling the exact production module and its four tests directly with a rustc --test wrapper; the full segment test suite was not run."
   },
-  "receipt_sha256": "f3afd792c517b48198310aa163bee3e248dc65d6ccc534b4556422cd6088d401",
+  "receipt_sha256": "cc802e77475e4c66f163ec6be427ce03e8090e388a9fbddc786d987672b17e83",
   "restoration": {
     "cleanup_errors": [],
     "immutable_lower_metadata_unchanged": false,
@@ -2979,24 +2979,525 @@
       },
       "successful_queries": 41600,
       "successful_requests": 325
+    },
+    {
+      "backend": "avx512vnni",
+      "backend_label": "Veortex AVX-512 VNNI (AMX disabled)",
+      "backend_valid": true,
+      "batch_size": 1,
+      "category": "unfiltered_payload",
+      "category_label": "No filter / payload",
+      "client_passed": true,
+      "client_report_sha256": "ef64097809171ced98acc53bfc756a49c32b23660a1f309109e7aceb0228ab7b",
+      "client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "client_status": "COMPLETED",
+      "concurrency": 64,
+      "cpu_contract_valid": true,
+      "cpu_equivalents_by_node": [
+        {
+          "active_work_proven": true,
+          "node": 0,
+          "observed_full_mask": [
+            4,
+            5,
+            6
+          ],
+          "whole_process_cpu_equivalents": 1.201573880129883
+        },
+        {
+          "active_work_proven": true,
+          "node": 1,
+          "observed_full_mask": [
+            7,
+            8,
+            9
+          ],
+          "whole_process_cpu_equivalents": 1.1319527031207366
+        },
+        {
+          "active_work_proven": true,
+          "node": 2,
+          "observed_full_mask": [
+            10,
+            11,
+            12
+          ],
+          "whole_process_cpu_equivalents": 1.132439564498423
+        }
+      ],
+      "cpu_full_mask_and_work_proven": true,
+      "dispatch_s": 59.991236748,
+      "dispatched_queries": 13385,
+      "drain_s": 0.18810973500000472,
+      "elapsed_s": 60.179346483,
+      "errors": {
+        "correctness_failed_requests": 0,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "http_429_count": 0,
+        "http_error_requests": 0,
+        "protocol_errors": 0,
+        "transport_failures": 0,
+        "transport_timeouts": 0
+      },
+      "exact_query_truth_matches": 13385,
+      "failed_queries": 0,
+      "failed_requests": 0,
+      "failure_reasons": [],
+      "historical_native_reference": {
+        "measurement_accepted": true,
+        "receipt_sha256": "988be53eed5dc07e605937a786aa5b5fc12de3cc96500dda46b1b627892b423c",
+        "scope": "earlier three-CPU H0 run; not rerun in this campaign"
+      },
+      "http_rps": 222.41850040330885,
+      "intended_route_valid": true,
+      "isa_deltas_by_node": [
+        {
+          "amx_calls": 0,
+          "avx512vnni_calls": 3759792,
+          "node": 0
+        },
+        {
+          "amx_calls": 0,
+          "avx512vnni_calls": 4006903,
+          "node": 1
+        },
+        {
+          "amx_calls": 0,
+          "avx512vnni_calls": 4206252,
+          "node": 2
+        }
+      ],
+      "latency_sample_count": 13385,
+      "manifest_sha256": "7a15e37311fe482ac05106d8473bbdaf2747e62d6827875c9617a70a83ddecf4",
+      "measurement_accepted": true,
+      "measurement_scope": "fresh measurement",
+      "ordinal": 5,
+      "p50_ms": 287.292919,
+      "p95_ms": 304.646701,
+      "p99_ms": 317.04655199999996,
+      "payload_contract_matches": 13385,
+      "postprocessing_worker_proof": {
+        "nodes": [
+          {
+            "base_node_proof_passed": true,
+            "both_worker_families_observed": true,
+            "node": 0,
+            "node_index_matches": true,
+            "passed": true,
+            "payload_materialize_workers": [
+              "payload-materia"
+            ],
+            "veortex_topk_workers": [
+              "veortex-topk-0",
+              "veortex-topk-1"
+            ]
+          },
+          {
+            "base_node_proof_passed": true,
+            "both_worker_families_observed": true,
+            "node": 1,
+            "node_index_matches": true,
+            "passed": true,
+            "payload_materialize_workers": [
+              "payload-materia"
+            ],
+            "veortex_topk_workers": [
+              "veortex-topk-0",
+              "veortex-topk-1"
+            ]
+          },
+          {
+            "base_node_proof_passed": true,
+            "both_worker_families_observed": true,
+            "node": 2,
+            "node_index_matches": true,
+            "passed": true,
+            "payload_materialize_workers": [
+              "payload-materia"
+            ],
+            "veortex_topk_workers": [
+              "veortex-topk-0",
+              "veortex-topk-1"
+            ]
+          }
+        ],
+        "passed": true,
+        "protocol_proof": {
+          "arm": "shared_topk",
+          "nodes": [
+            {
+              "expected_mask": [
+                4,
+                5,
+                6
+              ],
+              "node": 0,
+              "passed": true,
+              "worker_pools": {
+                "payload_materializer": {
+                  "required_and_observed": true,
+                  "workers": [
+                    {
+                      "comm": "payload-materia",
+                      "mask_counts": {
+                        "4,5,6": 590
+                      },
+                      "only_full_expected_mask": true,
+                      "samples": 590
+                    }
+                  ]
+                },
+                "veortex_topk": {
+                  "required_and_observed": true,
+                  "workers": [
+                    {
+                      "comm": "veortex-topk-0",
+                      "mask_counts": {
+                        "4,5,6": 291
+                      },
+                      "only_full_expected_mask": true,
+                      "samples": 291
+                    },
+                    {
+                      "comm": "veortex-topk-1",
+                      "mask_counts": {
+                        "4,5,6": 291
+                      },
+                      "only_full_expected_mask": true,
+                      "samples": 291
+                    }
+                  ]
+                }
+              },
+              "workers": [
+                {
+                  "comm": "payload-materia",
+                  "mask_counts": {
+                    "4,5,6": 590
+                  },
+                  "only_full_expected_mask": true,
+                  "samples": 590
+                },
+                {
+                  "comm": "veortex-topk-0",
+                  "mask_counts": {
+                    "4,5,6": 291
+                  },
+                  "only_full_expected_mask": true,
+                  "samples": 291
+                },
+                {
+                  "comm": "veortex-topk-1",
+                  "mask_counts": {
+                    "4,5,6": 291
+                  },
+                  "only_full_expected_mask": true,
+                  "samples": 291
+                }
+              ]
+            },
+            {
+              "expected_mask": [
+                7,
+                8,
+                9
+              ],
+              "node": 1,
+              "passed": true,
+              "worker_pools": {
+                "payload_materializer": {
+                  "required_and_observed": true,
+                  "workers": [
+                    {
+                      "comm": "payload-materia",
+                      "mask_counts": {
+                        "7,8,9": 590
+                      },
+                      "only_full_expected_mask": true,
+                      "samples": 590
+                    }
+                  ]
+                },
+                "veortex_topk": {
+                  "required_and_observed": true,
+                  "workers": [
+                    {
+                      "comm": "veortex-topk-0",
+                      "mask_counts": {
+                        "7,8,9": 291
+                      },
+                      "only_full_expected_mask": true,
+                      "samples": 291
+                    },
+                    {
+                      "comm": "veortex-topk-1",
+                      "mask_counts": {
+                        "7,8,9": 291
+                      },
+                      "only_full_expected_mask": true,
+                      "samples": 291
+                    }
+                  ]
+                }
+              },
+              "workers": [
+                {
+                  "comm": "payload-materia",
+                  "mask_counts": {
+                    "7,8,9": 590
+                  },
+                  "only_full_expected_mask": true,
+                  "samples": 590
+                },
+                {
+                  "comm": "veortex-topk-0",
+                  "mask_counts": {
+                    "7,8,9": 291
+                  },
+                  "only_full_expected_mask": true,
+                  "samples": 291
+                },
+                {
+                  "comm": "veortex-topk-1",
+                  "mask_counts": {
+                    "7,8,9": 291
+                  },
+                  "only_full_expected_mask": true,
+                  "samples": 291
+                }
+              ]
+            },
+            {
+              "expected_mask": [
+                10,
+                11,
+                12
+              ],
+              "node": 2,
+              "passed": true,
+              "worker_pools": {
+                "payload_materializer": {
+                  "required_and_observed": true,
+                  "workers": [
+                    {
+                      "comm": "payload-materia",
+                      "mask_counts": {
+                        "10,11,12": 590
+                      },
+                      "only_full_expected_mask": true,
+                      "samples": 590
+                    }
+                  ]
+                },
+                "veortex_topk": {
+                  "required_and_observed": true,
+                  "workers": [
+                    {
+                      "comm": "veortex-topk-0",
+                      "mask_counts": {
+                        "10,11,12": 290
+                      },
+                      "only_full_expected_mask": true,
+                      "samples": 290
+                    },
+                    {
+                      "comm": "veortex-topk-1",
+                      "mask_counts": {
+                        "10,11,12": 290
+                      },
+                      "only_full_expected_mask": true,
+                      "samples": 290
+                    }
+                  ]
+                }
+              },
+              "workers": [
+                {
+                  "comm": "payload-materia",
+                  "mask_counts": {
+                    "10,11,12": 590
+                  },
+                  "only_full_expected_mask": true,
+                  "samples": 590
+                },
+                {
+                  "comm": "veortex-topk-0",
+                  "mask_counts": {
+                    "10,11,12": 290
+                  },
+                  "only_full_expected_mask": true,
+                  "samples": 290
+                },
+                {
+                  "comm": "veortex-topk-1",
+                  "mask_counts": {
+                    "10,11,12": 290
+                  },
+                  "only_full_expected_mask": true,
+                  "samples": 290
+                }
+              ]
+            }
+          ],
+          "passed": true,
+          "schema": "shared_postprocessing_worker_mask_v1",
+          "scope": "Requires both sampled deferred materialization and separate TopK worker pools per treatment node, all on the full node mask; control requires neither pool. Sampling presence is not a utilization or phase-coverage estimate."
+        },
+        "requires_topk_and_payload_materialization_per_node": true,
+        "schema": "shared_cpu_fullmatrix_postprocessing_workers_v1",
+        "selected_separate_topk": true
+      },
+      "postprocessing_worker_valid": true,
+      "quality_valid": true,
+      "query_qps": 222.41850040330885,
+      "ring_admission_proof": {
+        "counter_semantics": "Process-global per-node ring counters increment once per query member submitted/completed; measured-row delta includes 16 warmup requests times batch size plus successful timed queries and final drain.",
+        "expected_queries_per_node": 13401,
+        "nodes": [
+          {
+            "completed_delta": 13401,
+            "completed_matches_expected": true,
+            "fallback_delta": 0,
+            "hnsw_search_calls_delta": 0,
+            "no_hnsw_search": true,
+            "no_ring_fallback": true,
+            "node": 0,
+            "node_index_matches": true,
+            "submitted_delta": 13401,
+            "submitted_matches_expected": true
+          },
+          {
+            "completed_delta": 13401,
+            "completed_matches_expected": true,
+            "fallback_delta": 0,
+            "hnsw_search_calls_delta": 0,
+            "no_hnsw_search": true,
+            "no_ring_fallback": true,
+            "node": 1,
+            "node_index_matches": true,
+            "submitted_delta": 13401,
+            "submitted_matches_expected": true
+          },
+          {
+            "completed_delta": 13401,
+            "completed_matches_expected": true,
+            "fallback_delta": 0,
+            "hnsw_search_calls_delta": 0,
+            "no_hnsw_search": true,
+            "no_ring_fallback": true,
+            "node": 2,
+            "node_index_matches": true,
+            "submitted_delta": 13401,
+            "submitted_matches_expected": true
+          }
+        ],
+        "passed": true,
+        "schema": "shared_cpu_matrix_per_node_admission_v1",
+        "timed_successful_queries": 13385,
+        "warmup_contract_passed": true,
+        "warmup_queries_per_node": 16
+      },
+      "ring_admission_valid": true,
+      "stage_diagnostics": {
+        "mean_per_node": {
+          "coordinator_fanout_ns": 3571358632144.0,
+          "coordinator_merge_ns": 114546650.0,
+          "f32_rescore_ns": 183260237.66666666,
+          "flat_scan_score_ns": 55910408533.666664,
+          "query_encode_ns": 34002398.666666664,
+          "remote_rpc_ns": 2302205951732.3335,
+          "ring_filter_mask_build_ns": 0.0,
+          "ring_local_materialization_ns": 898756116.3333334,
+          "ring_materialization_queue_wait_ns": 1400690394.3333333,
+          "ring_query_execution_ns": 3513354797723.6665,
+          "ring_queue_wait_ns": 8697653383.333334,
+          "support_command_queue_wait_ns": 469500123.3333333,
+          "support_command_queue_waits": 606.3333333333334,
+          "support_score_buffer_wait_ns": 155304.0,
+          "support_score_buffer_waits": 7.666666666666667,
+          "support_score_matrix_bytes": 82854012.0,
+          "support_score_tiles": 249547.66666666666,
+          "topk_work_ns": 1152516327.6666667
+        },
+        "per_node": [
+          {
+            "coordinator_fanout_ns": 3830752072468,
+            "coordinator_merge_ns": 163128360,
+            "f32_rescore_ns": 199149812,
+            "flat_scan_score_ns": 55416117169,
+            "query_encode_ns": 35843664,
+            "remote_rpc_ns": 6906617855197,
+            "ring_filter_mask_build_ns": 0,
+            "ring_local_materialization_ns": 873119553,
+            "ring_materialization_queue_wait_ns": 1812386783,
+            "ring_query_execution_ns": 3672920690179,
+            "ring_queue_wait_ns": 13047364885,
+            "support_command_queue_wait_ns": 1042345573,
+            "support_command_queue_waits": 1363,
+            "support_score_buffer_wait_ns": 246328,
+            "support_score_buffer_waits": 6,
+            "support_score_matrix_bytes": 102216272,
+            "support_score_tiles": 235092,
+            "topk_work_ns": 1215807794
+          },
+          {
+            "coordinator_fanout_ns": 3513458259296,
+            "coordinator_merge_ns": 91390505,
+            "f32_rescore_ns": 172176121,
+            "flat_scan_score_ns": 56011780728,
+            "query_encode_ns": 32922202,
+            "remote_rpc_ns": 0,
+            "ring_filter_mask_build_ns": 0,
+            "ring_local_materialization_ns": 915951289,
+            "ring_materialization_queue_wait_ns": 1290349703,
+            "ring_query_execution_ns": 3504937215401,
+            "ring_queue_wait_ns": 6872569203,
+            "support_command_queue_wait_ns": 282784366,
+            "support_command_queue_waits": 248,
+            "support_score_buffer_wait_ns": 156550,
+            "support_score_buffer_waits": 11,
+            "support_score_matrix_bytes": 71507080,
+            "support_score_tiles": 250543,
+            "topk_work_ns": 1122452663
+          },
+          {
+            "coordinator_fanout_ns": 3369865564668,
+            "coordinator_merge_ns": 89121085,
+            "f32_rescore_ns": 178454780,
+            "flat_scan_score_ns": 56303327704,
+            "query_encode_ns": 33241330,
+            "remote_rpc_ns": 0,
+            "ring_filter_mask_build_ns": 0,
+            "ring_local_materialization_ns": 907197507,
+            "ring_materialization_queue_wait_ns": 1099334697,
+            "ring_query_execution_ns": 3362206487591,
+            "ring_queue_wait_ns": 6173026062,
+            "support_command_queue_wait_ns": 83370431,
+            "support_command_queue_waits": 208,
+            "support_score_buffer_wait_ns": 63034,
+            "support_score_buffer_waits": 6,
+            "support_score_matrix_bytes": 74838684,
+            "support_score_tiles": 263008,
+            "topk_work_ns": 1119288526
+          }
+        ],
+        "scope": "Per-node metric deltas and their three-node mean; stage work/wait counters can overlap and are not additive critical-path latency."
+      },
+      "successful_queries": 13385,
+      "successful_requests": 13385
     }
   ],
   "schema": "shared_cpu_fullmatrix_v1",
   "started_utc": "2026-11-10T07:56:50.651974+00:00",
   "validation": {
-    "accepted_fresh_rows": 4,
+    "accepted_fresh_rows": 5,
     "accuracy_rows_passed": 2,
     "expected_accuracy_rows": 8,
     "expected_fresh_rows": 32,
     "final_restoration_claim": false,
     "historical_native_reference_rows": 16,
     "missing_fresh_cells": [
-      {
-        "backend": "avx512vnni",
-        "batch_size": 1,
-        "category": "unfiltered_payload",
-        "concurrency": 64
-      },
       {
         "backend": "avx512vnni",
         "batch_size": 1,
@@ -3160,9 +3661,9 @@
         "concurrency": 4
       }
     ],
-    "missing_fresh_rows": 28,
-    "recorded_fresh_rows": 4,
+    "missing_fresh_rows": 27,
+    "recorded_fresh_rows": 5,
     "rejected_fresh_rows": 0,
-    "ring_admission_rows_passed": 4
+    "ring_admission_rows_passed": 5
   }
 }
