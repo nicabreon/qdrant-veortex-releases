@@ -1,0 +1,50 @@
+{
+  "allocation_labels": {
+    "current_both": "3 vCPU/node shared full mask for all phases; no per-thread pinning",
+    "historical_native": "3 vCPU/node: one CPU pinned for full search plus two support/service CPUs",
+    "historical_veortex": "3 vCPU/node: one CPU pinned for scan plus two support CPUs that also performed TopK, FP32 reranking, and payload work"
+  },
+  "completed_campaign": {
+    "accepted_rows": 48,
+    "batch_size": 1,
+    "comparison_rows": 24,
+    "concurrency": 128,
+    "expected_rows": 48,
+    "plotted_pairs": 12,
+    "recorded_rows": 48,
+    "status": "MEASUREMENTS_COMPLETE_RECORDED_SCOPE"
+  },
+  "generator": "reproduce/render-cpu-fairness.py",
+  "generator_sha256": "aa6fe73e19bb55ed255a232bd32ff3424a5d3511e018c9d2f023861725ddb070",
+  "new_benchmarks_run": false,
+  "output_sha256": {
+    "cpu-fairness-20261110.csv": "c6bc9126851c339794ec78638d27cb800c3dacf2074ee8b03984ddfd17a73b32",
+    "cpu-fairness-20261110.png": "1228820e6280342080cbb48a69eac8b5eafe91c936c734d1c760502d1a0a78f7",
+    "cpu-fairness-20261110.svg": "ceaf78f0409c275d37218e1633d98c56d5daa76dcd26a6f8eccd3aed4cb7a396"
+  },
+  "palette": {
+    "background": "#f5f8fc",
+    "grid": "#dce5ee",
+    "muted": "#52677c",
+    "native": "#31659b",
+    "text": "#152b43",
+    "veortex": "#cb641b"
+  },
+  "plot": {
+    "change_percent": "(current shared-three-CPU RPS / historical pinned-profile RPS - 1) * 100",
+    "highlighted_regressions": [
+      "Veortex Auto active_only",
+      "Veortex Auto active_position_exclude"
+    ],
+    "interpretation": "End-to-end CPU-policy comparison; not pure cores scaling. Both old and new containers had three vCPUs per node. No scan-only CPU-time metric was collected.",
+    "metric": "successful HTTP requests per second",
+    "scale": "shared logarithmic axis from 10 to 6500 RPS"
+  },
+  "renderer": {
+    "matplotlib": "3.10.9",
+    "numpy": "2.2.6"
+  },
+  "schema": "cpu_fairness_figure_manifest_v1",
+  "source_json": "benchmarks/cpu-policy-1-vs-3-20261110.json",
+  "source_json_sha256": "dcf29c60cb5c6347b7144c29c953e1de8168774cf7efc9afc059331c9a4b0afa"
+}

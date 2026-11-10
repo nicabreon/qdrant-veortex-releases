@@ -18,11 +18,36 @@ A separate [same-binary AVX-512 versus AMX follow-up](benchmarks/sq8-avx512-vs-a
 
 The original measurements and sections below are retained. **Equal container quota did not mean equal CPU allocation within the search pipeline.** The published native profile set `max_search_threads=1` and used an external preload to pin native search workers, including scan, TopK, and FP32 rescoring, to one CPU. Its other two CPUs handled service work. Veortex used one CPU for scan/score and the other two for TopK, rescoring, and payload completion. This allocation difference is also identified in [Qdrant's tracking issue #11462](https://github.com/qdrant/qdrant/issues/11462). The historical speedups include that scheduling difference; disabling AMX alone does not remove it.
 
+**Revision addition — allocation table and completed follow-up:** both profiles had three total vCPUs per node. The change was which phases could use those CPUs.
+
+| Profile | Container budget per node | Search and support placement |
+|---|---:|---|
+| Historical native | 3 vCPU | One CPU for full search; two CPUs for service work |
+| Historical Veortex V45.1 | 3 vCPU | One CPU for scan; both support CPUs shared TopK, FP32 reranking, payload, and service work |
+| Current native and Veortex | 3 vCPU | All phases share the full three-CPU mask; no per-thread affinity |
+
+![Historical and shared CPU allocation, with B1/C128 throughput comparisons and both Veortex Auto regressions highlighted](assets/benchmarks/cpu-fairness-20261110.png)
+
+The following table compares **B1/C128** on the same three-million-vector SQ8 fixture, with Top10 per query and metadata present in every category. Each cell is **historical HTTP RPS → shared-three-CPU HTTP RPS (change)**. Each engine/mode pair uses the same binary before and after; this remains an overall CPU-policy comparison, with changes to scheduling and campaign conditions, rather than isolated scan-only scaling.
+
+| Workload | Native Qdrant 1.20 | Veortex AVX-512 VNNI | Veortex Auto |
+|---|---:|---:|---:|
+| No filter, no payload | 22.17 → 55.71 (+151.3%) | 245.18 → 453.32 (+84.9%) | 898.94 → 1,179.48 (+31.2%) |
+| No filter, payload | 20.16 → 54.27 (+169.1%) | 239.57 → 458.51 (+91.4%) | 904.11 → 1,175.70 (+30.0%) |
+| Active-only (~90% eligible), payload | 18.02 → 47.99 (+166.4%) | 241.55 → 451.37 (+86.9%) | 892.19 → 772.31 (−13.4%) |
+| Active + position + exclusion (~9% eligible), payload | 40.72 → 120.32 (+195.5%) | 1,933.46 → 2,235.34 (+15.6%) | 3,139.32 → 2,230.99 (−28.9%) |
+
+The figure uses a shared **logarithmic HTTP RPS scale**. Red highlights preserve the two Auto regressions. Read the [full CPU-policy comparison, including p95/p99](benchmarks/cpu-policy-1-vs-3-20261110.md), [SVG](assets/benchmarks/cpu-fairness-20261110.svg), [plotted CSV](assets/benchmarks/cpu-fairness-20261110.csv), [provenance manifest](assets/benchmarks/cpu-fairness-20261110.manifest.json), or [renderer](reproduce/render-cpu-fairness.py). Native compiler flags remain unmatched; no new benchmark was run to create this figure.
+
+**Historical launch status, retained for context:**
+
 A new comparison is being measured with **all three CPUs shared by search and service work on each node**, no per-thread affinity, and disjoint Docker CPU sets. Native uses three search threads; Veortex allows three unpinned ring workers and disables the dedicated 1+2 split. The requested cells are B1/C64, B1/C128, B64/C4, and B128/C4. Native, Veortex AVX-512, and Veortex Auto are measured afresh. No result from that pending campaign is claimed here yet. See the [shared-CPU reproduction profiles](reproduce/README.veortex.md#revision-note--10-november-2026-wib-shared-three-cpu-profile).
 
 **Live report:** [shared three-CPU results](benchmarks/shared3-live-20261110.md), with [JSON evidence](benchmarks/shared3-live-20261110.json) and [CSV](benchmarks/shared3-live-20261110.csv), is updated after each recorded measurement. The report distinguishes accepted rows, rejected rows, and incomplete cleanup; it does not replace the historical tables below.
 
 **Revision clarification — B128 routing:** the tested Veortex binary sends compatible explicit batches of up to 64 queries into the circular ring. B128 uses its direct batched path, split into groups of up to 96 queries. Therefore B64 and B128 measure different existing execution paths; B128 support in the benchmark client does not add B128 ring admission to the engine. Every returned query still has the same Top10/FP32 correctness contract and shared three-CPU limit.
+
+**Open implementation gap — dynamic batch admission:** the intended design admits compatible queries from every supported request batch size into the same bounded ring queue. A B128 request should enqueue its 128 queries, admit them as active slots become free, and complete its response when all members finish. The 64-query active capacity should not select a separate execution path solely because a request contains more queries. This behavior is not implemented in the tested binary; queue-memory bounds, deadlines, cancellation, and update consistency must remain valid when it is added.
 
 **Next requested stage:** compare 1, 2, and 3 local shards per node (3, 6, and 9 physical shards in the cluster), keeping total vector count and the same shared three-CPU limit per node. Dataset preparation and actual shard placement must be verified before publishing that comparison.
 
