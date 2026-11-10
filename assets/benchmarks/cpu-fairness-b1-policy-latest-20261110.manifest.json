@@ -17,7 +17,7 @@
   },
   "generator": {
     "path": "reproduce/render-cpu-fairness-b1-latest.py",
-    "sha256": "79508fcf2258ab1996f39dfd69b1a90485e349f7b9f159275f6bf4e992e4af74"
+    "sha256": "5757d3187274da6d9380557fc149687d5e548486d28edea354dbf1e1cabdb9f9"
   },
   "inputs": {
     "historical_policy_report": {
@@ -46,9 +46,9 @@
   },
   "new_benchmarks_run_by_renderer": false,
   "output_sha256": {
-    "cpu-fairness-b1-policy-latest-20261110.csv": "cb61c8caa1b7d0f26eaa5effb6b2acf3713b1846860c5613aaa0222301a4cc9e",
+    "cpu-fairness-b1-policy-latest-20261110.csv": "cf0a987f28d7aebe955b4aef93f4940b1ebc45c9f1555e86625a130051781e20",
     "cpu-fairness-b1-policy-latest-20261110.png": "5f0dc7ba2268536eeb5ea76046f37dc5ca7b0f83e9d28bf2f2af151d7beb3369",
-    "cpu-fairness-b1-policy-latest-20261110.svg": "3353727352597b2db33f35bb8c4400ce5fb8eb3d73ec49a10101e9cd3960753e"
+    "cpu-fairness-b1-policy-latest-20261110.svg": "74e686c30b664e476197f226b3b076136e7f5016baa5b2f07e120cb6ef314bd3"
   },
   "plot": {
     "axis": "one global logarithmic scale",

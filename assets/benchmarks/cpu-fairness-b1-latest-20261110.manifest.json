@@ -112,12 +112,12 @@
     }
   },
   "generator": "reproduce/render-cpu-fairness-b1-latest.py",
-  "generator_sha256": "79508fcf2258ab1996f39dfd69b1a90485e349f7b9f159275f6bf4e992e4af74",
+  "generator_sha256": "5757d3187274da6d9380557fc149687d5e548486d28edea354dbf1e1cabdb9f9",
   "new_benchmarks_run_by_renderer": false,
   "output_sha256": {
-    "cpu-fairness-b1-latest-20261110.csv": "41c98ed861c4419af13c8a4db6be81a9deccea976cf981a56b510726bc5faa37",
+    "cpu-fairness-b1-latest-20261110.csv": "d31d8b2ecf6d873c60b271548ca5447cb15255d2652249c542f075123dff522f",
     "cpu-fairness-b1-latest-20261110.png": "9a9bc5162e9e7987b11671ef45ff34e923c6fca6293c988883d1ca740e13ff2e",
-    "cpu-fairness-b1-latest-20261110.svg": "536fdcb795e786bfde40d22c90fb63462159ff3664605b4a12cfa28d35c7409a"
+    "cpu-fairness-b1-latest-20261110.svg": "a6028cdabdff464f4b0b8591385b9362c8193ba3a99feb04f3cc7c7ab8add2ac"
   },
   "palette": {
     "background": "#f5f8fc",

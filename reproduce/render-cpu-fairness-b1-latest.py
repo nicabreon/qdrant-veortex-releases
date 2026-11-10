@@ -73,6 +73,21 @@ def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def normalize_svg_trailing_whitespace(path: Path) -> None:
+    """Strip spaces and tabs at line ends while preserving SVG bytes otherwise."""
+    data = path.read_bytes()
+    normalized_lines = []
+    for line in data.splitlines(keepends=True):
+        if line.endswith(b"\r\n"):
+            body, ending = line[:-2], b"\r\n"
+        elif line.endswith(b"\n") or line.endswith(b"\r"):
+            body, ending = line[:-1], line[-1:]
+        else:
+            body, ending = line, b""
+        normalized_lines.append(body.rstrip(b" \t") + ending)
+    path.write_bytes(b"".join(normalized_lines))
+
+
 def finite(value: Any) -> bool:
     return isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value)
 
@@ -302,7 +317,9 @@ def render(document: dict[str, Any], selected: dict[tuple[str, int, str], dict[s
     OUT.mkdir(parents=True, exist_ok=True)
     fig.savefig(OUT / f"{STEM}.png", dpi=180, facecolor=BG,
                 metadata={"Software": "Matplotlib; curated B1 CPU comparison JSON"})
-    fig.savefig(OUT / f"{STEM}.svg", facecolor=BG, metadata={"Date": None})
+    svg_path = OUT / f"{STEM}.svg"
+    fig.savefig(svg_path, facecolor=BG, metadata={"Date": None})
+    normalize_svg_trailing_whitespace(svg_path)
     plt.close(fig)
 
     rows = plotted_rows(selected, input_sha)
@@ -316,7 +333,7 @@ def render(document: dict[str, Any], selected: dict[tuple[str, int, str], dict[s
         row["engine_sha256"] = source.get("sha256", "")
     csv_path = OUT / f"{STEM}.csv"
     with csv_path.open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=list(rows[0]))
+        writer = csv.DictWriter(handle, fieldnames=list(rows[0]), lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
 
@@ -606,9 +623,10 @@ def render_policy_figure(policy: dict[str, Any], index: dict[tuple[str, str], di
     csv_path = OUT / f"{POLICY_STEM}.csv"
     fig.savefig(png, dpi=180, facecolor=BG, metadata={"Software": "Matplotlib; two curated CPU-policy JSON inputs"})
     fig.savefig(svg, facecolor=BG, metadata={"Date": None})
+    normalize_svg_trailing_whitespace(svg)
     plt.close(fig)
     with csv_path.open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=list(rows[0]))
+        writer = csv.DictWriter(handle, fieldnames=list(rows[0]), lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
 
