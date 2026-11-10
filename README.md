@@ -70,6 +70,31 @@ The shared-CPU policy has mixed results against the previous 1-scan-plus-2-suppo
 
 The [CPU-policy comparison](benchmarks/cpu-policy-1-vs-3-20261110.md), [JSON](benchmarks/cpu-policy-1-vs-3-20261110.json), and [CSV](benchmarks/cpu-policy-1-vs-3-20261110.csv) pair 20 primary and four supplemental measurements at the same B/C and filter/payload category. Both old and new profiles had three total vCPUs per node. The table reports gains and regressions, p95/p99, exact binary pins, and actual CPU use where measured. A near-3× scan-only gain remains a separate target to verify; these end-to-end results do not measure it.
 
+### Validation revision — 10 November 2026 (WIB): B128 now uses the ring
+
+The implementation gap recorded above applies to the earlier V45.1 binary. Candidate source `1bd74d911` removes the batch-size-only bypass: compatible explicit batches enqueue individual query members in the bounded ring, while each ring worker retains its 64-query active capacity. Capacity errors propagate without waiting behind an earlier unfinished member, and successful responses preserve query order. Focused tests passed 11 cases across eight groups, including B128/B200/B1000, mixed owners, cancellation, capacity rejection, and writer ordering.
+
+**Fresh runtime validation:** all 16 cells passed on the same 3M × 512D SQ8 fixture, three Docker nodes, disjoint shared three-CPU masks, no per-thread affinity, and C4. All metadata was present in every category. The eight independent prechecks passed 8 × 1,024 queries; 18,315 timed HTTP requests completed without errors and all 1,617,536 timed queries matched ordered Top10/FP32 truth. Exact per-node submitted/completed counters proved every measured query entered the ring, with zero fallback or HNSW searches.
+
+Each cell below is **cluster query/s / whole-response p95 / p99 ms**. An HTTP request contains B queries; HTTP RPS is query/s divided by B and is listed separately in the full report. Unfiltered queries search all three million vectors; filter rows use the stated eligible fraction.
+
+| Workload | B/C | AVX-512 VNNI, AMX off | Auto, AMX observed |
+|---|---:|---:|---:|
+| No filter, no payload | 64/4 | 680.00 / 394.57 / 406.50 | 1,680.82 / 177.01 / 186.25 |
+| No filter, no payload | 128/4 | 729.62 / 792.20 / 829.06 | 2,011.34 / 296.36 / 320.28 |
+| No filter, payload | 64/4 | 669.94 / 406.09 / 416.52 | 1,606.80 / 172.26 / 179.05 |
+| No filter, payload | 128/4 | 715.03 / 805.45 / 867.66 | 1,857.73 / 314.71 / 334.88 |
+| Active-only (~90% eligible), payload | 64/4 | 667.78 / 410.32 / 495.51 | 1,131.82 / 246.26 / 255.76 |
+| Active-only (~90% eligible), payload | 128/4 | 713.89 / 819.31 / 848.79 | 1,310.41 / 437.70 / 467.69 |
+| Active + position + exclusion (~9% eligible), payload | 64/4 | 2,612.66 / 110.11 / 118.84 | 3,046.10 / 96.09 / 104.87 |
+| Active + position + exclusion (~9% eligible), payload | 128/4 | 3,410.03 / 184.94 / 200.58 | 4,054.58 / 152.13 / 166.58 |
+
+Against the matched prior three-CPU results, B128 throughput increased **26.9–80.7%**; B64 varied **−2.9% to +1.2%**. This is a selected end-to-end batch comparison with unchanged scoring kernels, not a maximum-capacity or isolated core-scaling result. The earlier B1/C128 filter regressions remain open; the deferred shard comparison has not been run.
+
+The initial attempt retained six accepted rows and one CPU-attribution rejection. The shared observer discarded sub-jiffy thread runtime; observer v2 now validates scheduler-runtime interval evidence without adding it to utilization or increasing read cadence. After 24 offline observer/validator cases passed, all 16 final cells were measured afresh. Read the [sampling remediation archive](benchmarks/dynamic-ring-batches-initial-sampling-20261110.md).
+
+Read the [complete prior/current comparison with HTTP RPS and p95/p99](benchmarks/dynamic-ring-batches-20261110.md), [JSON evidence](benchmarks/dynamic-ring-batches-20261110.json), or [CSV](benchmarks/dynamic-ring-batches-20261110.csv). Native rows there are clearly labeled references from the previous campaign; native was not rerun. The candidate ELF is SHA-pinned in the report and is **not yet part of the V45.1 download below**. Original containers were restored healthy and immutable dataset layers were unchanged.
+
 ## Download the research binary
 
 The [V45.1 admission-budget release](https://github.com/nicabreon/qdrant-veortex-releases/releases/tag/v1.20.0-veortex.v45.1.20261109) adds an opt-in queue-byte ceiling of **2 GiB**, with the default still **384 MiB**. Its tested B64/C4 profile uses **640 MiB** and completed all four categories without HTTP 429s. It requires the [new environment example](configs/admission-budget-node0.env.example). Its executable SHA-256 is `90d54aeabbaa17350b94161f6a7926528b13452b0b50296f0bc45fc0e96969e0`; see the [manifest](releases/admission-budget-20261109-manifest.json).
