@@ -136,6 +136,31 @@
         "ring_admission_rows_passed": 4,
         "fallback_reason_rows_complete": 4
       }
+    },
+    {
+      "profile": "Capacity profile",
+      "campaign": "worker-scaling-capacity-c640-20261110-20261110t152443z",
+      "receipt_sha256": "0ac5c0640090a2849c3f823cf3a6c117bdd7c9127adc73969bc4065424ee77ef",
+      "runner_sha256": "c2e57e17679730634fbc40874cbc046d305941acea95a1c10ea30d72fb7cff34",
+      "client": {
+        "binary_sha256": "3ac5765e0116dd6d4776996bc0e717bb2abecdd1950302b63aa4d00e1400436f",
+        "source_sha256": "16c957e8539df6c91e01b993e97314d464615845b9be7715bfb2a300f9c48126",
+        "base_source_sha256": "e65540edeefddee0389ffd05e300cbea157ad940b8bc0cb5db6cdfe92970db5c",
+        "validation_harness_sha256": "57de2e97574081a71f1d2cefcc217ae96a7f7d54210762e066f8146363eaa26b",
+        "validation_subreceipt_sha256": "935b762f03cb70d1250912a254bb828470070ccd1f17fc48772bfb3440ce679a",
+        "validation_receipt_sha256": "2eac927f2c5f6e92a68341fac5c66fb430b94657dc07f26a8c6cce20208b233f",
+        "h0_baseline_validation_receipt_sha256": "99bd4a64e05b65006457140f196ddc7be57e08c06c27158f98c1e9846fc841ce"
+      },
+      "finished_utc": "2026-11-10T15:28:17.771803+00:00",
+      "validation_summary": {
+        "recorded_rows": 2,
+        "accepted_rows": 2,
+        "expected_rows": 2,
+        "f32_accuracy_rows_passed": 2,
+        "expected_f32_accuracy_rows": 2,
+        "ring_admission_rows_passed": 2,
+        "fallback_reason_rows_complete": 2
+      }
     }
   ],
   "rows": [
@@ -786,6 +811,78 @@
         58.99019166739568
       ],
       "report_sha256": "b4833c2cd96e37cbee3713e8098f22c2daa69a19075cf46e78bbb540e45957b7"
+    },
+    {
+      "profile": "Capacity profile",
+      "workers": 3,
+      "fast_join": 64,
+      "singleton_permits": 640,
+      "shard_inflight_cap": 640,
+      "batch_size": 1,
+      "concurrency": 640,
+      "category": "unfiltered_no_payload",
+      "http_rps": 1965.2263135820783,
+      "query_qps": 1965.2263135820783,
+      "mean_ms": 323.3366224268187,
+      "p50_ms": 317.84329,
+      "p95_ms": 489.146077,
+      "p99_ms": 551.937629,
+      "successful_requests": 59489,
+      "failed_requests": 0,
+      "actual_elapsed_s": 30.270813895,
+      "exact_truth_matches": 59489,
+      "observed_active_ring_peaks_by_node": [
+        3.0,
+        3.0,
+        3.0
+      ],
+      "whole_process_cpu_equivalents_by_node": [
+        2.833956366999627,
+        2.782509255045073,
+        2.7379217580177935
+      ],
+      "logical_queries_per_gallery_vector_read_by_node": [
+        93.12206572769954,
+        70.19475082697804,
+        61.887739357917255
+      ],
+      "report_sha256": "b86ffcdb117661bad333b99fb8e8b287c71351603c2e762cb268a184c96ffdbf"
+    },
+    {
+      "profile": "Capacity profile",
+      "workers": 3,
+      "fast_join": 64,
+      "singleton_permits": 640,
+      "shard_inflight_cap": 640,
+      "batch_size": 1,
+      "concurrency": 640,
+      "category": "active_only",
+      "http_rps": 1784.5244592656163,
+      "query_qps": 1784.5244592656163,
+      "mean_ms": 356.2065865407546,
+      "p50_ms": 345.17767100000003,
+      "p95_ms": 538.8821360000001,
+      "p99_ms": 638.198909,
+      "successful_requests": 53986,
+      "failed_requests": 0,
+      "actual_elapsed_s": 30.252317204,
+      "exact_truth_matches": 53986,
+      "observed_active_ring_peaks_by_node": [
+        3.0,
+        3.0,
+        3.0
+      ],
+      "whole_process_cpu_equivalents_by_node": [
+        2.823960558651133,
+        2.7952719133998185,
+        2.686442161305158
+      ],
+      "logical_queries_per_gallery_vector_read_by_node": [
+        92.89752475111267,
+        66.49935457624319,
+        61.73876182130029
+      ],
+      "report_sha256": "2ed2106b552727eaed4aa7a9d0ec23cac8b8c6f86c18d4b36c79e60dd2aadb3e"
     }
   ]
 }

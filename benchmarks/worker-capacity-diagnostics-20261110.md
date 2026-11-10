@@ -40,13 +40,17 @@ This separate profile fixes three workers, fast join 64, 640 singleton permits, 
 | 256 | No filter / no payload | 1,476.26 | 170.85 | 226.11 | 247.04 | 44,442 | 0 |
 | 384 | No filter / no payload | 1,710.79 | 215.20 | 342.85 | 391.24 | 51,553 | 0 |
 | 512 | No filter / no payload | 2,025.96 | 246.60 | 378.96 | 418.24 | 61,089 | 0 |
+| 640 | No filter / no payload | 1,965.23 | 317.84 | 489.15 | 551.94 | 59,489 | 0 |
 | 256 | Active filter (~90%) + payload | 1,463.60 | 174.11 | 241.68 | 263.86 | 44,065 | 0 |
 | 384 | Active filter (~90%) + payload | 1,595.19 | 236.41 | 351.79 | 401.22 | 48,122 | 0 |
 | 512 | Active filter (~90%) + payload | 1,695.61 | 287.75 | 461.62 | 525.85 | 51,235 | 0 |
+| 640 | Active filter (~90%) + payload | 1,784.52 | 345.18 | 538.88 | 638.20 | 53,986 | 0 |
 
-At C512, active filter + payload reaches 83.7% of unfiltered throughput, with p99 525.85 versus 418.24 ms. This point does not demonstrate 90% parity. Higher concurrency raises throughput here but also raises latency.
+At C512, active filter + payload reaches 83.7% of unfiltered throughput, with p99 525.85 versus 418.24 ms. This point does not demonstrate 90% parity. Higher concurrency also raises latency; throughput is not monotonic.
 
 The [separate capacity client](../reproduce/cmd/bench-matrix-capacity/README.md) preserves the old C160 client for historical runs. Its source, build context and validation are documented independently.
+
+At C640, no-filter throughput is 1,965.23 RPS with p99 551.94 ms; active filter + payload is 1,784.52 RPS with p99 638.20 ms. No-filter throughput falls relative to C512, while latency increases in both categories. This is evidence of a plateau in these tested points, not a proof of the engine's absolute maximum. Further concurrency expansion was stopped in favor of CPU profiling; any profiled timing will be kept separate.
 
 ## Paired worker comparison at B1/C384
 
@@ -69,7 +73,7 @@ Active filter + payload: worker 2 versus worker 3 changes observed throughput by
 
 Each campaign uses one COW set across its arms; host page cache is not reset and arm order is fixed. Host/VM I/O variability limits causal comparisons. These short cells do not establish long-run stability, maximum capacity, write/failover acceptance or performance of TQ2/TQ4/AVX-only/other operators. Native results are not rerun here. Payload-only and narrow-filter categories remain available in the complete matrix rather than being inferred from these two categories.
 
-All 18 rows passed, with 772,970 timed HTTP requests matching saved FP32 truth and zero failures/fallback/HNSW calls. Originals were restored healthy after each campaign, immutable lower metadata matched, and cleanup passed.
+All 20 rows passed, with 886,445 timed HTTP requests matching saved FP32 truth and zero failures/fallback/HNSW calls. Originals were restored healthy after each campaign, immutable lower metadata matched, and cleanup passed.
 
 Engine source commit: `0aa62c281b7262368ca6f1ed69de71647be10ac0`. ELF SHA-256: `074f45b364a8e80da3fb9307d637812072fd755f56b91aeb8bdd4bf92b1ba60d`. This measured candidate is distinct from the downloadable V45.1 binary; engine source remains private.
 
@@ -81,5 +85,6 @@ Machine-readable data: [JSON](worker-capacity-diagnostics-20261110.json), [CSV](
 | Fast join 32 | `worker-scaling-fastjoin32-diagnostic-20261110-20261110t143034z` | `4f12887f8f0238b150a59178f0d4ca5c1a94fd62a6ede14fe0759e964fe0a287` |
 | Capacity profile | `worker-scaling-capacity-diagnostic-20261110-20261110t150029z` | `bacfd291267594c21b23515f37dc82ac25ac1276009a1b42910c1c1c8baf7cc8` |
 | Paired workers | `worker-scaling-highload-paired-20261110-20261110t151235z` | `2f146bfeac4ac04313d7bb3f0ff7f39ccabb43361a3ef52bdfcc5def270f2fd5` |
+| Capacity profile | `worker-scaling-capacity-c640-20261110-20261110t152443z` | `0ac5c0640090a2849c3f823cf3a6c117bdd7c9127adc73969bc4065424ee77ef` |
 
 ![SQ8 worker-count, ring-fill and capacity diagnostics. Each point is one short run; the two admission profiles are separate experiments.](../assets/worker-capacity-diagnostics-20261110.svg)
