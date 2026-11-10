@@ -1,0 +1,217 @@
+{
+  "schema": "sq8_cpu_leaf_profile_summary_v1",
+  "measurement_scope": "CPU_PROFILE_ONLY",
+  "claim_limit": "Period-weighted user-mode sampled IP shares, not request latency, exact CPU time, memory bandwidth or stall-cycle attribution.",
+  "source_commit": "0aa62c281b7262368ca6f1ed69de71647be10ac0",
+  "engine_elf_sha256": "074f45b364a8e80da3fb9307d637812072fd755f56b91aeb8bdd4bf92b1ba60d",
+  "campaign_receipt_sha256": "41b52ea52273732e6de17bc5c2b967c810410a75820cb0512511f1ad143fc6ef",
+  "sampler_sha256": "a16c69b26328d407426e28cb0ff3714009b24c6eb4b7b54a077f23a30a224721",
+  "curator_sha256": "b2cbc2cc4808a4fcfadd13081d1c1487be27ea17755ae1f3917cb30593f8ac42",
+  "contract": {
+    "points": 3000000,
+    "dimensions": 512,
+    "format": "SQ8",
+    "nodes": 3,
+    "shared_cpus_per_node": 3,
+    "per_thread_affinity": false,
+    "max_ring_workers": 3,
+    "batch_size": 1,
+    "concurrency": 384,
+    "topk": 10,
+    "saved_f32_queries_per_category": 1024,
+    "event": "cpu-clock:u",
+    "requested_hz": 199,
+    "record_seconds": 10,
+    "sample_weight": "recorded event period (nanoseconds)",
+    "callchains": false,
+    "native_comparison": false,
+    "performance_table_eligible": false
+  },
+  "validation": {
+    "profiled_rows_accepted": 2,
+    "f32_accuracy_cells_passed": 2,
+    "timed_responses_f32_exact": 98219,
+    "failed_http_requests": 0,
+    "fallback_calls": 0,
+    "hnsw_calls": 0,
+    "originals_restored": true,
+    "immutable_lower_metadata_unchanged": true,
+    "cleanup_errors": []
+  },
+  "rows": [
+    {
+      "category": "unfiltered_no_payload",
+      "node": 0,
+      "all_samples": 4665,
+      "ring_samples": 2909,
+      "resolved_ring_fraction": 0.9632176005500172,
+      "total_sampled_period_ns": 23442208125,
+      "thread_group_period_ns": {
+        "scan_ring": 14618088625,
+        "async_runtime": 5175878750,
+        "topk_support": 2678391625,
+        "general_workers": 723618000,
+        "payload_completion": 246231125
+      },
+      "thread_group_share_pct": {
+        "scan_ring": 62.357984994640944,
+        "async_runtime": 22.079314040728832,
+        "topk_support": 11.42550911039657,
+        "general_workers": 3.0868167202572345,
+        "payload_completion": 1.0503751339764202
+      },
+      "ring_stage_period_ns": {
+        "sq8_amx_scoring_core": 10085425875,
+        "hardware_usage_accounting": 748743625,
+        "ring_and_other": 1894472125,
+        "score_pruning_and_copy": 1185929500,
+        "score_conversion": 703517500
+      },
+      "ring_stage_share_pct": {
+        "sq8_amx_scoring_core": 68.99278102440701,
+        "hardware_usage_accounting": 5.122035063595738,
+        "ring_and_other": 12.959779993124783,
+        "score_pruning_and_copy": 8.11275352354761,
+        "score_conversion": 4.812650395324853
+      },
+      "private_raw_perf_sha256": "c4ec43386c250dff8a0c9fe32ab457cc312e3173c890aa0a8c567e2e0d3e6354",
+      "private_period_samples_sha256": "d60e961563aab4e0292e17eff4995cf2f3ca412234d9f2c238120a6008701a81",
+      "target_library_sha256": {
+        "libc.so.6": "de259f5276c4a991f78bf87225d6b40e56edbffe0dcbc0ffca36ec7fe30f3f77",
+        "libm.so.6": "3c24a53ee35c2ce0c67240e62bff699c4bddcd7cf8993d5d7ad29157ba072c99",
+        "libgcc_s.so.1": "02f3f192bf5f79b811f1e34a650fea443d407408703448906585232383957f60",
+        "ld-linux-x86-64.so.2": "4f961aefd1ecbc91b6de5980623aa389ca56e8bfb5f2a1d2a0b94b54b0fde894"
+      }
+    },
+    {
+      "category": "unfiltered_no_payload",
+      "node": 1,
+      "all_samples": 4722,
+      "ring_samples": 3697,
+      "resolved_ring_fraction": 0.9632134162834731,
+      "total_sampled_period_ns": 23728640250,
+      "thread_group_period_ns": {
+        "scan_ring": 18577887125,
+        "general_workers": 1447236000,
+        "topk_support": 3311557375,
+        "payload_completion": 391959750
+      },
+      "thread_group_share_pct": {
+        "scan_ring": 78.29309614570097,
+        "general_workers": 6.099110546378653,
+        "topk_support": 13.955950868276155,
+        "payload_completion": 1.6518424396442184
+      },
+      "ring_stage_period_ns": {
+        "sq8_amx_scoring_core": 13276380250,
+        "ring_and_other": 2346733375,
+        "score_pruning_and_copy": 1190954625,
+        "score_conversion": 1035175750,
+        "hardware_usage_accounting": 728643125
+      },
+      "ring_stage_share_pct": {
+        "sq8_amx_scoring_core": 71.46334866107655,
+        "ring_and_other": 12.631863673248581,
+        "score_pruning_and_copy": 6.410603191777117,
+        "score_conversion": 5.572085474709223,
+        "hardware_usage_accounting": 3.9220989991885316
+      },
+      "private_raw_perf_sha256": "83522e9a322df4d3b3836350069c2e4227e0d0ee319eb6a879fd211669480825",
+      "private_period_samples_sha256": "1a99201a546df63289f637db7acc36dcd81e9fe906d45dec53ef8cbd184154c7",
+      "target_library_sha256": {
+        "libc.so.6": "de259f5276c4a991f78bf87225d6b40e56edbffe0dcbc0ffca36ec7fe30f3f77",
+        "libm.so.6": "3c24a53ee35c2ce0c67240e62bff699c4bddcd7cf8993d5d7ad29157ba072c99",
+        "libgcc_s.so.1": "02f3f192bf5f79b811f1e34a650fea443d407408703448906585232383957f60",
+        "ld-linux-x86-64.so.2": "4f961aefd1ecbc91b6de5980623aa389ca56e8bfb5f2a1d2a0b94b54b0fde894"
+      }
+    },
+    {
+      "category": "active_only",
+      "node": 0,
+      "all_samples": 4581,
+      "ring_samples": 2583,
+      "resolved_ring_fraction": 0.9589624467673248,
+      "total_sampled_period_ns": 23020097625,
+      "thread_group_period_ns": {
+        "scan_ring": 12979897875,
+        "async_runtime": 6135677625,
+        "topk_support": 2708542375,
+        "general_workers": 773869250,
+        "payload_completion": 422110500
+      },
+      "thread_group_share_pct": {
+        "scan_ring": 56.385068762278976,
+        "async_runtime": 26.653569089718403,
+        "topk_support": 11.76598995852434,
+        "general_workers": 3.36171141672124,
+        "payload_completion": 1.8336607727570402
+      },
+      "ring_stage_period_ns": {
+        "sq8_amx_scoring_core": 8783918500,
+        "hardware_usage_accounting": 577889375,
+        "score_conversion": 567839125,
+        "score_pruning_and_copy": 1150753625,
+        "ring_and_other": 1899497250
+      },
+      "ring_stage_share_pct": {
+        "sq8_amx_scoring_core": 67.67324816105304,
+        "hardware_usage_accounting": 4.452187379016647,
+        "score_conversion": 4.3747580332946185,
+        "score_pruning_and_copy": 8.86566008517228,
+        "ring_and_other": 14.634146341463413
+      },
+      "private_raw_perf_sha256": "7c35e88582b5566beaed56137f88dffe0f1e2d50bd84675ca67c7cd149bfe351",
+      "private_period_samples_sha256": "6dd35a548cec02318e727a744b14e527e69a37b1da568780d5c7d66c944f4213",
+      "target_library_sha256": {
+        "libc.so.6": "de259f5276c4a991f78bf87225d6b40e56edbffe0dcbc0ffca36ec7fe30f3f77",
+        "libm.so.6": "3c24a53ee35c2ce0c67240e62bff699c4bddcd7cf8993d5d7ad29157ba072c99",
+        "libgcc_s.so.1": "02f3f192bf5f79b811f1e34a650fea443d407408703448906585232383957f60",
+        "ld-linux-x86-64.so.2": "4f961aefd1ecbc91b6de5980623aa389ca56e8bfb5f2a1d2a0b94b54b0fde894"
+      }
+    },
+    {
+      "category": "active_only",
+      "node": 1,
+      "all_samples": 4673,
+      "ring_samples": 3597,
+      "resolved_ring_fraction": 0.965526827912149,
+      "total_sampled_period_ns": 23482409125,
+      "thread_group_period_ns": {
+        "scan_ring": 18075374625,
+        "topk_support": 2969848875,
+        "general_workers": 1924622875,
+        "payload_completion": 477386875,
+        "other": 35175875
+      },
+      "thread_group_share_pct": {
+        "scan_ring": 76.97410656965546,
+        "topk_support": 12.647121763321206,
+        "general_workers": 8.196019687566872,
+        "payload_completion": 2.0329552749839506,
+        "other": 0.1497967044725016
+      },
+      "ring_stage_period_ns": {
+        "sq8_amx_scoring_core": 12809043625,
+        "hardware_usage_accounting": 653266250,
+        "ring_and_other": 2512562500,
+        "score_conversion": 959798875,
+        "score_pruning_and_copy": 1140703375
+      },
+      "ring_stage_share_pct": {
+        "sq8_amx_scoring_core": 70.86460939671949,
+        "hardware_usage_accounting": 3.6141228801779257,
+        "ring_and_other": 13.900472616068946,
+        "score_conversion": 5.309980539338337,
+        "score_pruning_and_copy": 6.310814567695301
+      },
+      "private_raw_perf_sha256": "658179a2f39eaf94265b5239ec92c0ba9fd7d5e8197d4b59e4db8965b44da9d1",
+      "private_period_samples_sha256": "c028e6f730e4bf5c48eba2aee865b1480b95098db33ca898c35b3740a5f479c9",
+      "target_library_sha256": {
+        "libc.so.6": "de259f5276c4a991f78bf87225d6b40e56edbffe0dcbc0ffca36ec7fe30f3f77",
+        "libm.so.6": "3c24a53ee35c2ce0c67240e62bff699c4bddcd7cf8993d5d7ad29157ba072c99",
+        "libgcc_s.so.1": "02f3f192bf5f79b811f1e34a650fea443d407408703448906585232383957f60",
+        "ld-linux-x86-64.so.2": "4f961aefd1ecbc91b6de5980623aa389ca56e8bfb5f2a1d2a0b94b54b0fde894"
+      }
+    }
+  ]
+}

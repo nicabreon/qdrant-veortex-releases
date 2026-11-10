@@ -71,6 +71,8 @@ Active filter + payload: worker 2 versus worker 3 changes observed throughput by
 
 5,000 HTTP RPS B1 is an exploratory target, not an achieved result. At C128 it would require mean latency no higher than 25.6 ms. At the measured three-worker fast-join-64 means (~99/108 ms), it would require roughly 494/538 concurrent requests if latency stayed unchanged. Higher concurrency can also raise latency and contention; this arithmetic is not a throughput forecast.
 
+At the observed unfiltered C512 peak (2,025.96 HTTP RPS), whole-process CPU observations sum to about 8.56 CPU equivalents across the cluster, or approximately 4.22 CPU-ms per completed query. A 5,000-RPS target under the fixed nine-CPU cluster quota permits at most 1.80 CPU-ms/query. That would require roughly a 57% reduction from this observed CPU cost; increasing admission alone does not provide it. The CPU observation window includes client warmups, so this is a workload-efficiency estimate, not a hardware cycle bound. It does not establish physical-core isolation or memory-bandwidth saturation.
+
 Each campaign uses one COW set across its arms; host page cache is not reset and arm order is fixed. Host/VM I/O variability limits causal comparisons. These short cells do not establish long-run stability, maximum capacity, write/failover acceptance or performance of TQ2/TQ4/AVX-only/other operators. Native results are not rerun here. Payload-only and narrow-filter categories remain available in the complete matrix rather than being inferred from these two categories.
 
 All 20 rows passed, with 886,445 timed HTTP requests matching saved FP32 truth and zero failures/fallback/HNSW calls. Originals were restored healthy after each campaign, immutable lower metadata matched, and cleanup passed.
