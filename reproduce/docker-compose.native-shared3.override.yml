@@ -1,0 +1,21 @@
+# Append to docker-compose.native120.yml. The base provides disjoint CPU sets
+# and a 3-vCPU quota; this removes the singleton search-affinity environment.
+services:
+  node0:
+    environment: !override
+      LD_PRELOAD: ""
+      SSL_CERT_FILE: /etc/ssl/certs/ca-certificates.crt
+      QDRANT__STORAGE__PERFORMANCE__MAX_SEARCH_THREADS: "3"
+      RAYON_NUM_THREADS: "3"
+  node1:
+    environment: !override
+      LD_PRELOAD: ""
+      SSL_CERT_FILE: /etc/ssl/certs/ca-certificates.crt
+      QDRANT__STORAGE__PERFORMANCE__MAX_SEARCH_THREADS: "3"
+      RAYON_NUM_THREADS: "3"
+  node2:
+    environment: !override
+      LD_PRELOAD: ""
+      SSL_CERT_FILE: /etc/ssl/certs/ca-certificates.crt
+      QDRANT__STORAGE__PERFORMANCE__MAX_SEARCH_THREADS: "3"
+      RAYON_NUM_THREADS: "3"

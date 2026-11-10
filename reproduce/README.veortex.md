@@ -155,3 +155,50 @@ stay the same. No engine rebuild is needed. This compares backend paths:
 their tiling and score epilogues also differ, so it is not an isolated
 instruction-throughput experiment. A regenerated fixture still needs its own
 FP32 correctness validation.
+
+## Revision note — 10 November 2026 (WIB): shared three-CPU profile
+
+This is a separate experiment from the retained one-compute/two-support profiles
+above. Each node keeps its disjoint three-CPU Docker cpuset and quota, while all
+search and service threads share those CPUs. Native has `max_search_threads=3`
+and no active preload shim. Veortex has three unpinned ring slots,
+`SEPARATE_TOPK=0`, and no `COMPUTE_CPUS` or `SUPPORT_CPUS` environment keys.
+Both use `RAYON_NUM_THREADS=3`. Three ring slots permit concurrency; they do not
+guarantee that every workload activates three workers or saturates all CPUs.
+
+For native, append `docker-compose.native-shared3.override.yml` to the native
+base. For Veortex, append `docker-compose.veortex-shared3.override.yml` after
+the native base and admission-budget override. The latter requires V45.1 and
+uses a 2 GiB retained-query reservation cap to accommodate B128/C4. This is a
+cap, not an eager 2 GiB allocation. Choose `avx512vnni` or `auto` before startup.
+The environment is replaced so the old CPU-map keys are removed entirely;
+empty values would be invalid.
+
+```sh
+# Native: set QDRANT_BINARY_PATH in the local env file to the official binary.
+docker compose --env-file reproduce/.env \
+  -f reproduce/docker-compose.native120.yml \
+  -f reproduce/docker-compose.native-shared3.override.yml up -d --wait
+
+# Veortex: stop native first and point QDRANT_BINARY_PATH at V45.1.
+export QDRANT_VEORTEX_KERNEL_TIER=avx512vnni
+docker compose --env-file reproduce/.env \
+  -f reproduce/docker-compose.native120.yml \
+  -f reproduce/docker-compose.admission-budget.override.yml \
+  -f reproduce/docker-compose.veortex-shared3.override.yml up -d --wait
+```
+
+Keep fixture, metadata, indexes, query manifests, Top10 truth, and the three-CPU
+budget identical. Run B1 with C64/C128, then B64/C4 and B128/C4 with the common
+Go client. Its added B128 option changes only the benchmark client; neither
+engine needs rebuilding. Use a new output directory for each engine/tier and
+cell, 16 validated warmup requests, 60 seconds of dispatch, and a 60-second
+request timeout. Report successful HTTP requests/s and query/s separately;
+every query in a batch still returns Top10.
+
+Capture full per-thread CPU masks, positive runtime, whole-process CPU usage,
+and per-node kernel counters while the load runs. There must be no mask narrowed
+to a reserved compute/support CPU. Native's available SIMD paths do not prove
+the ISA selected on each request. This shared-budget comparison addresses the
+old CPU-allocation difference; it still compares full systems with different
+compiler builds rather than isolating a kernel instruction's speed.

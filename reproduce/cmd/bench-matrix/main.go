@@ -252,7 +252,7 @@ func main() {
 	mode := flag.String("mode", "closed-loop", "closed-loop only")
 	concurrency := flag.Int("concurrency", 1, "closed-loop worker count (1..160)")
 	maxIn := flag.Int("max-inflight", 0, "maximum in-flight requests (defaults to concurrency; 1..160)")
-	batch := flag.Int("batch-size", 1, "searches per HTTP request: 1, 4, 16, 32, or 64")
+	batch := flag.Int("batch-size", 1, "searches per HTTP request: 1, 4, 16, 32, 64, or 128")
 	seconds := flag.Float64("seconds", 60, "measured dispatch window in seconds")
 	gomax := flag.Int("gomaxprocs", 7, "Go scheduler parallelism")
 	warmup := flag.Int("warmup-requests", 16, "successful full-response requests excluded from timing")
@@ -275,7 +275,7 @@ func main() {
 		fatalf("--mode must be closed-loop")
 	}
 	if !validBatch(*batch) {
-		fatalf("--batch-size must be one of 1, 4, 16, 32, or 64")
+		fatalf("--batch-size must be one of 1, 4, 16, 32, 64, or 128")
 	}
 	if *concurrency < 1 || *concurrency > maxInflight {
 		fatalf("--concurrency must be in 1..%d", maxInflight)
@@ -379,7 +379,7 @@ func main() {
 	}
 }
 
-func validBatch(b int) bool { return b == 1 || b == 4 || b == 16 || b == 32 || b == 64 }
+func validBatch(b int) bool { return b == 1 || b == 4 || b == 16 || b == 32 || b == 64 || b == 128 }
 
 func newReport(cfg config, started time.Time, requestEndpoint string) report {
 	return report{Schema: resultSchema, Status: "RUNNING", StartedUTC: started.Format(time.RFC3339Nano),

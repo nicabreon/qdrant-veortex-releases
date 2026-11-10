@@ -14,6 +14,16 @@ Read the [chart guide, data and reproduction commands](benchmarks/CHARTS.md), or
 
 A separate [same-binary AVX-512 versus AMX follow-up](benchmarks/sq8-avx512-vs-amx-20261110.md) keeps the ring active and disables AMX. At SQ8 B1/C128, no filter/no payload measured **245.18 HTTP RPS with AVX-512 VNNI**, versus **898.94 with AMX-eligible Auto**. All eight filter/payload cells passed, with zero failed requests and ordered Top10 matching FP32. This V45.1 follow-up uses the same 640 MiB queue budget in both arms; it does not replace the earlier V45 matrix.
 
+### Revision note — 10 November 2026 (WIB): CPU fairness
+
+The original measurements and sections below are retained. **Equal container quota did not mean equal CPU allocation within the search pipeline.** The published native profile set `max_search_threads=1` and used an external preload to pin native search workers, including scan, TopK, and FP32 rescoring, to one CPU. Its other two CPUs handled service work. Veortex used one CPU for scan/score and the other two for TopK, rescoring, and payload completion. This allocation difference is also identified in [Qdrant's tracking issue #11462](https://github.com/qdrant/qdrant/issues/11462). The historical speedups include that scheduling difference; disabling AMX alone does not remove it.
+
+A new comparison is being measured with **all three CPUs shared by search and service work on each node**, no per-thread affinity, and disjoint Docker CPU sets. Native uses three search threads; Veortex allows three unpinned ring workers and disables the dedicated 1+2 split. The requested cells are B1/C64, B1/C128, B64/C4, and B128/C4. Native, Veortex AVX-512, and Veortex Auto are measured afresh. No result from that pending campaign is claimed here yet. See the [shared-CPU reproduction profiles](reproduce/README.veortex.md#revision-note--10-november-2026-wib-shared-three-cpu-profile).
+
+**Live report:** [shared three-CPU results](benchmarks/shared3-live-20261110.md), with [JSON evidence](benchmarks/shared3-live-20261110.json) and [CSV](benchmarks/shared3-live-20261110.csv), is updated after each recorded measurement. The report distinguishes accepted rows, rejected rows, and incomplete cleanup; it does not replace the historical tables below.
+
+**Next requested stage:** compare 1, 2, and 3 local shards per node (3, 6, and 9 physical shards in the cluster), keeping total vector count and the same shared three-CPU limit per node. Dataset preparation and actual shard placement must be verified before publishing that comparison.
+
 ## Download the research binary
 
 The [V45.1 admission-budget release](https://github.com/nicabreon/qdrant-veortex-releases/releases/tag/v1.20.0-veortex.v45.1.20261109) adds an opt-in queue-byte ceiling of **2 GiB**, with the default still **384 MiB**. Its tested B64/C4 profile uses **640 MiB** and completed all four categories without HTTP 429s. It requires the [new environment example](configs/admission-budget-node0.env.example). Its executable SHA-256 is `90d54aeabbaa17350b94161f6a7926528b13452b0b50296f0bc45fc0e96969e0`; see the [manifest](releases/admission-budget-20261109-manifest.json).
