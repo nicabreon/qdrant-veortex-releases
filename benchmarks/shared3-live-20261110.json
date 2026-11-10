@@ -2,9 +2,9 @@
   "schema": "shared_three_cpu_live_progress_v1",
   "campaign": "shared3cpu-20261110t021202z",
   "status": "TIMING",
-  "recorded_rows": 47,
+  "recorded_rows": 48,
   "expected_rows": 48,
-  "receipt_sha256": "ba4974bbd4084e7b862c75a2ed067a1554aedd4f1e03e61e74faeeda86040bcf",
+  "receipt_sha256": "1370c18920579dfa0f1413306b7aa97c0ddf6e8d89fd3b031ed0b6f32abe787c",
   "contract": {
     "points": 3000000,
     "dimension": 512,
@@ -5772,6 +5772,161 @@
             },
             "informative_measurements": {
               "amx_calls": 3662209
+            }
+          }
+        ],
+        "errors": []
+      }
+    },
+    {
+      "backend": "auto",
+      "category": "active_position_exclude",
+      "batch_size": 128,
+      "concurrency": 4,
+      "ordinal": 48,
+      "http_rps": 23.90229370678558,
+      "query_qps": 3059.4935944685544,
+      "p50_ms": 166.67847999999998,
+      "p95_ms": 207.956122,
+      "p99_ms": 227.748117,
+      "successful_requests": 1437,
+      "failed_requests": 0,
+      "dispatched_queries": 183936,
+      "exact_query_truth_matches": 183936,
+      "http_429_count": 0,
+      "elapsed_s": 60.11975326,
+      "measurement_accepted": true,
+      "cpu_status": "PASSED",
+      "cpu_violations": 0,
+      "client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "manifest_sha256": "d86cc5b67b9362a9bcf2cf92213a45a1f1e4754da1e831f0a681b9696355648f",
+      "backend_valid": true,
+      "cpu_by_node": [
+        {
+          "node": 0,
+          "allowed_cpus": [
+            4,
+            5,
+            6
+          ],
+          "active_named_workers": 6,
+          "whole_process_cpu_equivalents": 2.9236106580463206
+        },
+        {
+          "node": 1,
+          "allowed_cpus": [
+            7,
+            8,
+            9
+          ],
+          "active_named_workers": 6,
+          "whole_process_cpu_equivalents": 2.520759159169913
+        },
+        {
+          "node": 2,
+          "allowed_cpus": [
+            10,
+            11,
+            12
+          ],
+          "active_named_workers": 6,
+          "whole_process_cpu_equivalents": 2.6361584898508497
+        }
+      ],
+      "route_metric_delta": {
+        "schema": "h2h_sq8_route_counter_delta_v1",
+        "status": "PASSED",
+        "scope": "Process-global Prometheus counters bracket one timed row on each node",
+        "zero_required": [
+          "batch4_vectors",
+          "hnsw_build_calls",
+          "hnsw_search_calls",
+          "ring_fallback_queries"
+        ],
+        "positive_required": [
+          "query_vector_dots",
+          "gallery_blocks_decoded"
+        ],
+        "informative_only": [
+          "amx_calls"
+        ],
+        "nodes": [
+          {
+            "node": 0,
+            "deltas": {
+              "amx_calls": 4088742,
+              "query_vector_dots": 16738560000,
+              "gallery_blocks_decoded": 2092320000,
+              "batch4_vectors": 0,
+              "ring_fallback_queries": 0,
+              "hnsw_build_calls": 0,
+              "hnsw_search_calls": 0,
+              "avx512vnni_calls": 0
+            },
+            "zero_route_checks": {
+              "batch4_vectors": true,
+              "hnsw_build_calls": true,
+              "hnsw_search_calls": true,
+              "ring_fallback_queries": true
+            },
+            "positive_work_checks": {
+              "query_vector_dots": true,
+              "gallery_blocks_decoded": true
+            },
+            "informative_measurements": {
+              "amx_calls": 4088742
+            }
+          },
+          {
+            "node": 1,
+            "deltas": {
+              "amx_calls": 4088742,
+              "query_vector_dots": 16738560000,
+              "gallery_blocks_decoded": 2092320000,
+              "batch4_vectors": 0,
+              "ring_fallback_queries": 0,
+              "hnsw_build_calls": 0,
+              "hnsw_search_calls": 0,
+              "avx512vnni_calls": 0
+            },
+            "zero_route_checks": {
+              "batch4_vectors": true,
+              "hnsw_build_calls": true,
+              "hnsw_search_calls": true,
+              "ring_fallback_queries": true
+            },
+            "positive_work_checks": {
+              "query_vector_dots": true,
+              "gallery_blocks_decoded": true
+            },
+            "informative_measurements": {
+              "amx_calls": 4088742
+            }
+          },
+          {
+            "node": 2,
+            "deltas": {
+              "amx_calls": 4088742,
+              "query_vector_dots": 16738374016,
+              "gallery_blocks_decoded": 2092296752,
+              "batch4_vectors": 0,
+              "ring_fallback_queries": 0,
+              "hnsw_build_calls": 0,
+              "hnsw_search_calls": 0,
+              "avx512vnni_calls": 0
+            },
+            "zero_route_checks": {
+              "batch4_vectors": true,
+              "hnsw_build_calls": true,
+              "hnsw_search_calls": true,
+              "ring_fallback_queries": true
+            },
+            "positive_work_checks": {
+              "query_vector_dots": true,
+              "gallery_blocks_decoded": true
+            },
+            "informative_measurements": {
+              "amx_calls": 4088742
             }
           }
         ],
