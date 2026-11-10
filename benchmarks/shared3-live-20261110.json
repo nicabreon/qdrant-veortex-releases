@@ -2,9 +2,9 @@
   "schema": "shared_three_cpu_live_progress_v1",
   "campaign": "shared3cpu-20261110t021202z",
   "status": "TIMING",
-  "recorded_rows": 45,
+  "recorded_rows": 46,
   "expected_rows": 48,
-  "receipt_sha256": "aef3ee15c969f435608aa3c2df446230b6eddec492fd7f98c5f737e040502212",
+  "receipt_sha256": "a6365e5aa9d876791ea86ff58a742c478a2a79bae808118e7b23b14de8d2a3b7",
   "contract": {
     "points": 3000000,
     "dimension": 512,
@@ -5462,6 +5462,161 @@
             },
             "informative_measurements": {
               "amx_calls": 2144437
+            }
+          }
+        ],
+        "errors": []
+      }
+    },
+    {
+      "backend": "auto",
+      "category": "active_position_exclude",
+      "batch_size": 1,
+      "concurrency": 128,
+      "ordinal": 46,
+      "http_rps": 2230.9925974399475,
+      "query_qps": 2230.9925974399475,
+      "p50_ms": 57.883929,
+      "p95_ms": 78.260328,
+      "p99_ms": 86.84170900000001,
+      "successful_requests": 133933,
+      "failed_requests": 0,
+      "dispatched_queries": 133933,
+      "exact_query_truth_matches": 133933,
+      "http_429_count": 0,
+      "elapsed_s": 60.032919945,
+      "measurement_accepted": true,
+      "cpu_status": "PASSED",
+      "cpu_violations": 0,
+      "client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "manifest_sha256": "d86cc5b67b9362a9bcf2cf92213a45a1f1e4754da1e831f0a681b9696355648f",
+      "backend_valid": true,
+      "cpu_by_node": [
+        {
+          "node": 0,
+          "allowed_cpus": [
+            4,
+            5,
+            6
+          ],
+          "active_named_workers": 27,
+          "whole_process_cpu_equivalents": 2.4720520644121042
+        },
+        {
+          "node": 1,
+          "allowed_cpus": [
+            7,
+            8,
+            9
+          ],
+          "active_named_workers": 7,
+          "whole_process_cpu_equivalents": 1.8904309392986676
+        },
+        {
+          "node": 2,
+          "allowed_cpus": [
+            10,
+            11,
+            12
+          ],
+          "active_named_workers": 6,
+          "whole_process_cpu_equivalents": 1.9019530095785375
+        }
+      ],
+      "route_metric_delta": {
+        "schema": "h2h_sq8_route_counter_delta_v1",
+        "status": "PASSED",
+        "scope": "Process-global Prometheus counters bracket one timed row on each node",
+        "zero_required": [
+          "batch4_vectors",
+          "hnsw_build_calls",
+          "hnsw_search_calls",
+          "ring_fallback_queries"
+        ],
+        "positive_required": [
+          "query_vector_dots",
+          "gallery_blocks_decoded"
+        ],
+        "informative_only": [
+          "amx_calls"
+        ],
+        "nodes": [
+          {
+            "node": 0,
+            "deltas": {
+              "amx_calls": 4467611,
+              "query_vector_dots": 12055410000,
+              "gallery_blocks_decoded": 2293952640,
+              "batch4_vectors": 0,
+              "ring_fallback_queries": 0,
+              "hnsw_build_calls": 0,
+              "hnsw_search_calls": 0,
+              "avx512vnni_calls": 572968
+            },
+            "zero_route_checks": {
+              "batch4_vectors": true,
+              "hnsw_build_calls": true,
+              "hnsw_search_calls": true,
+              "ring_fallback_queries": true
+            },
+            "positive_work_checks": {
+              "query_vector_dots": true,
+              "gallery_blocks_decoded": true
+            },
+            "informative_measurements": {
+              "amx_calls": 4467611
+            }
+          },
+          {
+            "node": 1,
+            "deltas": {
+              "amx_calls": 4081218,
+              "query_vector_dots": 12055410000,
+              "gallery_blocks_decoded": 2141260480,
+              "batch4_vectors": 0,
+              "ring_fallback_queries": 0,
+              "hnsw_build_calls": 0,
+              "hnsw_search_calls": 0,
+              "avx512vnni_calls": 569916
+            },
+            "zero_route_checks": {
+              "batch4_vectors": true,
+              "hnsw_build_calls": true,
+              "hnsw_search_calls": true,
+              "ring_fallback_queries": true
+            },
+            "positive_work_checks": {
+              "query_vector_dots": true,
+              "gallery_blocks_decoded": true
+            },
+            "informative_measurements": {
+              "amx_calls": 4081218
+            }
+          },
+          {
+            "node": 2,
+            "deltas": {
+              "amx_calls": 4053807,
+              "query_vector_dots": 12055276051,
+              "gallery_blocks_decoded": 2139141856,
+              "batch4_vectors": 0,
+              "ring_fallback_queries": 0,
+              "hnsw_build_calls": 0,
+              "hnsw_search_calls": 0,
+              "avx512vnni_calls": 579788
+            },
+            "zero_route_checks": {
+              "batch4_vectors": true,
+              "hnsw_build_calls": true,
+              "hnsw_search_calls": true,
+              "ring_fallback_queries": true
+            },
+            "positive_work_checks": {
+              "query_vector_dots": true,
+              "gallery_blocks_decoded": true
+            },
+            "informative_measurements": {
+              "amx_calls": 4053807
             }
           }
         ],
