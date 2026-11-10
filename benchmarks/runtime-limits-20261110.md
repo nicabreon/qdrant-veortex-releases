@@ -2,7 +2,7 @@
 
 Revision date: 10 November 2026. Native values are explicitly earlier-run H0 references; this campaign measured only Veortex AVX-512 VNNI and Auto.
 
-**Curation state:** PROVISIONAL — RESTORATION PENDING. Campaign `runtime-limits-fullmatrix-20261110t110031z` status `TIMING`. Fresh measurements: 14/14 accepted; 0 rejected; 18 expected cells not recorded. Historical native reference cells: 16 (not new tests).
+**Curation state:** PROVISIONAL — RESTORATION PENDING. Campaign `runtime-limits-fullmatrix-20261110t110031z` status `TIMING`. Fresh measurements: 15/15 accepted; 0 rejected; 17 expected cells not recorded. Historical native reference cells: 16 (not new tests).
 
 Candidate source `0aa62c281b7262368ca6f1ed69de71647be10ac0`, ELF `074f45b364a8e80da3fb9307d637812072fd755f56b91aeb8bdd4bf92b1ba60d`, common Go client `5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0`. The candidate passed the frozen focused collection and quantization build-test selection. Exact source-module checks cover 22 cases; this is not a full workspace test claim. The user explicitly selected `SEPARATE_TOPK=1`, retaining separate TopK and deferred payload-materialization worker stages under the shared process CPU mask. This is not a same-ELF A/B result; the earlier `63e9…` A/B ELF is a different binary.
 
@@ -64,6 +64,7 @@ The tables contain only accepted rows. Measurement acceptance means correctness,
 | B1 / C128 | Qdrant native 1.20 — earlier three-CPU run, not rerun | 120.32 / 120.32 / 1057.46 / 1261.05 / 1473.20 / 60.98 | 7337 / 0 | 7337 / 0 | 7337 | 0 / 0 / 0 / 0 |
 | B1 / C128 | Veortex AVX-512 VNNI (AMX disabled) | 1720.58 / 1720.58 / 74.97 / 97.94 / 107.50 / 60.05 | 103329 / 0 | 103329 / 0 | 103329 | 0 / 0 / 0 / 0 |
 | B64 / C4 | Qdrant native 1.20 — earlier three-CPU run, not rerun | 14.21 / 909.52 / 281.15 / 346.82 / 386.55 / 60.23 | 856 / 0 | 54784 / 0 | 54784 | 0 / 0 / 0 / 0 |
+| B64 / C4 | Veortex AVX-512 VNNI (AMX disabled) | 34.27 / 2193.04 / 115.87 / 137.37 / 146.61 / 60.12 | 2060 / 0 | 131840 / 0 | 131840 | 0 / 0 / 0 / 0 |
 | B128 / C4 | Qdrant native 1.20 — earlier three-CPU run, not rerun | 7.06 / 903.89 / 565.16 / 685.52 / 733.47 / 60.47 | 427 / 0 | 54656 / 0 | 54656 | 0 / 0 / 0 / 0 |
 
 ## Rejected fresh rows
