@@ -2,9 +2,9 @@
   "schema": "shared_three_cpu_live_progress_v1",
   "campaign": "shared3cpu-20261110t021202z",
   "status": "TIMING",
-  "recorded_rows": 9,
+  "recorded_rows": 10,
   "expected_rows": 48,
-  "receipt_sha256": "bdc9c48ff658ec23027aed7fd2c97e870cd853d582c857c933b1c40eafd6804e",
+  "receipt_sha256": "2fb9652ac4afff52aae2e891bc3910e68052fca4b7aa7368fb6c716f53849fa0",
   "contract": {
     "points": 3000000,
     "dimension": 512,
@@ -570,6 +570,63 @@
           ],
           "active_named_workers": 3,
           "whole_process_cpu_equivalents": 2.8394463245907016
+        }
+      ],
+      "route_metric_delta": null
+    },
+    {
+      "backend": "native",
+      "category": "active_only",
+      "batch_size": 1,
+      "concurrency": 128,
+      "ordinal": 10,
+      "http_rps": 47.989230249657865,
+      "query_qps": 47.989230249657865,
+      "p50_ms": 2666.8759330000003,
+      "p95_ms": 2974.2353919999996,
+      "p99_ms": 3420.4638809999997,
+      "successful_requests": 3002,
+      "failed_requests": 0,
+      "dispatched_queries": 3002,
+      "exact_query_truth_matches": 3002,
+      "http_429_count": 0,
+      "elapsed_s": 62.555702277,
+      "measurement_accepted": true,
+      "cpu_status": "PASSED",
+      "cpu_violations": 0,
+      "client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "manifest_sha256": "7369196baaa2e63284c5ac72cfbedadb1ccc4ca774107264d2c1e9fbbbefdf02",
+      "backend_valid": true,
+      "cpu_by_node": [
+        {
+          "node": 0,
+          "allowed_cpus": [
+            4,
+            5,
+            6
+          ],
+          "active_named_workers": 3,
+          "whole_process_cpu_equivalents": 2.8957180279981527
+        },
+        {
+          "node": 1,
+          "allowed_cpus": [
+            7,
+            8,
+            9
+          ],
+          "active_named_workers": 3,
+          "whole_process_cpu_equivalents": 2.876695973323601
+        },
+        {
+          "node": 2,
+          "allowed_cpus": [
+            10,
+            11,
+            12
+          ],
+          "active_named_workers": 6,
+          "whole_process_cpu_equivalents": 2.929552338361905
         }
       ],
       "route_metric_delta": null
