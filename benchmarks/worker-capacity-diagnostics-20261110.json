@@ -1,0 +1,381 @@
+{
+  "schema": "sq8_worker_capacity_diagnostics_v1",
+  "engine_source_commit": "0aa62c281b7262368ca6f1ed69de71647be10ac0",
+  "engine_elf_sha256": "074f45b364a8e80da3fb9307d637812072fd755f56b91aeb8bdd4bf92b1ba60d",
+  "contract": {
+    "points": 3000000,
+    "dimensions": 512,
+    "format": "SQ8",
+    "metric": "cosine",
+    "nodes": 3,
+    "shared_cpus_per_node": 3,
+    "node_cpu_masks": [
+      [
+        4,
+        5,
+        6
+      ],
+      [
+        7,
+        8,
+        9
+      ],
+      [
+        10,
+        11,
+        12
+      ]
+    ],
+    "per_thread_affinity": false,
+    "shards": 3,
+    "replication_factor": 1,
+    "hnsw": false,
+    "result_topk": 10,
+    "rerank_candidates_per_segment": 12,
+    "score_tolerance": 1e-06,
+    "saved_queries_per_category": 1024,
+    "independent_accuracy_before_each_cell": true,
+    "dispatch_seconds": 30,
+    "http_warmups": 16,
+    "denominator_includes_final_drain": true,
+    "metadata_present_in_all_categories": true,
+    "query_budget_bytes": 2147483648,
+    "admission_wait_ms": 90,
+    "separate_topk": true,
+    "placement": "shared"
+  },
+  "campaigns": [
+    {
+      "profile": "Worker count",
+      "campaign": "worker-scaling-warmed-diagnostic-20261110-20261110t141847z",
+      "receipt_sha256": "52c512f27b06dfc88664de3e87d1be3085d9e8f497710b8d186d84638972973c",
+      "runner_sha256": "4ed0e3e001756c4f56ab784eb1e4e258676ccc6d8a907bd37256f0e4d4598adb",
+      "client": {
+        "binary_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+        "source_sha256": "e65540edeefddee0389ffd05e300cbea157ad940b8bc0cb5db6cdfe92970db5c",
+        "validation_receipt_sha256": "99bd4a64e05b65006457140f196ddc7be57e08c06c27158f98c1e9846fc841ce"
+      },
+      "finished_utc": "2026-11-10T14:28:09.803114+00:00",
+      "validation_summary": {
+        "recorded_rows": 6,
+        "accepted_rows": 6,
+        "expected_rows": 6,
+        "f32_accuracy_rows_passed": 6,
+        "expected_f32_accuracy_rows": 6,
+        "ring_admission_rows_passed": 6,
+        "fallback_reason_rows_complete": 6
+      }
+    },
+    {
+      "profile": "Fast join 32",
+      "campaign": "worker-scaling-fastjoin32-diagnostic-20261110-20261110t143034z",
+      "receipt_sha256": "4f12887f8f0238b150a59178f0d4ca5c1a94fd62a6ede14fe0759e964fe0a287",
+      "runner_sha256": "ae59896abba3870af48df4818b6f0fd2d024816a7423125750b385a3631eac68",
+      "client": {
+        "binary_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+        "source_sha256": "e65540edeefddee0389ffd05e300cbea157ad940b8bc0cb5db6cdfe92970db5c",
+        "validation_receipt_sha256": "99bd4a64e05b65006457140f196ddc7be57e08c06c27158f98c1e9846fc841ce"
+      },
+      "finished_utc": "2026-11-10T14:34:16.184293+00:00",
+      "validation_summary": {
+        "recorded_rows": 2,
+        "accepted_rows": 2,
+        "expected_rows": 2,
+        "f32_accuracy_rows_passed": 2,
+        "expected_f32_accuracy_rows": 2,
+        "ring_admission_rows_passed": 2,
+        "fallback_reason_rows_complete": 2
+      }
+    }
+  ],
+  "rows": [
+    {
+      "profile": "Worker count",
+      "workers": 1,
+      "fast_join": 64,
+      "singleton_permits": 160,
+      "shard_inflight_cap": 480,
+      "batch_size": 1,
+      "concurrency": 128,
+      "category": "unfiltered_no_payload",
+      "http_rps": 972.3008767088972,
+      "query_qps": 972.3008767088972,
+      "mean_ms": 131.39486163224822,
+      "p50_ms": 129.85501599999998,
+      "p95_ms": 173.30316000000002,
+      "p99_ms": 190.355995,
+      "successful_requests": 29248,
+      "failed_requests": 0,
+      "actual_elapsed_s": 30.081223519,
+      "exact_truth_matches": 29248,
+      "observed_active_ring_peaks_by_node": [
+        null,
+        null,
+        null
+      ],
+      "whole_process_cpu_equivalents_by_node": [
+        1.536381069425743,
+        1.2832741674729247,
+        1.3691214395996003
+      ],
+      "logical_queries_per_gallery_vector_read_by_node": [
+        88.04030464929826,
+        68.84405079749942,
+        84.52914263509457
+      ],
+      "report_sha256": "0633e046576f8c74c87f6e17df4531a104efb3ff53cf32c0828a3673daf94029"
+    },
+    {
+      "profile": "Worker count",
+      "workers": 1,
+      "fast_join": 64,
+      "singleton_permits": 160,
+      "shard_inflight_cap": 480,
+      "batch_size": 1,
+      "concurrency": 128,
+      "category": "active_only",
+      "http_rps": 984.2265760038912,
+      "query_qps": 984.2265760038912,
+      "mean_ms": 129.81152377537808,
+      "p50_ms": 130.760827,
+      "p95_ms": 156.41692600000002,
+      "p99_ms": 168.982492,
+      "successful_requests": 29632,
+      "failed_requests": 0,
+      "actual_elapsed_s": 30.106888721,
+      "exact_truth_matches": 29632,
+      "observed_active_ring_peaks_by_node": [
+        null,
+        null,
+        null
+      ],
+      "whole_process_cpu_equivalents_by_node": [
+        1.4977430212946723,
+        1.3015988696406333,
+        1.3730090615782724
+      ],
+      "logical_queries_per_gallery_vector_read_by_node": [
+        88.72729529324921,
+        74.15427707303424,
+        89.45808196078984
+      ],
+      "report_sha256": "15625ac4fdb1eab332e67c7dd86ed2da9e65ee8e0b47bf57145e70e83e611454"
+    },
+    {
+      "profile": "Worker count",
+      "workers": 2,
+      "fast_join": 64,
+      "singleton_permits": 160,
+      "shard_inflight_cap": 480,
+      "batch_size": 1,
+      "concurrency": 128,
+      "category": "unfiltered_no_payload",
+      "http_rps": 1280.2298962651628,
+      "query_qps": 1280.2298962651628,
+      "mean_ms": 99.81550186016275,
+      "p50_ms": 96.67439499999999,
+      "p95_ms": 123.791511,
+      "p99_ms": 149.74898100000001,
+      "successful_requests": 38509,
+      "failed_requests": 0,
+      "actual_elapsed_s": 30.079753732,
+      "exact_truth_matches": 38509,
+      "observed_active_ring_peaks_by_node": [
+        2.0,
+        2.0,
+        2.0
+      ],
+      "whole_process_cpu_equivalents_by_node": [
+        2.5311783982335534,
+        2.3569420879671634,
+        2.267289586502821
+      ],
+      "logical_queries_per_gallery_vector_read_by_node": [
+        56.18150362744245,
+        48.261076919956295,
+        49.084985038514326
+      ],
+      "report_sha256": "24280e547c3364c4529bc52be90b7f548e726fb51b35f316dac907289985cf5b"
+    },
+    {
+      "profile": "Worker count",
+      "workers": 2,
+      "fast_join": 64,
+      "singleton_permits": 160,
+      "shard_inflight_cap": 480,
+      "batch_size": 1,
+      "concurrency": 128,
+      "category": "active_only",
+      "http_rps": 984.5615343295011,
+      "query_qps": 984.5615343295011,
+      "mean_ms": 129.78304167050587,
+      "p50_ms": 109.09526,
+      "p95_ms": 248.766454,
+      "p99_ms": 443.078348,
+      "successful_requests": 29609,
+      "failed_requests": 0,
+      "actual_elapsed_s": 30.073285384,
+      "exact_truth_matches": 29609,
+      "observed_active_ring_peaks_by_node": [
+        2.0,
+        2.0,
+        2.0
+      ],
+      "whole_process_cpu_equivalents_by_node": [
+        2.2016904547550546,
+        1.9556375129984345,
+        1.8714368865417963
+      ],
+      "logical_queries_per_gallery_vector_read_by_node": [
+        51.925217758851446,
+        44.74970833310776,
+        43.25340044583021
+      ],
+      "report_sha256": "0e18fc25f2534d79f576cf692d6e68bf10677fb736e737b9df948186764aa46e"
+    },
+    {
+      "profile": "Worker count",
+      "workers": 3,
+      "fast_join": 64,
+      "singleton_permits": 160,
+      "shard_inflight_cap": 480,
+      "batch_size": 1,
+      "concurrency": 128,
+      "category": "unfiltered_no_payload",
+      "http_rps": 1292.2944124143123,
+      "query_qps": 1292.2944124143123,
+      "mean_ms": 98.87384629096508,
+      "p50_ms": 96.438326,
+      "p95_ms": 119.028094,
+      "p99_ms": 139.48697700000002,
+      "successful_requests": 38857,
+      "failed_requests": 0,
+      "actual_elapsed_s": 30.068225651,
+      "exact_truth_matches": 38857,
+      "observed_active_ring_peaks_by_node": [
+        2.0,
+        2.0,
+        2.0
+      ],
+      "whole_process_cpu_equivalents_by_node": [
+        2.544527423506531,
+        2.316432335742001,
+        2.2375494512234346
+      ],
+      "logical_queries_per_gallery_vector_read_by_node": [
+        58.99320004005461,
+        48.259962729448915,
+        42.7884574065117
+      ],
+      "report_sha256": "1c3534f53c19c8443574f4d22de5dca86126ef3384e3c3a9908d8fa5a9e562a0"
+    },
+    {
+      "profile": "Worker count",
+      "workers": 3,
+      "fast_join": 64,
+      "singleton_permits": 160,
+      "shard_inflight_cap": 480,
+      "batch_size": 1,
+      "concurrency": 128,
+      "category": "active_only",
+      "http_rps": 1187.4322820880384,
+      "query_qps": 1187.4322820880384,
+      "mean_ms": 107.6016364700016,
+      "p50_ms": 104.06621100000001,
+      "p95_ms": 138.701939,
+      "p99_ms": 158.295094,
+      "successful_requests": 35702,
+      "failed_requests": 0,
+      "actual_elapsed_s": 30.066556669,
+      "exact_truth_matches": 35702,
+      "observed_active_ring_peaks_by_node": [
+        2.0,
+        2.0,
+        2.0
+      ],
+      "whole_process_cpu_equivalents_by_node": [
+        2.540638134922126,
+        2.199162897688822,
+        2.2708882899844016
+      ],
+      "logical_queries_per_gallery_vector_read_by_node": [
+        56.47409200512796,
+        47.510522068250424,
+        47.24894368093119
+      ],
+      "report_sha256": "b120e6cf9540c34e523376679fce00e524b49f4803464f97f31c61f0c877edb5"
+    },
+    {
+      "profile": "Fast join 32",
+      "workers": 3,
+      "fast_join": 32,
+      "singleton_permits": 160,
+      "shard_inflight_cap": 480,
+      "batch_size": 1,
+      "concurrency": 128,
+      "category": "unfiltered_no_payload",
+      "http_rps": 1099.195997615992,
+      "query_qps": 1099.195997615992,
+      "mean_ms": 116.23564713986715,
+      "p50_ms": 114.336998,
+      "p95_ms": 156.339056,
+      "p99_ms": 171.825879,
+      "successful_requests": 33060,
+      "failed_requests": 0,
+      "actual_elapsed_s": 30.076528728,
+      "exact_truth_matches": 33060,
+      "observed_active_ring_peaks_by_node": [
+        3.0,
+        3.0,
+        3.0
+      ],
+      "whole_process_cpu_equivalents_by_node": [
+        2.875753076169728,
+        2.8754362934999578,
+        2.8352048944392005
+      ],
+      "logical_queries_per_gallery_vector_read_by_node": [
+        40.56922234810832,
+        30.205956624874588,
+        25.951855952203942
+      ],
+      "report_sha256": "59912bec28a06b6272c8232964a28a89864152c3626bbeec8075584cde828d6c"
+    },
+    {
+      "profile": "Fast join 32",
+      "workers": 3,
+      "fast_join": 32,
+      "singleton_permits": 160,
+      "shard_inflight_cap": 480,
+      "batch_size": 1,
+      "concurrency": 128,
+      "category": "active_only",
+      "http_rps": 1098.0519880489173,
+      "query_qps": 1098.0519880489173,
+      "mean_ms": 116.32570432460726,
+      "p50_ms": 113.02600799999999,
+      "p95_ms": 160.421586,
+      "p99_ms": 179.031523,
+      "successful_requests": 33040,
+      "failed_requests": 0,
+      "actual_elapsed_s": 30.089649998,
+      "exact_truth_matches": 33040,
+      "observed_active_ring_peaks_by_node": [
+        3.0,
+        3.0,
+        3.0
+      ],
+      "whole_process_cpu_equivalents_by_node": [
+        2.82351274291148,
+        2.839105369059655,
+        2.811350494515904
+      ],
+      "logical_queries_per_gallery_vector_read_by_node": [
+        40.36709752518821,
+        30.29385212517971,
+        25.98311505001385
+      ],
+      "report_sha256": "b55d63af42e0aff2c24ce2c35af22a0a3c7719800da115d2d1acfbc57bbd1bcd"
+    }
+  ]
+}
