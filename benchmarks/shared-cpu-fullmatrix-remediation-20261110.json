@@ -1,0 +1,41 @@
+{
+  "schema": "benchmark_harness_remediation_v1",
+  "attempt": "shared-cpu-fullmatrix-20261110t074129z",
+  "receipt_sha256": "1fdf8931999e58fc501c323c6f3641b5dcdb16db00b86b475d14e74c312acea1",
+  "status": "FAILED_RESTORING",
+  "finished_utc": "2026-11-10T07:45:53.984076+00:00",
+  "source_commit": "560259c84af2b292867b9b2970ec731bcd33e07f",
+  "binary_sha256": "63e9c5d1ffb9075bcfa3981c04a65c8240c9b18f1ad095456a93e9943ae466c6",
+  "validation_summary": {
+    "recorded_rows": 1,
+    "accepted_rows": 0,
+    "expected_rows": 32,
+    "accuracy_rows_passed": 1,
+    "expected_accuracy_rows": 8,
+    "ring_admission_rows_passed": 1
+  },
+  "failure": {
+    "type": "AssertionError",
+    "message": "Postprocessing worker family/mask proof failed"
+  },
+  "observed_separate_topk_values": [
+    "True",
+    "True",
+    "True"
+  ],
+  "correction": "Emit and validate canonical 1/0; retain independent worker-family and CPU-mask gate. No engine source or ELF change.",
+  "excluded_from_performance_tables": true,
+  "original_ids_restored_healthy": true,
+  "immutable_lower_metadata_unchanged": true,
+  "overlays_removed_before_original_restart": true,
+  "cleanup_errors": [],
+  "corrected_runner_sha256": "411da4f4238823d859758f5a59fa7e5ccdecd11f65dac81eae7bea68116b6bbe",
+  "regression_tests": {
+    "file": "test_run_matrix_profile.py",
+    "source_sha256": "eb29ddc949fc0c723e7e0ed9ab929694149dbfbf009063559ccb610bf03b2973",
+    "passed": 5,
+    "failed": 0,
+    "scope": "Canonical boolean serialization, rejection of Python spellings/invalid selections, and separate/combined worker proof fixtures."
+  },
+  "corrected_local_preflight_status": "LOCAL_PREFLIGHT_COMPLETE"
+}
