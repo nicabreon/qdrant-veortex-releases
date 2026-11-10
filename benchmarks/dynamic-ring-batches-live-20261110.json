@@ -1,13 +1,23 @@
 {
   "schema": "dynamic_ring_batches_live_progress_v1",
   "campaign_id": "dynamic-ring-20261110t044606z",
-  "campaign_status": "TIMING",
+  "campaign_status": "FAILED_RESTORING",
   "expected_rows": 16,
-  "recorded_rows": 6,
+  "recorded_rows": 7,
   "accepted_rows": 6,
-  "rejected_rows": 0,
-  "rejections": [],
-  "receipt_sha256": "acb9668031d37c5cd892e479c11138720f5894a0aadac5afb36120b6e55be226",
+  "rejected_rows": 1,
+  "rejections": [
+    {
+      "backend": "avx512vnni",
+      "category": "active_position_exclude",
+      "batch_size": 64,
+      "concurrency": 4,
+      "reasons": [
+        "cpu_contract_valid"
+      ]
+    }
+  ],
+  "receipt_sha256": "42eaff0b074379124d5a92b7e92a43ae35e47fe340361aacccf40e376b0970f0",
   "source_commit": "1bd74d911fa8c61f962d5b22fbd4ac2951102a80",
   "veortex_sha256": "a493502c9538e10e66637993432e1d619c13004368c78c423f9041ff6be3d607",
   "client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
@@ -969,6 +979,161 @@
       "intended_route_valid": true,
       "client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
       "manifest_sha256": "3cb01f6b9c3c2c1643a0f5d8fd84610536a73bdbac7bdc5f16a3c4a98d1c86c6"
+    },
+    {
+      "backend": "avx512vnni",
+      "category": "active_position_exclude",
+      "batch_size": 64,
+      "concurrency": 4,
+      "ordinal": 7,
+      "measurement_accepted": false,
+      "http_rps": 40.729957114064554,
+      "query_qps": 2606.7172553001315,
+      "p50_ms": 97.465597,
+      "p95_ms": 114.066825,
+      "p99_ms": 125.826622,
+      "successful_requests": 2446,
+      "failed_requests": 0,
+      "successful_queries": 156544,
+      "failed_queries": 0,
+      "dispatched_queries": 156544,
+      "exact_query_truth_matches": 156544,
+      "http_429_count": 0,
+      "correctness_failed_requests": 0,
+      "transport_failures": 0,
+      "transport_timeouts": 0,
+      "actual_elapsed_s": 60.054077473,
+      "client_status": "COMPLETED",
+      "client_passed": true,
+      "cpu_status": "FAIL",
+      "cpu_violations": 0,
+      "cpu_by_node": [
+        {
+          "node": 0,
+          "allowed_cpus": [
+            4,
+            5,
+            6
+          ],
+          "active_work_proven": false,
+          "whole_process_cpu_equivalents": 2.579038286051844
+        },
+        {
+          "node": 1,
+          "allowed_cpus": [
+            7,
+            8,
+            9
+          ],
+          "active_work_proven": true,
+          "whole_process_cpu_equivalents": 2.0847346864472
+        },
+        {
+          "node": 2,
+          "allowed_cpus": [
+            10,
+            11,
+            12
+          ],
+          "active_work_proven": true,
+          "whole_process_cpu_equivalents": 2.217847378362876
+        }
+      ],
+      "route_status": "PASSED",
+      "ring_admission_valid": true,
+      "ring_admission_proof": {
+        "schema": "dynamic_ring_explicit_batch_admission_v1",
+        "counter_semantics": "Process-global per-node counters increment once for each query member submitted/completed; measured-row delta includes 16 warmup requests plus timed requests and final drain.",
+        "warmup_queries_per_node": 1024,
+        "timed_successful_queries": 156544,
+        "expected_queries_per_node": 157568,
+        "warmup_contract_passed": true,
+        "nodes": [
+          {
+            "node": 0,
+            "submitted_delta": 157568,
+            "completed_delta": 157568,
+            "fallback_delta": 0,
+            "hnsw_search_calls_delta": 0,
+            "submitted_matches_expected": true,
+            "completed_matches_expected": true,
+            "no_ring_fallback": true,
+            "no_hnsw_search": true
+          },
+          {
+            "node": 1,
+            "submitted_delta": 157568,
+            "completed_delta": 157568,
+            "fallback_delta": 0,
+            "hnsw_search_calls_delta": 0,
+            "submitted_matches_expected": true,
+            "completed_matches_expected": true,
+            "no_ring_fallback": true,
+            "no_hnsw_search": true
+          },
+          {
+            "node": 2,
+            "submitted_delta": 157568,
+            "completed_delta": 157568,
+            "fallback_delta": 0,
+            "hnsw_search_calls_delta": 0,
+            "submitted_matches_expected": true,
+            "completed_matches_expected": true,
+            "no_ring_fallback": true,
+            "no_hnsw_search": true
+          }
+        ],
+        "passed": true
+      },
+      "ring_route_deltas": [
+        {
+          "node": 0,
+          "amx_calls": 0,
+          "query_vector_dots": 14181120000,
+          "gallery_blocks_decoded": 2988254288,
+          "batch4_vectors": 0,
+          "ring_fallback_queries": 0,
+          "hnsw_build_calls": 0,
+          "hnsw_search_calls": 0,
+          "avx512vnni_calls": 3040111,
+          "ring_submitted_queries": 157568,
+          "ring_completed_queries": 157568
+        },
+        {
+          "node": 1,
+          "amx_calls": 0,
+          "query_vector_dots": 14181120000,
+          "gallery_blocks_decoded": 3092524368,
+          "batch4_vectors": 0,
+          "ring_fallback_queries": 0,
+          "hnsw_build_calls": 0,
+          "hnsw_search_calls": 0,
+          "avx512vnni_calls": 3146186,
+          "ring_submitted_queries": 157568,
+          "ring_completed_queries": 157568
+        },
+        {
+          "node": 2,
+          "amx_calls": 0,
+          "query_vector_dots": 14180962432,
+          "gallery_blocks_decoded": 3068003248,
+          "batch4_vectors": 0,
+          "ring_fallback_queries": 0,
+          "hnsw_build_calls": 0,
+          "hnsw_search_calls": 0,
+          "avx512vnni_calls": 3121277,
+          "ring_submitted_queries": 157568,
+          "ring_completed_queries": 157568
+        }
+      ],
+      "failure_notes": [
+        "cpu_contract_valid"
+      ],
+      "backend_valid": true,
+      "quality_valid": true,
+      "intended_route_valid": true,
+      "client_sha256": "5477653066b11acf0ce1f53545f6bd98aad9175ed3c4072a89b051298e05cde0",
+      "manifest_sha256": "e9b04d1ce962e454b8cde92d4f49e2ee6f34f91b16c447cc832842c06d4362d6"
     }
   ],
   "limitations": [
