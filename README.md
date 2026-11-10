@@ -14,6 +14,19 @@ Read the [chart guide, data and reproduction commands](benchmarks/CHARTS.md), or
 
 A separate [same-binary AVX-512 versus AMX follow-up](benchmarks/sq8-avx512-vs-amx-20261110.md) keeps the ring active and disables AMX. At SQ8 B1/C128, no filter/no payload measured **245.18 HTTP RPS with AVX-512 VNNI**, versus **898.94 with AMX-eligible Auto**. All eight filter/payload cells passed, with zero failed requests and ordered Top10 matching FP32. This V45.1 follow-up uses the same 640 MiB queue budget in both arms; it does not replace the earlier V45 matrix.
 
+### Revision — 10 November 2026 (WIB): postprocessing on shared CPUs
+
+A new candidate keeps **all three CPUs per node shared** while moving TopK, FP32 reranking, and payload materialization onto supporting threads. In a same-ELF **Auto** comparison at **B1/C128**, both profiles scanned the same 3M × 512D SQ8 collection and returned Top10. Every timed query matched the pinned FP32 truth, with zero failed requests.
+
+| Workload | TopK in ring: RPS / p95 / p99 ms | TopK in supporting workers: RPS / p95 / p99 ms |
+|---|---:|---:|
+| No filter, no payload | 1,066.96 / 145.65 / 187.64 | **1,300.86 / 123.85 / 141.55** |
+| Active-only filter (~90%), payload | 760.96 / 181.42 / 188.12 | **1,234.17 / 129.89 / 146.19** |
+
+The supporting threads share the same three-CPU mask with scan and service threads; no dedicated CPU partition or per-thread affinity is used. Both arms used Auto with AMX work verified on all three nodes. These are finite end-to-end observations, rather than a maximum-capacity result. The comparison completed **4/4 timing rows and 4 × 1,024 independent accuracy checks**; original containers were restored healthy and the dataset layers remained unchanged.
+
+Read the [A/B report](benchmarks/shared-postprocessing-ab-20261110.md), [JSON evidence](benchmarks/shared-postprocessing-ab-20261110.json), and [CSV](benchmarks/shared-postprocessing-ab-20261110.csv). Candidate source: `560259c84af2b292867b9b2970ec731bcd33e07f`; ELF SHA-256: `63e9c5d1ffb9075bcfa3981c04a65c8240c9b18f1ad095456a93e9943ae466c6`. **The downloadable V45.1 archive does not contain this candidate.** The following full-matrix validation uses supporting TopK workers for Auto and AVX-512 VNNI across all four filter/payload categories; results will be added as they pass. Earlier measurements and figures remain below.
+
 ### Revision note — 10 November 2026 (WIB): CPU fairness
 <!-- CPU_FAIRNESS_B1_LATEST_START -->
 
