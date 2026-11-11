@@ -1,5 +1,7 @@
 # Revision — 11 November 2026: cooperative scan of one gallery
 
+Revision clarification: the independent mode below uses **96 queries per worker**, hence **288 total queries with three workers**. For the same total 96 queries split 32/32/32, see the [new fixed-total test](fixed-total96-worker-scaling-20261111.md), which measured **1.39×**, rather than the 2.87× increased-load capacity result. Original samples and tables below are retained.
+
 This is a scorer-only feasibility diagnostic on **1,000,000 vectors × 512D, SQ8, batch 96**, in one process with the same three-CPU mask for every arm. It is **not** a 3M-vector cluster HTTP benchmark, a B1 latency measurement, or an available production Qdrant mode. Existing production binaries and the complete benchmark tables remain unchanged.
 
 | Work assignment | Workers | Full-gallery queries completed per sample | Median scan ms | Min–max ms | Median scan queries/s | Median worker CPU equivalents |

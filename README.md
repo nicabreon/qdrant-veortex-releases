@@ -1,6 +1,17 @@
 # Qdrant 1.20.0 with Veortex: shared-CPU SQ8 results
 
 
+## Revision — 11 November 2026: fixed total of 96 queries
+
+The earlier 4,683 scan query/s result used 96 queries **per worker**, or **288 total** for three workers. It measured aggregate capacity with increased load. A [new fixed-total comparison](benchmarks/fixed-total96-worker-scaling-20261111.md) keeps the **same 96 query identities** in both arms:
+
+| Work assignment | Total queries | Median scan ms | Scan query/s |
+|---|---:|---:|---:|
+| 1 worker × 96 queries | 96 | 64.902 | 1,479.15 |
+| 3 workers × 32 queries | 96 | 46.555 | 2,062.10 |
+
+That is **1.39×** for the fixed workload. Each query searches the full 1M × 512D SQ8 gallery. Seven samples per arm are retained, including a 79.776 ms three-worker sample. This is a local scorer-only diagnostic; it excludes HTTP, TopK, reranking and RPC. The earlier capacity and cooperative-gallery experiments remain below with their original scopes and evidence.
+
 ## Revision — 11 November 2026: worker load and cooperative-scan diagnostics
 
 The additional [one-versus-three-worker matrix](benchmarks/worker-scaling-batch-concurrency-20261111.md) covers B1/C64, C128, C256, C384 and B64/B128 at C4/C8, on the same full 3M × 512D SQ8 fixture and three shared CPUs per node. It uses baseline ELF `074f45…`, Auto, fixed 640/640 admission, and 30-second configured windows plus drain. The earlier complete native/AVX/Auto matrix and experimental C512 observations remain separately documented below.

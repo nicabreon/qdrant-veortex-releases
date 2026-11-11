@@ -1,0 +1,708 @@
+{
+  "schema": "fixed_total96_independent_query_split_v1",
+  "provenance": {
+    "source_commit": "3e3710a6c3b04f039f18d04d02bc816986be39e7",
+    "source_tree": "a2cbe32e59a4b7aa757984efba49251ce778b015",
+    "test_binary_sha256": "a5dfbdc3d835d32f2c6a0f4156cc2f3f94b6fbab079baf188518b96bea72ed49",
+    "build_receipt_sha256": "f8b30a037a2d72f4765d5d3102a7ae6b74970c94bc30e7294a53e2be216d823f",
+    "stdout_sha256": "1830e3916941e4cd8b19bca17a5ecad373faae8719da704ad12816ce7960c7ee",
+    "cpu_mask": [
+      4,
+      5,
+      6
+    ],
+    "per_thread_pinning": false,
+    "source_changes": "ignored test fixture only; production engine unchanged",
+    "rust_toolchain": "1.98.0",
+    "fixture_source_public": false
+  },
+  "summary": [
+    {
+      "workers": 1,
+      "total_queries": 96,
+      "queries_per_worker": 96,
+      "gallery_vectors_per_query": 1000000,
+      "total_query_vector_scores": 96000000,
+      "samples": 7,
+      "median_scan_ms": 64.901946,
+      "min_scan_ms": 62.866266,
+      "max_scan_ms": 76.705662,
+      "median_scan_queries_s": 1479.154415493181,
+      "median_cpu_equivalents": 0.9997143073949689
+    },
+    {
+      "workers": 3,
+      "total_queries": 96,
+      "queries_per_worker": 32,
+      "gallery_vectors_per_query": 1000000,
+      "total_query_vector_scores": 96000000,
+      "samples": 7,
+      "median_scan_ms": 46.554592,
+      "min_scan_ms": 41.576085,
+      "max_scan_ms": 79.775813,
+      "median_scan_queries_s": 2062.0951849390067,
+      "median_cpu_equivalents": 2.9445149685771064
+    }
+  ],
+  "speedup_three_workers": 1.3941040660392856,
+  "verification_scope": "Independent scalar oracle at sampled cells in every chunk; full-output fingerprints from a separate concurrent verification pass after every timer stops, compared with each query slice serial reference. Timed intermediate scores are not all hashed.",
+  "scope": "Scorer-only, one process, 1M gallery, same total96 queries. No HTTP, TopK, F32 rerank, payload or cluster latency. No direct DRAM measurement.",
+  "component_report": {
+    "experiment": "SQ8 fixed-batch worker scaling without HTTP, TopK, or rerank",
+    "gallery_vectors": 1000000,
+    "dimension": 512,
+    "gallery_stride_bytes": 516,
+    "gallery_code_offset_bytes": 4,
+    "shared_gallery_bytes": 516000000,
+    "shared_gallery": "one immutable Arc shared by all worker threads",
+    "maximum_queries_per_worker_batch": 96,
+    "work_modes": [
+      "independent_fixed_total_queries"
+    ],
+    "fixed_total_query_split": true,
+    "query_assignment": "per-worker query_start_in_reference_set and query_count_scored define the actual query slice; fixed-total mode uses the identical 96 queries split 32/32/32 for three workers",
+    "cooperative_gallery_partitions_start_count": [
+      [
+        0,
+        333328
+      ],
+      [
+        333328,
+        333328
+      ],
+      [
+        666656,
+        333344
+      ]
+    ],
+    "cooperative_partition_union_vectors": 1000000,
+    "cooperative_partitions_are_disjoint_and_contiguous": true,
+    "query_encoding": "signed i8 bytes multiplied by unsigned u8 gallery codes; F32 affine score",
+    "score_scratch_f32_cells_per_worker": 98304,
+    "score_scratch_bytes_per_worker": 393216,
+    "chunk_vectors": 1024,
+    "full_gallery_chunk_count": 977,
+    "full_gallery_last_chunk_vectors": 576,
+    "cooperative_partition_chunk_count_by_worker": [
+      326,
+      326,
+      326
+    ],
+    "cooperative_total_partition_chunks": 978,
+    "process_cpu_allowed_list": "4-6",
+    "process_cpu_count": 3,
+    "per_thread_affinity_changes": false,
+    "kernel_tier": "forced AMX",
+    "effective_VX_PF8": 6,
+    "effective_VX_PFH": 9,
+    "effective_VX_ABLATE": 0,
+    "effective_VX_SQ8_PIPELINE_MIN": 2,
+    "cached_score_stores": true,
+    "telemetry_enabled_during_timing": false,
+    "warmup_trials_per_mode_worker_count": 1,
+    "measured_samples_per_mode_worker_count": 7,
+    "sample_order": [
+      1,
+      3,
+      3,
+      1,
+      1,
+      3,
+      3,
+      1,
+      1,
+      3,
+      3,
+      1,
+      1,
+      3
+    ],
+    "mode_order_alternates_each_sample": false,
+    "timing_scope": "each worker scores its fixed query batch over its assigned gallery range; excludes thread creation, per-thread AMX permission/configuration, one-chunk query-cache warmup, and untimed output verification; aggregate makespan spans earliest worker start to latest worker finish",
+    "oracle": "independent signed-I8 x unsigned-U8 i64 dot and F32 affine score checks at representative cells in every gallery chunk",
+    "output_fingerprint": "FNV-1a 64-bit over every F32 output bit pattern in each assigned range, verified against the untimed serial scan for the same query set and range",
+    "rates_are": "fixed full-gallery query completions and query-vector scores per second; not HTTP requests per second",
+    "cooperative_mode_scope": "diagnostic only; it does not claim that the production Qdrant query path cooperatively splits a shard or its TopK work",
+    "direct_DRAM_bandwidth_measured": false,
+    "serial_references": [
+      {
+        "mode": "independent_fixed_total_queries",
+        "worker_count": 1,
+        "worker_output_fnv1a64": [
+          "d799cde4f69e1189"
+        ]
+      },
+      {
+        "mode": "independent_fixed_total_queries",
+        "worker_count": 3,
+        "worker_output_fnv1a64": [
+          "f1cb7c4d4e1b9d32",
+          "1b22875e556a7965",
+          "5f5240b985eb3126"
+        ]
+      }
+    ],
+    "samples": [
+      {
+        "sample_index": 0,
+        "mode": "independent_fixed_total_queries",
+        "worker_count": 1,
+        "completed_full_gallery_queries": 96,
+        "completed_query_vector_scores": 96000000,
+        "aggregate_makespan_ns": 63071286,
+        "aggregate_full_gallery_queries_per_second": 1522.0872458506713,
+        "aggregate_query_vector_scores_per_second": 1522087245.850671,
+        "sum_worker_thread_cpu_ns": 63053267,
+        "worker_cpu_equivalents_over_makespan": 0.9997143073949689,
+        "workers": [
+          {
+            "worker_id": 0,
+            "query_start_in_reference_set": 0,
+            "query_count_scored": 96,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 96000000,
+            "wall_ns": 63071286,
+            "thread_cpu_ns": 63053267,
+            "verified_output_fnv1a64": "d799cde4f69e1189",
+            "serial_reference_fnv1a64": "d799cde4f69e1189"
+          }
+        ]
+      },
+      {
+        "sample_index": 1,
+        "mode": "independent_fixed_total_queries",
+        "worker_count": 3,
+        "completed_full_gallery_queries": 96,
+        "completed_query_vector_scores": 96000000,
+        "aggregate_makespan_ns": 47116059,
+        "aggregate_full_gallery_queries_per_second": 2037.5218564014447,
+        "aggregate_query_vector_scores_per_second": 2037521856.4014447,
+        "sum_worker_thread_cpu_ns": 136294375,
+        "worker_cpu_equivalents_over_makespan": 2.8927371663236943,
+        "workers": [
+          {
+            "worker_id": 0,
+            "query_start_in_reference_set": 0,
+            "query_count_scored": 32,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 32000000,
+            "wall_ns": 47107960,
+            "thread_cpu_ns": 47027491,
+            "verified_output_fnv1a64": "f1cb7c4d4e1b9d32",
+            "serial_reference_fnv1a64": "f1cb7c4d4e1b9d32"
+          },
+          {
+            "worker_id": 1,
+            "query_start_in_reference_set": 32,
+            "query_count_scored": 32,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 32000000,
+            "wall_ns": 42678854,
+            "thread_cpu_ns": 42654289,
+            "verified_output_fnv1a64": "1b22875e556a7965",
+            "serial_reference_fnv1a64": "1b22875e556a7965"
+          },
+          {
+            "worker_id": 2,
+            "query_start_in_reference_set": 64,
+            "query_count_scored": 32,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 32000000,
+            "wall_ns": 47109224,
+            "thread_cpu_ns": 46612595,
+            "verified_output_fnv1a64": "5f5240b985eb3126",
+            "serial_reference_fnv1a64": "5f5240b985eb3126"
+          }
+        ]
+      },
+      {
+        "sample_index": 2,
+        "mode": "independent_fixed_total_queries",
+        "worker_count": 3,
+        "completed_full_gallery_queries": 96,
+        "completed_query_vector_scores": 96000000,
+        "aggregate_makespan_ns": 49570611,
+        "aggregate_full_gallery_queries_per_second": 1936.6313640959559,
+        "aggregate_query_vector_scores_per_second": 1936631364.0959558,
+        "sum_worker_thread_cpu_ns": 141391534,
+        "worker_cpu_equivalents_over_makespan": 2.852325826687914,
+        "workers": [
+          {
+            "worker_id": 0,
+            "query_start_in_reference_set": 0,
+            "query_count_scored": 32,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 32000000,
+            "wall_ns": 49570611,
+            "thread_cpu_ns": 49536254,
+            "verified_output_fnv1a64": "f1cb7c4d4e1b9d32",
+            "serial_reference_fnv1a64": "f1cb7c4d4e1b9d32"
+          },
+          {
+            "worker_id": 1,
+            "query_start_in_reference_set": 32,
+            "query_count_scored": 32,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 32000000,
+            "wall_ns": 46504261,
+            "thread_cpu_ns": 45384863,
+            "verified_output_fnv1a64": "1b22875e556a7965",
+            "serial_reference_fnv1a64": "1b22875e556a7965"
+          },
+          {
+            "worker_id": 2,
+            "query_start_in_reference_set": 64,
+            "query_count_scored": 32,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 32000000,
+            "wall_ns": 46497657,
+            "thread_cpu_ns": 46470417,
+            "verified_output_fnv1a64": "5f5240b985eb3126",
+            "serial_reference_fnv1a64": "5f5240b985eb3126"
+          }
+        ]
+      },
+      {
+        "sample_index": 3,
+        "mode": "independent_fixed_total_queries",
+        "worker_count": 1,
+        "completed_full_gallery_queries": 96,
+        "completed_query_vector_scores": 96000000,
+        "aggregate_makespan_ns": 65063404,
+        "aggregate_full_gallery_queries_per_second": 1475.4838219039384,
+        "aggregate_query_vector_scores_per_second": 1475483821.9039383,
+        "sum_worker_thread_cpu_ns": 65028394,
+        "worker_cpu_equivalents_over_makespan": 0.9994619094936994,
+        "workers": [
+          {
+            "worker_id": 0,
+            "query_start_in_reference_set": 0,
+            "query_count_scored": 96,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 96000000,
+            "wall_ns": 65063404,
+            "thread_cpu_ns": 65028394,
+            "verified_output_fnv1a64": "d799cde4f69e1189",
+            "serial_reference_fnv1a64": "d799cde4f69e1189"
+          }
+        ]
+      },
+      {
+        "sample_index": 4,
+        "mode": "independent_fixed_total_queries",
+        "worker_count": 1,
+        "completed_full_gallery_queries": 96,
+        "completed_query_vector_scores": 96000000,
+        "aggregate_makespan_ns": 62866266,
+        "aggregate_full_gallery_queries_per_second": 1527.0510896893413,
+        "aggregate_query_vector_scores_per_second": 1527051089.6893413,
+        "sum_worker_thread_cpu_ns": 62865300,
+        "worker_cpu_equivalents_over_makespan": 0.99998463404841,
+        "workers": [
+          {
+            "worker_id": 0,
+            "query_start_in_reference_set": 0,
+            "query_count_scored": 96,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 96000000,
+            "wall_ns": 62866266,
+            "thread_cpu_ns": 62865300,
+            "verified_output_fnv1a64": "d799cde4f69e1189",
+            "serial_reference_fnv1a64": "d799cde4f69e1189"
+          }
+        ]
+      },
+      {
+        "sample_index": 5,
+        "mode": "independent_fixed_total_queries",
+        "worker_count": 3,
+        "completed_full_gallery_queries": 96,
+        "completed_query_vector_scores": 96000000,
+        "aggregate_makespan_ns": 46554592,
+        "aggregate_full_gallery_queries_per_second": 2062.0951849390067,
+        "aggregate_query_vector_scores_per_second": 2062095184.9390068,
+        "sum_worker_thread_cpu_ns": 137080693,
+        "worker_cpu_equivalents_over_makespan": 2.9445149685771064,
+        "workers": [
+          {
+            "worker_id": 0,
+            "query_start_in_reference_set": 0,
+            "query_count_scored": 32,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 32000000,
+            "wall_ns": 45350689,
+            "thread_cpu_ns": 45329301,
+            "verified_output_fnv1a64": "f1cb7c4d4e1b9d32",
+            "serial_reference_fnv1a64": "f1cb7c4d4e1b9d32"
+          },
+          {
+            "worker_id": 1,
+            "query_start_in_reference_set": 32,
+            "query_count_scored": 32,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 32000000,
+            "wall_ns": 46545107,
+            "thread_cpu_ns": 46518953,
+            "verified_output_fnv1a64": "1b22875e556a7965",
+            "serial_reference_fnv1a64": "1b22875e556a7965"
+          },
+          {
+            "worker_id": 2,
+            "query_start_in_reference_set": 64,
+            "query_count_scored": 32,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 32000000,
+            "wall_ns": 45348876,
+            "thread_cpu_ns": 45232439,
+            "verified_output_fnv1a64": "5f5240b985eb3126",
+            "serial_reference_fnv1a64": "5f5240b985eb3126"
+          }
+        ]
+      },
+      {
+        "sample_index": 6,
+        "mode": "independent_fixed_total_queries",
+        "worker_count": 3,
+        "completed_full_gallery_queries": 96,
+        "completed_query_vector_scores": 96000000,
+        "aggregate_makespan_ns": 79775813,
+        "aggregate_full_gallery_queries_per_second": 1203.3722551971987,
+        "aggregate_query_vector_scores_per_second": 1203372255.1971986,
+        "sum_worker_thread_cpu_ns": 138983853,
+        "worker_cpu_equivalents_over_makespan": 1.7421803397979787,
+        "workers": [
+          {
+            "worker_id": 0,
+            "query_start_in_reference_set": 0,
+            "query_count_scored": 32,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 32000000,
+            "wall_ns": 75237647,
+            "thread_cpu_ns": 43199033,
+            "verified_output_fnv1a64": "f1cb7c4d4e1b9d32",
+            "serial_reference_fnv1a64": "f1cb7c4d4e1b9d32"
+          },
+          {
+            "worker_id": 1,
+            "query_start_in_reference_set": 32,
+            "query_count_scored": 32,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 32000000,
+            "wall_ns": 51380327,
+            "thread_cpu_ns": 51352088,
+            "verified_output_fnv1a64": "1b22875e556a7965",
+            "serial_reference_fnv1a64": "1b22875e556a7965"
+          },
+          {
+            "worker_id": 2,
+            "query_start_in_reference_set": 64,
+            "query_count_scored": 32,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 32000000,
+            "wall_ns": 76518007,
+            "thread_cpu_ns": 44432732,
+            "verified_output_fnv1a64": "5f5240b985eb3126",
+            "serial_reference_fnv1a64": "5f5240b985eb3126"
+          }
+        ]
+      },
+      {
+        "sample_index": 7,
+        "mode": "independent_fixed_total_queries",
+        "worker_count": 1,
+        "completed_full_gallery_queries": 96,
+        "completed_query_vector_scores": 96000000,
+        "aggregate_makespan_ns": 65149547,
+        "aggregate_full_gallery_queries_per_second": 1473.5328858080932,
+        "aggregate_query_vector_scores_per_second": 1473532885.808093,
+        "sum_worker_thread_cpu_ns": 65118384,
+        "worker_cpu_equivalents_over_makespan": 0.9995216697362455,
+        "workers": [
+          {
+            "worker_id": 0,
+            "query_start_in_reference_set": 0,
+            "query_count_scored": 96,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 96000000,
+            "wall_ns": 65149547,
+            "thread_cpu_ns": 65118384,
+            "verified_output_fnv1a64": "d799cde4f69e1189",
+            "serial_reference_fnv1a64": "d799cde4f69e1189"
+          }
+        ]
+      },
+      {
+        "sample_index": 8,
+        "mode": "independent_fixed_total_queries",
+        "worker_count": 1,
+        "completed_full_gallery_queries": 96,
+        "completed_query_vector_scores": 96000000,
+        "aggregate_makespan_ns": 64901946,
+        "aggregate_full_gallery_queries_per_second": 1479.154415493181,
+        "aggregate_query_vector_scores_per_second": 1479154415.493181,
+        "sum_worker_thread_cpu_ns": 64900272,
+        "worker_cpu_equivalents_over_makespan": 0.9999742072448798,
+        "workers": [
+          {
+            "worker_id": 0,
+            "query_start_in_reference_set": 0,
+            "query_count_scored": 96,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 96000000,
+            "wall_ns": 64901946,
+            "thread_cpu_ns": 64900272,
+            "verified_output_fnv1a64": "d799cde4f69e1189",
+            "serial_reference_fnv1a64": "d799cde4f69e1189"
+          }
+        ]
+      },
+      {
+        "sample_index": 9,
+        "mode": "independent_fixed_total_queries",
+        "worker_count": 3,
+        "completed_full_gallery_queries": 96,
+        "completed_query_vector_scores": 96000000,
+        "aggregate_makespan_ns": 44558249,
+        "aggregate_full_gallery_queries_per_second": 2154.483224868194,
+        "aggregate_query_vector_scores_per_second": 2154483224.8681946,
+        "sum_worker_thread_cpu_ns": 133549850,
+        "worker_cpu_equivalents_over_makespan": 2.997196994881913,
+        "workers": [
+          {
+            "worker_id": 0,
+            "query_start_in_reference_set": 0,
+            "query_count_scored": 32,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 32000000,
+            "wall_ns": 44550372,
+            "thread_cpu_ns": 44505335,
+            "verified_output_fnv1a64": "f1cb7c4d4e1b9d32",
+            "serial_reference_fnv1a64": "f1cb7c4d4e1b9d32"
+          },
+          {
+            "worker_id": 1,
+            "query_start_in_reference_set": 32,
+            "query_count_scored": 32,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 32000000,
+            "wall_ns": 44557008,
+            "thread_cpu_ns": 44541177,
+            "verified_output_fnv1a64": "1b22875e556a7965",
+            "serial_reference_fnv1a64": "1b22875e556a7965"
+          },
+          {
+            "worker_id": 2,
+            "query_start_in_reference_set": 64,
+            "query_count_scored": 32,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 32000000,
+            "wall_ns": 44555162,
+            "thread_cpu_ns": 44503338,
+            "verified_output_fnv1a64": "5f5240b985eb3126",
+            "serial_reference_fnv1a64": "5f5240b985eb3126"
+          }
+        ]
+      },
+      {
+        "sample_index": 10,
+        "mode": "independent_fixed_total_queries",
+        "worker_count": 3,
+        "completed_full_gallery_queries": 96,
+        "completed_query_vector_scores": 96000000,
+        "aggregate_makespan_ns": 43852716,
+        "aggregate_full_gallery_queries_per_second": 2189.1460496996356,
+        "aggregate_query_vector_scores_per_second": 2189146049.6996355,
+        "sum_worker_thread_cpu_ns": 130842648,
+        "worker_cpu_equivalents_over_makespan": 2.9836840208483326,
+        "workers": [
+          {
+            "worker_id": 0,
+            "query_start_in_reference_set": 0,
+            "query_count_scored": 32,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 32000000,
+            "wall_ns": 43846822,
+            "thread_cpu_ns": 43284621,
+            "verified_output_fnv1a64": "f1cb7c4d4e1b9d32",
+            "serial_reference_fnv1a64": "f1cb7c4d4e1b9d32"
+          },
+          {
+            "worker_id": 1,
+            "query_start_in_reference_set": 32,
+            "query_count_scored": 32,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 32000000,
+            "wall_ns": 43845739,
+            "thread_cpu_ns": 43816857,
+            "verified_output_fnv1a64": "1b22875e556a7965",
+            "serial_reference_fnv1a64": "1b22875e556a7965"
+          },
+          {
+            "worker_id": 2,
+            "query_start_in_reference_set": 64,
+            "query_count_scored": 32,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 32000000,
+            "wall_ns": 43850290,
+            "thread_cpu_ns": 43741170,
+            "verified_output_fnv1a64": "5f5240b985eb3126",
+            "serial_reference_fnv1a64": "5f5240b985eb3126"
+          }
+        ]
+      },
+      {
+        "sample_index": 11,
+        "mode": "independent_fixed_total_queries",
+        "worker_count": 1,
+        "completed_full_gallery_queries": 96,
+        "completed_query_vector_scores": 96000000,
+        "aggregate_makespan_ns": 64894780,
+        "aggregate_full_gallery_queries_per_second": 1479.3177509808957,
+        "aggregate_query_vector_scores_per_second": 1479317750.9808955,
+        "sum_worker_thread_cpu_ns": 64860382,
+        "worker_cpu_equivalents_over_makespan": 0.9994699419583517,
+        "workers": [
+          {
+            "worker_id": 0,
+            "query_start_in_reference_set": 0,
+            "query_count_scored": 96,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 96000000,
+            "wall_ns": 64894780,
+            "thread_cpu_ns": 64860382,
+            "verified_output_fnv1a64": "d799cde4f69e1189",
+            "serial_reference_fnv1a64": "d799cde4f69e1189"
+          }
+        ]
+      },
+      {
+        "sample_index": 12,
+        "mode": "independent_fixed_total_queries",
+        "worker_count": 1,
+        "completed_full_gallery_queries": 96,
+        "completed_query_vector_scores": 96000000,
+        "aggregate_makespan_ns": 76705662,
+        "aggregate_full_gallery_queries_per_second": 1251.5373376218304,
+        "aggregate_query_vector_scores_per_second": 1251537337.6218305,
+        "sum_worker_thread_cpu_ns": 76692624,
+        "worker_cpu_equivalents_over_makespan": 0.9998300255853342,
+        "workers": [
+          {
+            "worker_id": 0,
+            "query_start_in_reference_set": 0,
+            "query_count_scored": 96,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 96000000,
+            "wall_ns": 76705662,
+            "thread_cpu_ns": 76692624,
+            "verified_output_fnv1a64": "d799cde4f69e1189",
+            "serial_reference_fnv1a64": "d799cde4f69e1189"
+          }
+        ]
+      },
+      {
+        "sample_index": 13,
+        "mode": "independent_fixed_total_queries",
+        "worker_count": 3,
+        "completed_full_gallery_queries": 96,
+        "completed_query_vector_scores": 96000000,
+        "aggregate_makespan_ns": 41576085,
+        "aggregate_full_gallery_queries_per_second": 2309.0197165028885,
+        "aggregate_query_vector_scores_per_second": 2309019716.5028887,
+        "sum_worker_thread_cpu_ns": 124444456,
+        "worker_cpu_equivalents_over_makespan": 2.993173984515377,
+        "workers": [
+          {
+            "worker_id": 0,
+            "query_start_in_reference_set": 0,
+            "query_count_scored": 32,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 32000000,
+            "wall_ns": 41477301,
+            "thread_cpu_ns": 41435726,
+            "verified_output_fnv1a64": "f1cb7c4d4e1b9d32",
+            "serial_reference_fnv1a64": "f1cb7c4d4e1b9d32"
+          },
+          {
+            "worker_id": 1,
+            "query_start_in_reference_set": 32,
+            "query_count_scored": 32,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 32000000,
+            "wall_ns": 41575966,
+            "thread_cpu_ns": 41550934,
+            "verified_output_fnv1a64": "1b22875e556a7965",
+            "serial_reference_fnv1a64": "1b22875e556a7965"
+          },
+          {
+            "worker_id": 2,
+            "query_start_in_reference_set": 64,
+            "query_count_scored": 32,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 32000000,
+            "wall_ns": 41459507,
+            "thread_cpu_ns": 41457796,
+            "verified_output_fnv1a64": "5f5240b985eb3126",
+            "serial_reference_fnv1a64": "5f5240b985eb3126"
+          }
+        ]
+      }
+    ]
+  }
+}
