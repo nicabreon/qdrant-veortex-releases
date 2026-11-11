@@ -1,0 +1,154 @@
+{
+  "schema": "sq8_cache_blocked_amx_micro_diagnostic_v1",
+  "result": "NOT_A_WINNER_RETAIN_BASELINE",
+  "measurement_scope": "Synthetic full signed-I8 x U8 scorer microbenchmark; full score matrices for generated query/gallery data.",
+  "limitations": [
+    "One guest CPU only (CPU 4); not a production CPU allocation.",
+    "Each timing is the median of three measured repetitions after one warmup; these are not tail-latency measurements.",
+    "No HTTP, end-to-end retrieval, recall, or cluster-RPS evidence.",
+    "No engine binary was built or promoted; only a quantization test binary was built."
+  ],
+  "source": {
+    "commit": "94748eee94e77fc13c82f9db02e701bfaa4c1007",
+    "tree": "1df8eca49c041fd21140db9f7db5b9429dcb1578",
+    "working_tree_clean": true
+  },
+  "build_and_test_provenance": {
+    "candidate_build_status": "QUANTIZATION_TESTS_PASSED_NO_ENGINE_BUILD",
+    "engine_binary_built": false,
+    "quantization_test_binary_sha256": "91111c1b412d88653ac83ec0ae22405e0f38608667cb6b11c50d72e19f8347d6",
+    "quantization_test_build_receipt_sha256": "542dcb5cef55d8fbed32f6b9fdaf8e25125713661f8adf5bcaa7b620e7a38c4a",
+    "focused_correctness_tests": {
+      "total_passed": 131,
+      "turboquant_passed": 127,
+      "encoded_vectors_u8_passed": 4,
+      "cache_blocked_flag": "QDRANT_VEORTEX_SQ8_AMX_CACHE_BLOCKED=1"
+    },
+    "separate_microbenchmark_test": "1 passed; 0 failed",
+    "run_driver_sha256": "34feab085d6aea86eeb5f6242c3c24699d598e7b1c028ff7a11f16850297718c",
+    "quantization_build_driver_sha256": "ba6c120570222c46faae0702bbeb9a0d85e0610baa3de26ddc0741be65bf87d5",
+    "focused_tests_manifest_sha256": "30c4c9015fd7a65d2ed934b8629594828008153090ca73eec4d1137b1c6fe5f8"
+  },
+  "micro_run": {
+    "status": "PASSED_SCORER_DIAGNOSTIC_ONLY",
+    "receipt_sha256": "6ea0876aef4a58fff47dad4e9371bb82dee9c2e1d710ee6feba7e91b5c8c0e18",
+    "stdout_sha256": "1231b6a8858c4683e607920a5d5322ff39500ebc985c43135a28056920c979b0",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "cpu_mask": [
+      4
+    ],
+    "environment_overrides": {
+      "VX_PFH": "9",
+      "VX_PF8": "6"
+    },
+    "dimension": 512,
+    "stride_bytes": 516,
+    "chunk_vectors": 1024,
+    "warmups_per_case": 1,
+    "measured_repeats_per_case": 3,
+    "score_hashes_match_baseline_and_blocked": true
+  },
+  "speedup_definition": "baseline_median_ms / blocked_median_ms; values below 1.0 mean the cache-blocked candidate is slower.",
+  "rows": [
+    {
+      "n": 100000,
+      "nq": 16,
+      "chunk": 1024,
+      "repeats": 3,
+      "baseline_median_ms": 3.123,
+      "blocked_median_ms": 3.01,
+      "score_hash": "33fe14ef44f0342e",
+      "blocked_speedup": 1.0375415282392029
+    },
+    {
+      "n": 100000,
+      "nq": 32,
+      "chunk": 1024,
+      "repeats": 3,
+      "baseline_median_ms": 2.717,
+      "blocked_median_ms": 2.743,
+      "score_hash": "bd51c24b8624247c",
+      "blocked_speedup": 0.9905213270142181
+    },
+    {
+      "n": 100000,
+      "nq": 64,
+      "chunk": 1024,
+      "repeats": 3,
+      "baseline_median_ms": 3.618,
+      "blocked_median_ms": 4.117,
+      "score_hash": "731d7f25c727d89c",
+      "blocked_speedup": 0.8787952392518824
+    },
+    {
+      "n": 100000,
+      "nq": 70,
+      "chunk": 1024,
+      "repeats": 3,
+      "baseline_median_ms": 4.758,
+      "blocked_median_ms": 5.264,
+      "score_hash": "9dd79b53fb2d93b1",
+      "blocked_speedup": 0.9038753799392096
+    },
+    {
+      "n": 100000,
+      "nq": 96,
+      "chunk": 1024,
+      "repeats": 3,
+      "baseline_median_ms": 4.35,
+      "blocked_median_ms": 5.743,
+      "score_hash": "6d1d6b34d9b8ff8b",
+      "blocked_speedup": 0.7574438446804804
+    },
+    {
+      "n": 1000000,
+      "nq": 16,
+      "chunk": 1024,
+      "repeats": 3,
+      "baseline_median_ms": 31.555,
+      "blocked_median_ms": 31.303,
+      "score_hash": "43fdebde15f68de3",
+      "blocked_speedup": 1.0080503466121458
+    },
+    {
+      "n": 1000000,
+      "nq": 32,
+      "chunk": 1024,
+      "repeats": 3,
+      "baseline_median_ms": 32.569,
+      "blocked_median_ms": 33.318,
+      "score_hash": "e624742278387819",
+      "blocked_speedup": 0.97751965904316
+    },
+    {
+      "n": 1000000,
+      "nq": 64,
+      "chunk": 1024,
+      "repeats": 3,
+      "baseline_median_ms": 39.813,
+      "blocked_median_ms": 48.468,
+      "score_hash": "0d097033645db228",
+      "blocked_speedup": 0.8214285714285714
+    },
+    {
+      "n": 1000000,
+      "nq": 70,
+      "chunk": 1024,
+      "repeats": 3,
+      "baseline_median_ms": 54.443,
+      "blocked_median_ms": 61.973,
+      "score_hash": "0ddf7ab1c4bf8ddc",
+      "blocked_speedup": 0.87849547383538
+    },
+    {
+      "n": 1000000,
+      "nq": 96,
+      "chunk": 1024,
+      "repeats": 3,
+      "baseline_median_ms": 46.443,
+      "blocked_median_ms": 63.294,
+      "score_hash": "1874fee7adf06ca2",
+      "blocked_speedup": 0.7337662337662337
+    }
+  ]
+}
