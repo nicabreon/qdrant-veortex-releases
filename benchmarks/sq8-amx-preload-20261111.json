@@ -1,0 +1,402 @@
+{
+  "artifact_kind": "private_diagnostic_preview",
+  "limitations": [
+    "One synthetic scorer process pinned to one CPU; no HTTP serving, retrieval recall, or cluster RPS.",
+    "Seven paired samples and their medians are reported; no latency-tail estimate is available.",
+    "The measurements do not show a consistent or large benefit and do not justify changing the baseline default.",
+    "The route-counter correctness test is separate from timing; timing telemetry was disabled."
+  ],
+  "provenance": {
+    "micro_run": {
+      "driver_sha256": "5d27ca81ca579dcf82732cd6a3fc1e53ab27d6cae3486d4e7ba2ba7fc8bc2a64",
+      "exit_code": 0,
+      "finished_utc": "2026-11-11T02:10:55.192474+00:00",
+      "receipt_sha256": "6b87f193e575f1772ad5864c335d31f695783ae948700445fb3192dd163b383b",
+      "run_id": "micro-20261111T021049Z",
+      "started_utc": "2026-11-11T02:10:49.155598+00:00",
+      "status": "PASSED_SCORER_DIAGNOSTIC_ONLY",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "d38fd19d95a1153a1a6c0c022f5c87228759a46d2eb6da38b4d35cf13a5aa21f"
+    },
+    "quantization_tests": {
+      "build_driver_sha256": "95d5207307be395d30c065dfc938eaa0f4b3f6221b5268268dd237d679f57b00",
+      "build_receipt_sha256": "d5419edc27641e3503ed19f87e1ca1797c48a08c561a8906356c944f820f5336",
+      "focused_tests_manifest_sha256": "258b04bfab737e86b358c794b0566134eb753a6b66d4db49fd72bfd01870ff6c",
+      "logs_sha256": {
+        "encoded_vectors_u8_stdout": "6e381f9729aef491fde2db7f4007ce17fc118aa1142be25d0f65b947a82f63d2",
+        "quantization_test_build_stderr": "e92c1252442330c8a18bb111323901ec6a7f78cd4e28b5f806015943a80408bf",
+        "quantization_test_build_stdout": "645ced7f53df7061fde113cb9557c09279bab181cd41a5001d2c92146968dbc8",
+        "turboquant_stdout": "c93f50ba5d8e9eea6ac307b83775077f2b4f1bd7a3f5bd2292d39aad690cfcb0"
+      },
+      "passed_cases": 133,
+      "route_and_oracle_test": "sq8_amx_operand_preload_exact_oracle_and_route_counters",
+      "scoped_override_test": "sq8_amx_operand_preload_test_override_is_nested_and_panic_safe",
+      "status": "QUANTIZATION_TESTS_PASSED_NO_ENGINE_BUILD",
+      "suite_counts": {
+        "encoded_vectors_u8": 4,
+        "turboquant": 129
+      },
+      "test_binary_sha256": "bc23db9de0a8dc57f26049a155e9cbeff507615b8b4d8cb3e0dccd593f9d95ee"
+    },
+    "source": {
+      "commit": "c645d1e52a1aadb7a73db5940f1742bfaac16f8a",
+      "design_note_sha256": "ab44f6a556b2400878a08ec002b2cb5b627a7d0f9efb7bfaf662b2001828dfbe",
+      "main_source_sha256": "de1b25a83c8aca0d5d63bbea0ec520008b4c4dc968484d9bb756c5206a032505",
+      "preload_test_source_sha256": "e11c432ad345ea541ea991c5fdb0e95a95f22a7684ae2bcff63aa77985299c19",
+      "tree": "309fd348555563e5afb40213a64e34b4fbee64d3"
+    }
+  },
+  "result_interpretation": "The schedule shows small, mixed single-CPU scorer changes. Three of four route-eligible rows are faster by their seven-sample medians and one is slightly slower. The largest loss is the nq=32 route control at n=1,000,000. Retain the existing baseline/default; these medians do not establish a stable production benefit.",
+  "rows": [
+    {
+      "baseline_median_ms": 2.963283,
+      "baseline_ns": [
+        3582206,
+        3177150,
+        3117046,
+        2963283,
+        2883139,
+        2779025,
+        2684938
+      ],
+      "baseline_score_hash": "a48b78f2e9e2cd54",
+      "change_percent_preload_vs_baseline": 1.2656570432186154,
+      "chunk": 1024,
+      "delta_ms_preload_minus_baseline": 0.0375049999999999,
+      "dimension": 512,
+      "n": 100000,
+      "nq": 32,
+      "preload_median_ms": 3.000788,
+      "preload_ns": [
+        3444721,
+        3269591,
+        3136750,
+        3000788,
+        2785243,
+        2814051,
+        2798873
+      ],
+      "preload_route_eligible": false,
+      "preload_score_hash": "a48b78f2e9e2cd54",
+      "repeats": 7,
+      "score_hash": "a48b78f2e9e2cd54",
+      "scratch_bytes": 393216,
+      "speedup": 0.9875016162421337,
+      "speedup_baseline_over_preload": 0.9875016162421337,
+      "stride": 516
+    },
+    {
+      "baseline_median_ms": 3.421692,
+      "baseline_ns": [
+        3654770,
+        3536064,
+        3524746,
+        3375029,
+        3356082,
+        3421692,
+        3367884
+      ],
+      "baseline_score_hash": "763f3fa7ea447658",
+      "change_percent_preload_vs_baseline": 0.36844344844597643,
+      "chunk": 1024,
+      "delta_ms_preload_minus_baseline": 0.012607000000000035,
+      "dimension": 512,
+      "n": 100000,
+      "nq": 64,
+      "preload_median_ms": 3.434299,
+      "preload_ns": [
+        3489460,
+        3513465,
+        3434299,
+        3545510,
+        3296899,
+        3314611,
+        3399776
+      ],
+      "preload_route_eligible": true,
+      "preload_score_hash": "763f3fa7ea447658",
+      "repeats": 7,
+      "score_hash": "763f3fa7ea447658",
+      "scratch_bytes": 393216,
+      "speedup": 0.9963290907402064,
+      "speedup_baseline_over_preload": 0.9963290907402064,
+      "stride": 516
+    },
+    {
+      "baseline_median_ms": 4.900986,
+      "baseline_ns": [
+        5244468,
+        4903795,
+        4791219,
+        4861572,
+        4938029,
+        4900986,
+        4867652
+      ],
+      "baseline_score_hash": "726ff6bf7d829e54",
+      "change_percent_preload_vs_baseline": 0.9064094449565907,
+      "chunk": 1024,
+      "delta_ms_preload_minus_baseline": 0.0444230000000001,
+      "dimension": 512,
+      "n": 100000,
+      "nq": 70,
+      "preload_median_ms": 4.945409,
+      "preload_ns": [
+        5023510,
+        5014972,
+        4827409,
+        4763019,
+        4931719,
+        4945409,
+        5725021
+      ],
+      "preload_route_eligible": false,
+      "preload_score_hash": "726ff6bf7d829e54",
+      "repeats": 7,
+      "score_hash": "726ff6bf7d829e54",
+      "scratch_bytes": 393216,
+      "speedup": 0.9910173253617648,
+      "speedup_baseline_over_preload": 0.9910173253617648,
+      "stride": 516
+    },
+    {
+      "baseline_median_ms": 4.247972,
+      "baseline_ns": [
+        4298408,
+        4247972,
+        4486681,
+        4237786,
+        4179313,
+        4246795,
+        4510985
+      ],
+      "baseline_score_hash": "bb9440a2cacbdd65",
+      "change_percent_preload_vs_baseline": -1.5276466040736514,
+      "chunk": 1024,
+      "delta_ms_preload_minus_baseline": -0.06489399999999979,
+      "dimension": 512,
+      "n": 100000,
+      "nq": 96,
+      "preload_median_ms": 4.183078,
+      "preload_ns": [
+        4236575,
+        4176079,
+        4209824,
+        4183078,
+        4126564,
+        4079252,
+        4426032
+      ],
+      "preload_route_eligible": true,
+      "preload_score_hash": "bb9440a2cacbdd65",
+      "repeats": 7,
+      "score_hash": "bb9440a2cacbdd65",
+      "scratch_bytes": 393216,
+      "speedup": 1.0155134568372859,
+      "speedup_baseline_over_preload": 1.0155134568372859,
+      "stride": 516
+    },
+    {
+      "baseline_median_ms": 32.730931,
+      "baseline_ns": [
+        35552205,
+        32658486,
+        32702735,
+        33111372,
+        32496191,
+        33046808,
+        32730931
+      ],
+      "baseline_score_hash": "fa1386df93b6b965",
+      "change_percent_preload_vs_baseline": 2.6233534267632086,
+      "chunk": 1024,
+      "delta_ms_preload_minus_baseline": 0.8586480000000023,
+      "dimension": 512,
+      "n": 1000000,
+      "nq": 32,
+      "preload_median_ms": 33.589579,
+      "preload_ns": [
+        33710933,
+        32936225,
+        33589579,
+        34741272,
+        33834445,
+        32669788,
+        32697849
+      ],
+      "preload_route_eligible": false,
+      "preload_score_hash": "fa1386df93b6b965",
+      "repeats": 7,
+      "score_hash": "fa1386df93b6b965",
+      "scratch_bytes": 393216,
+      "speedup": 0.9744370716882161,
+      "speedup_baseline_over_preload": 0.9744370716882161,
+      "stride": 516
+    },
+    {
+      "baseline_median_ms": 41.628405,
+      "baseline_ns": [
+        43028601,
+        40291026,
+        42474700,
+        41925691,
+        40661251,
+        40198277,
+        41628405
+      ],
+      "baseline_score_hash": "b888ded08329db16",
+      "change_percent_preload_vs_baseline": -0.9298074235609133,
+      "chunk": 1024,
+      "delta_ms_preload_minus_baseline": -0.3870640000000023,
+      "dimension": 512,
+      "n": 1000000,
+      "nq": 64,
+      "preload_median_ms": 41.241341,
+      "preload_ns": [
+        40732664,
+        40400420,
+        41241341,
+        41377706,
+        41976301,
+        40449606,
+        42302461
+      ],
+      "preload_route_eligible": true,
+      "preload_score_hash": "b888ded08329db16",
+      "repeats": 7,
+      "score_hash": "b888ded08329db16",
+      "scratch_bytes": 393216,
+      "speedup": 1.0093853398220005,
+      "speedup_baseline_over_preload": 1.0093853398220005,
+      "stride": 516
+    },
+    {
+      "baseline_median_ms": 55.061412,
+      "baseline_ns": [
+        55061412,
+        54503975,
+        55872573,
+        55231762,
+        55211598,
+        54667793,
+        54739211
+      ],
+      "baseline_score_hash": "5840013ba71143f4",
+      "change_percent_preload_vs_baseline": -0.24423819716064,
+      "chunk": 1024,
+      "delta_ms_preload_minus_baseline": -0.13448099999999386,
+      "dimension": 512,
+      "n": 1000000,
+      "nq": 70,
+      "preload_median_ms": 54.926931,
+      "preload_ns": [
+        57230255,
+        54518464,
+        54926931,
+        54847287,
+        54345474,
+        55041261,
+        55452710
+      ],
+      "preload_route_eligible": false,
+      "preload_score_hash": "5840013ba71143f4",
+      "repeats": 7,
+      "score_hash": "5840013ba71143f4",
+      "scratch_bytes": 393216,
+      "speedup": 1.0024483618063422,
+      "speedup_baseline_over_preload": 1.0024483618063422,
+      "stride": 516
+    },
+    {
+      "baseline_median_ms": 46.682824,
+      "baseline_ns": [
+        46373380,
+        47501400,
+        46682824,
+        46522860,
+        47344191,
+        46338041,
+        47058092
+      ],
+      "baseline_score_hash": "e7b4e524ea865a98",
+      "change_percent_preload_vs_baseline": -0.37820548302732737,
+      "chunk": 1024,
+      "delta_ms_preload_minus_baseline": -0.1765569999999954,
+      "dimension": 512,
+      "n": 1000000,
+      "nq": 96,
+      "preload_median_ms": 46.506267,
+      "preload_ns": [
+        48603519,
+        46506267,
+        48192929,
+        46322404,
+        46961352,
+        46324092,
+        45906354
+      ],
+      "preload_route_eligible": true,
+      "preload_score_hash": "e7b4e524ea865a98",
+      "repeats": 7,
+      "score_hash": "e7b4e524ea865a98",
+      "scratch_bytes": 393216,
+      "speedup": 1.0037964130726724,
+      "speedup_baseline_over_preload": 1.0037964130726724,
+      "stride": 516
+    }
+  ],
+  "schema": "sq8_amx_operand_preload_synthetic_micro_preview_v1",
+  "scope": {
+    "baseline_arm": "test-local schedule override disabled",
+    "chunk_vectors": 1024,
+    "cluster_throughput_evidence": false,
+    "cpu_mask": [
+      4
+    ],
+    "dimension": 512,
+    "engine_binary_built_or_promoted": false,
+    "environment_overrides": {
+      "VX_PF8": "6",
+      "VX_PFH": "9"
+    },
+    "full_score_hashes_match_all_rows": true,
+    "http_or_retrieval_recall_evidence": false,
+    "independent_scalar_oracle": "representative queries and vectors checked in every chunk outside timed loops",
+    "preload_arm": "test-local operand-preload schedule override enabled",
+    "query_counts": [
+      32,
+      64,
+      70,
+      96
+    ],
+    "route_eligibility": {
+      "control_query_counts": [
+        32,
+        70
+      ],
+      "counter_validation": "The focused correctness test enables telemetry with a panic-safe scope and checks positive preload call/cell deltas only for nq=64/96; telemetry is off during timing.",
+      "eligible_query_counts": [
+        64,
+        96
+      ],
+      "reason": "Both tested gallery counts yield an even gallery-tile count. PFH=9 selects the pair-prefetch 2G2Q route; active query-tile counts are 2, 4, 5, and 6 respectively, and the route requires an even query-tile count of at least four."
+    },
+    "same_test_binary_for_both_arms": true,
+    "score_scratch_bytes": 393216,
+    "score_scratch_size": "384 KiB",
+    "score_stores": "cached SQ8 score-store policy scoped for the sweep",
+    "telemetry_enabled_during_timing": false,
+    "test_binary_sha256": "bc23db9de0a8dc57f26049a155e9cbeff507615b8b4d8cb3e0dccd593f9d95ee",
+    "timing": "seven alternating paired repetitions; median only",
+    "timing_samples_are_tails": false,
+    "vector_counts": [
+      100000,
+      1000000
+    ],
+    "vector_stride_bytes": 516,
+    "warmup": "one paired baseline/preload warmup",
+    "workload": "synthetic signed-I8 query by U8 gallery scorer"
+  },
+  "status": "SCORER_DIAGNOSTIC_ONLY_RETAIN_BASELINE",
+  "private_curated_input_sha256": "1febf9f925db09f070bf2f85fb1d4f5529c0ef5f2b0b5ef5e0a2dfb10d864496"
+}
