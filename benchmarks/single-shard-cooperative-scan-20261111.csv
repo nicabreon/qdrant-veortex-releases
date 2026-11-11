@@ -1,0 +1,5 @@
+mode,workers,samples,full_gallery_query_completions,median_scan_ms,min_scan_ms,max_scan_ms,median_scan_queries_s,median_worker_cpu_equivalents
+independent_full_gallery_queries,1,7,96,58.734196,53.478918,60.689467,1634.4822358681813,0.9999793468115376
+independent_full_gallery_queries,3,7,288,61.493108,60.989765,64.754683,4683.451680471249,2.9933921251211224
+cooperative_gallery_partition,1,7,96,58.943171,56.201678,70.165283,1628.687401293697,0.9996429791506208
+cooperative_gallery_partition,3,7,96,22.148425,20.182202,49.71504,4334.39398061036,2.90011596761395

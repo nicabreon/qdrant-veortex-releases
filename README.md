@@ -1,6 +1,19 @@
 # Qdrant 1.20.0 with Veortex: shared-CPU SQ8 results
 
 
+## Revision — 11 November 2026: worker load and cooperative-scan diagnostics
+
+The additional [one-versus-three-worker matrix](benchmarks/worker-scaling-batch-concurrency-20261111.md) covers B1/C64, C128, C256, C384 and B64/B128 at C4/C8, on the same full 3M × 512D SQ8 fixture and three shared CPUs per node. It uses baseline ELF `074f45…`, Auto, fixed 640/640 admission, and 30-second configured windows plus drain. The earlier complete native/AVX/Auto matrix and experimental C512 observations remain separately documented below.
+
+| Category | B1/C384 HTTP requests/s | B64/C8 query members/s | B128/C4 query members/s |
+|---|---:|---:|---:|
+| No filter / no payload | **1,784.63** | **2,560.36** | **2,231.49** |
+| Active filter (~90%) / payload | **1,674.67** | **2,211.60** | **1,917.48** |
+
+These are three-worker results; the linked report includes all one-worker comparisons, p50/p95/p99, counts, CPU diagnostics, and provenance. Of 32 attempted cells, **30 are accepted** (one has an explicit harness-timing adjudication) and two filtered B128/C8 cells retain HTTP-429 capacity failures outside the accepted table. All 32 separate 1,024-query accuracy checks passed. The three-worker rejection counters identify the fixed 2 GiB queued-query byte budget. No engine setting was changed to erase a failure, and no native comparison is claimed for the additional load points.
+
+A separate [single-gallery cooperative scan experiment](benchmarks/single-shard-cooperative-scan-20261111.md) demonstrates test-only partitioning of 1M vectors across three workers: **58.943 → 22.148 ms** for the same batch of 96 queries, scan only. Independent query batches scale **1,634 → 4,683 scan queries/s**. These are component results, not 3M cluster HTTP RPS or B1 latency. Cooperative gallery partitioning is **not yet integrated into the production Qdrant path**; the report includes all samples and the observed slow sample.
+
 ## Revision — 11 November 2026: latest B1 high-concurrency measurements
 
 The latest completed server-binary diagnostic reached **1,931.96 HTTP requests/s at B1/C512** without filter or payload. The complete head-to-head matrix below uses B1/C64 and B1/C128, plus B64/C4 and B128/C4; those are different load points and their numbers are retained.

@@ -1,0 +1,1250 @@
+{
+  "schema": "sq8_component_cooperative_gallery_split_v1",
+  "provenance": {
+    "source_commit": "070808ad0f3d77bb4141657deef6bc73e51fa2de",
+    "source_tree": "ff2d89ab9272b913d451ab6b6d9f6cc7b164161c",
+    "test_binary_sha256": "e9ecf82505480a7199ef5210775d9572852577a7d567c67b27458c7bea05bbfc",
+    "build_receipt_sha256": "6e3e4bd2c4f078b666d009c45a349d45d6d1189eb53b906f2221d2d90f05085d",
+    "raw_stdout_sha256": "6f7fe8fe6b56b963bdbffd1b42119bb4a7ed1e26a051322e8f787f39828ccac2",
+    "component_results_sha256": "5f255dfc8bc22f958a5e8386c2e01a6a8cb2442bc744a128d3690bcbd3769cf5",
+    "rust_toolchain": "1.98.0",
+    "engine_production_source_changed": false,
+    "test_fixture_source_public": false,
+    "process_allowed_cpu_mask": [
+      4,
+      5,
+      6
+    ],
+    "nice": 10,
+    "host": "One KVM VM, Intel Xeon Silver 4510 guest identity, 16 vCPU, about 47 GiB RAM; physical host placement is not established."
+  },
+  "summary": [
+    {
+      "mode": "independent_full_gallery_queries",
+      "workers": 1,
+      "samples": 7,
+      "full_gallery_query_completions": 96,
+      "median_scan_ms": 58.734196,
+      "min_scan_ms": 53.478918,
+      "max_scan_ms": 60.689467,
+      "median_scan_queries_s": 1634.4822358681813,
+      "median_worker_cpu_equivalents": 0.9999793468115376
+    },
+    {
+      "mode": "independent_full_gallery_queries",
+      "workers": 3,
+      "samples": 7,
+      "full_gallery_query_completions": 288,
+      "median_scan_ms": 61.493108,
+      "min_scan_ms": 60.989765,
+      "max_scan_ms": 64.754683,
+      "median_scan_queries_s": 4683.451680471249,
+      "median_worker_cpu_equivalents": 2.9933921251211224
+    },
+    {
+      "mode": "cooperative_gallery_partition",
+      "workers": 1,
+      "samples": 7,
+      "full_gallery_query_completions": 96,
+      "median_scan_ms": 58.943171,
+      "min_scan_ms": 56.201678,
+      "max_scan_ms": 70.165283,
+      "median_scan_queries_s": 1628.687401293697,
+      "median_worker_cpu_equivalents": 0.9996429791506208
+    },
+    {
+      "mode": "cooperative_gallery_partition",
+      "workers": 3,
+      "samples": 7,
+      "full_gallery_query_completions": 96,
+      "median_scan_ms": 22.148425,
+      "min_scan_ms": 20.182202,
+      "max_scan_ms": 49.71504,
+      "median_scan_queries_s": 4334.39398061036,
+      "median_worker_cpu_equivalents": 2.90011596761395
+    }
+  ],
+  "component_report": {
+    "experiment": "SQ8 fixed-batch worker scaling without HTTP, TopK, or rerank",
+    "gallery_vectors": 1000000,
+    "dimension": 512,
+    "gallery_stride_bytes": 516,
+    "gallery_code_offset_bytes": 4,
+    "shared_gallery_bytes": 516000000,
+    "shared_gallery": "one immutable Arc shared by all worker threads",
+    "queries_per_worker_batch": 96,
+    "work_modes": [
+      {
+        "mode": "independent_full_gallery_queries",
+        "queries": "each worker has a distinct fixed 96-query set and scans the full gallery"
+      },
+      {
+        "mode": "cooperative_gallery_partition",
+        "queries": "workers share query set 0 and scan disjoint vector-aligned gallery partitions; three workers collectively score 96 full-gallery queries"
+      }
+    ],
+    "cooperative_gallery_partitions_start_count": [
+      [
+        0,
+        333328
+      ],
+      [
+        333328,
+        333328
+      ],
+      [
+        666656,
+        333344
+      ]
+    ],
+    "cooperative_partition_union_vectors": 1000000,
+    "cooperative_partitions_are_disjoint_and_contiguous": true,
+    "query_encoding": "signed i8 bytes multiplied by unsigned u8 gallery codes; F32 affine score",
+    "score_scratch_f32_cells_per_worker": 98304,
+    "score_scratch_bytes_per_worker": 393216,
+    "chunk_vectors": 1024,
+    "full_gallery_chunk_count": 977,
+    "full_gallery_last_chunk_vectors": 576,
+    "cooperative_partition_chunk_count_by_worker": [
+      326,
+      326,
+      326
+    ],
+    "cooperative_total_partition_chunks": 978,
+    "process_cpu_allowed_list": "4-6",
+    "process_cpu_count": 3,
+    "per_thread_affinity_changes": false,
+    "kernel_tier": "forced AMX",
+    "effective_VX_PF8": 6,
+    "effective_VX_PFH": 9,
+    "effective_VX_ABLATE": 0,
+    "effective_VX_SQ8_PIPELINE_MIN": 2,
+    "cached_score_stores": true,
+    "telemetry_enabled_during_timing": false,
+    "warmup_trials_per_mode_worker_count": 1,
+    "measured_samples_per_mode_worker_count": 7,
+    "sample_order": [
+      1,
+      3,
+      3,
+      1,
+      1,
+      3,
+      3,
+      1,
+      1,
+      3,
+      3,
+      1,
+      1,
+      3
+    ],
+    "mode_order_alternates_each_sample": true,
+    "timing_scope": "each worker scores its fixed query batch over its assigned gallery range; excludes thread creation, per-thread AMX permission/configuration, one-chunk query-cache warmup, and untimed output verification; aggregate makespan spans earliest worker start to latest worker finish",
+    "oracle": "independent signed-I8 x unsigned-U8 i64 dot and F32 affine score checks at representative cells in every gallery chunk",
+    "output_fingerprint": "FNV-1a 64-bit over every F32 output bit pattern in each assigned range, verified against the untimed serial scan for the same query set and range",
+    "rates_are": "fixed full-gallery query completions and query-vector scores per second; not HTTP requests per second",
+    "cooperative_mode_scope": "diagnostic only; it does not claim that the production Qdrant query path cooperatively splits a shard or its TopK work",
+    "direct_DRAM_bandwidth_measured": false,
+    "serial_references": [
+      {
+        "mode": "independent_full_gallery_queries",
+        "worker_count": 1,
+        "worker_output_fnv1a64": [
+          "d799cde4f69e1189"
+        ]
+      },
+      {
+        "mode": "independent_full_gallery_queries",
+        "worker_count": 3,
+        "worker_output_fnv1a64": [
+          "d799cde4f69e1189",
+          "ccd8912f4d43be27",
+          "3b0c13993c73fca5"
+        ]
+      },
+      {
+        "mode": "cooperative_gallery_partition",
+        "worker_count": 1,
+        "worker_output_fnv1a64": [
+          "d799cde4f69e1189"
+        ]
+      },
+      {
+        "mode": "cooperative_gallery_partition",
+        "worker_count": 3,
+        "worker_output_fnv1a64": [
+          "c3488524221ddabb",
+          "e9568f9c4a92d4d9",
+          "7e59606337ee7e47"
+        ]
+      }
+    ],
+    "samples": [
+      {
+        "sample_index": 0,
+        "mode": "independent_full_gallery_queries",
+        "worker_count": 1,
+        "completed_full_gallery_queries": 96,
+        "completed_query_vector_scores": 96000000,
+        "aggregate_makespan_ns": 53478918,
+        "aggregate_full_gallery_queries_per_second": 1795.0998933822857,
+        "aggregate_query_vector_scores_per_second": 1795099893.3822856,
+        "sum_worker_thread_cpu_ns": 53452287,
+        "worker_cpu_equivalents_over_makespan": 0.9995020280702014,
+        "workers": [
+          {
+            "worker_id": 0,
+            "query_count_scored": 96,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 96000000,
+            "wall_ns": 53478918,
+            "thread_cpu_ns": 53452287,
+            "verified_output_fnv1a64": "d799cde4f69e1189",
+            "serial_reference_fnv1a64": "d799cde4f69e1189"
+          }
+        ]
+      },
+      {
+        "sample_index": 0,
+        "mode": "cooperative_gallery_partition",
+        "worker_count": 1,
+        "completed_full_gallery_queries": 96,
+        "completed_query_vector_scores": 96000000,
+        "aggregate_makespan_ns": 66700370,
+        "aggregate_full_gallery_queries_per_second": 1439.272375850389,
+        "aggregate_query_vector_scores_per_second": 1439272375.850389,
+        "sum_worker_thread_cpu_ns": 66664976,
+        "worker_cpu_equivalents_over_makespan": 0.9994693582659286,
+        "workers": [
+          {
+            "worker_id": 0,
+            "query_count_scored": 96,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 96000000,
+            "wall_ns": 66700370,
+            "thread_cpu_ns": 66664976,
+            "verified_output_fnv1a64": "d799cde4f69e1189",
+            "serial_reference_fnv1a64": "d799cde4f69e1189"
+          }
+        ]
+      },
+      {
+        "sample_index": 1,
+        "mode": "cooperative_gallery_partition",
+        "worker_count": 3,
+        "completed_full_gallery_queries": 96,
+        "completed_query_vector_scores": 96000000,
+        "aggregate_makespan_ns": 22148425,
+        "aggregate_full_gallery_queries_per_second": 4334.39398061036,
+        "aggregate_query_vector_scores_per_second": 4334393980.610359,
+        "sum_worker_thread_cpu_ns": 64233001,
+        "worker_cpu_equivalents_over_makespan": 2.90011596761395,
+        "workers": [
+          {
+            "worker_id": 0,
+            "query_count_scored": 96,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 333328,
+            "scorer_chunks": 326,
+            "query_vector_scores": 31999488,
+            "wall_ns": 22039740,
+            "thread_cpu_ns": 22015187,
+            "verified_output_fnv1a64": "c3488524221ddabb",
+            "serial_reference_fnv1a64": "c3488524221ddabb"
+          },
+          {
+            "worker_id": 1,
+            "query_count_scored": 96,
+            "gallery_start_vector": 333328,
+            "gallery_vectors_scanned_per_query": 333328,
+            "scorer_chunks": 326,
+            "query_vector_scores": 31999488,
+            "wall_ns": 21896817,
+            "thread_cpu_ns": 21510614,
+            "verified_output_fnv1a64": "e9568f9c4a92d4d9",
+            "serial_reference_fnv1a64": "e9568f9c4a92d4d9"
+          },
+          {
+            "worker_id": 2,
+            "query_count_scored": 96,
+            "gallery_start_vector": 666656,
+            "gallery_vectors_scanned_per_query": 333344,
+            "scorer_chunks": 326,
+            "query_vector_scores": 32001024,
+            "wall_ns": 20709180,
+            "thread_cpu_ns": 20707200,
+            "verified_output_fnv1a64": "7e59606337ee7e47",
+            "serial_reference_fnv1a64": "7e59606337ee7e47"
+          }
+        ]
+      },
+      {
+        "sample_index": 1,
+        "mode": "independent_full_gallery_queries",
+        "worker_count": 3,
+        "completed_full_gallery_queries": 288,
+        "completed_query_vector_scores": 288000000,
+        "aggregate_makespan_ns": 62403289,
+        "aggregate_full_gallery_queries_per_second": 4615.141358975486,
+        "aggregate_query_vector_scores_per_second": 4615141358.975486,
+        "sum_worker_thread_cpu_ns": 186762693,
+        "worker_cpu_equivalents_over_makespan": 2.992834127701186,
+        "workers": [
+          {
+            "worker_id": 0,
+            "query_count_scored": 96,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 96000000,
+            "wall_ns": 62395387,
+            "thread_cpu_ns": 62364090,
+            "verified_output_fnv1a64": "d799cde4f69e1189",
+            "serial_reference_fnv1a64": "d799cde4f69e1189"
+          },
+          {
+            "worker_id": 1,
+            "query_count_scored": 96,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 96000000,
+            "wall_ns": 62403289,
+            "thread_cpu_ns": 62162261,
+            "verified_output_fnv1a64": "ccd8912f4d43be27",
+            "serial_reference_fnv1a64": "ccd8912f4d43be27"
+          },
+          {
+            "worker_id": 2,
+            "query_count_scored": 96,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 96000000,
+            "wall_ns": 62393002,
+            "thread_cpu_ns": 62236342,
+            "verified_output_fnv1a64": "3b0c13993c73fca5",
+            "serial_reference_fnv1a64": "3b0c13993c73fca5"
+          }
+        ]
+      },
+      {
+        "sample_index": 2,
+        "mode": "independent_full_gallery_queries",
+        "worker_count": 3,
+        "completed_full_gallery_queries": 288,
+        "completed_query_vector_scores": 288000000,
+        "aggregate_makespan_ns": 63092145,
+        "aggregate_full_gallery_queries_per_second": 4564.752078091496,
+        "aggregate_query_vector_scores_per_second": 4564752078.091496,
+        "sum_worker_thread_cpu_ns": 188859530,
+        "worker_cpu_equivalents_over_makespan": 2.9933921251211224,
+        "workers": [
+          {
+            "worker_id": 0,
+            "query_count_scored": 96,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 96000000,
+            "wall_ns": 63091897,
+            "thread_cpu_ns": 62907770,
+            "verified_output_fnv1a64": "d799cde4f69e1189",
+            "serial_reference_fnv1a64": "d799cde4f69e1189"
+          },
+          {
+            "worker_id": 1,
+            "query_count_scored": 96,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 96000000,
+            "wall_ns": 62995735,
+            "thread_cpu_ns": 62923265,
+            "verified_output_fnv1a64": "ccd8912f4d43be27",
+            "serial_reference_fnv1a64": "ccd8912f4d43be27"
+          },
+          {
+            "worker_id": 2,
+            "query_count_scored": 96,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 96000000,
+            "wall_ns": 63081639,
+            "thread_cpu_ns": 63028495,
+            "verified_output_fnv1a64": "3b0c13993c73fca5",
+            "serial_reference_fnv1a64": "3b0c13993c73fca5"
+          }
+        ]
+      },
+      {
+        "sample_index": 2,
+        "mode": "cooperative_gallery_partition",
+        "worker_count": 3,
+        "completed_full_gallery_queries": 96,
+        "completed_query_vector_scores": 96000000,
+        "aggregate_makespan_ns": 21296572,
+        "aggregate_full_gallery_queries_per_second": 4507.767729003523,
+        "aggregate_query_vector_scores_per_second": 4507767729.003522,
+        "sum_worker_thread_cpu_ns": 62530165,
+        "worker_cpu_equivalents_over_makespan": 2.936161040377766,
+        "workers": [
+          {
+            "worker_id": 0,
+            "query_count_scored": 96,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 333328,
+            "scorer_chunks": 326,
+            "query_vector_scores": 31999488,
+            "wall_ns": 21192304,
+            "thread_cpu_ns": 21189914,
+            "verified_output_fnv1a64": "c3488524221ddabb",
+            "serial_reference_fnv1a64": "c3488524221ddabb"
+          },
+          {
+            "worker_id": 1,
+            "query_count_scored": 96,
+            "gallery_start_vector": 333328,
+            "gallery_vectors_scanned_per_query": 333328,
+            "scorer_chunks": 326,
+            "query_vector_scores": 31999488,
+            "wall_ns": 21117529,
+            "thread_cpu_ns": 21008880,
+            "verified_output_fnv1a64": "e9568f9c4a92d4d9",
+            "serial_reference_fnv1a64": "e9568f9c4a92d4d9"
+          },
+          {
+            "worker_id": 2,
+            "query_count_scored": 96,
+            "gallery_start_vector": 666656,
+            "gallery_vectors_scanned_per_query": 333344,
+            "scorer_chunks": 326,
+            "query_vector_scores": 32001024,
+            "wall_ns": 20415213,
+            "thread_cpu_ns": 20331371,
+            "verified_output_fnv1a64": "7e59606337ee7e47",
+            "serial_reference_fnv1a64": "7e59606337ee7e47"
+          }
+        ]
+      },
+      {
+        "sample_index": 3,
+        "mode": "cooperative_gallery_partition",
+        "worker_count": 1,
+        "completed_full_gallery_queries": 96,
+        "completed_query_vector_scores": 96000000,
+        "aggregate_makespan_ns": 57016278,
+        "aggregate_full_gallery_queries_per_second": 1683.7296885636765,
+        "aggregate_query_vector_scores_per_second": 1683729688.5636766,
+        "sum_worker_thread_cpu_ns": 56995922,
+        "worker_cpu_equivalents_over_makespan": 0.9996429791506208,
+        "workers": [
+          {
+            "worker_id": 0,
+            "query_count_scored": 96,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 96000000,
+            "wall_ns": 57016278,
+            "thread_cpu_ns": 56995922,
+            "verified_output_fnv1a64": "d799cde4f69e1189",
+            "serial_reference_fnv1a64": "d799cde4f69e1189"
+          }
+        ]
+      },
+      {
+        "sample_index": 3,
+        "mode": "independent_full_gallery_queries",
+        "worker_count": 1,
+        "completed_full_gallery_queries": 96,
+        "completed_query_vector_scores": 96000000,
+        "aggregate_makespan_ns": 60689467,
+        "aggregate_full_gallery_queries_per_second": 1581.8230863685128,
+        "aggregate_query_vector_scores_per_second": 1581823086.3685129,
+        "sum_worker_thread_cpu_ns": 60688408,
+        "worker_cpu_equivalents_over_makespan": 0.9999825505140785,
+        "workers": [
+          {
+            "worker_id": 0,
+            "query_count_scored": 96,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 96000000,
+            "wall_ns": 60689467,
+            "thread_cpu_ns": 60688408,
+            "verified_output_fnv1a64": "d799cde4f69e1189",
+            "serial_reference_fnv1a64": "d799cde4f69e1189"
+          }
+        ]
+      },
+      {
+        "sample_index": 4,
+        "mode": "independent_full_gallery_queries",
+        "worker_count": 1,
+        "completed_full_gallery_queries": 96,
+        "completed_query_vector_scores": 96000000,
+        "aggregate_makespan_ns": 58529942,
+        "aggregate_full_gallery_queries_per_second": 1640.1861460925418,
+        "aggregate_query_vector_scores_per_second": 1640186146.0925417,
+        "sum_worker_thread_cpu_ns": 58528702,
+        "worker_cpu_equivalents_over_makespan": 0.9999788142622796,
+        "workers": [
+          {
+            "worker_id": 0,
+            "query_count_scored": 96,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 96000000,
+            "wall_ns": 58529942,
+            "thread_cpu_ns": 58528702,
+            "verified_output_fnv1a64": "d799cde4f69e1189",
+            "serial_reference_fnv1a64": "d799cde4f69e1189"
+          }
+        ]
+      },
+      {
+        "sample_index": 4,
+        "mode": "cooperative_gallery_partition",
+        "worker_count": 1,
+        "completed_full_gallery_queries": 96,
+        "completed_query_vector_scores": 96000000,
+        "aggregate_makespan_ns": 56747104,
+        "aggregate_full_gallery_queries_per_second": 1691.716285645167,
+        "aggregate_query_vector_scores_per_second": 1691716285.645167,
+        "sum_worker_thread_cpu_ns": 56745647,
+        "worker_cpu_equivalents_over_makespan": 0.9999743246809564,
+        "workers": [
+          {
+            "worker_id": 0,
+            "query_count_scored": 96,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 96000000,
+            "wall_ns": 56747104,
+            "thread_cpu_ns": 56745647,
+            "verified_output_fnv1a64": "d799cde4f69e1189",
+            "serial_reference_fnv1a64": "d799cde4f69e1189"
+          }
+        ]
+      },
+      {
+        "sample_index": 5,
+        "mode": "cooperative_gallery_partition",
+        "worker_count": 3,
+        "completed_full_gallery_queries": 96,
+        "completed_query_vector_scores": 96000000,
+        "aggregate_makespan_ns": 49715040,
+        "aggregate_full_gallery_queries_per_second": 1931.005184748921,
+        "aggregate_query_vector_scores_per_second": 1931005184.748921,
+        "sum_worker_thread_cpu_ns": 119855759,
+        "worker_cpu_equivalents_over_makespan": 2.4108551255314286,
+        "workers": [
+          {
+            "worker_id": 0,
+            "query_count_scored": 96,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 333328,
+            "scorer_chunks": 326,
+            "query_vector_scores": 31999488,
+            "wall_ns": 20653577,
+            "thread_cpu_ns": 20650977,
+            "verified_output_fnv1a64": "c3488524221ddabb",
+            "serial_reference_fnv1a64": "c3488524221ddabb"
+          },
+          {
+            "worker_id": 1,
+            "query_count_scored": 96,
+            "gallery_start_vector": 333328,
+            "gallery_vectors_scanned_per_query": 333328,
+            "scorer_chunks": 326,
+            "query_vector_scores": 31999488,
+            "wall_ns": 49534312,
+            "thread_cpu_ns": 49505601,
+            "verified_output_fnv1a64": "e9568f9c4a92d4d9",
+            "serial_reference_fnv1a64": "e9568f9c4a92d4d9"
+          },
+          {
+            "worker_id": 2,
+            "query_count_scored": 96,
+            "gallery_start_vector": 666656,
+            "gallery_vectors_scanned_per_query": 333344,
+            "scorer_chunks": 326,
+            "query_vector_scores": 32001024,
+            "wall_ns": 49715040,
+            "thread_cpu_ns": 49699181,
+            "verified_output_fnv1a64": "7e59606337ee7e47",
+            "serial_reference_fnv1a64": "7e59606337ee7e47"
+          }
+        ]
+      },
+      {
+        "sample_index": 5,
+        "mode": "independent_full_gallery_queries",
+        "worker_count": 3,
+        "completed_full_gallery_queries": 288,
+        "completed_query_vector_scores": 288000000,
+        "aggregate_makespan_ns": 61095213,
+        "aggregate_full_gallery_queries_per_second": 4713.953612044858,
+        "aggregate_query_vector_scores_per_second": 4713953612.044858,
+        "sum_worker_thread_cpu_ns": 183156254,
+        "worker_cpu_equivalents_over_makespan": 2.9978822399718945,
+        "workers": [
+          {
+            "worker_id": 0,
+            "query_count_scored": 96,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 96000000,
+            "wall_ns": 61094660,
+            "thread_cpu_ns": 61032356,
+            "verified_output_fnv1a64": "d799cde4f69e1189",
+            "serial_reference_fnv1a64": "d799cde4f69e1189"
+          },
+          {
+            "worker_id": 1,
+            "query_count_scored": 96,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 96000000,
+            "wall_ns": 61084887,
+            "thread_cpu_ns": 61054844,
+            "verified_output_fnv1a64": "ccd8912f4d43be27",
+            "serial_reference_fnv1a64": "ccd8912f4d43be27"
+          },
+          {
+            "worker_id": 2,
+            "query_count_scored": 96,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 96000000,
+            "wall_ns": 61093628,
+            "thread_cpu_ns": 61069054,
+            "verified_output_fnv1a64": "3b0c13993c73fca5",
+            "serial_reference_fnv1a64": "3b0c13993c73fca5"
+          }
+        ]
+      },
+      {
+        "sample_index": 6,
+        "mode": "independent_full_gallery_queries",
+        "worker_count": 3,
+        "completed_full_gallery_queries": 288,
+        "completed_query_vector_scores": 288000000,
+        "aggregate_makespan_ns": 64754683,
+        "aggregate_full_gallery_queries_per_second": 4447.554781481982,
+        "aggregate_query_vector_scores_per_second": 4447554781.481982,
+        "sum_worker_thread_cpu_ns": 193882759,
+        "worker_cpu_equivalents_over_makespan": 2.994111777213086,
+        "workers": [
+          {
+            "worker_id": 0,
+            "query_count_scored": 96,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 96000000,
+            "wall_ns": 64685166,
+            "thread_cpu_ns": 64650924,
+            "verified_output_fnv1a64": "d799cde4f69e1189",
+            "serial_reference_fnv1a64": "d799cde4f69e1189"
+          },
+          {
+            "worker_id": 1,
+            "query_count_scored": 96,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 96000000,
+            "wall_ns": 64744034,
+            "thread_cpu_ns": 64645889,
+            "verified_output_fnv1a64": "ccd8912f4d43be27",
+            "serial_reference_fnv1a64": "ccd8912f4d43be27"
+          },
+          {
+            "worker_id": 2,
+            "query_count_scored": 96,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 96000000,
+            "wall_ns": 64754648,
+            "thread_cpu_ns": 64585946,
+            "verified_output_fnv1a64": "3b0c13993c73fca5",
+            "serial_reference_fnv1a64": "3b0c13993c73fca5"
+          }
+        ]
+      },
+      {
+        "sample_index": 6,
+        "mode": "cooperative_gallery_partition",
+        "worker_count": 3,
+        "completed_full_gallery_queries": 96,
+        "completed_query_vector_scores": 96000000,
+        "aggregate_makespan_ns": 20182202,
+        "aggregate_full_gallery_queries_per_second": 4756.666294391464,
+        "aggregate_query_vector_scores_per_second": 4756666294.391464,
+        "sum_worker_thread_cpu_ns": 59811668,
+        "worker_cpu_equivalents_over_makespan": 2.963584845697214,
+        "workers": [
+          {
+            "worker_id": 0,
+            "query_count_scored": 96,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 333328,
+            "scorer_chunks": 326,
+            "query_vector_scores": 31999488,
+            "wall_ns": 19774315,
+            "thread_cpu_ns": 19772358,
+            "verified_output_fnv1a64": "c3488524221ddabb",
+            "serial_reference_fnv1a64": "c3488524221ddabb"
+          },
+          {
+            "worker_id": 1,
+            "query_count_scored": 96,
+            "gallery_start_vector": 333328,
+            "gallery_vectors_scanned_per_query": 333328,
+            "scorer_chunks": 326,
+            "query_vector_scores": 31999488,
+            "wall_ns": 20181522,
+            "thread_cpu_ns": 20179901,
+            "verified_output_fnv1a64": "e9568f9c4a92d4d9",
+            "serial_reference_fnv1a64": "e9568f9c4a92d4d9"
+          },
+          {
+            "worker_id": 2,
+            "query_count_scored": 96,
+            "gallery_start_vector": 666656,
+            "gallery_vectors_scanned_per_query": 333344,
+            "scorer_chunks": 326,
+            "query_vector_scores": 32001024,
+            "wall_ns": 19860941,
+            "thread_cpu_ns": 19859409,
+            "verified_output_fnv1a64": "7e59606337ee7e47",
+            "serial_reference_fnv1a64": "7e59606337ee7e47"
+          }
+        ]
+      },
+      {
+        "sample_index": 7,
+        "mode": "cooperative_gallery_partition",
+        "worker_count": 1,
+        "completed_full_gallery_queries": 96,
+        "completed_query_vector_scores": 96000000,
+        "aggregate_makespan_ns": 56201678,
+        "aggregate_full_gallery_queries_per_second": 1708.1340525099624,
+        "aggregate_query_vector_scores_per_second": 1708134052.5099626,
+        "sum_worker_thread_cpu_ns": 56174798,
+        "worker_cpu_equivalents_over_makespan": 0.9995217224652972,
+        "workers": [
+          {
+            "worker_id": 0,
+            "query_count_scored": 96,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 96000000,
+            "wall_ns": 56201678,
+            "thread_cpu_ns": 56174798,
+            "verified_output_fnv1a64": "d799cde4f69e1189",
+            "serial_reference_fnv1a64": "d799cde4f69e1189"
+          }
+        ]
+      },
+      {
+        "sample_index": 7,
+        "mode": "independent_full_gallery_queries",
+        "worker_count": 1,
+        "completed_full_gallery_queries": 96,
+        "completed_query_vector_scores": 96000000,
+        "aggregate_makespan_ns": 59119201,
+        "aggregate_full_gallery_queries_per_second": 1623.8379135063074,
+        "aggregate_query_vector_scores_per_second": 1623837913.5063074,
+        "sum_worker_thread_cpu_ns": 59117980,
+        "worker_cpu_equivalents_over_makespan": 0.9999793468115376,
+        "workers": [
+          {
+            "worker_id": 0,
+            "query_count_scored": 96,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 96000000,
+            "wall_ns": 59119201,
+            "thread_cpu_ns": 59117980,
+            "verified_output_fnv1a64": "d799cde4f69e1189",
+            "serial_reference_fnv1a64": "d799cde4f69e1189"
+          }
+        ]
+      },
+      {
+        "sample_index": 8,
+        "mode": "independent_full_gallery_queries",
+        "worker_count": 1,
+        "completed_full_gallery_queries": 96,
+        "completed_query_vector_scores": 96000000,
+        "aggregate_makespan_ns": 58710698,
+        "aggregate_full_gallery_queries_per_second": 1635.1364107440863,
+        "aggregate_query_vector_scores_per_second": 1635136410.7440863,
+        "sum_worker_thread_cpu_ns": 58709748,
+        "worker_cpu_equivalents_over_makespan": 0.999983818962602,
+        "workers": [
+          {
+            "worker_id": 0,
+            "query_count_scored": 96,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 96000000,
+            "wall_ns": 58710698,
+            "thread_cpu_ns": 58709748,
+            "verified_output_fnv1a64": "d799cde4f69e1189",
+            "serial_reference_fnv1a64": "d799cde4f69e1189"
+          }
+        ]
+      },
+      {
+        "sample_index": 8,
+        "mode": "cooperative_gallery_partition",
+        "worker_count": 1,
+        "completed_full_gallery_queries": 96,
+        "completed_query_vector_scores": 96000000,
+        "aggregate_makespan_ns": 60914653,
+        "aggregate_full_gallery_queries_per_second": 1575.9754881965757,
+        "aggregate_query_vector_scores_per_second": 1575975488.1965756,
+        "sum_worker_thread_cpu_ns": 60911281,
+        "worker_cpu_equivalents_over_makespan": 0.9999446438609771,
+        "workers": [
+          {
+            "worker_id": 0,
+            "query_count_scored": 96,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 96000000,
+            "wall_ns": 60914653,
+            "thread_cpu_ns": 60911281,
+            "verified_output_fnv1a64": "d799cde4f69e1189",
+            "serial_reference_fnv1a64": "d799cde4f69e1189"
+          }
+        ]
+      },
+      {
+        "sample_index": 9,
+        "mode": "cooperative_gallery_partition",
+        "worker_count": 3,
+        "completed_full_gallery_queries": 96,
+        "completed_query_vector_scores": 96000000,
+        "aggregate_makespan_ns": 21551660,
+        "aggregate_full_gallery_queries_per_second": 4454.413256333851,
+        "aggregate_query_vector_scores_per_second": 4454413256.333851,
+        "sum_worker_thread_cpu_ns": 62578554,
+        "worker_cpu_equivalents_over_makespan": 2.9036535468729556,
+        "workers": [
+          {
+            "worker_id": 0,
+            "query_count_scored": 96,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 333328,
+            "scorer_chunks": 326,
+            "query_vector_scores": 31999488,
+            "wall_ns": 21549867,
+            "thread_cpu_ns": 21548119,
+            "verified_output_fnv1a64": "c3488524221ddabb",
+            "serial_reference_fnv1a64": "c3488524221ddabb"
+          },
+          {
+            "worker_id": 1,
+            "query_count_scored": 96,
+            "gallery_start_vector": 333328,
+            "gallery_vectors_scanned_per_query": 333328,
+            "scorer_chunks": 326,
+            "query_vector_scores": 31999488,
+            "wall_ns": 20606889,
+            "thread_cpu_ns": 20604596,
+            "verified_output_fnv1a64": "e9568f9c4a92d4d9",
+            "serial_reference_fnv1a64": "e9568f9c4a92d4d9"
+          },
+          {
+            "worker_id": 2,
+            "query_count_scored": 96,
+            "gallery_start_vector": 666656,
+            "gallery_vectors_scanned_per_query": 333344,
+            "scorer_chunks": 326,
+            "query_vector_scores": 32001024,
+            "wall_ns": 20429619,
+            "thread_cpu_ns": 20425839,
+            "verified_output_fnv1a64": "7e59606337ee7e47",
+            "serial_reference_fnv1a64": "7e59606337ee7e47"
+          }
+        ]
+      },
+      {
+        "sample_index": 9,
+        "mode": "independent_full_gallery_queries",
+        "worker_count": 3,
+        "completed_full_gallery_queries": 288,
+        "completed_query_vector_scores": 288000000,
+        "aggregate_makespan_ns": 61493108,
+        "aggregate_full_gallery_queries_per_second": 4683.451680471249,
+        "aggregate_query_vector_scores_per_second": 4683451680.471249,
+        "sum_worker_thread_cpu_ns": 183390042,
+        "worker_cpu_equivalents_over_makespan": 2.9822861124534477,
+        "workers": [
+          {
+            "worker_id": 0,
+            "query_count_scored": 96,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 96000000,
+            "wall_ns": 61493108,
+            "thread_cpu_ns": 61455226,
+            "verified_output_fnv1a64": "d799cde4f69e1189",
+            "serial_reference_fnv1a64": "d799cde4f69e1189"
+          },
+          {
+            "worker_id": 1,
+            "query_count_scored": 96,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 96000000,
+            "wall_ns": 61492371,
+            "thread_cpu_ns": 60681645,
+            "verified_output_fnv1a64": "ccd8912f4d43be27",
+            "serial_reference_fnv1a64": "ccd8912f4d43be27"
+          },
+          {
+            "worker_id": 2,
+            "query_count_scored": 96,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 96000000,
+            "wall_ns": 61490415,
+            "thread_cpu_ns": 61253171,
+            "verified_output_fnv1a64": "3b0c13993c73fca5",
+            "serial_reference_fnv1a64": "3b0c13993c73fca5"
+          }
+        ]
+      },
+      {
+        "sample_index": 10,
+        "mode": "independent_full_gallery_queries",
+        "worker_count": 3,
+        "completed_full_gallery_queries": 288,
+        "completed_query_vector_scores": 288000000,
+        "aggregate_makespan_ns": 60989765,
+        "aggregate_full_gallery_queries_per_second": 4722.103782495309,
+        "aggregate_query_vector_scores_per_second": 4722103782.495309,
+        "sum_worker_thread_cpu_ns": 182867656,
+        "worker_cpu_equivalents_over_makespan": 2.9983335072696216,
+        "workers": [
+          {
+            "worker_id": 0,
+            "query_count_scored": 96,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 96000000,
+            "wall_ns": 60989765,
+            "thread_cpu_ns": 60959529,
+            "verified_output_fnv1a64": "d799cde4f69e1189",
+            "serial_reference_fnv1a64": "d799cde4f69e1189"
+          },
+          {
+            "worker_id": 1,
+            "query_count_scored": 96,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 96000000,
+            "wall_ns": 60982491,
+            "thread_cpu_ns": 60954687,
+            "verified_output_fnv1a64": "ccd8912f4d43be27",
+            "serial_reference_fnv1a64": "ccd8912f4d43be27"
+          },
+          {
+            "worker_id": 2,
+            "query_count_scored": 96,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 96000000,
+            "wall_ns": 60976619,
+            "thread_cpu_ns": 60953440,
+            "verified_output_fnv1a64": "3b0c13993c73fca5",
+            "serial_reference_fnv1a64": "3b0c13993c73fca5"
+          }
+        ]
+      },
+      {
+        "sample_index": 10,
+        "mode": "cooperative_gallery_partition",
+        "worker_count": 3,
+        "completed_full_gallery_queries": 96,
+        "completed_query_vector_scores": 96000000,
+        "aggregate_makespan_ns": 38958726,
+        "aggregate_full_gallery_queries_per_second": 2464.146286508445,
+        "aggregate_query_vector_scores_per_second": 2464146286.508445,
+        "sum_worker_thread_cpu_ns": 57795680,
+        "worker_cpu_equivalents_over_makespan": 1.4835105234190666,
+        "workers": [
+          {
+            "worker_id": 0,
+            "query_count_scored": 96,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 333328,
+            "scorer_chunks": 326,
+            "query_vector_scores": 31999488,
+            "wall_ns": 35898731,
+            "thread_cpu_ns": 19877440,
+            "verified_output_fnv1a64": "c3488524221ddabb",
+            "serial_reference_fnv1a64": "c3488524221ddabb"
+          },
+          {
+            "worker_id": 1,
+            "query_count_scored": 96,
+            "gallery_start_vector": 333328,
+            "gallery_vectors_scanned_per_query": 333328,
+            "scorer_chunks": 326,
+            "query_vector_scores": 31999488,
+            "wall_ns": 34936493,
+            "thread_cpu_ns": 19022131,
+            "verified_output_fnv1a64": "e9568f9c4a92d4d9",
+            "serial_reference_fnv1a64": "e9568f9c4a92d4d9"
+          },
+          {
+            "worker_id": 2,
+            "query_count_scored": 96,
+            "gallery_start_vector": 666656,
+            "gallery_vectors_scanned_per_query": 333344,
+            "scorer_chunks": 326,
+            "query_vector_scores": 32001024,
+            "wall_ns": 18917572,
+            "thread_cpu_ns": 18896109,
+            "verified_output_fnv1a64": "7e59606337ee7e47",
+            "serial_reference_fnv1a64": "7e59606337ee7e47"
+          }
+        ]
+      },
+      {
+        "sample_index": 11,
+        "mode": "cooperative_gallery_partition",
+        "worker_count": 1,
+        "completed_full_gallery_queries": 96,
+        "completed_query_vector_scores": 96000000,
+        "aggregate_makespan_ns": 70165283,
+        "aggregate_full_gallery_queries_per_second": 1368.1980018522836,
+        "aggregate_query_vector_scores_per_second": 1368198001.8522837,
+        "sum_worker_thread_cpu_ns": 70139088,
+        "worker_cpu_equivalents_over_makespan": 0.9996266672223071,
+        "workers": [
+          {
+            "worker_id": 0,
+            "query_count_scored": 96,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 96000000,
+            "wall_ns": 70165283,
+            "thread_cpu_ns": 70139088,
+            "verified_output_fnv1a64": "d799cde4f69e1189",
+            "serial_reference_fnv1a64": "d799cde4f69e1189"
+          }
+        ]
+      },
+      {
+        "sample_index": 11,
+        "mode": "independent_full_gallery_queries",
+        "worker_count": 1,
+        "completed_full_gallery_queries": 96,
+        "completed_query_vector_scores": 96000000,
+        "aggregate_makespan_ns": 58790077,
+        "aggregate_full_gallery_queries_per_second": 1632.9286318165564,
+        "aggregate_query_vector_scores_per_second": 1632928631.8165562,
+        "sum_worker_thread_cpu_ns": 58788982,
+        "worker_cpu_equivalents_over_makespan": 0.9999813744077933,
+        "workers": [
+          {
+            "worker_id": 0,
+            "query_count_scored": 96,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 96000000,
+            "wall_ns": 58790077,
+            "thread_cpu_ns": 58788982,
+            "verified_output_fnv1a64": "d799cde4f69e1189",
+            "serial_reference_fnv1a64": "d799cde4f69e1189"
+          }
+        ]
+      },
+      {
+        "sample_index": 12,
+        "mode": "independent_full_gallery_queries",
+        "worker_count": 1,
+        "completed_full_gallery_queries": 96,
+        "completed_query_vector_scores": 96000000,
+        "aggregate_makespan_ns": 58734196,
+        "aggregate_full_gallery_queries_per_second": 1634.4822358681813,
+        "aggregate_query_vector_scores_per_second": 1634482235.8681815,
+        "sum_worker_thread_cpu_ns": 58723919,
+        "worker_cpu_equivalents_over_makespan": 0.999825025271479,
+        "workers": [
+          {
+            "worker_id": 0,
+            "query_count_scored": 96,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 96000000,
+            "wall_ns": 58734196,
+            "thread_cpu_ns": 58723919,
+            "verified_output_fnv1a64": "d799cde4f69e1189",
+            "serial_reference_fnv1a64": "d799cde4f69e1189"
+          }
+        ]
+      },
+      {
+        "sample_index": 12,
+        "mode": "cooperative_gallery_partition",
+        "worker_count": 1,
+        "completed_full_gallery_queries": 96,
+        "completed_query_vector_scores": 96000000,
+        "aggregate_makespan_ns": 58943171,
+        "aggregate_full_gallery_queries_per_second": 1628.687401293697,
+        "aggregate_query_vector_scores_per_second": 1628687401.2936969,
+        "sum_worker_thread_cpu_ns": 58940346,
+        "worker_cpu_equivalents_over_makespan": 0.9999520724801182,
+        "workers": [
+          {
+            "worker_id": 0,
+            "query_count_scored": 96,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 96000000,
+            "wall_ns": 58943171,
+            "thread_cpu_ns": 58940346,
+            "verified_output_fnv1a64": "d799cde4f69e1189",
+            "serial_reference_fnv1a64": "d799cde4f69e1189"
+          }
+        ]
+      },
+      {
+        "sample_index": 13,
+        "mode": "cooperative_gallery_partition",
+        "worker_count": 3,
+        "completed_full_gallery_queries": 96,
+        "completed_query_vector_scores": 96000000,
+        "aggregate_makespan_ns": 22304881,
+        "aggregate_full_gallery_queries_per_second": 4303.990682577504,
+        "aggregate_query_vector_scores_per_second": 4303990682.577504,
+        "sum_worker_thread_cpu_ns": 62751126,
+        "worker_cpu_equivalents_over_makespan": 2.8133360585963225,
+        "workers": [
+          {
+            "worker_id": 0,
+            "query_count_scored": 96,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 333328,
+            "scorer_chunks": 326,
+            "query_vector_scores": 31999488,
+            "wall_ns": 22299326,
+            "thread_cpu_ns": 21868644,
+            "verified_output_fnv1a64": "c3488524221ddabb",
+            "serial_reference_fnv1a64": "c3488524221ddabb"
+          },
+          {
+            "worker_id": 1,
+            "query_count_scored": 96,
+            "gallery_start_vector": 333328,
+            "gallery_vectors_scanned_per_query": 333328,
+            "scorer_chunks": 326,
+            "query_vector_scores": 31999488,
+            "wall_ns": 20324981,
+            "thread_cpu_ns": 20322520,
+            "verified_output_fnv1a64": "e9568f9c4a92d4d9",
+            "serial_reference_fnv1a64": "e9568f9c4a92d4d9"
+          },
+          {
+            "worker_id": 2,
+            "query_count_scored": 96,
+            "gallery_start_vector": 666656,
+            "gallery_vectors_scanned_per_query": 333344,
+            "scorer_chunks": 326,
+            "query_vector_scores": 32001024,
+            "wall_ns": 20573597,
+            "thread_cpu_ns": 20559962,
+            "verified_output_fnv1a64": "7e59606337ee7e47",
+            "serial_reference_fnv1a64": "7e59606337ee7e47"
+          }
+        ]
+      },
+      {
+        "sample_index": 13,
+        "mode": "independent_full_gallery_queries",
+        "worker_count": 3,
+        "completed_full_gallery_queries": 288,
+        "completed_query_vector_scores": 288000000,
+        "aggregate_makespan_ns": 61029243,
+        "aggregate_full_gallery_queries_per_second": 4719.049194170736,
+        "aggregate_query_vector_scores_per_second": 4719049194.170735,
+        "sum_worker_thread_cpu_ns": 182422292,
+        "worker_cpu_equivalents_over_makespan": 2.9890964238242312,
+        "workers": [
+          {
+            "worker_id": 0,
+            "query_count_scored": 96,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 96000000,
+            "wall_ns": 60994377,
+            "thread_cpu_ns": 60968045,
+            "verified_output_fnv1a64": "d799cde4f69e1189",
+            "serial_reference_fnv1a64": "d799cde4f69e1189"
+          },
+          {
+            "worker_id": 1,
+            "query_count_scored": 96,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 96000000,
+            "wall_ns": 61028563,
+            "thread_cpu_ns": 60545652,
+            "verified_output_fnv1a64": "ccd8912f4d43be27",
+            "serial_reference_fnv1a64": "ccd8912f4d43be27"
+          },
+          {
+            "worker_id": 2,
+            "query_count_scored": 96,
+            "gallery_start_vector": 0,
+            "gallery_vectors_scanned_per_query": 1000000,
+            "scorer_chunks": 977,
+            "query_vector_scores": 96000000,
+            "wall_ns": 60981823,
+            "thread_cpu_ns": 60908595,
+            "verified_output_fnv1a64": "3b0c13993c73fca5",
+            "serial_reference_fnv1a64": "3b0c13993c73fca5"
+          }
+        ]
+      }
+    ]
+  }
+}
