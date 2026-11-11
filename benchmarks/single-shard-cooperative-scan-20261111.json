@@ -1246,5 +1246,6 @@
         ]
       }
     ]
-  }
+  },
+  "publication_clarification": "Full-output fingerprints come from a separate concurrent verification scan after all timing gates finish, compared with serial references. Timed scans use bounded scratch and do not hash all their intermediate scores."
 }
