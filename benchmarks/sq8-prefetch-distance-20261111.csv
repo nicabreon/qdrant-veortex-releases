@@ -1,0 +1,5 @@
+profile,category,batch_size,concurrency,successful_http_rps,query_qps,actual_elapsed_s,actual_dispatch_duration_s,drain_duration_s,p50_ms,p95_ms,p99_ms,successful_requests,successful_queries,f32_checks_passed,amx_calls_by_node,fused_amx_calls_by_node,fused_amx_score_cells_by_node,cpu_full_shared_mask,fallback_reasons_total,hnsw_calls_total,accepted
+vx_pf8_6_control,unfiltered_no_payload,1,512,1931.963547,1931.963547,30.179141,29.979453,0.199688,260.203675,395.380255,438.494439,58305,58305,1024,"[594120,747075,828090]","[0,0,0]","[0,0,0]",True,0,0,True
+vx_pf8_6_control,active_only,1,512,1684.404887,1684.404887,30.169112,29.948345,0.220767,301.263283,458.278830,517.348034,50817,50817,1024,"[517922,865912,830023]","[0,0,0]","[0,0,0]",True,0,0,True
+vx_pf8_0_probe,unfiltered_no_payload,1,512,1588.809325,1588.809325,30.228297,29.999197,0.229100,322.282667,459.803675,516.731207,48027,48027,1024,"[489849,572742,562061]","[0,0,0]","[0,0,0]",True,0,0,True
+vx_pf8_0_probe,active_only,1,512,1364.332551,1364.332551,30.326184,29.998521,0.327663,367.852417,554.568252,622.994439,41375,41375,1024,"[422560,597744,581039]","[0,0,0]","[0,0,0]",True,0,0,True
