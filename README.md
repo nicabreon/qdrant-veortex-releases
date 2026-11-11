@@ -1,5 +1,21 @@
 # Qdrant 1.20.0 with Veortex: shared-CPU SQ8 results
 
+
+## Revision — 11 November 2026: latest B1 high-concurrency measurements
+
+The latest completed server-binary diagnostic reached **1,931.96 HTTP requests/s at B1/C512** without filter or payload. The complete head-to-head matrix below uses B1/C64 and B1/C128, plus B64/C4 and B128/C4; those are different load points and their numbers are retained.
+
+These additional measurements use the same full 3,000,000 × 512D SQ8 fixture, three nodes with three shared CPUs each, and three ring workers per node. Each request returns ordered Top10; the same saved 1,024-query FP32 reference is checked per category. The 30-second dispatch window is followed by drain; RPS uses successful requests divided by actual elapsed time.
+
+| Category | Load | HTTP requests/s | p95 (ms) | p99 (ms) | Successful / failed |
+|---|---|---:|---:|---:|---:|
+| No filter / no payload | B1 / C512 | **1,931.96** | 395.38 | 438.49 | 58,305 / 0 |
+| Active filter (~90% eligible) / payload | B1 / C512 | **1,684.40** | 458.28 | 517.35 | 50,817 / 0 |
+
+All timed results matched the saved FP32 Top10, with zero fallback/HNSW queries. These are the `VX_PF8=6` control rows from the [same-binary prefetch diagnostic](benchmarks/sq8-prefetch-distance-20261111.md), with `VX_PFH=9` and fused score pruning disabled. They are finite high-concurrency observations, not a maximum-capacity or a matched-native-C512 claim. Payload-only and narrow-filter categories were not rerun in this diagnostic; their complete results remain below.
+
+**Binary identity:** these two rows used source `a8af3ee1ceb3a7fbee4deec705b8dbda32f9585e`, ELF SHA-256 `ba68b4b06cb5dacf3419aafa83a23c23009de546c9868dabf945e3aa06f0e81d`. This experimental server binary is newer than the `074f45…` binary used for the complete matrix, but it has not replaced that baseline or the downloadable V45.1 release. The source/test-binary-only tiling, alignment, and operand-preload experiments linked later are separate and were not promoted.
+
 This page shows the latest complete 3-node, 3-CPU-per-node flat-SQ8 matrix. Each node had a disjoint three-CPU mask; scan, TopK, FP32 reranking, payload, and service workers shared that mask with no per-thread affinity. These are selected end-to-end load points, not maximum-capacity or scan-only scaling claims.
 
 Qdrant provides the API, shard routing, storage, and cluster management. For eligible flat SQ8 searches, the per-shard Veortex ring lets concurrent queries share gallery reads. Scan/score work feeds separate TopK, FP32 reranking, and payload-support stages; those worker threads remain free to run on the same three CPUs as scan and service work.
