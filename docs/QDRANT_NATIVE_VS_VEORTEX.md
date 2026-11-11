@@ -28,7 +28,7 @@ request. Query throughput and HTTP request throughput are equal only at B1.
 | TopK and FP32 rescore | Native selection and rescoring pipeline | Streams score tiles to owner-keyed TopK consumers, then performs FP32 reranking |
 | Filters and payload | Native payload indexes, filters, and result materialization | Uses Qdrant visibility/filter semantics; payload completion runs outside scan workers |
 | CPU placement | Depends on the measured native configuration | Current shared-CPU profile lets scan, TopK, rerank, payload, and service threads use the same node CPU set |
-| Cooperative gallery scan | Not the execution mode measured by our native reference | New opt-in candidate splits each visible gallery tile across a common node-wide scan pool; cluster results pending |
+| Cooperative gallery scan | Not the execution mode measured by our native reference | New opt-in candidate splits each visible gallery tile across a common node-wide scan pool; cluster diagnostic completed, candidate not promoted (revision below) |
 
 The native reference is Qdrant 1.20 at commit
 [`222b2e44`](https://github.com/qdrant/qdrant/commit/222b2e44ab1c3f17e8246396ead6558e45041df7).
@@ -116,7 +116,7 @@ still includes deletion, vector-deletion, mapping/shadowing, and filter masks.
 |---|---|
 | Flat compatible TQ2/TQ4/SQ8 integration and cross-request ring | Implemented; scope and historical measurements are linked below |
 | Shared-CPU scan/support pipeline | Measured in the latest completed cluster baseline, source `0aa62c28`, ELF `074f45...` |
-| Cooperative gallery-scan adapter | Implemented in private candidate `085399a27`; focused checks and server build passed; cluster measurements pending |
+| Cooperative gallery-scan adapter | Implemented in private candidate `085399a27`; focused checks and server build passed; eight cluster cells passed correctness, performance below the historical query-split baseline (revision below) |
 | Automatic query/gallery selection | Planned calibration; the candidate's `auto` setting explicitly returns an error rather than claiming an autotuned policy |
 | HNSW, sparse, multivector, and other operators using the common ring | Not established by these tests; separate adapters and validation are required |
 
@@ -140,3 +140,5 @@ baseline; it is an optimization target, not a demonstrated cluster result.
 The [README](../README.md) records the current downloadable-release distinction,
 fixture metadata, saved-query reuse, unknown historical seed, and result tables.
 No new cooperative-gallery RPS figure is claimed in this architecture note.
+
+**Revision — 11 November 2026 (WIB):** The [cooperative gallery cluster diagnostic](../benchmarks/cooperative-gallery-ring-20261111.md) has completed. All eight cells passed the recorded correctness/CPU/route gates, with zero failed requests, but all eight were slower than the historical query-split counterparts. The adapter remains experimental. Its unbuilt scratch-reuse follow-up is backed up separately; further scheduler work is now isolated in a standalone laboratory rather than the Qdrant server.

@@ -1,5 +1,9 @@
 # Qdrant 1.20.0 with Veortex: shared-CPU SQ8 results
 
+## Revision — 11 November 2026: cooperative gallery cluster diagnostic
+
+A candidate gallery-split adapter was exercised through the production request path on three nodes with three shared CPUs each, at B1/C64–384. All eight cells passed routing, three-scan-worker, and per-cell 1,024-query F32 gates; cleanup restored the originals and preserved lower data. Candidate throughput was 569–1,300 HTTP requests/s and lower than each historical query-split comparison (728–1,785 requests/s); the runs used different ELFs and manifests, so this is a diagnostic rather than an isolated A/B. The adapter was not promoted. See the [full report](benchmarks/cooperative-gallery-ring-20261111.md), [CSV](benchmarks/cooperative-gallery-ring-20261111.csv), and [curated JSON](benchmarks/cooperative-gallery-ring-20261111.json).
+
 
 ## Revision — 11 November 2026: fixed total of 96 queries
 
@@ -23,7 +27,7 @@ The additional [one-versus-three-worker matrix](benchmarks/worker-scaling-batch-
 
 These are three-worker results; the linked report includes all one-worker comparisons, p50/p95/p99, counts, CPU diagnostics, and provenance. Of 32 attempted cells, **30 are accepted** (one has an explicit harness-timing adjudication) and two filtered B128/C8 cells retain HTTP-429 capacity failures outside the accepted table. All 32 separate 1,024-query accuracy checks passed. The three-worker rejection counters identify the fixed 2 GiB queued-query byte budget. No engine setting was changed to erase a failure, and no native comparison is claimed for the additional load points.
 
-A separate [single-gallery cooperative scan experiment](benchmarks/single-shard-cooperative-scan-20261111.md) demonstrates test-only partitioning of 1M vectors across three workers: **58.943 → 22.148 ms** for the same batch of 96 queries, scan only. Independent query batches scale **1,634 → 4,683 scan queries/s**. These are component results, not 3M cluster HTTP RPS or B1 latency. Cooperative gallery partitioning is **not yet integrated into the production Qdrant path**; the report includes all samples and the observed slow sample.
+A separate [single-gallery cooperative scan experiment](benchmarks/single-shard-cooperative-scan-20261111.md) demonstrates test-only partitioning of 1M vectors across three workers: **58.943 → 22.148 ms** for the same batch of 96 queries, scan only. Independent query batches scale **1,634 → 4,683 scan queries/s**. These are component results, not 3M cluster HTTP RPS or B1 latency. As of 11 November 2026, a candidate cooperative-gallery adapter has since been exercised in the production request path, but its eight 3M-cluster cells were slower than the historical query-split rows and it was not promoted. The linked component report remains a test-only scorer diagnostic and includes all samples, including the observed slow sample; the separate [cluster diagnostic](benchmarks/cooperative-gallery-ring-20261111.md) reports the candidate-path measurements.
 
 ## Revision — 11 November 2026: latest B1 high-concurrency measurements
 

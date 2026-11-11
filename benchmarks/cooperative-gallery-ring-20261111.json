@@ -1,0 +1,1619 @@
+{
+  "acceptance_and_cleanup": {
+    "accepted_rows": 8,
+    "all_three_scan_workers_proven_on_each_node_each_cell": true,
+    "cleanup_errors": [],
+    "cooperative_scan_metric_gate": "Each node must report gallery mode, three configured workers, positive completed-task deltas from each of veortex-scan-0/1/2, zero failed tasks, balanced global/per-worker completion counters, zero active tasks at row boundaries, and max_active_tasks at most three.",
+    "expected_f32_accuracy_rows": 8,
+    "expected_rows": 8,
+    "f32_accuracy_rows_passed": 8,
+    "hnsw_calls": 0,
+    "immutable_lower_metadata_unchanged": true,
+    "originals_restored_healthy": true,
+    "receipt_status": "DIAGNOSTIC_COMPLETE_RECORDED_SCOPE",
+    "recorded_rows": 8,
+    "route_fallbacks": 0,
+    "scan_task_failures": 0
+  },
+  "candidate_source": {
+    "base_commit": "0aa62c281b7262368ca6f1ed69de71647be10ac0",
+    "build_receipt_sha256": "f9af0a3905b4bc3caaa846338380695c2bf5240543e0021bbb26d4cc4f0efb8c",
+    "commit": "085399a27a74a58fad9017b2bacaab9a40fcf455",
+    "elf_sha256": "6a374536ddd71bd81f247c664f8a56dd82e413abfda1ac7b7a8d17cd967b008e",
+    "source_pin_sha256": "b9f62130bd136515873de69e79bfebcf841501226f4482d52e9336d5f125d3c0",
+    "tree": "2cce0baaa54c53c714b8d22968a6c031d0e3c86e"
+  },
+  "comparison": {
+    "candidate_change_range_percent": [
+      -40.56393452409868,
+      -19.542407173036093
+    ],
+    "candidate_rps_range": [
+      569.1384825383886,
+      1299.95978018144
+    ],
+    "candidate_slower_in_all_eight_matched_category_concurrency_pairs": true,
+    "causal_claim": false,
+    "client_binary_sha256": "3ac5765e0116dd6d4776996bc0e717bb2abecdd1950302b63aa4d00e1400436f",
+    "historical_elf_sha256": "074f45b364a8e80da3fb9307d637812072fd755f56b91aeb8bdd4bf92b1ba60d",
+    "historical_rps_range": [
+      728.0705847439715,
+      1784.626540544625
+    ],
+    "historical_source_commit": "0aa62c281b7262368ca6f1ed69de71647be10ac0",
+    "historical_source_receipt_sha256s": [
+      "62fbdccf760aefc6849ebfc401584bb9537addeabe3650fd81a8103f2847e1b1",
+      "f682001545de76c82616406d344574cd8a4b5a01ee51417ed783e0c475588fc0",
+      "8a42861313d38a5aa819d7b8fcbce1cdf9ae5594f1ddd2bf9954abde90beb56f"
+    ],
+    "historical_source_tree": "ae19530f171d177f6e517436e655e0e9571b8b50",
+    "kind": "historical matched category / B1 / concurrency comparison; not a same-ELF A/B",
+    "manifest_hashes_are_distinct_between_campaigns": true,
+    "oracle_sha256_matches_by_category": true,
+    "source_file": "worker-scaling-batch-concurrency-20261111.json",
+    "source_file_sha256": "e68c2a253d97222ccb74f518cace430a531fa29861c082ce6cfe342cdd6d2625"
+  },
+  "conclusion": "All eight production-path candidate cells passed the recorded routing, scan-worker, cleanup, and per-cell F32 oracle gates. Each candidate cell was slower than its historical three-worker query-split comparator. The comparison is across different source commits and ELFs, so it is not a same-binary A/B or causal attribution.",
+  "date_utc": "2026-11-11",
+  "diagnostics_interpretation": {
+    "cache": "A fresh campaign COW set was reused across cells; host page cache was not reset.",
+    "cpu": "Candidate per-node whole-process CPU equivalents use process tick deltas over the observer window (which includes warmup, dispatch, and drain); named scan-worker tick equivalents are provided as a separate diagnostic attribution. These values are not just the 30-second dispatch window.",
+    "logical_nq": "query_vector_dots / gallery_vectors_read is the receipt-defined work-weighted logical reuse ratio. It is not physical DRAM traffic or a bandwidth measurement.",
+    "not_promoted": "The measured gallery adapter was not promoted. A later source edit a492425e6 has not been built or measured and is not part of these results.",
+    "scan_tasks": "Cooperative scan task counters are scheduler task units, not query counts; exact per-node and per-worker deltas are included in each row.",
+    "scope": "This is a 3M-point cluster HTTP diagnostic. The prior 4,334 scan-query/s result was a separate 1M-point scorer-only component and is not a directly comparable HTTP-RPS target.",
+    "source_derived_scratch": "Candidate source estimates 393,276 bytes of bounded scratch per scoring job. This is a source-derived allocation figure, not measured physical memory traffic, DRAM bandwidth, or a causal explanation of throughput.",
+    "stage_timers": "Cumulative per-thread stage timers can overlap and are not additive end-to-end latency."
+  },
+  "first_attempt": {
+    "accepted_rows": 0,
+    "adjudication": "The attempt remains rejected: its gallery-scan CPU proof gate did not pass. The accepted follow-up is reported separately; the earlier row was not rewritten or reclassified.",
+    "cleanup_errors": [],
+    "cleanup_restored_originals_healthy": true,
+    "receipt_sha256": "108a2ae762141a4de9dda068df68082d1d59f32fc364c1207c3339e7d0879fe0",
+    "receipt_status": "FAILED_RESTORING",
+    "recorded_rows": 1
+  },
+  "provenance": {
+    "accepted_raw_receipt_sha256": "ea71b92a2a716b257ddf97953aa3832b781aa880cb53bcb945a3896c292b4647",
+    "campaign_runner_sha256": "8903437e1d10acb15d8b8acc912ecfa63caca1298a6c2b8a2d7607aa9ae9d26f",
+    "candidate_build_receipt_sha256": "f9af0a3905b4bc3caaa846338380695c2bf5240543e0021bbb26d4cc4f0efb8c",
+    "client_binary_sha256": "3ac5765e0116dd6d4776996bc0e717bb2abecdd1950302b63aa4d00e1400436f",
+    "client_source_sha256": "16c957e8539df6c91e01b993e97314d464615845b9be7715bfb2a300f9c48126",
+    "cpu_evidence_helper_sha256": "8380d7c6c1aa6c7bed9db752ee5608f732b75b613553660e89bfcbbeb1863c04",
+    "historical_curated_json_sha256": "e68c2a253d97222ccb74f518cace430a531fa29861c082ce6cfe342cdd6d2625",
+    "run_owner": "cooperative-gallery-cluster-20261111-20261111t053125z",
+    "runtime_observer_sha256": "547754ccce091ae8564f5a4d84c8d212dd60d0b88694aa4634657fa0143f0bed",
+    "source_pin_sha256": "b9f62130bd136515873de69e79bfebcf841501226f4482d52e9336d5f125d3c0"
+  },
+  "rows": [
+    {
+      "batch_size": 1,
+      "candidate": {
+        "accuracy": {
+          "failed": 0,
+          "passed": 1024,
+          "queries": 1024,
+          "report_sha256": "c727a082fd339be44bf71436ca8ef9be51a1c4a9e2b811bddc3c5d0418acbb87"
+        },
+        "actual_dispatch_duration_s": 29.972575712,
+        "actual_elapsed_s": 30.066123224,
+        "configured_dispatch_window_s": 30,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "manifest_sha256": "5eca9f6a48488986d9e80602a87a9b11af3a7264d4d9331b5e1218e814f1ccb3",
+        "nodes": [
+          {
+            "amx_calls": 536031,
+            "gallery_vectors_read": 381412544,
+            "hnsw_search_calls": 0,
+            "max_active_scan_tasks": 3,
+            "named_query_compute_cpu_equivalents": 1.6050397677985404,
+            "node": 0,
+            "query_vector_dots": 18039000000,
+            "ring_completed_queries_including_warmups": 18039,
+            "ring_fallback_queries": 0,
+            "scan_tasks_active_at_row_end": 0,
+            "scan_tasks_by_worker": {
+              "veortex-scan-0": 208080,
+              "veortex-scan-1": 187557,
+              "veortex-scan-2": 163890
+            },
+            "scan_tasks_completed": 559527,
+            "scan_tasks_failed": 0,
+            "scan_worker_cpu_equivalents_tick_derived": 1.4435694629394138,
+            "scan_worker_interval_cpu_ticks": 4631,
+            "scan_workers": [
+              {
+                "comm": "veortex-scan-0",
+                "interval_cpu_ticks": 1716
+              },
+              {
+                "comm": "veortex-scan-1",
+                "interval_cpu_ticks": 1527
+              },
+              {
+                "comm": "veortex-scan-2",
+                "interval_cpu_ticks": 1388
+              }
+            ],
+            "whole_process_cpu_equivalents": 2.092879588463663,
+            "work_weighted_logical_nq_query_dots_over_gallery_vectors_read": 47.29524574839363
+          },
+          {
+            "amx_calls": 444669,
+            "gallery_vectors_read": 319114688,
+            "hnsw_search_calls": 0,
+            "max_active_scan_tasks": 3,
+            "named_query_compute_cpu_equivalents": 1.7128944501947911,
+            "node": 1,
+            "query_vector_dots": 18039000000,
+            "ring_completed_queries_including_warmups": 18039,
+            "ring_fallback_queries": 0,
+            "scan_tasks_active_at_row_end": 0,
+            "scan_tasks_by_worker": {
+              "veortex-scan-0": 175214,
+              "veortex-scan-1": 159148,
+              "veortex-scan-2": 133779
+            },
+            "scan_tasks_completed": 468141,
+            "scan_tasks_failed": 0,
+            "scan_worker_cpu_equivalents_tick_derived": 1.510900709753258,
+            "scan_worker_interval_cpu_ticks": 4847,
+            "scan_workers": [
+              {
+                "comm": "veortex-scan-0",
+                "interval_cpu_ticks": 1799
+              },
+              {
+                "comm": "veortex-scan-1",
+                "interval_cpu_ticks": 1596
+              },
+              {
+                "comm": "veortex-scan-2",
+                "interval_cpu_ticks": 1452
+              }
+            ],
+            "whole_process_cpu_equivalents": 2.052667871616506,
+            "work_weighted_logical_nq_query_dots_over_gallery_vectors_read": 56.52826610099501
+          },
+          {
+            "amx_calls": 439809,
+            "gallery_vectors_read": 315827392,
+            "hnsw_search_calls": 0,
+            "max_active_scan_tasks": 3,
+            "named_query_compute_cpu_equivalents": 1.7524827295714498,
+            "node": 2,
+            "query_vector_dots": 18039000000,
+            "ring_completed_queries_including_warmups": 18039,
+            "ring_fallback_queries": 0,
+            "scan_tasks_active_at_row_end": 0,
+            "scan_tasks_by_worker": {
+              "veortex-scan-0": 172523,
+              "veortex-scan-1": 157447,
+              "veortex-scan-2": 133347
+            },
+            "scan_tasks_completed": 463317,
+            "scan_tasks_failed": 0,
+            "scan_worker_cpu_equivalents_tick_derived": 1.551112426600415,
+            "scan_worker_interval_cpu_ticks": 4976,
+            "scan_workers": [
+              {
+                "comm": "veortex-scan-0",
+                "interval_cpu_ticks": 1848
+              },
+              {
+                "comm": "veortex-scan-1",
+                "interval_cpu_ticks": 1652
+              },
+              {
+                "comm": "veortex-scan-2",
+                "interval_cpu_ticks": 1476
+              }
+            ],
+            "whole_process_cpu_equivalents": 2.100360838109646,
+            "work_weighted_logical_nq_query_dots_over_gallery_vectors_read": 57.116641738282155
+          }
+        ],
+        "oracle_sha256": "edbc0b792dced6510b18017e9fd6aea102e9152bac49a1b15cc65c3b1c91035a",
+        "p50_ms": 105.163729,
+        "p95_ms": 122.617056,
+        "p99_ms": 129.060789,
+        "route_gate": {
+          "all_scan_task_failures_zero": true,
+          "fallback_zero_all_nodes": true,
+          "hnsw_zero_all_nodes": true,
+          "peak_active_scan_tasks_at_most_three": true,
+          "scan_tasks_idle_at_row_end": true,
+          "submitted_equals_completed": true,
+          "three_scan_workers_positive_all_nodes": true
+        },
+        "successful_http_rps": 599.4454245305997,
+        "successful_queries": 18023,
+        "successful_requests": 18023,
+        "timing_report_sha256": "3cb57d5d72ea1e3e77a582e33c84ddae017bb779cb715549c44a35af856683ca"
+      },
+      "candidate_manifest_equals_historical_manifest": false,
+      "candidate_vs_historical_http_rps_change_percent": -19.542407173036093,
+      "category": "unfiltered_no_payload",
+      "concurrency": 64,
+      "historical_query_split": {
+        "elf_sha256": "074f45b364a8e80da3fb9307d637812072fd755f56b91aeb8bdd4bf92b1ba60d",
+        "failed_queries": 0,
+        "logical_nq_by_node": [
+          59.11773552320167,
+          52.12859547778295,
+          47.02999378975814
+        ],
+        "manifest_sha256": "f920000669c432522ab560886208d116e93fe979c8d620addc6801503e8130bf",
+        "named_query_compute_cpu_equivalents_by_node": [
+          0.8789843403479364,
+          0.8837356070525199,
+          0.861879780211436
+        ],
+        "oracle_sha256": "edbc0b792dced6510b18017e9fd6aea102e9152bac49a1b15cc65c3b1c91035a",
+        "p50_ms": 83.967613,
+        "p95_ms": 101.502217,
+        "p99_ms": 122.648323,
+        "process_cpu_equivalents_by_node": [
+          1.4928479985801169,
+          1.3227526505560296,
+          1.254651161123667
+        ],
+        "source_commit": "0aa62c281b7262368ca6f1ed69de71647be10ac0",
+        "status": "historical matched-category-and-concurrency comparison; not a same-ELF A/B",
+        "successful_http_rps": 745.0451889852046,
+        "successful_queries": 22400,
+        "timing_report_sha256": "3cc1835e372a87a1b9dae4a87fd56073e4c831ab64427a93f2427555c33b63e0",
+        "worker_limit": 3
+      },
+      "oracle_hash_matches_historical": true
+    },
+    {
+      "batch_size": 1,
+      "candidate": {
+        "accuracy": {
+          "failed": 0,
+          "passed": 1024,
+          "queries": 1024,
+          "report_sha256": "971d856c3dec6af2d6898894c4f51dd4b5a01e7797e4d6acccfd0147d5114197"
+        },
+        "actual_dispatch_duration_s": 29.999436136,
+        "actual_elapsed_s": 30.135649597,
+        "configured_dispatch_window_s": 30,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "manifest_sha256": "5eca9f6a48488986d9e80602a87a9b11af3a7264d4d9331b5e1218e814f1ccb3",
+        "nodes": [
+          {
+            "amx_calls": 677814,
+            "gallery_vectors_read": 478733312,
+            "hnsw_search_calls": 0,
+            "max_active_scan_tasks": 3,
+            "named_query_compute_cpu_equivalents": 1.6408183766821418,
+            "node": 0,
+            "query_vector_dots": 24884000000,
+            "ring_completed_queries_including_warmups": 24884,
+            "ring_fallback_queries": 0,
+            "scan_tasks_active_at_row_end": 0,
+            "scan_tasks_by_worker": {
+              "veortex-scan-0": 269420,
+              "veortex-scan-1": 231714,
+              "veortex-scan-2": 201136
+            },
+            "scan_tasks_completed": 702270,
+            "scan_tasks_failed": 0,
+            "scan_worker_cpu_equivalents_tick_derived": 1.4674771231318338,
+            "scan_worker_interval_cpu_ticks": 4707,
+            "scan_workers": [
+              {
+                "comm": "veortex-scan-0",
+                "interval_cpu_ticks": 1790
+              },
+              {
+                "comm": "veortex-scan-1",
+                "interval_cpu_ticks": 1548
+              },
+              {
+                "comm": "veortex-scan-2",
+                "interval_cpu_ticks": 1369
+              }
+            ],
+            "whole_process_cpu_equivalents": 2.29864219860867,
+            "work_weighted_logical_nq_query_dots_over_gallery_vectors_read": 51.97883534789407
+          },
+          {
+            "amx_calls": 622071,
+            "gallery_vectors_read": 440074944,
+            "hnsw_search_calls": 0,
+            "max_active_scan_tasks": 3,
+            "named_query_compute_cpu_equivalents": 1.8472067037510336,
+            "node": 1,
+            "query_vector_dots": 24884000000,
+            "ring_completed_queries_including_warmups": 24884,
+            "ring_fallback_queries": 0,
+            "scan_tasks_active_at_row_end": 0,
+            "scan_tasks_by_worker": {
+              "veortex-scan-0": 255594,
+              "veortex-scan-1": 210177,
+              "veortex-scan-2": 179808
+            },
+            "scan_tasks_completed": 645579,
+            "scan_tasks_failed": 0,
+            "scan_worker_cpu_equivalents_tick_derived": 1.595612474227475,
+            "scan_worker_interval_cpu_ticks": 5118,
+            "scan_workers": [
+              {
+                "comm": "veortex-scan-0",
+                "interval_cpu_ticks": 1994
+              },
+              {
+                "comm": "veortex-scan-1",
+                "interval_cpu_ticks": 1664
+              },
+              {
+                "comm": "veortex-scan-2",
+                "interval_cpu_ticks": 1460
+              }
+            ],
+            "whole_process_cpu_equivalents": 2.2659068899346013,
+            "work_weighted_logical_nq_query_dots_over_gallery_vectors_read": 56.54491431350384
+          },
+          {
+            "amx_calls": 592209,
+            "gallery_vectors_read": 419688128,
+            "hnsw_search_calls": 0,
+            "max_active_scan_tasks": 3,
+            "named_query_compute_cpu_equivalents": 1.8902302522940957,
+            "node": 2,
+            "query_vector_dots": 24884000000,
+            "ring_completed_queries_including_warmups": 24884,
+            "ring_fallback_queries": 0,
+            "scan_tasks_active_at_row_end": 0,
+            "scan_tasks_by_worker": {
+              "veortex-scan-0": 245989,
+              "veortex-scan-1": 200549,
+              "veortex-scan-2": 169143
+            },
+            "scan_tasks_completed": 615681,
+            "scan_tasks_failed": 0,
+            "scan_worker_cpu_equivalents_tick_derived": 1.6308419016576636,
+            "scan_worker_interval_cpu_ticks": 5231,
+            "scan_workers": [
+              {
+                "comm": "veortex-scan-0",
+                "interval_cpu_ticks": 2062
+              },
+              {
+                "comm": "veortex-scan-1",
+                "interval_cpu_ticks": 1700
+              },
+              {
+                "comm": "veortex-scan-2",
+                "interval_cpu_ticks": 1469
+              }
+            ],
+            "whole_process_cpu_equivalents": 2.3076833790996036,
+            "work_weighted_logical_nq_query_dots_over_gallery_vectors_read": 59.29164620067595
+          }
+        ],
+        "oracle_sha256": "edbc0b792dced6510b18017e9fd6aea102e9152bac49a1b15cc65c3b1c91035a",
+        "p50_ms": 154.144155,
+        "p95_ms": 168.66295200000002,
+        "p99_ms": 180.681488,
+        "route_gate": {
+          "all_scan_task_failures_zero": true,
+          "fallback_zero_all_nodes": true,
+          "hnsw_zero_all_nodes": true,
+          "peak_active_scan_tasks_at_most_three": true,
+          "scan_tasks_idle_at_row_end": true,
+          "submitted_equals_completed": true,
+          "three_scan_workers_positive_all_nodes": true
+        },
+        "successful_http_rps": 825.2020557896188,
+        "successful_queries": 24868,
+        "successful_requests": 24868,
+        "timing_report_sha256": "1b5866b27d0ef4d892db49151fac8372ad332265e7e779a82bee4cc493212edf"
+      },
+      "candidate_manifest_equals_historical_manifest": false,
+      "candidate_vs_historical_http_rps_change_percent": -36.52931351468977,
+      "category": "unfiltered_no_payload",
+      "concurrency": 128,
+      "historical_query_split": {
+        "elf_sha256": "074f45b364a8e80da3fb9307d637812072fd755f56b91aeb8bdd4bf92b1ba60d",
+        "failed_queries": 0,
+        "logical_nq_by_node": [
+          58.87524160520926,
+          47.89950202541428,
+          46.321598982948196
+        ],
+        "manifest_sha256": "f920000669c432522ab560886208d116e93fe979c8d620addc6801503e8130bf",
+        "named_query_compute_cpu_equivalents_by_node": [
+          1.497281784227016,
+          1.5067843130035785,
+          1.3731154082132675
+        ],
+        "oracle_sha256": "edbc0b792dced6510b18017e9fd6aea102e9152bac49a1b15cc65c3b1c91035a",
+        "p50_ms": 95.577186,
+        "p95_ms": 119.617468,
+        "p99_ms": 137.492583,
+        "process_cpu_equivalents_by_node": [
+          2.566949773508724,
+          2.2920099409068517,
+          2.314499259011383
+        ],
+        "source_commit": "0aa62c281b7262368ca6f1ed69de71647be10ac0",
+        "status": "historical matched-category-and-concurrency comparison; not a same-ELF A/B",
+        "successful_http_rps": 1300.1309761800119,
+        "successful_queries": 39104,
+        "timing_report_sha256": "b134452a285aade847f6bd652efae0387eccbc084ec30b013446fe3b4b6ccd04",
+        "worker_limit": 3
+      },
+      "oracle_hash_matches_historical": true
+    },
+    {
+      "batch_size": 1,
+      "candidate": {
+        "accuracy": {
+          "failed": 0,
+          "passed": 1024,
+          "queries": 1024,
+          "report_sha256": "0f60b52eb145cd13f76b52b3a5851beaeda6658d7c04a9cbc18093a421a235d7"
+        },
+        "actual_dispatch_duration_s": 29.998768841,
+        "actual_elapsed_s": 30.165818404,
+        "configured_dispatch_window_s": 30,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "manifest_sha256": "5eca9f6a48488986d9e80602a87a9b11af3a7264d4d9331b5e1218e814f1ccb3",
+        "nodes": [
+          {
+            "amx_calls": 670296,
+            "gallery_vectors_read": 472921600,
+            "hnsw_search_calls": 0,
+            "max_active_scan_tasks": 3,
+            "named_query_compute_cpu_equivalents": 1.777753979168387,
+            "node": 0,
+            "query_vector_dots": 34383000000,
+            "ring_completed_queries_including_warmups": 34383,
+            "ring_fallback_queries": 0,
+            "scan_tasks_active_at_row_end": 0,
+            "scan_tasks_by_worker": {
+              "veortex-scan-0": 247933,
+              "veortex-scan-1": 232927,
+              "veortex-scan-2": 212914
+            },
+            "scan_tasks_completed": 693774,
+            "scan_tasks_failed": 0,
+            "scan_worker_cpu_equivalents_tick_derived": 1.538662746129258,
+            "scan_worker_interval_cpu_ticks": 4936,
+            "scan_workers": [
+              {
+                "comm": "veortex-scan-0",
+                "interval_cpu_ticks": 1756
+              },
+              {
+                "comm": "veortex-scan-1",
+                "interval_cpu_ticks": 1655
+              },
+              {
+                "comm": "veortex-scan-2",
+                "interval_cpu_ticks": 1525
+              }
+            ],
+            "whole_process_cpu_equivalents": 2.6206518854758247,
+            "work_weighted_logical_nq_query_dots_over_gallery_vectors_read": 72.70338254797413
+          },
+          {
+            "amx_calls": 647448,
+            "gallery_vectors_read": 457388544,
+            "hnsw_search_calls": 0,
+            "max_active_scan_tasks": 3,
+            "named_query_compute_cpu_equivalents": 2.027443780556056,
+            "node": 1,
+            "query_vector_dots": 34383000000,
+            "ring_completed_queries_including_warmups": 34383,
+            "ring_fallback_queries": 0,
+            "scan_tasks_active_at_row_end": 0,
+            "scan_tasks_by_worker": {
+              "veortex-scan-0": 246683,
+              "veortex-scan-1": 223709,
+              "veortex-scan-2": 200594
+            },
+            "scan_tasks_completed": 670986,
+            "scan_tasks_failed": 0,
+            "scan_worker_cpu_equivalents_tick_derived": 1.7166563498650371,
+            "scan_worker_interval_cpu_ticks": 5507,
+            "scan_workers": [
+              {
+                "comm": "veortex-scan-0",
+                "interval_cpu_ticks": 2009
+              },
+              {
+                "comm": "veortex-scan-1",
+                "interval_cpu_ticks": 1845
+              },
+              {
+                "comm": "veortex-scan-2",
+                "interval_cpu_ticks": 1653
+              }
+            ],
+            "whole_process_cpu_equivalents": 2.5473970748315025,
+            "work_weighted_logical_nq_query_dots_over_gallery_vectors_read": 75.17241183898126
+          },
+          {
+            "amx_calls": 608187,
+            "gallery_vectors_read": 430642496,
+            "hnsw_search_calls": 0,
+            "max_active_scan_tasks": 3,
+            "named_query_compute_cpu_equivalents": 2.03773062630611,
+            "node": 2,
+            "query_vector_dots": 34383000000,
+            "ring_completed_queries_including_warmups": 34383,
+            "ring_fallback_queries": 0,
+            "scan_tasks_active_at_row_end": 0,
+            "scan_tasks_by_worker": {
+              "veortex-scan-0": 230698,
+              "veortex-scan-1": 211892,
+              "veortex-scan-2": 189159
+            },
+            "scan_tasks_completed": 631749,
+            "scan_tasks_failed": 0,
+            "scan_worker_cpu_equivalents_tick_derived": 1.723825969630226,
+            "scan_worker_interval_cpu_ticks": 5530,
+            "scan_workers": [
+              {
+                "comm": "veortex-scan-0",
+                "interval_cpu_ticks": 2007
+              },
+              {
+                "comm": "veortex-scan-1",
+                "interval_cpu_ticks": 1853
+              },
+              {
+                "comm": "veortex-scan-2",
+                "interval_cpu_ticks": 1670
+              }
+            ],
+            "whole_process_cpu_equivalents": 2.5801279476725827,
+            "work_weighted_logical_nq_query_dots_over_gallery_vectors_read": 79.8411682993775
+          }
+        ],
+        "oracle_sha256": "edbc0b792dced6510b18017e9fd6aea102e9152bac49a1b15cc65c3b1c91035a",
+        "p50_ms": 224.354414,
+        "p95_ms": 239.758017,
+        "p99_ms": 247.20047,
+        "route_gate": {
+          "all_scan_task_failures_zero": true,
+          "fallback_zero_all_nodes": true,
+          "hnsw_zero_all_nodes": true,
+          "peak_active_scan_tasks_at_most_three": true,
+          "scan_tasks_idle_at_row_end": true,
+          "submitted_equals_completed": true,
+          "three_scan_workers_positive_all_nodes": true
+        },
+        "successful_http_rps": 1139.2696044156694,
+        "successful_queries": 34367,
+        "successful_requests": 34367,
+        "timing_report_sha256": "ac672c75b2a076e7e7a156260aae8cf4244b0f177cd08c5d1df52de607f301ce"
+      },
+      "candidate_manifest_equals_historical_manifest": false,
+      "candidate_vs_historical_http_rps_change_percent": -27.39318408882434,
+      "category": "unfiltered_no_payload",
+      "concurrency": 256,
+      "historical_query_split": {
+        "elf_sha256": "074f45b364a8e80da3fb9307d637812072fd755f56b91aeb8bdd4bf92b1ba60d",
+        "failed_queries": 0,
+        "logical_nq_by_node": [
+          81.07330574490192,
+          48.03538604061929,
+          47.28311493639433
+        ],
+        "manifest_sha256": "f920000669c432522ab560886208d116e93fe979c8d620addc6801503e8130bf",
+        "named_query_compute_cpu_equivalents_by_node": [
+          1.514140991928104,
+          1.892359474012237,
+          1.8926762399101298
+        ],
+        "oracle_sha256": "edbc0b792dced6510b18017e9fd6aea102e9152bac49a1b15cc65c3b1c91035a",
+        "p50_ms": 161.819342,
+        "p95_ms": 214.426747,
+        "p99_ms": 227.212472,
+        "process_cpu_equivalents_by_node": [
+          2.8011608350669923,
+          2.846775124363571,
+          2.7973596442922775
+        ],
+        "source_commit": "0aa62c281b7262368ca6f1ed69de71647be10ac0",
+        "status": "historical matched-category-and-concurrency comparison; not a same-ELF A/B",
+        "successful_http_rps": 1569.0945679389208,
+        "successful_queries": 47256,
+        "timing_report_sha256": "3b70c5aa28bb71f7ec0eb4741e36deee2cde874e5d601e64d034458a06d3f21b",
+        "worker_limit": 3
+      },
+      "oracle_hash_matches_historical": true
+    },
+    {
+      "batch_size": 1,
+      "candidate": {
+        "accuracy": {
+          "failed": 0,
+          "passed": 1024,
+          "queries": 1024,
+          "report_sha256": "250872dd4feddceeb61ca751840da2ea68d3ab6fab4bfc157f172c738d6a3608"
+        },
+        "actual_dispatch_duration_s": 29.999666933,
+        "actual_elapsed_s": 30.26555175,
+        "configured_dispatch_window_s": 30,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "manifest_sha256": "5eca9f6a48488986d9e80602a87a9b11af3a7264d4d9331b5e1218e814f1ccb3",
+        "nodes": [
+          {
+            "amx_calls": 633069,
+            "gallery_vectors_read": 448462272,
+            "hnsw_search_calls": 0,
+            "max_active_scan_tasks": 3,
+            "named_query_compute_cpu_equivalents": 1.717784843365265,
+            "node": 0,
+            "query_vector_dots": 39360000000,
+            "ring_completed_queries_including_warmups": 39360,
+            "ring_fallback_queries": 0,
+            "scan_tasks_active_at_row_end": 0,
+            "scan_tasks_by_worker": {
+              "veortex-scan-0": 232069,
+              "veortex-scan-1": 219254,
+              "veortex-scan-2": 206568
+            },
+            "scan_tasks_completed": 657891,
+            "scan_tasks_failed": 0,
+            "scan_worker_cpu_equivalents_tick_derived": 1.4671771471094723,
+            "scan_worker_interval_cpu_ticks": 4707,
+            "scan_workers": [
+              {
+                "comm": "veortex-scan-0",
+                "interval_cpu_ticks": 1656
+              },
+              {
+                "comm": "veortex-scan-1",
+                "interval_cpu_ticks": 1568
+              },
+              {
+                "comm": "veortex-scan-2",
+                "interval_cpu_ticks": 1483
+              }
+            ],
+            "whole_process_cpu_equivalents": 2.6419786485871866,
+            "work_weighted_logical_nq_query_dots_over_gallery_vectors_read": 87.76658028437228
+          },
+          {
+            "amx_calls": 621900,
+            "gallery_vectors_read": 440654208,
+            "hnsw_search_calls": 0,
+            "max_active_scan_tasks": 3,
+            "named_query_compute_cpu_equivalents": 1.9964456399481987,
+            "node": 1,
+            "query_vector_dots": 39360000000,
+            "ring_completed_queries_including_warmups": 39360,
+            "ring_fallback_queries": 0,
+            "scan_tasks_active_at_row_end": 0,
+            "scan_tasks_by_worker": {
+              "veortex-scan-0": 235036,
+              "veortex-scan-1": 216233,
+              "veortex-scan-2": 195165
+            },
+            "scan_tasks_completed": 646434,
+            "scan_tasks_failed": 0,
+            "scan_worker_cpu_equivalents_tick_derived": 1.6728998828418395,
+            "scan_worker_interval_cpu_ticks": 5367,
+            "scan_workers": [
+              {
+                "comm": "veortex-scan-0",
+                "interval_cpu_ticks": 1937
+              },
+              {
+                "comm": "veortex-scan-1",
+                "interval_cpu_ticks": 1798
+              },
+              {
+                "comm": "veortex-scan-2",
+                "interval_cpu_ticks": 1632
+              }
+            ],
+            "whole_process_cpu_equivalents": 2.5494034175076217,
+            "work_weighted_logical_nq_query_dots_over_gallery_vectors_read": 89.32173864546415
+          },
+          {
+            "amx_calls": 611043,
+            "gallery_vectors_read": 433281472,
+            "hnsw_search_calls": 0,
+            "max_active_scan_tasks": 3,
+            "named_query_compute_cpu_equivalents": 2.0241870391605934,
+            "node": 2,
+            "query_vector_dots": 39360000000,
+            "ring_completed_queries_including_warmups": 39360,
+            "ring_fallback_queries": 0,
+            "scan_tasks_active_at_row_end": 0,
+            "scan_tasks_by_worker": {
+              "veortex-scan-0": 231321,
+              "veortex-scan-1": 212489,
+              "veortex-scan-2": 191809
+            },
+            "scan_tasks_completed": 635619,
+            "scan_tasks_failed": 0,
+            "scan_worker_cpu_equivalents_tick_derived": 1.7143561311030588,
+            "scan_worker_interval_cpu_ticks": 5500,
+            "scan_workers": [
+              {
+                "comm": "veortex-scan-0",
+                "interval_cpu_ticks": 1996
+              },
+              {
+                "comm": "veortex-scan-1",
+                "interval_cpu_ticks": 1837
+              },
+              {
+                "comm": "veortex-scan-2",
+                "interval_cpu_ticks": 1667
+              }
+            ],
+            "whole_process_cpu_equivalents": 2.592729872457317,
+            "work_weighted_logical_nq_query_dots_over_gallery_vectors_read": 90.84164115838307
+          }
+        ],
+        "oracle_sha256": "edbc0b792dced6510b18017e9fd6aea102e9152bac49a1b15cc65c3b1c91035a",
+        "p50_ms": 289.306269,
+        "p95_ms": 365.76837,
+        "p99_ms": 413.114232,
+        "route_gate": {
+          "all_scan_task_failures_zero": true,
+          "fallback_zero_all_nodes": true,
+          "hnsw_zero_all_nodes": true,
+          "peak_active_scan_tasks_at_most_three": true,
+          "scan_tasks_idle_at_row_end": true,
+          "submitted_equals_completed": true,
+          "three_scan_workers_positive_all_nodes": true
+        },
+        "successful_http_rps": 1299.95978018144,
+        "successful_queries": 39344,
+        "successful_requests": 39344,
+        "timing_report_sha256": "3566621f439ce1358e6c636a7c3d451aeecd419a93e9133389fad95088460e8e"
+      },
+      "candidate_manifest_equals_historical_manifest": false,
+      "candidate_vs_historical_http_rps_change_percent": -27.157881458788367,
+      "category": "unfiltered_no_payload",
+      "concurrency": 384,
+      "historical_query_split": {
+        "elf_sha256": "074f45b364a8e80da3fb9307d637812072fd755f56b91aeb8bdd4bf92b1ba60d",
+        "failed_queries": 0,
+        "logical_nq_by_node": [
+          92.86579044313885,
+          65.86854661732757,
+          65.47373362656823
+        ],
+        "manifest_sha256": "f920000669c432522ab560886208d116e93fe979c8d620addc6801503e8130bf",
+        "named_query_compute_cpu_equivalents_by_node": [
+          1.533632179926428,
+          2.0160199969499617,
+          2.001133439234856
+        ],
+        "oracle_sha256": "edbc0b792dced6510b18017e9fd6aea102e9152bac49a1b15cc65c3b1c91035a",
+        "p50_ms": 204.67343,
+        "p95_ms": 328.274164,
+        "p99_ms": 383.25039100000004,
+        "process_cpu_equivalents_by_node": [
+          2.8262288189763565,
+          2.8591692871119094,
+          2.8705717568511395
+        ],
+        "source_commit": "0aa62c281b7262368ca6f1ed69de71647be10ac0",
+        "status": "historical matched-category-and-concurrency comparison; not a same-ELF A/B",
+        "successful_http_rps": 1784.626540544625,
+        "successful_queries": 53821,
+        "timing_report_sha256": "29e9942399359fe1d285e7b3b1b84e81fe082af3ab3fcbbfceea578f5d45add9",
+        "worker_limit": 3
+      },
+      "oracle_hash_matches_historical": true
+    },
+    {
+      "batch_size": 1,
+      "candidate": {
+        "accuracy": {
+          "failed": 0,
+          "passed": 1024,
+          "queries": 1024,
+          "report_sha256": "9b217bf0b595ac0b63e13ba6abfc0d3449cf0fe6df53297cf7b25e86fbe36248"
+        },
+        "actual_dispatch_duration_s": 29.982487994,
+        "actual_elapsed_s": 30.082309535,
+        "configured_dispatch_window_s": 30,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "manifest_sha256": "d0ccb26107ebd5afe0f26339826be7a1f4108d13c82ba6c5078a3c8c7f9319cb",
+        "nodes": [
+          {
+            "amx_calls": 511008,
+            "gallery_vectors_read": 364338816,
+            "hnsw_search_calls": 0,
+            "max_active_scan_tasks": 3,
+            "named_query_compute_cpu_equivalents": 1.56031990248857,
+            "node": 0,
+            "query_vector_dots": 17137000000,
+            "ring_completed_queries_including_warmups": 17137,
+            "ring_fallback_queries": 0,
+            "scan_tasks_active_at_row_end": 0,
+            "scan_tasks_by_worker": {
+              "veortex-scan-0": 199444,
+              "veortex-scan-1": 178025,
+              "veortex-scan-2": 157011
+            },
+            "scan_tasks_completed": 534480,
+            "scan_tasks_failed": 0,
+            "scan_worker_cpu_equivalents_tick_derived": 1.3795036100922922,
+            "scan_worker_interval_cpu_ticks": 4425,
+            "scan_workers": [
+              {
+                "comm": "veortex-scan-0",
+                "interval_cpu_ticks": 1648
+              },
+              {
+                "comm": "veortex-scan-1",
+                "interval_cpu_ticks": 1455
+              },
+              {
+                "comm": "veortex-scan-2",
+                "interval_cpu_ticks": 1322
+              }
+            ],
+            "whole_process_cpu_equivalents": 2.0918574516879733,
+            "work_weighted_logical_nq_query_dots_over_gallery_vectors_read": 47.035888704210976
+          },
+          {
+            "amx_calls": 413922,
+            "gallery_vectors_read": 298155648,
+            "hnsw_search_calls": 0,
+            "max_active_scan_tasks": 3,
+            "named_query_compute_cpu_equivalents": 1.6744212180351867,
+            "node": 1,
+            "query_vector_dots": 17137000000,
+            "ring_completed_queries_including_warmups": 17137,
+            "ring_fallback_queries": 0,
+            "scan_tasks_active_at_row_end": 0,
+            "scan_tasks_by_worker": {
+              "veortex-scan-0": 164271,
+              "veortex-scan-1": 147496,
+              "veortex-scan-2": 125627
+            },
+            "scan_tasks_completed": 437394,
+            "scan_tasks_failed": 0,
+            "scan_worker_cpu_equivalents_tick_derived": 1.4480891003115701,
+            "scan_worker_interval_cpu_ticks": 4645,
+            "scan_workers": [
+              {
+                "comm": "veortex-scan-0",
+                "interval_cpu_ticks": 1712
+              },
+              {
+                "comm": "veortex-scan-1",
+                "interval_cpu_ticks": 1533
+              },
+              {
+                "comm": "veortex-scan-2",
+                "interval_cpu_ticks": 1400
+              }
+            ],
+            "whole_process_cpu_equivalents": 2.041353590708323,
+            "work_weighted_logical_nq_query_dots_over_gallery_vectors_read": 57.47669083229978
+          },
+          {
+            "amx_calls": 417858,
+            "gallery_vectors_read": 300839680,
+            "hnsw_search_calls": 0,
+            "max_active_scan_tasks": 3,
+            "named_query_compute_cpu_equivalents": 1.7084022109165562,
+            "node": 2,
+            "query_vector_dots": 17137000000,
+            "ring_completed_queries_including_warmups": 17137,
+            "ring_fallback_queries": 0,
+            "scan_tasks_active_at_row_end": 0,
+            "scan_tasks_by_worker": {
+              "veortex-scan-0": 164399,
+              "veortex-scan-1": 149140,
+              "veortex-scan-2": 127791
+            },
+            "scan_tasks_completed": 441330,
+            "scan_tasks_failed": 0,
+            "scan_worker_cpu_equivalents_tick_derived": 1.4805113320515924,
+            "scan_worker_interval_cpu_ticks": 4749,
+            "scan_workers": [
+              {
+                "comm": "veortex-scan-0",
+                "interval_cpu_ticks": 1764
+              },
+              {
+                "comm": "veortex-scan-1",
+                "interval_cpu_ticks": 1571
+              },
+              {
+                "comm": "veortex-scan-2",
+                "interval_cpu_ticks": 1414
+              }
+            ],
+            "whole_process_cpu_equivalents": 2.0846871504377757,
+            "work_weighted_logical_nq_query_dots_over_gallery_vectors_read": 56.96389518829431
+          }
+        ],
+        "oracle_sha256": "203ff208ac9fd6fe5a4da0154416b167385baff7cfe33886e812a9ab49cd9cd7",
+        "p50_ms": 110.197558,
+        "p95_ms": 128.142943,
+        "p99_ms": 135.988786,
+        "route_gate": {
+          "all_scan_task_failures_zero": true,
+          "fallback_zero_all_nodes": true,
+          "hnsw_zero_all_nodes": true,
+          "peak_active_scan_tasks_at_most_three": true,
+          "scan_tasks_idle_at_row_end": true,
+          "submitted_equals_completed": true,
+          "three_scan_workers_positive_all_nodes": true
+        },
+        "successful_http_rps": 569.1384825383886,
+        "successful_queries": 17121,
+        "successful_requests": 17121,
+        "timing_report_sha256": "7cd9ee339dabd2a73f850058d99228db0e663f5da8a102f47846e42efc0f2e46"
+      },
+      "candidate_manifest_equals_historical_manifest": false,
+      "candidate_vs_historical_http_rps_change_percent": -21.82921622379125,
+      "category": "active_only",
+      "concurrency": 64,
+      "historical_query_split": {
+        "elf_sha256": "074f45b364a8e80da3fb9307d637812072fd755f56b91aeb8bdd4bf92b1ba60d",
+        "failed_queries": 0,
+        "logical_nq_by_node": [
+          57.218998582003245,
+          54.07001451016541,
+          52.99511708483028
+        ],
+        "manifest_sha256": "6f8ba89bb4f110ccb18a83872124d2b0ed6cb747db64ce79311e922831db66c1",
+        "named_query_compute_cpu_equivalents_by_node": [
+          0.8659240015543366,
+          0.9142560938269049,
+          0.9254816120321466
+        ],
+        "oracle_sha256": "203ff208ac9fd6fe5a4da0154416b167385baff7cfe33886e812a9ab49cd9cd7",
+        "p50_ms": 86.90006799999999,
+        "p95_ms": 100.842541,
+        "p99_ms": 113.835504,
+        "process_cpu_equivalents_by_node": [
+          1.5173158774084992,
+          1.3380194060747779,
+          1.3495567442301653
+        ],
+        "source_commit": "0aa62c281b7262368ca6f1ed69de71647be10ac0",
+        "status": "historical matched-category-and-concurrency comparison; not a same-ELF A/B",
+        "successful_http_rps": 728.0705847439715,
+        "successful_queries": 21889,
+        "timing_report_sha256": "2a424cc289b3908e7fb14d76eec91d5030fe01e741ab80158e75ae589d68bb86",
+        "worker_limit": 3
+      },
+      "oracle_hash_matches_historical": true
+    },
+    {
+      "batch_size": 1,
+      "candidate": {
+        "accuracy": {
+          "failed": 0,
+          "passed": 1024,
+          "queries": 1024,
+          "report_sha256": "ed865a409ebee032a6114575e4b02a61bc0c086be3a748f2c16f2577de6d3982"
+        },
+        "actual_dispatch_duration_s": 29.968214513,
+        "actual_elapsed_s": 30.11599381,
+        "configured_dispatch_window_s": 30,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "manifest_sha256": "d0ccb26107ebd5afe0f26339826be7a1f4108d13c82ba6c5078a3c8c7f9319cb",
+        "nodes": [
+          {
+            "amx_calls": 647517,
+            "gallery_vectors_read": 458240576,
+            "hnsw_search_calls": 0,
+            "max_active_scan_tasks": 3,
+            "named_query_compute_cpu_equivalents": 1.601173561824271,
+            "node": 0,
+            "query_vector_dots": 23288000000,
+            "ring_completed_queries_including_warmups": 23288,
+            "ring_fallback_queries": 0,
+            "scan_tasks_active_at_row_end": 0,
+            "scan_tasks_by_worker": {
+              "veortex-scan-0": 265165,
+              "veortex-scan-1": 218638,
+              "veortex-scan-2": 188416
+            },
+            "scan_tasks_completed": 672219,
+            "scan_tasks_failed": 0,
+            "scan_worker_cpu_equivalents_tick_derived": 1.3997798466882743,
+            "scan_worker_interval_cpu_ticks": 4490,
+            "scan_workers": [
+              {
+                "comm": "veortex-scan-0",
+                "interval_cpu_ticks": 1751
+              },
+              {
+                "comm": "veortex-scan-1",
+                "interval_cpu_ticks": 1455
+              },
+              {
+                "comm": "veortex-scan-2",
+                "interval_cpu_ticks": 1284
+              }
+            ],
+            "whole_process_cpu_equivalents": 2.3178982539259065,
+            "work_weighted_logical_nq_query_dots_over_gallery_vectors_read": 50.8204668457819
+          },
+          {
+            "amx_calls": 554970,
+            "gallery_vectors_read": 395449408,
+            "hnsw_search_calls": 0,
+            "max_active_scan_tasks": 3,
+            "named_query_compute_cpu_equivalents": 1.8493305235088737,
+            "node": 1,
+            "query_vector_dots": 23288000000,
+            "ring_completed_queries_including_warmups": 23288,
+            "ring_fallback_queries": 0,
+            "scan_tasks_active_at_row_end": 0,
+            "scan_tasks_by_worker": {
+              "veortex-scan-0": 229770,
+              "veortex-scan-1": 190148,
+              "veortex-scan-2": 160201
+            },
+            "scan_tasks_completed": 580119,
+            "scan_tasks_failed": 0,
+            "scan_worker_cpu_equivalents_tick_derived": 1.5646982295163583,
+            "scan_worker_interval_cpu_ticks": 5019,
+            "scan_workers": [
+              {
+                "comm": "veortex-scan-0",
+                "interval_cpu_ticks": 1970
+              },
+              {
+                "comm": "veortex-scan-1",
+                "interval_cpu_ticks": 1634
+              },
+              {
+                "comm": "veortex-scan-2",
+                "interval_cpu_ticks": 1415
+              }
+            ],
+            "whole_process_cpu_equivalents": 2.3016869951223895,
+            "work_weighted_logical_nq_query_dots_over_gallery_vectors_read": 58.88996045734376
+          },
+          {
+            "amx_calls": 623844,
+            "gallery_vectors_read": 442395584,
+            "hnsw_search_calls": 0,
+            "max_active_scan_tasks": 3,
+            "named_query_compute_cpu_equivalents": 1.8137904561319331,
+            "node": 2,
+            "query_vector_dots": 23288000000,
+            "ring_completed_queries_including_warmups": 23288,
+            "ring_fallback_queries": 0,
+            "scan_tasks_active_at_row_end": 0,
+            "scan_tasks_by_worker": {
+              "veortex-scan-0": 255676,
+              "veortex-scan-1": 211981,
+              "veortex-scan-2": 181330
+            },
+            "scan_tasks_completed": 648987,
+            "scan_tasks_failed": 0,
+            "scan_worker_cpu_equivalents_tick_derived": 1.544745910988953,
+            "scan_worker_interval_cpu_ticks": 4955,
+            "scan_workers": [
+              {
+                "comm": "veortex-scan-0",
+                "interval_cpu_ticks": 1925
+              },
+              {
+                "comm": "veortex-scan-1",
+                "interval_cpu_ticks": 1609
+              },
+              {
+                "comm": "veortex-scan-2",
+                "interval_cpu_ticks": 1421
+              }
+            ],
+            "whole_process_cpu_equivalents": 2.2648999078374863,
+            "work_weighted_logical_nq_query_dots_over_gallery_vectors_read": 52.64067012025147
+          }
+        ],
+        "oracle_sha256": "203ff208ac9fd6fe5a4da0154416b167385baff7cfe33886e812a9ab49cd9cd7",
+        "p50_ms": 164.276215,
+        "p95_ms": 182.119849,
+        "p99_ms": 194.138494,
+        "route_gate": {
+          "all_scan_task_failures_zero": true,
+          "fallback_zero_all_nodes": true,
+          "hnsw_zero_all_nodes": true,
+          "peak_active_scan_tasks_at_most_three": true,
+          "scan_tasks_idle_at_row_end": true,
+          "submitted_equals_completed": true,
+          "three_scan_workers_positive_all_nodes": true
+        },
+        "successful_http_rps": 772.7455433422405,
+        "successful_queries": 23272,
+        "successful_requests": 23272,
+        "timing_report_sha256": "1eb4f7bfd154859de431ac6663c0bcb9e18022a39d606a0a15fb72cc77f2a537"
+      },
+      "candidate_manifest_equals_historical_manifest": false,
+      "candidate_vs_historical_http_rps_change_percent": -40.56393452409868,
+      "category": "active_only",
+      "concurrency": 128,
+      "historical_query_split": {
+        "elf_sha256": "074f45b364a8e80da3fb9307d637812072fd755f56b91aeb8bdd4bf92b1ba60d",
+        "failed_queries": 0,
+        "logical_nq_by_node": [
+          55.638124889540386,
+          52.70771132294746,
+          49.45790083585534
+        ],
+        "manifest_sha256": "6f8ba89bb4f110ccb18a83872124d2b0ed6cb747db64ce79311e922831db66c1",
+        "named_query_compute_cpu_equivalents_by_node": [
+          1.3119713583174606,
+          1.4628730069452294,
+          1.421094451333409
+        ],
+        "oracle_sha256": "203ff208ac9fd6fe5a4da0154416b167385baff7cfe33886e812a9ab49cd9cd7",
+        "p50_ms": 95.216293,
+        "p95_ms": 123.249517,
+        "p99_ms": 144.81852,
+        "process_cpu_equivalents_by_node": [
+          2.516378524947772,
+          2.2625893886192516,
+          2.3118506706093083
+        ],
+        "source_commit": "0aa62c281b7262368ca6f1ed69de71647be10ac0",
+        "status": "historical matched-category-and-concurrency comparison; not a same-ELF A/B",
+        "successful_http_rps": 1300.1290330288675,
+        "successful_queries": 39091,
+        "timing_report_sha256": "ea5dc9f2bf848945aab1c27cbd020c463b179a8286ea5d36d2d7199cddad4b2d",
+        "worker_limit": 3
+      },
+      "oracle_hash_matches_historical": true
+    },
+    {
+      "batch_size": 1,
+      "candidate": {
+        "accuracy": {
+          "failed": 0,
+          "passed": 1024,
+          "queries": 1024,
+          "report_sha256": "d41f4d854696d84340abbb8e6983d9a530743a2c19cb72dc63904dfc03b6cfa6"
+        },
+        "actual_dispatch_duration_s": 29.99878003,
+        "actual_elapsed_s": 30.189307484,
+        "configured_dispatch_window_s": 30,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "manifest_sha256": "d0ccb26107ebd5afe0f26339826be7a1f4108d13c82ba6c5078a3c8c7f9319cb",
+        "nodes": [
+          {
+            "amx_calls": 537129,
+            "gallery_vectors_read": 382171456,
+            "hnsw_search_calls": 0,
+            "max_active_scan_tasks": 3,
+            "named_query_compute_cpu_equivalents": 1.6778986549449062,
+            "node": 0,
+            "query_vector_dots": 30173000000,
+            "ring_completed_queries_including_warmups": 30173,
+            "ring_fallback_queries": 0,
+            "scan_tasks_active_at_row_end": 0,
+            "scan_tasks_by_worker": {
+              "veortex-scan-0": 199526,
+              "veortex-scan-1": 183761,
+              "veortex-scan-2": 177356
+            },
+            "scan_tasks_completed": 560643,
+            "scan_tasks_failed": 0,
+            "scan_worker_cpu_equivalents_tick_derived": 1.3767373579035127,
+            "scan_worker_interval_cpu_ticks": 4416,
+            "scan_workers": [
+              {
+                "comm": "veortex-scan-0",
+                "interval_cpu_ticks": 1565
+              },
+              {
+                "comm": "veortex-scan-1",
+                "interval_cpu_ticks": 1457
+              },
+              {
+                "comm": "veortex-scan-2",
+                "interval_cpu_ticks": 1394
+              }
+            ],
+            "whole_process_cpu_equivalents": 2.684575495676438,
+            "work_weighted_logical_nq_query_dots_over_gallery_vectors_read": 78.95147459678412
+          },
+          {
+            "amx_calls": 614007,
+            "gallery_vectors_read": 434609728,
+            "hnsw_search_calls": 0,
+            "max_active_scan_tasks": 3,
+            "named_query_compute_cpu_equivalents": 2.0233300391290303,
+            "node": 1,
+            "query_vector_dots": 30173000000,
+            "ring_completed_queries_including_warmups": 30173,
+            "ring_fallback_queries": 0,
+            "scan_tasks_active_at_row_end": 0,
+            "scan_tasks_by_worker": {
+              "veortex-scan-0": 234221,
+              "veortex-scan-1": 212936,
+              "veortex-scan-2": 190412
+            },
+            "scan_tasks_completed": 637569,
+            "scan_tasks_failed": 0,
+            "scan_worker_cpu_equivalents_tick_derived": 1.6947337585062263,
+            "scan_worker_interval_cpu_ticks": 5436,
+            "scan_workers": [
+              {
+                "comm": "veortex-scan-0",
+                "interval_cpu_ticks": 1984
+              },
+              {
+                "comm": "veortex-scan-1",
+                "interval_cpu_ticks": 1826
+              },
+              {
+                "comm": "veortex-scan-2",
+                "interval_cpu_ticks": 1626
+              }
+            ],
+            "whole_process_cpu_equivalents": 2.5555063683729835,
+            "work_weighted_logical_nq_query_dots_over_gallery_vectors_read": 69.42550535822336
+          },
+          {
+            "amx_calls": 844722,
+            "gallery_vectors_read": 592583552,
+            "hnsw_search_calls": 0,
+            "max_active_scan_tasks": 3,
+            "named_query_compute_cpu_equivalents": 1.9759423402156848,
+            "node": 2,
+            "query_vector_dots": 30173000000,
+            "ring_completed_queries_including_warmups": 30173,
+            "ring_fallback_queries": 0,
+            "scan_tasks_active_at_row_end": 0,
+            "scan_tasks_by_worker": {
+              "veortex-scan-0": 314652,
+              "veortex-scan-1": 294182,
+              "veortex-scan-2": 260446
+            },
+            "scan_tasks_completed": 869280,
+            "scan_tasks_failed": 0,
+            "scan_worker_cpu_equivalents_tick_derived": 1.7068924444116242,
+            "scan_worker_interval_cpu_ticks": 5475,
+            "scan_workers": [
+              {
+                "comm": "veortex-scan-0",
+                "interval_cpu_ticks": 1974
+              },
+              {
+                "comm": "veortex-scan-1",
+                "interval_cpu_ticks": 1848
+              },
+              {
+                "comm": "veortex-scan-2",
+                "interval_cpu_ticks": 1653
+              }
+            ],
+            "whole_process_cpu_equivalents": 2.513418609469683,
+            "work_weighted_logical_nq_query_dots_over_gallery_vectors_read": 50.91771430064937
+          }
+        ],
+        "oracle_sha256": "203ff208ac9fd6fe5a4da0154416b167385baff7cfe33886e812a9ab49cd9cd7",
+        "p50_ms": 254.259399,
+        "p95_ms": 278.949976,
+        "p99_ms": 288.05094399999996,
+        "route_gate": {
+          "all_scan_task_failures_zero": true,
+          "fallback_zero_all_nodes": true,
+          "hnsw_zero_all_nodes": true,
+          "peak_active_scan_tasks_at_most_three": true,
+          "scan_tasks_idle_at_row_end": true,
+          "submitted_equals_completed": true,
+          "three_scan_workers_positive_all_nodes": true
+        },
+        "successful_http_rps": 998.9298368630309,
+        "successful_queries": 30157,
+        "successful_requests": 30157,
+        "timing_report_sha256": "028bab1e37b8d528ca31660df4086313a4cc5c5a4bfe2e7e7960a1e846be746d"
+      },
+      "candidate_manifest_equals_historical_manifest": false,
+      "candidate_vs_historical_http_rps_change_percent": -33.444808915293166,
+      "category": "active_only",
+      "concurrency": 256,
+      "historical_query_split": {
+        "elf_sha256": "074f45b364a8e80da3fb9307d637812072fd755f56b91aeb8bdd4bf92b1ba60d",
+        "failed_queries": 0,
+        "logical_nq_by_node": [
+          78.86529777828001,
+          52.02416038745954,
+          50.12126503101278
+        ],
+        "manifest_sha256": "6f8ba89bb4f110ccb18a83872124d2b0ed6cb747db64ce79311e922831db66c1",
+        "named_query_compute_cpu_equivalents_by_node": [
+          1.4595326395919448,
+          1.834395509846115,
+          1.748320508024026
+        ],
+        "oracle_sha256": "203ff208ac9fd6fe5a4da0154416b167385baff7cfe33886e812a9ab49cd9cd7",
+        "p50_ms": 167.802266,
+        "p95_ms": 232.65492500000002,
+        "p99_ms": 252.857502,
+        "process_cpu_equivalents_by_node": [
+          2.7821561277349867,
+          2.7940070337829557,
+          2.798685023012417
+        ],
+        "source_commit": "0aa62c281b7262368ca6f1ed69de71647be10ac0",
+        "status": "historical matched-category-and-concurrency comparison; not a same-ELF A/B",
+        "successful_http_rps": 1500.9044682805618,
+        "successful_queries": 45186,
+        "timing_report_sha256": "ac017bdbcf1de2860fea3fb0a37af4113c41d3f2029104d588168da6f317bdc5",
+        "worker_limit": 3
+      },
+      "oracle_hash_matches_historical": true
+    },
+    {
+      "batch_size": 1,
+      "candidate": {
+        "accuracy": {
+          "failed": 0,
+          "passed": 1024,
+          "queries": 1024,
+          "report_sha256": "4080ef4aff753dbb11bc6e6153ac56d2b0e3e0b4ab2cab18341f6b1ab097a5b4"
+        },
+        "actual_dispatch_duration_s": 29.998462816,
+        "actual_elapsed_s": 30.246551468,
+        "configured_dispatch_window_s": 30,
+        "failed_queries": 0,
+        "failed_requests": 0,
+        "manifest_sha256": "d0ccb26107ebd5afe0f26339826be7a1f4108d13c82ba6c5078a3c8c7f9319cb",
+        "nodes": [
+          {
+            "amx_calls": 518832,
+            "gallery_vectors_read": 370315392,
+            "hnsw_search_calls": 0,
+            "max_active_scan_tasks": 3,
+            "named_query_compute_cpu_equivalents": 1.6609021506801482,
+            "node": 0,
+            "query_vector_dots": 33766000000,
+            "ring_completed_queries_including_warmups": 33766,
+            "ring_fallback_queries": 0,
+            "scan_tasks_active_at_row_end": 0,
+            "scan_tasks_by_worker": {
+              "veortex-scan-0": 191457,
+              "veortex-scan-1": 180178,
+              "veortex-scan-2": 171617
+            },
+            "scan_tasks_completed": 543252,
+            "scan_tasks_failed": 0,
+            "scan_worker_cpu_equivalents_tick_derived": 1.355660324977902,
+            "scan_worker_interval_cpu_ticks": 4348,
+            "scan_workers": [
+              {
+                "comm": "veortex-scan-0",
+                "interval_cpu_ticks": 1521
+              },
+              {
+                "comm": "veortex-scan-1",
+                "interval_cpu_ticks": 1450
+              },
+              {
+                "comm": "veortex-scan-2",
+                "interval_cpu_ticks": 1377
+              }
+            ],
+            "whole_process_cpu_equivalents": 2.717244648616011,
+            "work_weighted_logical_nq_query_dots_over_gallery_vectors_read": 91.18173516265833
+          },
+          {
+            "amx_calls": 596238,
+            "gallery_vectors_read": 423167360,
+            "hnsw_search_calls": 0,
+            "max_active_scan_tasks": 3,
+            "named_query_compute_cpu_equivalents": 1.995140390877092,
+            "node": 1,
+            "query_vector_dots": 33766000000,
+            "ring_completed_queries_including_warmups": 33766,
+            "ring_fallback_queries": 0,
+            "scan_tasks_active_at_row_end": 0,
+            "scan_tasks_by_worker": {
+              "veortex-scan-0": 229174,
+              "veortex-scan-1": 206114,
+              "veortex-scan-2": 185496
+            },
+            "scan_tasks_completed": 620784,
+            "scan_tasks_failed": 0,
+            "scan_worker_cpu_equivalents_tick_derived": 1.6487423639565655,
+            "scan_worker_interval_cpu_ticks": 5288,
+            "scan_workers": [
+              {
+                "comm": "veortex-scan-0",
+                "interval_cpu_ticks": 1945
+              },
+              {
+                "comm": "veortex-scan-1",
+                "interval_cpu_ticks": 1757
+              },
+              {
+                "comm": "veortex-scan-2",
+                "interval_cpu_ticks": 1586
+              }
+            ],
+            "whole_process_cpu_equivalents": 2.5463840556795136,
+            "work_weighted_logical_nq_query_dots_over_gallery_vectors_read": 79.79348879837991
+          },
+          {
+            "amx_calls": 603168,
+            "gallery_vectors_read": 427916928,
+            "hnsw_search_calls": 0,
+            "max_active_scan_tasks": 3,
+            "named_query_compute_cpu_equivalents": 1.9807980783313275,
+            "node": 2,
+            "query_vector_dots": 33766000000,
+            "ring_completed_queries_including_warmups": 33766,
+            "ring_fallback_queries": 0,
+            "scan_tasks_active_at_row_end": 0,
+            "scan_tasks_by_worker": {
+              "veortex-scan-0": 232753,
+              "veortex-scan-1": 212062,
+              "veortex-scan-2": 182935
+            },
+            "scan_tasks_completed": 627750,
+            "scan_tasks_failed": 0,
+            "scan_worker_cpu_equivalents_tick_derived": 1.6315939467822818,
+            "scan_worker_interval_cpu_ticks": 5233,
+            "scan_workers": [
+              {
+                "comm": "veortex-scan-0",
+                "interval_cpu_ticks": 1919
+              },
+              {
+                "comm": "veortex-scan-1",
+                "interval_cpu_ticks": 1762
+              },
+              {
+                "comm": "veortex-scan-2",
+                "interval_cpu_ticks": 1552
+              }
+            ],
+            "whole_process_cpu_equivalents": 2.5853577310756126,
+            "work_weighted_logical_nq_query_dots_over_gallery_vectors_read": 78.90783885978917
+          }
+        ],
+        "oracle_sha256": "203ff208ac9fd6fe5a4da0154416b167385baff7cfe33886e812a9ab49cd9cd7",
+        "p50_ms": 342.548608,
+        "p95_ms": 406.546766,
+        "p99_ms": 444.817688,
+        "route_gate": {
+          "all_scan_task_failures_zero": true,
+          "fallback_zero_all_nodes": true,
+          "hnsw_zero_all_nodes": true,
+          "peak_active_scan_tasks_at_most_three": true,
+          "scan_tasks_idle_at_row_end": true,
+          "submitted_equals_completed": true,
+          "three_scan_workers_positive_all_nodes": true
+        },
+        "successful_http_rps": 1115.8296851033265,
+        "successful_queries": 33750,
+        "successful_requests": 33750,
+        "timing_report_sha256": "89258465152ff2f4cb372e62ce9f0187cdee48002830385107da136282351da0"
+      },
+      "candidate_manifest_equals_historical_manifest": false,
+      "candidate_vs_historical_http_rps_change_percent": -33.370287095882354,
+      "category": "active_only",
+      "concurrency": 384,
+      "historical_query_split": {
+        "elf_sha256": "074f45b364a8e80da3fb9307d637812072fd755f56b91aeb8bdd4bf92b1ba60d",
+        "failed_queries": 0,
+        "logical_nq_by_node": [
+          92.53164952921256,
+          66.39993617367217,
+          62.1397741996877
+        ],
+        "manifest_sha256": "6f8ba89bb4f110ccb18a83872124d2b0ed6cb747db64ce79311e922831db66c1",
+        "named_query_compute_cpu_equivalents_by_node": [
+          1.429097976315039,
+          1.820751272900614,
+          1.9517181395932426
+        ],
+        "oracle_sha256": "203ff208ac9fd6fe5a4da0154416b167385baff7cfe33886e812a9ab49cd9cd7",
+        "p50_ms": 220.965846,
+        "p95_ms": 346.89664799999997,
+        "p99_ms": 405.815552,
+        "process_cpu_equivalents_by_node": [
+          2.8070565094453377,
+          2.8005081661107063,
+          2.832626231037708
+        ],
+        "source_commit": "0aa62c281b7262368ca6f1ed69de71647be10ac0",
+        "status": "historical matched-category-and-concurrency comparison; not a same-ELF A/B",
+        "successful_http_rps": 1674.672809575275,
+        "successful_queries": 50532,
+        "timing_report_sha256": "5456bbb4807fa0b2754445a9320d5e5643dd99dfb62a56a70e03c245be916c00",
+        "worker_limit": 3
+      },
+      "oracle_hash_matches_historical": true
+    }
+  ],
+  "schema": "cooperative_gallery_ring_cluster_public_report_v1",
+  "status": "accepted_diagnostic_not_promoted",
+  "title": "Cooperative gallery ring: three-node cluster diagnostic",
+  "workload": {
+    "accuracy": {
+      "f32_oracle_queries_per_cell": 1024,
+      "same_saved_oracle_query_set_used_for_cell_check": true,
+      "score_tolerance": 1e-06
+    },
+    "batch_size": 1,
+    "candidate_cap_per_segment": 12,
+    "categories": {
+      "active_only": {
+        "filter": "abis.active=true; approximately 90% eligible",
+        "manifest_sha256": "d0ccb26107ebd5afe0f26339826be7a1f4108d13c82ba6c5078a3c8c7f9319cb",
+        "oracle_sha256": "203ff208ac9fd6fe5a4da0154416b167385baff7cfe33886e812a9ab49cd9cd7",
+        "with_payload": true
+      },
+      "unfiltered_no_payload": {
+        "filter": null,
+        "manifest_sha256": "5eca9f6a48488986d9e80602a87a9b11af3a7264d4d9331b5e1218e814f1ccb3",
+        "oracle_sha256": "edbc0b792dced6510b18017e9fd6aea102e9152bac49a1b15cc65c3b1c91035a",
+        "with_payload": false
+      }
+    },
+    "concurrency_values_per_category": [
+      64,
+      128,
+      256,
+      384
+    ],
+    "configured_dispatch_s": 30,
+    "cooperative_scan_mode": "gallery",
+    "cooperative_scan_workers": 3,
+    "cpus_per_node": 3,
+    "dimension": 512,
+    "dispatch_followed_by_drain": true,
+    "distance": "Cosine",
+    "fast_join_capacity": 64,
+    "fixed_admission_permits": 640,
+    "fixed_max_inflight_shard_searches": 640,
+    "fixed_max_inflight_singleton_searches": 640,
+    "format": "SQ8",
+    "hnsw": false,
+    "metadata_present_in_storage": true,
+    "nodes": 3,
+    "per_thread_pinning": false,
+    "points": 3000000,
+    "points_per_node_shard": 1000000,
+    "replication_factor": 1,
+    "ring_worker_limit": 3,
+    "separate_topk": true,
+    "shared_cpu_masks": [
+      [
+        4,
+        5,
+        6
+      ],
+      [
+        7,
+        8,
+        9
+      ],
+      [
+        10,
+        11,
+        12
+      ]
+    ],
+    "throughput_definition": "Successful HTTP requests divided by actual elapsed measurement time from the client report.",
+    "top_k": 10
+  }
+}
