@@ -1,14 +1,35 @@
 # Manual deployment
 
-This guide installs the Qdrant 1.20.0–Veortex research executable on Linux x86_64. It describes a single-node launch; configure clustering separately using the Qdrant 1.20 documentation. Both release archives contain `bin/qdrant` plus notices.
+This guide installs the Qdrant 1.20.0–Veortex research executable on Linux x86_64. It describes a single-node launch; configure clustering separately using the Qdrant 1.20 documentation. Each release archive contains `bin/qdrant` plus notices.
 
 | Build | Download | Executable SHA-256 | Engine environment |
 |---|---|---|---|
+| Shared-CPU matrix, exact README binary | [Release](https://github.com/nicabreon/qdrant-veortex-releases/releases/tag/v1.20.0-veortex.shared-cpu.20261111) | `074f45b364a8e80da3fb9307d637812072fd755f56b91aeb8bdd4bf92b1ba60d` | [Matrix](configs/shared-cpu-matrix.env.example) / [worker load](configs/shared-cpu-worker-load.env.example) |
+| Experimental C512, exact README binary | [Release](https://github.com/nicabreon/qdrant-veortex-releases/releases/tag/v1.20.0-veortex.c512-experimental.20261111) | `ba68b4b06cb5dacf3419aafa83a23c23009de546c9868dabf945e3aa06f0e81d` | [C512](configs/c512-experimental.env.example) |
 | V45.1 admission-budget patch | [Release](https://github.com/nicabreon/qdrant-veortex-releases/releases/tag/v1.20.0-veortex.v45.1.20261109) | `90d54aeabbaa17350b94161f6a7926528b13452b0b50296f0bc45fc0e96969e0` | [640 MiB profile](configs/admission-budget-node0.env.example) |
 | Original frozen V45 | [Release](https://github.com/nicabreon/qdrant-veortex-releases/releases/tag/v1.20.0-veortex.v45.20261109) | `9a44f09da70af7921da7b2a6893b98c1ea3d9dcab61986d3504b63f4e3dfa0e8` | [Original profile](configs/veortex-v45-node0.env.example) |
 
 The patch expands the configurable query-reservation ceiling to 2 GiB; the unset default remains 384 MiB. The B64/C4 remediation sets `QDRANT_VEORTEX_MAX_QUEUED_QUERY_BYTES=671088640` (640 MiB). Original V45 rejects values above 512 MiB, so use the matching binary and profile. The cap is a bounded reservation across queued and active work in one server process, not preallocated memory. Apply it before startup and restart the process after changing it. See the [measured scope and results](benchmarks/h2h-sq8-admission-remediation-20261109.md).
 
+
+## Revision — 11 November 2026: shared-CPU builds
+
+For the two new builds above, all scan, TopK/rerank, payload and service threads share the process CPU allowance. Do not use the historical split-CPU V45 settings later in this document with these builds. TopK still runs on support threads; those threads share the same CPUs with scan. The examples are benchmark profiles, not universal defaults.
+
+After extracting the selected archive, load its matching environment before starting Qdrant. Example for the complete-matrix profile on the measured node0 CPU mask:
+
+```sh
+set -a
+. /opt/qdrant-veortex/configs/shared-cpu-matrix.env.example
+set +a
+unset QDRANT_VEORTEX_COMPUTE_CPUS QDRANT_VEORTEX_SUPPORT_CPUS
+exec taskset -c 4,5,6 /opt/qdrant-veortex/bin/qdrant \
+  --config-path /etc/qdrant-veortex/config.yaml
+```
+
+Use disjoint process masks for additional nodes; measured masks were `4,5,6`, `7,8,9` and `10,11,12`. Remap these IDs for your host. The C512 executable uses `configs/c512-experimental.env.example`; the worker-load profile on `074f45…` uses `configs/shared-cpu-worker-load.env.example`. Matrix admission is 160; the high-load/C512 profiles use 640. All reserve at most 2 GiB of queued-query accounting, which is a cap rather than a startup allocation. Collection, persistent paths, API/peer TLS and credentials remain Qdrant configuration.
+
+The archive's `release-manifest.json` identifies its actual executable. The repository's root `release-manifest.json` remains the original V45 historical manifest; current manifests are in `releases/`.
 
 ## Check the host and artifact
 

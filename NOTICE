@@ -1,3 +1,12 @@
+Qdrant–Veortex shared-CPU benchmark binaries — distribution revision 11 November 2026
+
+This distribution additionally includes the following owner-authorized binary releases:
+- Shared-CPU matrix: source 0aa62c281b7262368ca6f1ed69de71647be10ac0; ELF SHA-256 074f45b364a8e80da3fb9307d637812072fd755f56b91aeb8bdd4bf92b1ba60d.
+- Experimental C512: source a8af3ee1ceb3a7fbee4deec705b8dbda32f9585e; ELF SHA-256 ba68b4b06cb5dacf3419aafa83a23c23009de546c9868dabf945e3aa06f0e81d.
+Both retain Qdrant 1.20.0. The executable and scope are identified by the release-manifest.json inside each archive. The dependency Cargo.lock and Cargo.toml files are unchanged from the original inventory below; its historical binary identity is retained in that inventory. No general source-code license is assigned to Veortex.
+
+Original V45 notice and provenance (retained):
+
 Qdrant–Veortex V45 research binary
 
 Qdrant component

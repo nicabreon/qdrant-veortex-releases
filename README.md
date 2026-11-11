@@ -1,5 +1,14 @@
 # Qdrant 1.20.0 with Veortex: shared-CPU SQ8 results
 
+## Downloads — exact README benchmark binaries (11 November 2026 revision)
+
+| Binary | Benchmark shown below | Download | Recorded runtime profile |
+|---|---|---|---|
+| **Shared-CPU matrix — `074f45…`** | Complete native/AVX/Auto matrix; later worker-load diagnostic | [Release and checksums](https://github.com/nicabreon/qdrant-veortex-releases/releases/tag/v1.20.0-veortex.shared-cpu.20261111) | [Matrix](configs/shared-cpu-matrix.env.example) / [three-worker load](configs/shared-cpu-worker-load.env.example) |
+| Experimental C512 — `ba68b4…` | 1,931.96 HTTP RPS without filter/payload; 1,684.40 with active filter/payload | [Separate experimental release](https://github.com/nicabreon/qdrant-veortex-releases/releases/tag/v1.20.0-veortex.c512-experimental.20261111) | [C512](configs/c512-experimental.env.example) |
+
+These archives contain the exact measured executables, without recompiling or stripping, plus manifests, deployment notes and third-party notices. Each node shares three CPUs across scan, TopK/rerank, payload and service threads; use the matching profile. Existing V45/V45.1 releases and historical results remain available. The standalone scheduler experiment is a separate program and is not included in these Qdrant server binaries. See [manual deployment](DEPLOYMENT.md).
+
 ## Revision — 11 November 2026: cooperative gallery cluster diagnostic
 
 A candidate gallery-split adapter was exercised through the production request path on three nodes with three shared CPUs each, at B1/C64–384. All eight cells passed routing, three-scan-worker, and per-cell 1,024-query F32 gates; cleanup restored the originals and preserved lower data. Candidate throughput was 569–1,300 HTTP requests/s and lower than each historical query-split comparison (728–1,785 requests/s); the runs used different ELFs and manifests, so this is a diagnostic rather than an isolated A/B. The adapter was not promoted. See the [full report](benchmarks/cooperative-gallery-ring-20261111.md), [CSV](benchmarks/cooperative-gallery-ring-20261111.csv), and [curated JSON](benchmarks/cooperative-gallery-ring-20261111.json).
@@ -42,7 +51,7 @@ These additional measurements use the same full 3,000,000 × 512D SQ8 fixture, t
 
 All timed results matched the saved FP32 Top10, with zero fallback/HNSW queries. These are the `VX_PF8=6` control rows from the [same-binary prefetch diagnostic](benchmarks/sq8-prefetch-distance-20261111.md), with `VX_PFH=9` and fused score pruning disabled. They are finite high-concurrency observations, not a maximum-capacity or a matched-native-C512 claim. Payload-only and narrow-filter categories were not rerun in this diagnostic; their complete results remain below.
 
-**Binary identity:** these two rows used source `a8af3ee1ceb3a7fbee4deec705b8dbda32f9585e`, ELF SHA-256 `ba68b4b06cb5dacf3419aafa83a23c23009de546c9868dabf945e3aa06f0e81d`. This experimental server binary is newer than the `074f45…` binary used for the complete matrix, but it has not replaced that baseline or the downloadable V45.1 release. The source/test-binary-only tiling, alignment, and operand-preload experiments linked later are separate and were not promoted.
+**Binary identity:** these two rows used source `a8af3ee1ceb3a7fbee4deec705b8dbda32f9585e`, ELF SHA-256 `ba68b4b06cb5dacf3419aafa83a23c23009de546c9868dabf945e3aa06f0e81d`. This experimental server binary is newer than the `074f45…` binary used for the complete matrix, and is now downloadable as a separately labelled experimental release above; it has not replaced the complete-matrix baseline. Distribution revision: 11 November 2026. The source/test-binary-only tiling, alignment, and operand-preload experiments linked later are separate and were not promoted.
 
 This page shows the latest complete 3-node, 3-CPU-per-node flat-SQ8 matrix. Each node had a disjoint three-CPU mask; scan, TopK, FP32 reranking, payload, and service workers shared that mask with no per-thread affinity. These are selected end-to-end load points, not maximum-capacity or scan-only scaling claims.
 
@@ -112,7 +121,7 @@ This single-collection matrix does not measure multi-collection fairness or writ
 
 The measured local candidate used Rust 1.98.0 with the release profile, opt-level 3, fat LTO, one codegen unit, and debug information disabled. The official native binary's effective compiler flags are unknown. See the [build flags and CPU acceleration notes](benchmarks/BUILD_FLAGS_AND_CPU_ACCELERATION.md) for the limits of the build comparison.
 
-The measured candidate (`074f45b364a8e80da3fb9307d637812072fd755f56b91aeb8bdd4bf92b1ba60d`) is not the downloadable V45.1 archive. The current V45.1 Linux x86_64 release is available at the [V45.1 release page](https://github.com/nicabreon/qdrant-veortex-releases/releases/tag/v1.20.0-veortex.v45.1.20261109); its executable SHA-256 is `90d54aeabbaa17350b94161f6a7926528b13452b0b50296f0bc45fc0e96969e0`. That is an earlier binary, not the ELF used for the matrix above. The native H0 reference is official stock Qdrant 1.20.0, SHA-256 `5081acd073ef29701415dc2d1655d98750be8c08008541febc20cf2935800f2f`.
+Distribution revision — 11 November 2026: the measured candidate (`074f45b364a8e80da3fb9307d637812072fd755f56b91aeb8bdd4bf92b1ba60d`) is now downloadable from the [shared-CPU release](https://github.com/nicabreon/qdrant-veortex-releases/releases/tag/v1.20.0-veortex.shared-cpu.20261111). It is a different binary from the earlier V45.1 archive. The current V45.1 Linux x86_64 release is available at the [V45.1 release page](https://github.com/nicabreon/qdrant-veortex-releases/releases/tag/v1.20.0-veortex.v45.1.20261109); its executable SHA-256 is `90d54aeabbaa17350b94161f6a7926528b13452b0b50296f0bc45fc0e96969e0`. That is an earlier binary, not the ELF used for the matrix above. The native H0 reference is official stock Qdrant 1.20.0, SHA-256 `5081acd073ef29701415dc2d1655d98750be8c08008541febc20cf2935800f2f`.
 
 Detailed accepted/rejected row diagnostics, exact per-node route/CPU/ISA evidence, and the full curation are in the [report](benchmarks/runtime-limits-20261110.md), [JSON](benchmarks/runtime-limits-20261110.json), and [CSV](benchmarks/runtime-limits-20261110.csv). Curated JSON input SHA-256: `4e947f3cdbd4065ac67d795cfa2896e558437aed2e039b232345af09ba6d670b`.
 

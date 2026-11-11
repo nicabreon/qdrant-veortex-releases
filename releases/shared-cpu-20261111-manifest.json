@@ -1,0 +1,93 @@
+{
+  "schema": "qdrant_veortex_binary_release_v2",
+  "release_tag": "v1.20.0-veortex.shared-cpu.20261111",
+  "status": "research_prerelease",
+  "qdrant_version": "1.20.0",
+  "source_commit": "0aa62c281b7262368ca6f1ed69de71647be10ac0",
+  "source_tree": "ae19530f171d177f6e517436e655e0e9571b8b50",
+  "binary_filename": "bin/qdrant",
+  "binary_sha256": "074f45b364a8e80da3fb9307d637812072fd755f56b91aeb8bdd4bf92b1ba60d",
+  "binary_size_bytes": 96575680,
+  "version_output": "qdrant 1.20.0",
+  "gnu_build_id": "cd0dfb1d29ae7654d44c1475365869fee9ebb01c",
+  "platform": "x86_64-unknown-linux-gnu",
+  "max_required_glibc_symbol_version": "2.34",
+  "runtime_libraries": [
+    "libgcc_s.so.1",
+    "libm.so.6",
+    "libc.so.6",
+    "ld-linux-x86-64.so.2"
+  ],
+  "rustc": "rustc 1.98.0 (88d9e12ae 2026-08-18)",
+  "recorded_build_command": [
+    "cargo",
+    "build",
+    "--bin",
+    "qdrant",
+    "--release",
+    "--locked",
+    "--offline",
+    "-j",
+    "2",
+    "--message-format=json-render-diagnostics"
+  ],
+  "recorded_build_receipt_sha256": "93ad136d47db4865ed62f8aff40a436f5f0cc001b8aa7460a00f1c2e8fea2095",
+  "recorded_build_status": "BUILT_AND_FOCUSED_TESTS_PASSED",
+  "binary_recompiled_or_stripped_for_release": false,
+  "performance_evidence": "benchmarks/runtime-limits-20261110.json",
+  "performance_evidence_sha256": "4e947f3cdbd4065ac67d795cfa2896e558437aed2e039b232345af09ba6d670b",
+  "measured_scope": "Exact binary used for the complete 32-cell fresh AVX-512 VNNI/Auto matrix and the later worker-load diagnostic; use each campaign matching environment.",
+  "runtime_config": "configs/shared-cpu-matrix.env.example",
+  "runtime_config_sha256": "049a1eb94115ab9984b491b157b689d0e825c241bb03977a9c215a1975246cef",
+  "cpu_contract": {
+    "nodes": 3,
+    "shared_cpus_per_node": 3,
+    "per_thread_pinning": false,
+    "node_cpu_masks": [
+      [
+        4,
+        5,
+        6
+      ],
+      [
+        7,
+        8,
+        9
+      ],
+      [
+        10,
+        11,
+        12
+      ]
+    ]
+  },
+  "search_contract": {
+    "points": 3000000,
+    "dimensions": 512,
+    "format": "SQ8",
+    "distance": "Cosine",
+    "hnsw": false,
+    "result_limit": 10,
+    "candidates_per_segment": 12,
+    "oversampling": 1.2,
+    "metadata_present_on_all_points": true,
+    "saved_queries_per_category": 1024,
+    "historical_dataset_seed_known": false
+  },
+  "dependency_inventory": "third_party/license-audit.json",
+  "dependency_inventory_scope": "Original V45 inventory retained. Cargo.lock and every Cargo.toml are unchanged between the inventoried V45 source and these source commits; the inventory binary hash remains its original historical identity.",
+  "cargo_lock_sha256": "ad00f0767d39ab2b97286bec07a45033e81dc72b3c233877fb7ab46a21b86ac8",
+  "limitations": [
+    "The exact historical dataset cannot be regenerated from a known seed; public helpers generate comparable data.",
+    "Native compiler/linker flags were not matched to this locally built executable.",
+    "Finite measurements on a shared VM do not establish maximum capacity, isolated scaling or long-duration stability.",
+    "The standalone scheduler lab and its 2776 query/s result are separate executables and are not this Qdrant server.",
+    "Engine source is not included in this public binary distribution."
+  ],
+  "additional_runtime_configs": [
+    "configs/shared-cpu-worker-load.env.example"
+  ],
+  "additional_performance_evidence": [
+    "benchmarks/worker-scaling-batch-concurrency-20261111.json"
+  ]
+}
