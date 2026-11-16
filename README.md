@@ -1,56 +1,114 @@
-# Qdrant 1.20.0 + Veortex: Native vs Query-Split vs Gallery-Split (16 November 2026)
+# Qdrant 1.20.0 with Veortex: Shared-CPU Flat Quantized Vector Search
 
-> **Status: Active Campaign (`RUNNING`)** — Official Native Qdrant 1.20.0 (`45/45` B1 cells complete) is recorded below; `veortex_query` is actively measuring, followed by `veortex_gallery` (`135` B1 cells total) and an additional `B>1` (`B2..B128` at `C4`/`C6`, `210` cells) batch campaign. Full tables, comparative analysis, and exact `d2223c8a4` release downloads will be updated here once all measurements finish validation.
->
-> Earlier November 2026 studies and prior binary archives are preserved separately in [README.archive-20261111.md](README.archive-20261111.md) and [README.archive-20261110.md](README.archive-20261110.md).
+This repository publishes **binary-only research builds** of Qdrant 1.20.0 integrated with Veortex in-process flat quantized search kernels, alongside reproducible benchmark runners, runtime profiles, and verified head-to-head results.
 
-## Latest Comparison Report
+---
 
-- **Primary B1 Matrix (135 cells: C1–C512 × 5 categories × 3 arms):** [benchmarks/native-query-gallery-20261116.md](benchmarks/native-query-gallery-20261116.md) ([JSON](benchmarks/native-query-gallery-20261116.json) | [CSV](benchmarks/native-query-gallery-20261116.csv))
-- **Node Profiles:** [Query-split env](configs/query-gallery-query-20261116.env.example) | [Gallery-split env](configs/query-gallery-gallery-20261116.env.example)
-- **Architecture & Reproduction:** [Qdrant Native vs Veortex](docs/QDRANT_NATIVE_VS_VEORTEX.md) | [Batch Matrix Protocol](reproduce/BATCH_MATRIX_PROTOCOL.md) | [Manual Deployment](DEPLOYMENT.md)
+## What is Qdrant + Veortex?
 
-## Arms & Binary Identities
+**Qdrant + Veortex is not a separate vector database or an external sidecar.** Qdrant remains the database and cluster manager in full: its HTTP/gRPC API, collections, shard routing, Raft consensus, WAL, replication, payload indexes, filtering semantics, snapshot/recovery lifecycle, and storage formats stay intact inside a single `qdrant` binary.
 
-| Arm | Executable | Source Commit | Search Scheduling & Execution Mode |
+Veortex acts as an **in-process execution engine** for eligible flat quantized searches (`exact=false` quantized flat scan + FP32 rescore, with HNSW disabled):
+
+- Any non-flat or ineligible query routes automatically through standard Qdrant execution.
+- No vectors are duplicated on disk and no second storage engine is maintained.
+- Cooperative gallery scanning adds zero persistent storage overhead; it only changes how scan workers share memory reads and partial Top-K state during execution.
+
+| Layer | Native Qdrant 1.20.0 (`222b2e44`) | Qdrant + Veortex (`afbe2437b`) |
+|---|---|---|
+| **Database & cluster** | Standard Qdrant storage, Raft, WAL, shard routing | Identical — Qdrant owns all state, routing, and API |
+| **Request scheduling** | Independent per-request search; `BatchFilteredSearcher` shares reads within a single explicit `B>1` batch | Per-shard coalescing ring (`query-split`) or cooperative tile workers (`gallery-split`) sharing gallery reads *across* concurrent HTTP requests and batches |
+| **Quantized scoring** | Upstream scalar/SIMD scorers | Cache-tiled multi-query kernels (`Auto`: Intel AMX + AVX-512 VNNI) |
+| **Top-K, rescore & payload** | Sequential search closure on search threads | Streaming score tiles to owner-keyed Top-K with conservative cutoff pruning, FP32 reranking, and overlapped payload completion (`SEPARATE_TOPK=1`) |
+| **CPU budget (benchmark contract)** | 3 shared vCPUs per node, no per-thread pinning | Same 3 shared vCPUs per node (`NanoCpus=3e9`), no per-thread pinning |
+
+---
+
+## Execution Modes & Request Flow
+
+```mermaid
+flowchart TD
+    A["Public API Request (B1 or Explicit Batch B>1)"] --> B["Qdrant Shard Routing & Internal RPC"]
+    B --> C{"Eligible Flat SQ8 Search?"}
+    C -- No --> N["Standard Native Qdrant Search Path"]
+    C -- Yes --> D["Per-Shard Ring Admission (Coalesce Window 1000 us)"]
+    D --> E["Visibility & Payload Filter Masks"]
+    E --> F{"Veortex Scan Mode"}
+    F -- "query-split (default)" --> Q["Workers 0..2 each run disjoint query subsets over full 1M shard tiles"]
+    F -- "gallery-split (opt-in)" --> G["Workers 0..2 split each gallery tile wave & compute private partial Top-K"]
+    Q --> H["Stream Score Tiles + Cutoff Pruning -> Owner Top-K"]
+    G --> H
+    H --> I["FP32 Reranking + Optional Payload Completion"]
+    I --> K["Merge & Return Ordered Top-10"]
+    N --> K
+```
+
+### Query-Split vs Gallery-Split
+
+Suppose a shard holds **1,000,000 gallery vectors** on a node with **3 scan workers** sharing 3 vCPUs:
+
+1. **`veortex_query` (`query-split`, default):**
+   - Incoming concurrent `B1` requests and explicit batches join active lanes in the per-shard ring. Each worker takes a group of compatible queries and scans the shard's gallery tiles once across all queries in that group simultaneously.
+   - **Strength:** At moderate-to-high concurrency (`C16–C512`), workers operate largely independently without inter-worker Top-K merge overhead per tile, achieving maximum memory-bandwidth amortization across dozens of concurrent queries.
+2. **`veortex_gallery` (`gallery-split`, `QDRANT_VEORTEX_SCAN_MODE=gallery`, `WORKERS=3`, `PRIVATE_TOPK=1`):**
+   - Cooperative scan workers (`veortex-scan-0..2`) divide each visible gallery tile wave across all 3 workers, accumulate partial candidates in worker-private Top-K buffers, and merge into the query owner's Top-K before FP32 reranking.
+   - **Expected trade-off:** Aims to reduce per-request latency and parallelize scans across all 3 workers even when few concurrent query groups are active (low concurrency / small batches), while incurring worker coordination and private Top-K merge overhead as request concurrency climbs.
+
+### Why Veortex Scales Higher Than Native Qdrant Here
+
+In flat (non-HNSW) quantized search over 1M vectors per shard, **reading quantized vectors from RAM/L3 dominates execution time**:
+
+- **Independent `B1` memory bottleneck in Native:** Concurrent `B1` requests trigger independent scans that repeatedly stream the same 1M vectors through CPU memory bandwidth and saturate 3 shared vCPUs (~`54–57` req/s unfiltered plateau, pushing C512 p99 latency above `10 s`).
+- **Cross-request coalescing + multi-query kernels in Veortex:** By grouping compatible concurrent queries in the ring, each gallery tile fetched into L1/L2 cache scores multiple queries in one pass using dense multi-query AVX-512 VNNI or Intel AMX matrix instructions, while conservative Top-K cutoff pruning skips unnecessary work and separate Top-K/FP32-rerank/payload threads overlap remaining stages.
+- **Trade-off at isolated C1:** With only `concurrency=1`, there are no concurrent requests to coalesce across HTTP connections, so Native's direct path can slightly lead Veortex's ring/coalescing handoff (`19.64` vs `17.15` req/s unfiltered).
+
+---
+
+## Latest Benchmark Campaign — 16 November 2026 (`RUNNING`: `63/135` B1 Cells)
+
+> **Status:** Active matched-resource head-to-head campaign on **3M × 512D SQ8 Cosine** comparing **Native Qdrant 1.20.0** (`45/45` complete) vs **Veortex `query-split`** (`18/45` recorded so far) vs **Veortex `gallery-split`** (`pending`), followed by a **`B2..B128` at `C4/C6`** (`210` cells) batch campaign. Full analysis and exact `d2223c8a4` release download archive (`v1.20.0-veortex.query-gallery.20261116`) will be published once validation completes.
+
+- **Live Full Tables (All 5 Categories × C1–C512):** [benchmarks/native-query-gallery-20261116.md](benchmarks/native-query-gallery-20261116.md) ([JSON](benchmarks/native-query-gallery-20261116.json) | [CSV](benchmarks/native-query-gallery-20261116.csv))
+- **Node Environment Profiles:** [Query-split profile](configs/query-gallery-query-20261116.env.example) | [Gallery-split profile](configs/query-gallery-gallery-20261116.env.example)
+
+### Tested Arms & Binaries
+
+| Arm | Executable SHA-256 | Source Commit | Mode / Config |
 |---|---|---|---|
-| **Native Qdrant 1.20.0** | `5081acd073ef29701415dc2d1655d98750be8c08008541febc20cf2935800f2f` | `222b2e44ab1c3f17e8246396ead6558e45041df7` | Native flat SQ8 quantized scan + FP32 rescore (`exact=false`, HNSW disabled, `MAX_SEARCH_THREADS=3`, `RAYON_NUM_THREADS=3`) |
-| **Veortex `query-split`** | `d2223c8a48f9b65bcb59196d421fa00ded9488002975afc624990568be2be746` | `afbe2437b0ed3ddb533bfaae1c77d6bbc66d68c7` | Default ring mode (`QDRANT_VEORTEX_MAX_RING_WORKERS=3`, `SEPARATE_TOPK=1`): independent requests & batches share gallery reads per worker |
-| **Veortex `gallery-split`** | Same `d2223c8a4` ELF | `afbe2437b0ed3ddb533bfaae1c77d6bbc66d68c7` | Cooperative gallery scan (`QDRANT_VEORTEX_SCAN_MODE=gallery`, `WORKERS=3`, `PRIVATE_TOPK=1`): splits visible gallery tiles across workers |
+| **Native Qdrant 1.20.0** | `5081acd073ef29701415dc2d1655d98750be8c08008541febc20cf2935800f2f` | `222b2e44ab1c3f17e8246396ead6558e45041df7` | Native flat SQ8 + FP32 rescore (`MAX_SEARCH_THREADS=3`, `RAYON_NUM_THREADS=3`) |
+| **Veortex `query-split`** | `d2223c8a48f9b65bcb59196d421fa00ded9488002975afc624990568be2be746` | `afbe2437b0ed3ddb533bfaae1c77d6bbc66d68c7` | Default ring (`MAX_RING_WORKERS=3`, `SEPARATE_TOPK=1`) |
+| **Veortex `gallery-split`** | Same `d2223c8a4` ELF | `afbe2437b0ed3ddb533bfaae1c77d6bbc66d68c7` | Cooperative scan (`SCAN_MODE=gallery`, `WORKERS=3`, `PRIVATE_TOPK=1`) |
 
-## How Query-Split and Gallery-Split Differ from Native Qdrant 1.20
+### Measured B1 Highlights (`63/135` Accepted, `0` Failed, `0` Rejected)
 
-All three arms run on the exact same 3-node cluster (`3,000,000` × 512D Cosine SQ8 vectors across three 1M shards, HNSW off, Top-10, 12 candidates/segment / oversampling `1.2`, 3 shared vCPUs per node with no per-thread pinning).
+Each cell reports **HTTP req/s; p95 / p99 ms** (`30s` closed-loop dispatch + full drain, `16` warmups, exact FP32 oracle Top-10 match `<= 1e-6`, payload verified). Completed categories for both `native_120` and `veortex_query`:
 
-1. **Native Qdrant 1.20.0 (`native_120`):**
-   - Each independent `B1` HTTP request triggers its own full scan across the shard's segments (native `BatchFilteredSearcher` shares gallery chunk reads across members *within* a single explicit batch request, not across concurrent `B1` requests).
-   - Once concurrent demand fills the 3 shared vCPUs per node, additional requests contend on CPU time and re-read gallery SQ8 codes from memory repeatedly. As a result, completed `native_120` B1 throughput saturates early (~`54–57` req/s unfiltered, ~`48–51` req/s at 90% active filter, and ~`114–119` req/s at ~9% narrow filter) while p95/p99 latency climbs proportionally with queue depth (`>10 s` at C512 unfiltered).
-2. **Veortex `query-split` (`veortex_query`):**
-   - Compatible flat SQ8 queries from concurrent `B1` requests and explicit batches join a per-shard ring (coalescing window `1000 us`, up to `96` active lanes and `3` ring workers per node).
-   - Every ring worker scans a gallery tile once against *all* active query lanes simultaneously using cache-tiled SIMD/matrix kernels (`Auto`: Intel AMX or AVX-512 VNNI depending on batch/lane shape), streaming candidate scores through owner-keyed `SEPARATE_TOPK=1` consumers with conservative cutoff pruning and FP32 reranking on the same 3 shared node vCPUs.
-   - **Why it beats native at concurrency (`C >= 4`):** Amortizing each DRAM/L3 scan of the 1M-point shard across many concurrent queries dramatically reduces memory bandwidth per query and keeps scoring compute dense (SIMD/AMX) instead of repeating single-query scans. At very low concurrency (`C1`), ring queuing / coalescing window and inter-stage handoff can add small overhead relative to native's direct path.
-3. **Veortex `gallery-split` (`veortex_gallery`):**
-   - Uses the exact same binary (`d2223c8a4`) with cooperative gallery scanning enabled (`QDRANT_VEORTEX_SCAN_MODE=gallery`, `QDRANT_VEORTEX_SCAN_WORKERS=3`, `QDRANT_VEORTEX_SCAN_PRIVATE_TOPK=1`).
-   - Instead of sending different query batches to separate full-gallery workers, cooperative workers split each visible gallery bitmap tile wave across the 3 scan threads (`veortex-scan-0..2`), maintain private per-worker TopK accumulators per tile, and merge into the query owner's TopK before FP32 rescore.
-   - **Expected trade-off vs `query-split`:** Helps parallelize a small number of queries (low concurrency / small active lanes) across multiple shared CPUs to reduce single-batch/low-C scan latency, while adding private-TopK merge and worker coordination overhead at high request concurrency compared to `query-split` (final head-to-head measurements across C1–C512 and B2–B128 will quantify both regimes directly).
+| Category | Concurrency | Native 1.20 (`native_120`) | Veortex `query-split` (`veortex_query`) | Veortex `gallery-split` (`veortex_gallery`) |
+|---|---:|---:|---:|---:|
+| **No filter / no payload** | C1 | **19.64**; 57.11 / 78.69 | 17.15; 67.03 / 85.35 | pending |
+| **No filter / no payload** | C4 | 56.13; 95.30 / 105.64 | **65.07**; 77.06 / 90.24 | pending |
+| **No filter / no payload** | C16 | 56.97; 326.79 / 395.98 | **259.97**; 71.60 / 82.99 | pending |
+| **No filter / no payload** | C64 | 55.46; 1,281.58 / 1,573.56 | **787.14**; 97.50 / 113.77 | pending |
+| **No filter / no payload** | C256 | 56.18; 6,708.59 / 9,214.56 | **1,595.73**; 210.76 / 228.40 | pending |
+| **No filter / no payload** | C512 | 54.71; 10,626.71 / 11,130.64 | **2,052.28**; 343.91 / 395.04 | pending |
+| **Payload only** | C1 | **19.72**; 52.76 / 69.69 | 18.32; 59.70 / 72.53 | pending |
+| **Payload only** | C64 | 54.87; 1,680.11 / 1,924.26 | **803.52**; 89.01 / 97.49 | pending |
+| **Payload only** | C512 | 54.01; 9,828.86 / 13,944.50 | **1,828.83**; 420.93 / 468.93 | pending |
 
-## Workload, Quality, & Fairness Contract
+- **Completed `native_120` filtered categories (awaiting `veortex_query` & `veortex_gallery`):** Active ~90% no-payload plateaus at `48.78–51.09` req/s (`C4–C512`, C1 `17.35`); Active ~90% + payload at `48.16–50.67` req/s (`C4–C512`, C1 `17.44`); Active + position + exclude ~9% + payload at `113.54–118.52` req/s (`C4–C512`, C1 `33.36`). See [benchmarks/native-query-gallery-20261116.md](benchmarks/native-query-gallery-20261116.md) for all 9 concurrency levels (`C1, C4, C16, C32, C64, C128, C256, C384, C512`).
 
-- **Dataset & Search:** 3M × 512D Cosine SQ8 (`always_ram=true`, `quantile=1`), 3 shards (`1M` points/node, RF=1), HNSW disabled (`m=0`, `payload_m=0`), `exact=false`, Top-10 (`rescore=true`, `oversampling=1.2`, 12 candidates/segment). Metadata is present on all 3M points across all five categories (`unfiltered_no_payload`, `unfiltered_payload`, `active_only_no_payload`, `active_only` [90%], `active_position_exclude` [~9%]).
-- **Accuracy & Payload Gates:** Before timing any arm, 1,024 saved queries per category are verified against an independent FP32 oracle (`1e-6` score tolerance, ordered IDs, exact payload presence/absence); every timed response is also checked per query/member.
-- **Measurement Basis:** 16 warmups + 30s closed-loop dispatch + full drain per cell using the shared Go HTTP/1.1 client. **RPS = successful completed requests / actual elapsed seconds including drain** (`Query QPS = successful requests × batch size / elapsed`). Percentiles are never averaged across cells.
-- **Provenance & Limits:** Equal 3-vCPU Docker quotas (`4,5,6`, `7,8,9`, `10,11,12`, `NanoCpus=3e9`) do not imply matched compiler flags (native is official upstream Qdrant 1.20.0; Veortex is a local Rust 1.98 LTO release build) or bare-metal isolation (shared KVM Xeon Silver 4510 VM). Results cover finite saved-query cohorts on flat SQ8 only, not HNSW or write-heavy workloads.
+---
 
-## Current Snapshot (`50/135` B1 Accepted Cells Recorded; `veortex_query` Active)
+## Fairness Contract & Limitations
 
-Recorded accepted results are published live in [benchmarks/native-query-gallery-20261116.md](benchmarks/native-query-gallery-20261116.md). Summary of completed `native_120` (`45/45` cells) and initial `veortex_query` (`5/45` cells so far) measurements (`30s` + drain, `0` failed requests):
+- **Equal Guest Resources:** Three Docker nodes (`4,5,6`, `7,8,9`, `10,11,12`), `NanoCpus=3,000,000,000` (3 vCPUs/node), zero per-thread CPU pinning on any arm. Every scan, Top-K, rerank, payload, and HTTP thread shares the 3 node CPUs.
+- **Unmatched Compiler Flags:** Official upstream Native Qdrant 1.20.0 (`5081acd0...`) vs local Rust 1.98 LTO release build (`d2223c8a4...`). Throughput differences include both algorithmic/scheduling differences and compiler/ISA differences.
+- **Scope Caveats:** Measurements run on a shared KVM Xeon Silver 4510 VM over 3M × 512D SQ8 Cosine with `hnsw_m=0`, Top-10, 12-candidate rescore (`oversampling=1.2`), and finite 1,024-query/category cohorts (`5 × 1,024` accuracy gates passed pre-timing on both `native_120` and `veortex_query`). Results do not establish HNSW speedups, write-heavy throughput, or universal FP32 equivalence on unseen queries.
 
-- **`native_120` unfiltered (no payload / payload):** `~54.0–57.0` req/s at C4–C512 (C1: `19.64–19.72` req/s; C512 p99: `11,130.64 ms` / `13,944.50 ms`)
-- **`native_120` active filter ~90% (no payload / payload):** `~48.2–51.1` req/s at C4–C512 (C1: `17.35–17.44` req/s; C512 p99: `12,805.77 ms` / `12,572.95 ms`)
-- **`native_120` active + position + exclusion ~9% (payload):** `~113.5–118.5` req/s at C4–C512 (C1: `33.36` req/s; C512 p99: `5,094.40 ms`)
-- **`veortex_query` (in progress — first 5 cells recorded in `unfiltered_no_payload`):** C1 `17.15` req/s (p99 `85.35 ms`), C4 `65.07` req/s (p99 `90.24 ms`), C16 `259.97` req/s (p99 `82.99 ms`), C32 `482.81` req/s (p99 `96.49 ms`), C64 `787.14` req/s (p99 `113.77 ms`, vs Native C64 `55.46` req/s / p99 `1,573.56 ms`).
-- **Remaining:** `veortex_query` C128–C512 + filtered/payload categories, `veortex_gallery` (`45` cells), and the follow-up `B2..B128` at `C4`/`C6` (`210` cells). Full head-to-head comparison tables and mechanism analysis will be finalized upon completion.
+---
 
-## License & Provenance
+## Documentation, Reproduction & Archives
 
-Binary research distribution only (Qdrant/Veortex engine source is not included). See [LICENSE](LICENSE), [NOTICE](NOTICE), [third_party/THIRD_PARTY_NOTICES.md](third_party/THIRD_PARTY_NOTICES.md), [third_party/license-audit.json](third_party/license-audit.json), and [third_party/SOURCE-AVAILABILITY.md](third_party/SOURCE-AVAILABILITY.md).
+- **Architecture & Protocols:** [Qdrant Native vs Veortex](docs/QDRANT_NATIVE_VS_VEORTEX.md) | [Batch Matrix Protocol](reproduce/BATCH_MATRIX_PROTOCOL.md) | [Manual Deployment Guide](DEPLOYMENT.md) | [Reproduction Helpers](reproduce/README.md)
+- **Prior Reports & Releases (Historical):** [11 Nov 2026 README Archive](README.archive-20261111.md) | [10 Nov 2026 README Archive](README.archive-20261110.md)
+- **Licensing:** Binary research distribution only (Qdrant/Veortex engine source not included). See [LICENSE](LICENSE), [NOTICE](NOTICE), [third_party/THIRD_PARTY_NOTICES.md](third_party/THIRD_PARTY_NOTICES.md), [third_party/license-audit.json](third_party/license-audit.json), and [third_party/SOURCE-AVAILABILITY.md](third_party/SOURCE-AVAILABILITY.md).

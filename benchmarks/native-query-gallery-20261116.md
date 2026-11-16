@@ -33,7 +33,7 @@ The historical gallery seed is unknown; the saved queries/oracles and input hash
 
 ## Measured results (fresh campaign)
 
-Campaign status: **RUNNING**; **50/135 accepted cells** currently recorded. Unmeasured cells are marked pending. [Curated JSON](native-query-gallery-20261116.json) / [CSV](native-query-gallery-20261116.csv). Each cell is **HTTP RPS; p95 / p99 ms**. This is B1, so HTTP RPS equals query/s.
+Campaign status: **RUNNING**; **63/135 accepted cells** currently recorded. Unmeasured cells are marked pending. [Curated JSON](native-query-gallery-20261116.json) / [CSV](native-query-gallery-20261116.csv). Each cell is **HTTP RPS; p95 / p99 ms**. This is B1, so HTTP RPS equals query/s.
 
 ### No filter / no payload
 
@@ -44,24 +44,24 @@ Campaign status: **RUNNING**; **50/135 accepted cells** currently recorded. Unme
 | C16 | 56.97; 326.79 / 395.98 | 259.97; 71.60 / 82.99 | pending |
 | C32 | 55.99; 658.49 / 787.06 | 482.81; 81.03 / 96.49 | pending |
 | C64 | 55.46; 1,281.58 / 1,573.56 | 787.14; 97.50 / 113.77 | pending |
-| C128 | 56.57; 2,776.07 / 3,614.32 | pending | pending |
-| C256 | 56.18; 6,708.59 / 9,214.56 | pending | pending |
-| C384 | 55.81; 10,067.30 / 10,352.12 | pending | pending |
-| C512 | 54.71; 10,626.71 / 11,130.64 | pending | pending |
+| C128 | 56.57; 2,776.07 / 3,614.32 | 1,338.89; 115.48 / 135.33 | pending |
+| C256 | 56.18; 6,708.59 / 9,214.56 | 1,595.73; 210.76 / 228.40 | pending |
+| C384 | 55.81; 10,067.30 / 10,352.12 | 1,806.38; 318.36 / 373.51 | pending |
+| C512 | 54.71; 10,626.71 / 11,130.64 | 2,052.28; 343.91 / 395.04 | pending |
 
 ### Payload only
 
 | Concurrency | Native 1.20 | Veortex query-split | Veortex gallery-split |
 |---|---:|---:|---:|
-| C1 | 19.72; 52.76 / 69.69 | pending | pending |
-| C4 | 56.76; 90.80 / 98.24 | pending | pending |
-| C16 | 56.04; 358.59 / 447.15 | pending | pending |
-| C32 | 56.54; 719.77 / 845.85 | pending | pending |
-| C64 | 54.87; 1,680.11 / 1,924.26 | pending | pending |
-| C128 | 55.35; 2,704.77 / 3,415.22 | pending | pending |
-| C256 | 54.47; 5,675.34 / 5,922.77 | pending | pending |
-| C384 | 54.56; 10,364.60 / 12,829.21 | pending | pending |
-| C512 | 54.01; 9,828.86 / 13,944.50 | pending | pending |
+| C1 | 19.72; 52.76 / 69.69 | 18.32; 59.70 / 72.53 | pending |
+| C4 | 56.76; 90.80 / 98.24 | 68.35; 66.66 / 88.75 | pending |
+| C16 | 56.04; 358.59 / 447.15 | 268.51; 66.31 / 83.19 | pending |
+| C32 | 56.54; 719.77 / 845.85 | 505.51; 71.63 / 82.59 | pending |
+| C64 | 54.87; 1,680.11 / 1,924.26 | 803.52; 89.01 / 97.49 | pending |
+| C128 | 55.35; 2,704.77 / 3,415.22 | 1,363.20; 117.06 / 134.52 | pending |
+| C256 | 54.47; 5,675.34 / 5,922.77 | 1,522.92; 226.26 / 242.24 | pending |
+| C384 | 54.56; 10,364.60 / 12,829.21 | 1,678.00; 318.13 / 354.34 | pending |
+| C512 | 54.01; 9,828.86 / 13,944.50 | 1,828.83; 420.93 / 468.93 | pending |
 
 ### Active filter / no payload (90%)
 
@@ -105,4 +105,4 @@ Campaign status: **RUNNING**; **50/135 accepted cells** currently recorded. Unme
 | C384 | 115.46; 4,428.52 / 5,817.61 | pending | pending |
 | C512 | 114.69; 4,595.74 / 5,094.40 | pending | pending |
 
-Recorded rejected cells: **0**. Accepted timed requests: **136,778**; failed requests in accepted cells: **0**. The JSON/CSV retain any rejected cells separately through their acceptance flag. Passing accuracy refers to the measured cohort, not a universal FP32 guarantee.
+Recorded rejected cells: **0**. Accepted timed requests: **584,177**; failed requests in accepted cells: **0**. The JSON/CSV retain any rejected cells separately through their acceptance flag. Passing accuracy refers to the measured cohort, not a universal FP32 guarantee.
