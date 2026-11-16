@@ -64,11 +64,11 @@ In flat (non-HNSW) quantized search over 1M vectors per shard, **reading quantiz
 
 ---
 
-## Latest Benchmark Campaign — 16 November 2026 (`RUNNING`: `94/135` B1 Cells)
+## Latest Benchmark Campaign — 16 November 2026 (`COMPLETED`: `135/135` B1 Cells)
 
-> **Status:** Active matched-resource head-to-head campaign on **3M × 512D SQ8 Cosine** comparing **Native Qdrant 1.20.0** (`45/45` complete) vs **Veortex `query-split`** (`45/45` complete) vs **Veortex `gallery-split`** (`4/45` recorded so far; all `15/15` pre-timing 1,024-query FP32 accuracy gates passed), followed by a **`B2..B128` at `C4/C6`** (`210` cells) batch campaign. Full analysis and exact `d2223c8a4` release download archive (`v1.20.0-veortex.query-gallery.20261116`) will be published once validation completes.
+> **Primary B1 Matrix Status:** **`COMPLETED`** — `135/135` accepted cells (`45/45` `native_120`, `45/45` `veortex_query`, `45/45` `veortex_gallery`), `15/15 × 1,024` FP32 accuracy checks passed, **2,646,517** successful HTTP requests, `0` failed requests, `0` rejected cells, and all overlay/container restoration checks verified. Follow-up `B2..B128` at `C4/C6` (`210` cells) and the `v1.20.0-veortex.query-gallery.20261116` binary archive release follow next.
 
-- **Live Full Tables (All 5 Categories × C1–C512):** [benchmarks/native-query-gallery-20261116.md](benchmarks/native-query-gallery-20261116.md) ([JSON](benchmarks/native-query-gallery-20261116.json) | [CSV](benchmarks/native-query-gallery-20261116.csv))
+- **Full 135-Cell Report (All 5 Categories × C1–C512):** [benchmarks/native-query-gallery-20261116.md](benchmarks/native-query-gallery-20261116.md) ([JSON](benchmarks/native-query-gallery-20261116.json) | [CSV](benchmarks/native-query-gallery-20261116.csv))
 - **Node Environment Profiles:** [Query-split profile](configs/query-gallery-query-20261116.env.example) | [Gallery-split profile](configs/query-gallery-gallery-20261116.env.example)
 
 ### Tested Arms & Binaries
@@ -79,24 +79,45 @@ In flat (non-HNSW) quantized search over 1M vectors per shard, **reading quantiz
 | **Veortex `query-split`** | `d2223c8a48f9b65bcb59196d421fa00ded9488002975afc624990568be2be746` | `afbe2437b0ed3ddb533bfaae1c77d6bbc66d68c7` | Default ring (`MAX_RING_WORKERS=3`, `SEPARATE_TOPK=1`) |
 | **Veortex `gallery-split`** | Same `d2223c8a4` ELF | `afbe2437b0ed3ddb533bfaae1c77d6bbc66d68c7` | Cooperative scan (`SCAN_MODE=gallery`, `WORKERS=3`, `PRIVATE_TOPK=1`) |
 
-### Measured B1 Highlights (`94/135` Accepted, `0` Failed, `0` Rejected)
+### Complete B1 Regime Comparison (`135/135` Accepted, `0` Failed, `0` Rejected)
 
-Each cell reports **HTTP req/s; p95 / p99 ms** (`30s` closed-loop dispatch + full drain, `16` warmups, exact FP32 oracle Top-10 match `<= 1e-6`, payload verified). All 5 categories are complete for both `native_120` and `veortex_query`; `veortex_gallery` is actively running:
+Each cell reports **HTTP req/s; p95 / p99 ms** (`30s` closed-loop dispatch + full drain, `16` warmups, exact FP32 oracle Top-10 match `<= 1e-6`, payload verified):
 
-| Category | Concurrency | Native 1.20 (`native_120`) | Veortex `query-split` (`veortex_query`) | Veortex `gallery-split` (`veortex_gallery`) |
+| Category | Load | Native 1.20 (`native_120`) | Veortex `query-split` (`veortex_query`) | Veortex `gallery-split` (`veortex_gallery`) |
 |---|---:|---:|---:|---:|
 | **No filter / no payload** | C1 | 19.64; 57.11 / 78.69 | 17.15; 67.03 / 85.35 | **24.07**; 43.66 / 44.80 |
 | **No filter / no payload** | C4 | 56.13; 95.30 / 105.64 | 65.07; 77.06 / 90.24 | **85.71**; 50.10 / 51.52 |
 | **No filter / no payload** | C16 | 56.97; 326.79 / 395.98 | 259.97; 71.60 / 82.99 | **313.27**; 55.46 / 58.58 |
 | **No filter / no payload** | C32 | 55.99; 658.49 / 787.06 | 482.81; 81.03 / 96.49 | **509.19**; 68.26 / 72.71 |
-| **No filter / no payload** | C512 | 54.71; 10,626.71 / 11,130.64 | **2,052.28**; 343.91 / 395.04 | pending |
-| **Payload only** | C1 | **19.72**; 52.76 / 69.69 | 18.32; 59.70 / 72.53 | pending |
-| **Payload only** | C512 | 54.01; 9,828.86 / 13,944.50 | **1,828.83**; 420.93 / 468.93 | pending |
-| **Active ~90% / no payload** | C512 | 48.78; 12,477.39 / 12,805.77 | **1,926.19**; 414.00 / 506.74 | pending |
-| **Active ~90% + payload** | C512 | 48.16; 11,105.92 / 12,572.95 | **1,799.65**; 422.24 / 473.47 | pending |
-| **Active + pos + excl (~9%)** | C512 | 114.69; 4,595.74 / 5,094.40 | **3,126.79**; 259.83 / 335.94 | pending |
+| **No filter / no payload** | C64 | 55.46; 1,281.58 / 1,573.56 | **787.14**; 97.50 / 113.77 | 711.00; 101.98 / 114.67 |
+| **No filter / no payload** | C512 | 54.71; 10,626.71 / 11,130.64 | **2,052.28**; 343.91 / 395.04 | 1,593.89; 386.19 / 407.53 |
+| **Payload only** | C1 | 19.72; 52.76 / 69.69 | 18.32; 59.70 / 72.53 | **24.25**; 43.44 / 44.65 |
+| **Payload only** | C16 | 56.04; 358.59 / 447.15 | 268.51; 66.31 / 83.19 | **299.76**; 58.01 / 61.09 |
+| **Payload only** | C512 | 54.01; 9,828.86 / 13,944.50 | **1,828.83**; 420.93 / 468.93 | 1,540.67; 408.91 / 445.41 |
+| **Active ~90% / no payload** | C1 | 17.35; 61.34 / 75.86 | 15.21; 73.50 / 95.16 | **18.86**; 59.01 / 64.57 |
+| **Active ~90% / no payload** | C64 | 50.51; 1,511.06 / 1,709.36 | 708.84; 104.44 / 120.33 | **709.18**; 100.93 / 107.09 |
+| **Active ~90% / no payload** | C512 | 48.78; 12,477.39 / 12,805.77 | **1,926.19**; 414.00 / 506.74 | 1,644.70; 378.54 / 398.43 |
+| **Active ~90% + payload** | C1 | 17.44; 62.03 / 84.58 | 15.22; 75.36 / 94.25 | **18.91**; 58.38 / 61.07 |
+| **Active ~90% + payload** | C32 | 49.78; 703.05 / 942.42 | 429.32; 82.75 / 103.00 | **439.36**; 79.84 / 83.49 |
+| **Active ~90% + payload** | C512 | 48.16; 11,105.92 / 12,572.95 | **1,799.65**; 422.24 / 473.47 | 1,550.10; 404.43 / 430.22 |
+| **Active + pos + excl (~9%)** | C1 | **33.36**; 37.40 / 61.72 | 25.25; 45.44 / 48.99 | 18.66; 60.80 / 63.64 |
+| **Active + pos + excl (~9%)** | C4 | **113.54**; 46.53 / 51.09 | 93.09; 50.15 / 54.64 | 71.97; 62.46 / 65.23 |
+| **Active + pos + excl (~9%)** | C16 | 117.63; 172.60 / 202.31 | **354.20**; 52.65 / 54.84 | 277.52; 64.71 / 67.14 |
+| **Active + pos + excl (~9%)** | C512 | 114.69; 4,595.74 / 5,094.40 | **3,126.79**; 259.83 / 335.94 | 2,539.88; 287.68 / 331.00 |
 
-Notice the initial low-concurrency signal on `No filter / no payload`: `veortex_gallery` (`24.07` / `85.71` / `313.27` / `509.19` req/s at C1/C4/C16/C32) outperforms both Native (`19.64` / `56.13` / `56.97` / `55.99`) and `veortex_query` (`17.15` / `65.07` / `259.97` / `482.81`) with roughly half the p99 latency at C1–C16. Full C1–C512 results across all 5 categories are in [benchmarks/native-query-gallery-20261116.md](benchmarks/native-query-gallery-20261116.md).
+### What the Completed B1 Results Show
+
+1. **Dense / Broad Scans (Unfiltered and ~90% Active Filter):**
+   - **Low-to-moderate concurrency (`C1–C32`, and up to `C64` on 90% no-payload):** **`veortex_gallery` wins on both throughput and latency**, beating both Native 1.20 and `veortex_query` (e.g., `No filter / no payload` C1: `24.07` req/s with `44.80 ms` p99 vs Native `19.64` / `78.69 ms` and `veortex_query` `17.15` / `85.35 ms`; C16: `313.27` vs Native `56.97` and `veortex_query` `259.97`). Dividing visible gallery tiles across 3 cooperative workers avoids single-worker serialization on small query counts.
+   - **High concurrency (`C64/C128–C512`):** **`veortex_query` achieves peak cluster throughput** (`2,052.28` req/s unfiltered C512, `1,799.65–1,926.19` req/s active ~90% C512 — **33.9×–39.5×** Native's `48.16–54.71` req/s plateau, with `p99` staying at `395–507 ms` vs Native's `11.1–13.9 s`). Once enough independent queries fill active ring lanes, letting workers scan full shard passes independently avoids inter-worker private Top-K merge overhead per tile wave.
+2. **Highly Selective ~9% Filter (`Active + position + exclusion`):**
+   - **Isolated `C1–C4`:** **Native leads** (`33.36` / `113.54` req/s vs `25.25` / `93.09` `query-split` and `18.66` / `71.97` `gallery-split`) because only ~9% of points pass the filter (~90K candidates/shard), so Native's direct scan completes rapidly without paying ring coalescing (`1000 us`) or splitting a smaller candidate stream across workers.
+   - **`C16–C512`:** `veortex_query` overtakes Native and scales to **`3,126.79` req/s** (`p99 = 335.94 ms`) vs Native **`114.69` req/s** (`p99 = 5,094.40 ms`) — **27.3×** higher throughput, while `veortex_gallery` reaches `2,539.88` req/s.
+3. **Practical Guidance:**
+   - Choose **`veortex_gallery`** when workloads have low-to-moderate `B1` concurrency (`C1–C32`) over broad/unfiltered flat collections and tail latency matters most.
+   - Choose **`veortex_query`** (default) when serving high concurrency (`C64–C512`) or narrow filtered traffic (`~9%` selectivity) for maximum cluster throughput.
+
+All 135 cells (9 concurrency points × 5 categories × 3 arms) are recorded in [benchmarks/native-query-gallery-20261116.md](benchmarks/native-query-gallery-20261116.md).
 
 ---
 
