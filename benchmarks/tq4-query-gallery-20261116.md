@@ -1,6 +1,6 @@
 # Native Qdrant 1.20 vs Veortex query/gallery — TQ4 B=1 Matrix (16 November 2026)
 
-Campaign: `tq4-h2h-20261116t230240z` | Status: **`RUNNING`** (`59/135` accepted B1 cells) | Exported: `2026-11-16T23:43:35.828687+00:00`
+Campaign: `tq4-h2h-20261116t230240z` | Status: **`RUNNING`** (`78/135` accepted B1 cells) | Exported: `2026-11-16T23:53:58.430808+00:00`
 
 - **Profile:** `TQ4` (`rescore=True`, `oversampling=4.0`, `QDRANT_VEORTEX_TQ_QUERY_BYTES=1`, `truth_mode=f32_exact`, 3 shared vCPUs/node, zero pinning)
 - **Curated artifacts:** [JSON](tq4-query-gallery-20261116.json) | [CSV](tq4-query-gallery-20261116.csv)
@@ -44,35 +44,35 @@ Campaign: `tq4-h2h-20261116t230240z` | Status: **`RUNNING`** (`59/135` accepted 
 | C16 | 82.26; 233.18 / 279.93 | 224.50; 80.77 / 90.02 | pending |
 | C32 | 81.50; 436.68 / 566.93 | 398.63; 88.63 / 101.62 | pending |
 | C64 | 82.25; 848.10 / 971.82 | 649.34; 112.02 / 121.42 | pending |
-| C128 | 82.60; 1,720.49 / 2,247.44 | pending | pending |
-| C256 | 81.58; 3,637.22 / 4,802.36 | pending | pending |
-| C384 | 79.56; 4,959.04 / 5,282.80 | pending | pending |
-| C512 | 80.17; 6,862.27 / 7,380.16 | pending | pending |
+| C128 | 82.60; 1,720.49 / 2,247.44 | 1,090.59; 141.45 / 155.70 | pending |
+| C256 | 81.58; 3,637.22 / 4,802.36 | 1,266.26; 256.12 / 275.13 | pending |
+| C384 | 79.56; 4,959.04 / 5,282.80 | 1,452.10; 389.16 / 477.87 | pending |
+| C512 | 80.17; 6,862.27 / 7,380.16 | 1,498.36; 490.83 / 558.80 | pending |
 
 ### Active filter / no payload (90%)
 
 | Concurrency | Native 1.20 (`native_120`) | Veortex `query-split` | Veortex `gallery-split` |
 |---|---:|---:|---:|
-| C1 | 21.06; 51.47 / 54.59 | pending | pending |
-| C4 | 65.79; 78.73 / 83.41 | pending | pending |
-| C16 | 66.55; 280.26 / 323.92 | pending | pending |
-| C32 | 66.17; 528.68 / 662.59 | pending | pending |
-| C64 | 65.14; 1,116.65 / 1,274.91 | pending | pending |
-| C128 | 66.08; 2,408.89 / 2,611.46 | pending | pending |
-| C256 | 66.59; 3,933.64 / 5,193.87 | pending | pending |
-| C384 | 65.98; 7,258.10 / 7,732.13 | pending | pending |
-| C512 | 65.09; 11,375.67 / 13,682.31 | pending | pending |
+| C1 | 21.06; 51.47 / 54.59 | 13.68; 87.16 / 94.19 | pending |
+| C4 | 65.79; 78.73 / 83.41 | 51.56; 89.12 / 103.08 | pending |
+| C16 | 66.55; 280.26 / 323.92 | 194.95; 92.36 / 106.55 | pending |
+| C32 | 66.17; 528.68 / 662.59 | 349.03; 101.71 / 118.88 | pending |
+| C64 | 65.14; 1,116.65 / 1,274.91 | 632.00; 113.34 / 121.06 | pending |
+| C128 | 66.08; 2,408.89 / 2,611.46 | 1,067.48; 144.99 / 157.63 | pending |
+| C256 | 66.59; 3,933.64 / 5,193.87 | 1,276.90; 249.46 / 282.35 | pending |
+| C384 | 65.98; 7,258.10 / 7,732.13 | 1,486.82; 384.45 / 439.22 | pending |
+| C512 | 65.09; 11,375.67 / 13,682.31 | 1,562.36; 468.59 / 519.64 | pending |
 
 ### Active filter + payload (90%)
 
 | Concurrency | Native 1.20 (`native_120`) | Veortex `query-split` | Veortex `gallery-split` |
 |---|---:|---:|---:|
-| C1 | 20.62; 52.98 / 55.63 | pending | pending |
-| C4 | 65.39; 77.89 / 85.05 | pending | pending |
-| C16 | 66.00; 298.55 / 372.91 | pending | pending |
-| C32 | 65.93; 535.85 / 657.82 | pending | pending |
-| C64 | 66.33; 1,045.60 / 1,221.74 | pending | pending |
-| C128 | 66.18; 2,125.28 / 2,172.25 | pending | pending |
+| C1 | 20.62; 52.98 / 55.63 | 13.63; 81.19 / 93.02 | pending |
+| C4 | 65.39; 77.89 / 85.05 | 51.26; 90.10 / 103.36 | pending |
+| C16 | 66.00; 298.55 / 372.91 | 195.03; 89.49 / 103.26 | pending |
+| C32 | 65.93; 535.85 / 657.82 | 349.74; 104.13 / 119.36 | pending |
+| C64 | 66.33; 1,045.60 / 1,221.74 | 602.13; 123.27 / 137.36 | pending |
+| C128 | 66.18; 2,125.28 / 2,172.25 | 1,086.05; 145.78 / 169.03 | pending |
 | C256 | 64.82; 4,188.22 / 4,889.42 | pending | pending |
 | C384 | 65.56; 7,186.46 / 8,224.39 | pending | pending |
 | C512 | 65.53; 7,934.12 / 8,037.38 | pending | pending |
