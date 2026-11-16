@@ -71,7 +71,7 @@ In flat (non-HNSW) quantized search over 1M vectors per shard, **reading quantiz
 
 - **Full 135-Cell Report (All 5 Categories × C1–C512):** [benchmarks/native-query-gallery-20261116.md](benchmarks/native-query-gallery-20261116.md) ([JSON](benchmarks/native-query-gallery-20261116.json) | [CSV](benchmarks/native-query-gallery-20261116.csv))
 - **Node Environment Profiles:** [Query-split profile](configs/query-gallery-query-20261116.env.example) | [Gallery-split profile](configs/query-gallery-gallery-20261116.env.example)
-- **Binary Prerelease Download (`d2223c8a4` ELF):** [`v1.20.0-veortex.query-gallery.20261116`](https://github.com/nicabreon/qdrant-veortex-releases/releases/tag/v1.20.0-veortex.query-gallery.20261116) — `qdrant-veortex-query-gallery-1.20.0-linux-x86_64.tar.gz` (archive SHA-256 `4ddfc98465fdfd33e6d5ad4bf60db76b70927698a4c239d14211855bef8fdfa0`, unmodified `bin/qdrant` SHA-256 `d2223c8a48f9b65bcb59196d421fa00ded9488002975afc624990568be2be746`)
+- **Binary Prerelease Download (`d2223c8a4` ELF):** [`v1.20.0-veortex.query-gallery.20261116`](https://github.com/nicabreon/qdrant-veortex-releases/releases/tag/v1.20.0-veortex.query-gallery.20261116) — `qdrant-veortex-query-gallery-1.20.0-linux-x86_64.tar.gz` (archive SHA-256 `da63b522b1dd0565bc48285d128a400926bacfb17f40849cab1059f2c82c7cbc`, unmodified `bin/qdrant` SHA-256 `d2223c8a48f9b65bcb59196d421fa00ded9488002975afc624990568be2be746`)
 
 ### Tested Arms & Binaries
 
