@@ -33,13 +33,13 @@ The historical gallery seed is unknown; the saved queries/oracles and input hash
 
 ## Measured results (fresh campaign)
 
-Campaign status: **RUNNING**; **43/135 accepted cells** currently recorded. Unmeasured cells are marked pending. [Curated JSON](native-query-gallery-20261116.json) / [CSV](native-query-gallery-20261116.csv). Each cell is **HTTP RPS; p95 / p99 ms**. This is B1, so HTTP RPS equals query/s.
+Campaign status: **RUNNING**; **46/135 accepted cells** currently recorded. Unmeasured cells are marked pending. [Curated JSON](native-query-gallery-20261116.json) / [CSV](native-query-gallery-20261116.csv). Each cell is **HTTP RPS; p95 / p99 ms**. This is B1, so HTTP RPS equals query/s.
 
 ### No filter / no payload
 
 | Concurrency | Native 1.20 | Veortex query-split | Veortex gallery-split |
 |---|---:|---:|---:|
-| C1 | 19.64; 57.11 / 78.69 | pending | pending |
+| C1 | 19.64; 57.11 / 78.69 | 17.15; 67.03 / 85.35 | pending |
 | C4 | 56.13; 95.30 / 105.64 | pending | pending |
 | C16 | 56.97; 326.79 / 395.98 | pending | pending |
 | C32 | 55.99; 658.49 / 787.06 | pending | pending |
@@ -102,7 +102,7 @@ Campaign status: **RUNNING**; **43/135 accepted cells** currently recorded. Unme
 | C64 | 117.36; 606.57 / 727.62 | pending | pending |
 | C128 | 117.85; 1,266.15 / 1,377.60 | pending | pending |
 | C256 | 115.75; 2,423.12 / 2,613.01 | pending | pending |
-| C384 | pending | pending | pending |
-| C512 | pending | pending | pending |
+| C384 | 115.46; 4,428.52 / 5,817.61 | pending | pending |
+| C512 | 114.69; 4,595.74 / 5,094.40 | pending | pending |
 
-Recorded rejected cells: **0**. Accepted timed requests: **80,579**; failed requests in accepted cells: **0**. The JSON/CSV retain any rejected cells separately through their acceptance flag. Passing accuracy refers to the measured cohort, not a universal FP32 guarantee.
+Recorded rejected cells: **0**. Accepted timed requests: **88,862**; failed requests in accepted cells: **0**. The JSON/CSV retain any rejected cells separately through their acceptance flag. Passing accuracy refers to the measured cohort, not a universal FP32 guarantee.
