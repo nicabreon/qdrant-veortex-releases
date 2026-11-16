@@ -1,6 +1,6 @@
 # Native Qdrant 1.20 vs Veortex query/gallery — TQ4 B=1 Matrix (16 November 2026)
 
-Campaign: `tq4-h2h-20261116t230240z` | Status: **`RUNNING`** (`26/135` accepted B1 cells) | Exported: `2026-11-16T23:24:57.603670+00:00`
+Campaign: `tq4-h2h-20261116t230240z` | Status: **`RUNNING`** (`41/135` accepted B1 cells) | Exported: `2026-11-16T23:33:24.093333+00:00`
 
 - **Profile:** `TQ4` (`rescore=True`, `oversampling=4.0`, `QDRANT_VEORTEX_TQ_QUERY_BYTES=1`, `truth_mode=f32_exact`, 3 shared vCPUs/node, zero pinning)
 - **Curated artifacts:** [JSON](tq4-query-gallery-20261116.json) | [CSV](tq4-query-gallery-20261116.csv)
@@ -56,31 +56,31 @@ Campaign: `tq4-h2h-20261116t230240z` | Status: **`RUNNING`** (`26/135` accepted 
 | C128 | 66.08; 2,408.89 / 2,611.46 | pending | pending |
 | C256 | 66.59; 3,933.64 / 5,193.87 | pending | pending |
 | C384 | 65.98; 7,258.10 / 7,732.13 | pending | pending |
-| C512 | pending | pending | pending |
+| C512 | 65.09; 11,375.67 / 13,682.31 | pending | pending |
 
 ### Active filter + payload (90%)
 
 | Concurrency | Native 1.20 (`native_120`) | Veortex `query-split` | Veortex `gallery-split` |
 |---|---:|---:|---:|
-| C1 | pending | pending | pending |
-| C4 | pending | pending | pending |
-| C16 | pending | pending | pending |
-| C32 | pending | pending | pending |
-| C64 | pending | pending | pending |
-| C128 | pending | pending | pending |
-| C256 | pending | pending | pending |
-| C384 | pending | pending | pending |
-| C512 | pending | pending | pending |
+| C1 | 20.62; 52.98 / 55.63 | pending | pending |
+| C4 | 65.39; 77.89 / 85.05 | pending | pending |
+| C16 | 66.00; 298.55 / 372.91 | pending | pending |
+| C32 | 65.93; 535.85 / 657.82 | pending | pending |
+| C64 | 66.33; 1,045.60 / 1,221.74 | pending | pending |
+| C128 | 66.18; 2,125.28 / 2,172.25 | pending | pending |
+| C256 | 64.82; 4,188.22 / 4,889.42 | pending | pending |
+| C384 | 65.56; 7,186.46 / 8,224.39 | pending | pending |
+| C512 | 65.53; 7,934.12 / 8,037.38 | pending | pending |
 
 ### Active + position + exclusion / payload (~9%)
 
 | Concurrency | Native 1.20 (`native_120`) | Veortex `query-split` | Veortex `gallery-split` |
 |---|---:|---:|---:|
-| C1 | pending | pending | pending |
-| C4 | pending | pending | pending |
-| C16 | pending | pending | pending |
-| C32 | pending | pending | pending |
-| C64 | pending | pending | pending |
+| C1 | 36.71; 32.13 / 35.87 | pending | pending |
+| C4 | 127.44; 42.09 / 45.99 | pending | pending |
+| C16 | 131.95; 156.79 / 181.76 | pending | pending |
+| C32 | 132.18; 270.55 / 305.38 | pending | pending |
+| C64 | 131.92; 569.52 / 661.18 | pending | pending |
 | C128 | pending | pending | pending |
 | C256 | pending | pending | pending |
 | C384 | pending | pending | pending |
