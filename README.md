@@ -67,7 +67,7 @@ In flat (non-HNSW) quantized search over 1M vectors per shard, **reading quantiz
 ## Latest Benchmark Campaign — 16 November 2026 (`COMPLETED`: `135/135` B1 Cells)
 
 > **Primary B1 Matrix Status:** **`COMPLETED`** — `135/135` accepted cells (`45/45` `native_120`, `45/45` `veortex_query`, `45/45` `veortex_gallery`), `15/15 × 1,024` FP32 accuracy checks passed, **2,646,517** successful HTTP requests, `0` failed requests, `0` rejected cells, and all overlay/container restoration checks verified.  
-> **Follow-up `B > 1` Batch Matrix (`B2..B128` at `C4/C6`):** **`RUNNING`** — `156/210` accepted cells recorded (`70/70` `native_120`, `70/70` `veortex_query`, `16/70` `veortex_gallery`; **all `15/15` FP32 accuracy oracle gates passed across all 3 arms**, `0` capacity rejections). Interim results are live in [benchmarks/native-query-gallery-batch-20261116.md](benchmarks/native-query-gallery-batch-20261116.md).
+> **Follow-up `B > 1` Batch Matrix (`B2..B128` at `C4/C6`):** **`COMPLETED`** — `210/210` accepted cells (`70/70` `native_120`, `70/70` `veortex_query`, `70/70` `veortex_gallery`), `15/15 × 1,024` FP32 accuracy oracle checks passed, **294,817** HTTP requests / **5,442,466** verified query members (`0` failed requests, `0` capacity rejections, all restoration checks verified). Full report: [benchmarks/native-query-gallery-batch-20261116.md](benchmarks/native-query-gallery-batch-20261116.md).
 
 - **Full 135-Cell Report (All 5 Categories × C1–C512):** [benchmarks/native-query-gallery-20261116.md](benchmarks/native-query-gallery-20261116.md) ([JSON](benchmarks/native-query-gallery-20261116.json) | [CSV](benchmarks/native-query-gallery-20261116.csv))
 - **Node Environment Profiles:** [Query-split profile](configs/query-gallery-query-20261116.env.example) | [Gallery-split profile](configs/query-gallery-gallery-20261116.env.example)
@@ -121,11 +121,11 @@ Each cell reports **HTTP req/s; p95 / p99 ms** (`30s` closed-loop dispatch + ful
 
 All 135 cells (9 concurrency points × 5 categories × 3 arms) are recorded in [benchmarks/native-query-gallery-20261116.md](benchmarks/native-query-gallery-20261116.md).
 
-### Follow-Up `B > 1` Explicit Batch Matrix (`RUNNING`: `156/210` Cells)
+### Follow-Up `B > 1` Explicit Batch Matrix (`COMPLETED`: `210/210` Accepted Cells, `0` Failed, `0` Rejected)
 
-Under the identical 3 shared vCPUs/node contract (`MAX_SEARCH_THREADS=3`, `RAYON_NUM_THREADS=3`, zero per-thread pinning), explicit `/points/search/batch` tests (`B2, B4, B8, B16, B32, B64, B128` at `C4` and `C6`, reporting `HTTP req/s` and `query members/s` separately) have completed `native_120` (`70/70`), `veortex_query` (`70/70`), all `15/15` FP32 accuracy gates, and the first category of `veortex_gallery` (`16/70`). Full interim table with pending cells marked explicitly: [benchmarks/native-query-gallery-batch-20261116.md](benchmarks/native-query-gallery-batch-20261116.md) ([JSON](benchmarks/native-query-gallery-batch-20261116.json) | [CSV](benchmarks/native-query-gallery-batch-20261116.csv)).
+Under the identical 3 shared vCPUs/node contract (`MAX_SEARCH_THREADS=3`, `RAYON_NUM_THREADS=3`, zero per-thread pinning), explicit `/points/search/batch` tests (`B2, B4, B8, B16, B32, B64, B128` at `C4` and `C6`, reporting `HTTP req/s` and `query members/s` separately; every member of all `5,442,466` queries verified against saved truth and payload contract) completed **`210/210`** accepted cells across all 3 arms (`0` HTTP 429 capacity rejections). Full 210-cell report: [benchmarks/native-query-gallery-batch-20261116.md](benchmarks/native-query-gallery-batch-20261116.md) ([JSON](benchmarks/native-query-gallery-batch-20261116.json) | [CSV](benchmarks/native-query-gallery-batch-20261116.csv)).
 
-Selected measured cells (`HTTP req/s / query q/s; p95 / p99 ms`):
+Selected key regime cells across all 3 completed arms (`HTTP req/s / query q/s; p95 / p99 ms`):
 
 | Category | Batch / C | Native 1.20 (`native_120`) | Veortex `query-split` (`veortex_query`) | Veortex `gallery-split` (`veortex_gallery`) |
 |---|---|---:|---:|---:|
@@ -133,10 +133,20 @@ Selected measured cells (`HTTP req/s / query q/s; p95 / p99 ms`):
 | **No filter / no payload** | B8 / C6 | 26.71 HTTP / **213.66** q/s; 248.18 / 289.53 | 83.75 HTTP / **670.01** q/s; 84.79 / 102.99 | **89.14** HTTP / **713.15** q/s; 73.08 / 77.66 |
 | **No filter / no payload** | B64 / C6 | 4.06 HTTP / **259.85** q/s; 1,535.72 / 1,616.97 | **38.81** HTTP / **2,484.13** q/s; 214.70 / 252.16 | 29.85 HTTP / **1,910.63** q/s; 235.59 / 257.26 |
 | **No filter / no payload** | B128 / C6 | 2.04 HTTP / **261.70** q/s; 3,071.40 / 3,880.57 | **21.74** HTTP / **2,782.94** q/s; 344.12 / 393.89 | 15.68 HTTP / **2,007.18** q/s; 441.32 / 465.03 |
-| **Payload only** | B128 / C6 | 1.99 HTTP / **254.23** q/s; 3,223.93 / 3,868.66 | **18.19** HTTP / **2,327.97** q/s; 401.30 / 431.84 | Pending |
-| **Active ~90% / no payload** | B128 / C6 | 2.00 HTTP / **255.44** q/s; 3,593.01 / 5,051.83 | **20.25** HTTP / **2,592.42** q/s; 378.74 / 416.99 | Pending |
-| **Active ~90% + payload** | B128 / C6 | 1.96 HTTP / **250.53** q/s; 3,152.35 / 3,613.90 | **16.95** HTTP / **2,169.69** q/s; 448.82 / 482.38 | Pending |
-| **Active + pos + excl (~9%)** | B128 / C6 | 6.93 HTTP / **886.78** q/s; 1,003.23 / 1,055.07 | **34.20** HTTP / **4,377.67** q/s; 224.57 / 242.33 | Pending |
+| **Payload only** | B8 / C4 | 25.86 HTTP / **206.86** q/s; 205.15 / 221.22 | 61.76 HTTP / **494.04** q/s; 72.93 / 90.37 | **66.69** HTTP / **533.50** q/s; 67.97 / 73.00 |
+| **Payload only** | B128 / C6 | 1.99 HTTP / **254.23** q/s; 3,223.93 / 3,868.66 | **18.19** HTTP / **2,327.97** q/s; 401.30 / 431.84 | 14.49 HTTP / **1,854.19** q/s; 484.61 / 513.58 |
+| **Active ~90% / no payload** | B16 / C4 | 16.02 HTTP / **256.38** q/s; 329.10 / 351.65 | 43.75 HTTP / **699.96** q/s; 102.63 / 124.58 | **45.25** HTTP / **724.00** q/s; 94.43 / 101.73 |
+| **Active ~90% / no payload** | B128 / C6 | 2.00 HTTP / **255.44** q/s; 3,593.01 / 5,051.83 | **20.25** HTTP / **2,592.42** q/s; 378.74 / 416.99 | 15.19 HTTP / **1,944.69** q/s; 456.97 / 483.46 |
+| **Active ~90% + payload** | B8 / C6 | 24.34 HTTP / **194.74** q/s; 266.69 / 312.06 | 69.14 HTTP / **553.09** q/s; 103.73 / 114.95 | **73.84** HTTP / **590.72** q/s; 87.29 / 91.14 |
+| **Active ~90% + payload** | B128 / C6 | 1.96 HTTP / **250.53** q/s; 3,152.35 / 3,613.90 | **16.95** HTTP / **2,169.69** q/s; 448.82 / 482.38 | 13.73 HTTP / **1,758.01** q/s; 524.69 / 556.54 |
+| **Active + pos + excl (~9%)** | B2 / C4 | **103.82** HTTP / **207.64** q/s; 53.60 / 56.91 | 89.82 HTTP / **179.65** q/s; 50.52 / 53.25 | 68.01 HTTP / **136.01** q/s; 66.48 / 130.73 |
+| **Active + pos + excl (~9%)** | B64 / C6 | 13.77 HTTP / **881.58** q/s; 513.20 / 592.45 | **54.52** HTTP / **3,489.40** q/s; 139.07 / 151.42 | 48.81 HTTP / **3,124.11** q/s; 157.88 / 173.52 |
+| **Active + pos + excl (~9%)** | B128 / C6 | 6.93 HTTP / **886.78** q/s; 1,003.23 / 1,055.07 | **34.20** HTTP / **4,377.67** q/s; 224.57 / 242.33 | 31.97 HTTP / **4,092.49** q/s; 243.12 / 266.19 |
+
+**What the Completed `B > 1` Batch Matrix Shows:**
+- **`veortex_gallery` leads `25/70` cells** (all `B2–B8` broad/unfiltered cells plus `B16/C4` on 90% active workloads), proving cooperative gallery-tile splitting consistently wins small-to-moderate batch fan-in even with explicit `/points/search/batch`.
+- **`veortex_query` leads `43/70` cells**, reaching up to **`10.63×`** Native 1.20 (`2,782.94` vs `261.70` q/s on `B128/C6` unfiltered; `p99 393.89 ms` vs `3,880.57 ms`) and peaking at **`4,377.67` query/s** (`34.20` HTTP req/s, `p99 242.33 ms`) vs Native `886.78` query/s (`p99 1,055.07 ms`) on selective `~9%` `B128/C6` (`amx_calls` active across all 3 nodes).
+- **`native_120` leads `2/70` cells** (`Active + pos + excl ~9%` at `B2/C4` `207.64` vs `179.65` q/s and `B4/C4` `363.20` vs `345.48` q/s) before `veortex_query` overtakes from `B2/C6`, `B4/C6`, and `B8–B128`.
 
 ---
 
