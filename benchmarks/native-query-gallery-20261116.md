@@ -1,6 +1,6 @@
 # Native Qdrant 1.20 versus Veortex query/gallery modes — 16 November 2026
 
-Status: **preparation; fresh timed results are not yet available**. This revision specifies a new matched-resource campaign. Existing README studies remain historical and are not substituted for new measurements.
+Status revision: **fresh campaign in progress**. Accepted measurements are published incrementally below; missing cells remain pending. Existing README studies remain historical and are not substituted for new measurements.
 
 ## Planned comparison
 
@@ -29,4 +29,80 @@ Mode configurations: [query-split](../configs/query-gallery-query-20261116.env.e
 
 Equal CPU allowances and search contracts do not establish equal compiler provenance: native is the official downloaded executable, Veortex is a local Rust 1.98 release build; compiler/linker flags are not matched. Auto may choose AVX-512 VNNI or AMX depending on query shape; a low-concurrency cell need not use AMX. The host is a shared KVM VM exposing Intel Xeon Silver 4510 features, not an isolated bare-metal machine. No causality claim about shared physical host contention is made.
 
-The historical gallery seed is unknown; the saved queries/oracles and input hashes identify the measured fixture, but public generation scripts cannot recreate the exact original gallery. A finite correctness cohort is not a guarantee of universal FP32 equivalence. This SQ8 flat study does not establish performance for HNSW, TQ2/TQ4, all operators, or write-heavy workloads. Results and downloadable binary identity will be added after independent review.
+The historical gallery seed is unknown; the saved queries/oracles and input hashes identify the measured fixture, but public generation scripts cannot recreate the exact original gallery. A finite correctness cohort is not a guarantee of universal FP32 equivalence. This SQ8 flat study does not establish performance for HNSW, TQ2/TQ4, all operators, or write-heavy workloads. Only reviewed accepted cells appear in the tables below; the exact downloadable binary package will be added after campaign review.
+
+## Measured results (fresh campaign)
+
+Campaign status: **RUNNING**; **10/135 accepted cells** currently recorded. Unmeasured cells are marked pending. [Curated JSON](native-query-gallery-20261116.json) / [CSV](native-query-gallery-20261116.csv). Each cell is **HTTP RPS; p95 / p99 ms**. This is B1, so HTTP RPS equals query/s.
+
+### No filter / no payload
+
+| Concurrency | Native 1.20 | Veortex query-split | Veortex gallery-split |
+|---|---:|---:|---:|
+| C1 | 19.64; 57.11 / 78.69 | pending | pending |
+| C4 | 56.13; 95.30 / 105.64 | pending | pending |
+| C16 | 56.97; 326.79 / 395.98 | pending | pending |
+| C32 | 55.99; 658.49 / 787.06 | pending | pending |
+| C64 | 55.46; 1,281.58 / 1,573.56 | pending | pending |
+| C128 | 56.57; 2,776.07 / 3,614.32 | pending | pending |
+| C256 | 56.18; 6,708.59 / 9,214.56 | pending | pending |
+| C384 | 55.81; 10,067.30 / 10,352.12 | pending | pending |
+| C512 | 54.71; 10,626.71 / 11,130.64 | pending | pending |
+
+### Payload only
+
+| Concurrency | Native 1.20 | Veortex query-split | Veortex gallery-split |
+|---|---:|---:|---:|
+| C1 | 19.72; 52.76 / 69.69 | pending | pending |
+| C4 | pending | pending | pending |
+| C16 | pending | pending | pending |
+| C32 | pending | pending | pending |
+| C64 | pending | pending | pending |
+| C128 | pending | pending | pending |
+| C256 | pending | pending | pending |
+| C384 | pending | pending | pending |
+| C512 | pending | pending | pending |
+
+### Active filter / no payload (90%)
+
+| Concurrency | Native 1.20 | Veortex query-split | Veortex gallery-split |
+|---|---:|---:|---:|
+| C1 | pending | pending | pending |
+| C4 | pending | pending | pending |
+| C16 | pending | pending | pending |
+| C32 | pending | pending | pending |
+| C64 | pending | pending | pending |
+| C128 | pending | pending | pending |
+| C256 | pending | pending | pending |
+| C384 | pending | pending | pending |
+| C512 | pending | pending | pending |
+
+### Active filter + payload (90%)
+
+| Concurrency | Native 1.20 | Veortex query-split | Veortex gallery-split |
+|---|---:|---:|---:|
+| C1 | pending | pending | pending |
+| C4 | pending | pending | pending |
+| C16 | pending | pending | pending |
+| C32 | pending | pending | pending |
+| C64 | pending | pending | pending |
+| C128 | pending | pending | pending |
+| C256 | pending | pending | pending |
+| C384 | pending | pending | pending |
+| C512 | pending | pending | pending |
+
+### Active + position + exclusion / payload (~9%)
+
+| Concurrency | Native 1.20 | Veortex query-split | Veortex gallery-split |
+|---|---:|---:|---:|
+| C1 | pending | pending | pending |
+| C4 | pending | pending | pending |
+| C16 | pending | pending | pending |
+| C32 | pending | pending | pending |
+| C64 | pending | pending | pending |
+| C128 | pending | pending | pending |
+| C256 | pending | pending | pending |
+| C384 | pending | pending | pending |
+| C512 | pending | pending | pending |
+
+Recorded rejected cells: **0**. Accepted timed requests: **15,966**; failed requests in accepted cells: **0**. The JSON/CSV retain any rejected cells separately through their acceptance flag. Passing accuracy refers to the measured cohort, not a universal FP32 guarantee.
