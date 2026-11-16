@@ -33,7 +33,7 @@ The historical gallery seed is unknown; the saved queries/oracles and input hash
 
 ## Measured results (fresh campaign)
 
-Campaign status: **RUNNING**; **10/135 accepted cells** currently recorded. Unmeasured cells are marked pending. [Curated JSON](native-query-gallery-20261116.json) / [CSV](native-query-gallery-20261116.csv). Each cell is **HTTP RPS; p95 / p99 ms**. This is B1, so HTTP RPS equals query/s.
+Campaign status: **RUNNING**; **43/135 accepted cells** currently recorded. Unmeasured cells are marked pending. [Curated JSON](native-query-gallery-20261116.json) / [CSV](native-query-gallery-20261116.csv). Each cell is **HTTP RPS; p95 / p99 ms**. This is B1, so HTTP RPS equals query/s.
 
 ### No filter / no payload
 
@@ -54,55 +54,55 @@ Campaign status: **RUNNING**; **10/135 accepted cells** currently recorded. Unme
 | Concurrency | Native 1.20 | Veortex query-split | Veortex gallery-split |
 |---|---:|---:|---:|
 | C1 | 19.72; 52.76 / 69.69 | pending | pending |
-| C4 | pending | pending | pending |
-| C16 | pending | pending | pending |
-| C32 | pending | pending | pending |
-| C64 | pending | pending | pending |
-| C128 | pending | pending | pending |
-| C256 | pending | pending | pending |
-| C384 | pending | pending | pending |
-| C512 | pending | pending | pending |
+| C4 | 56.76; 90.80 / 98.24 | pending | pending |
+| C16 | 56.04; 358.59 / 447.15 | pending | pending |
+| C32 | 56.54; 719.77 / 845.85 | pending | pending |
+| C64 | 54.87; 1,680.11 / 1,924.26 | pending | pending |
+| C128 | 55.35; 2,704.77 / 3,415.22 | pending | pending |
+| C256 | 54.47; 5,675.34 / 5,922.77 | pending | pending |
+| C384 | 54.56; 10,364.60 / 12,829.21 | pending | pending |
+| C512 | 54.01; 9,828.86 / 13,944.50 | pending | pending |
 
 ### Active filter / no payload (90%)
 
 | Concurrency | Native 1.20 | Veortex query-split | Veortex gallery-split |
 |---|---:|---:|---:|
-| C1 | pending | pending | pending |
-| C4 | pending | pending | pending |
-| C16 | pending | pending | pending |
-| C32 | pending | pending | pending |
-| C64 | pending | pending | pending |
-| C128 | pending | pending | pending |
-| C256 | pending | pending | pending |
-| C384 | pending | pending | pending |
-| C512 | pending | pending | pending |
+| C1 | 17.35; 61.34 / 75.86 | pending | pending |
+| C4 | 51.09; 104.05 / 113.93 | pending | pending |
+| C16 | 50.39; 367.23 / 437.00 | pending | pending |
+| C32 | 50.00; 781.77 / 929.66 | pending | pending |
+| C64 | 50.51; 1,511.06 / 1,709.36 | pending | pending |
+| C128 | 49.97; 3,279.95 / 3,865.49 | pending | pending |
+| C256 | 49.01; 5,967.79 / 7,264.02 | pending | pending |
+| C384 | 48.96; 8,004.87 / 8,274.30 | pending | pending |
+| C512 | 48.78; 12,477.39 / 12,805.77 | pending | pending |
 
 ### Active filter + payload (90%)
 
 | Concurrency | Native 1.20 | Veortex query-split | Veortex gallery-split |
 |---|---:|---:|---:|
-| C1 | pending | pending | pending |
-| C4 | pending | pending | pending |
-| C16 | pending | pending | pending |
-| C32 | pending | pending | pending |
-| C64 | pending | pending | pending |
-| C128 | pending | pending | pending |
-| C256 | pending | pending | pending |
-| C384 | pending | pending | pending |
-| C512 | pending | pending | pending |
+| C1 | 17.44; 62.03 / 84.58 | pending | pending |
+| C4 | 50.61; 103.54 / 110.17 | pending | pending |
+| C16 | 50.67; 372.04 / 455.01 | pending | pending |
+| C32 | 49.78; 703.05 / 942.42 | pending | pending |
+| C64 | 49.02; 1,585.11 / 1,795.18 | pending | pending |
+| C128 | 48.77; 2,911.12 / 3,933.37 | pending | pending |
+| C256 | 48.80; 5,322.44 / 5,382.02 | pending | pending |
+| C384 | 48.32; 8,404.05 / 9,661.33 | pending | pending |
+| C512 | 48.16; 11,105.92 / 12,572.95 | pending | pending |
 
 ### Active + position + exclusion / payload (~9%)
 
 | Concurrency | Native 1.20 | Veortex query-split | Veortex gallery-split |
 |---|---:|---:|---:|
-| C1 | pending | pending | pending |
-| C4 | pending | pending | pending |
-| C16 | pending | pending | pending |
-| C32 | pending | pending | pending |
-| C64 | pending | pending | pending |
-| C128 | pending | pending | pending |
-| C256 | pending | pending | pending |
+| C1 | 33.36; 37.40 / 61.72 | pending | pending |
+| C4 | 113.54; 46.53 / 51.09 | pending | pending |
+| C16 | 117.63; 172.60 / 202.31 | pending | pending |
+| C32 | 118.52; 305.00 / 364.99 | pending | pending |
+| C64 | 117.36; 606.57 / 727.62 | pending | pending |
+| C128 | 117.85; 1,266.15 / 1,377.60 | pending | pending |
+| C256 | 115.75; 2,423.12 / 2,613.01 | pending | pending |
 | C384 | pending | pending | pending |
 | C512 | pending | pending | pending |
 
-Recorded rejected cells: **0**. Accepted timed requests: **15,966**; failed requests in accepted cells: **0**. The JSON/CSV retain any rejected cells separately through their acceptance flag. Passing accuracy refers to the measured cohort, not a universal FP32 guarantee.
+Recorded rejected cells: **0**. Accepted timed requests: **80,579**; failed requests in accepted cells: **0**. The JSON/CSV retain any rejected cells separately through their acceptance flag. Passing accuracy refers to the measured cohort, not a universal FP32 guarantee.
