@@ -150,6 +150,19 @@ Selected key regime cells across all 3 completed arms (`HTTP req/s / query q/s; 
 
 ---
 
+<!-- BEGIN_TQ_CAMPAIGNS -->
+
+## TurboQuant Head-to-Head Matrix (`TQ4` & `TQ2`, Same 345-Cell SQ8 Matrix)
+
+Same cluster, binary (`d2223c8a4` vs Native 1.20.0 `5081acd0`), dataset (3M × 512D Cosine, `hnsw_m=0`), 5 payload/filter categories, and 3 shared guest vCPUs/node (`NanoCpus=3e9`, zero pinning) as the completed SQ8 campaign.
+
+| Quantization | Status | Oversampling | Query Bytes | Accuracy Contract | B=1 Report | B > 1 Batch Report |
+|---|---|---:|---:|---|---|---|
+| **TQ4** (`turbo.bits4`) | `RUNNING` (`5` acc) | `4.0` | `1` | 100% exact FP32 Top-10 | [26/135 cells](benchmarks/tq4-query-gallery-20261116.md) ([JSON](benchmarks/tq4-query-gallery-20261116.json) / [CSV](benchmarks/tq4-query-gallery-20261116.csv)) | [0/210 cells](benchmarks/tq4-query-gallery-batch-20261116.md) ([JSON](benchmarks/tq4-query-gallery-batch-20261116.json) / [CSV](benchmarks/tq4-query-gallery-batch-20261116.csv)) |
+| **TQ2** (`turbo.bits2`) | `PROBE_COMPLETED` (`15` acc) | `2.0` | `0` | 100% Native TQ2 parity + FP32 Recall@10 | [0/0 cells](benchmarks/tq2-query-gallery-20261116.md) ([JSON](benchmarks/tq2-query-gallery-20261116.json) / [CSV](benchmarks/tq2-query-gallery-20261116.csv)) | [0/0 cells](benchmarks/tq2-query-gallery-batch-20261116.md) ([JSON](benchmarks/tq2-query-gallery-batch-20261116.json) / [CSV](benchmarks/tq2-query-gallery-batch-20261116.csv)) |
+
+<!-- END_TQ_CAMPAIGNS -->
+
 ## Fairness Contract & Limitations
 
 - **Equal Guest Resources:** Three Docker nodes (`4,5,6`, `7,8,9`, `10,11,12`), `NanoCpus=3,000,000,000` (3 vCPUs/node), zero per-thread CPU pinning on any arm. Every scan, Top-K, rerank, payload, and HTTP thread shares the 3 node CPUs.
