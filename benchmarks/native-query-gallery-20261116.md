@@ -33,16 +33,16 @@ The historical gallery seed is unknown; the saved queries/oracles and input hash
 
 ## Measured results (fresh campaign)
 
-Campaign status: **RUNNING**; **63/135 accepted cells** currently recorded. Unmeasured cells are marked pending. [Curated JSON](native-query-gallery-20261116.json) / [CSV](native-query-gallery-20261116.csv). Each cell is **HTTP RPS; p95 / p99 ms**. This is B1, so HTTP RPS equals query/s.
+Campaign status: **RUNNING**; **94/135 accepted cells** currently recorded. Unmeasured cells are marked pending. [Curated JSON](native-query-gallery-20261116.json) / [CSV](native-query-gallery-20261116.csv). Each cell is **HTTP RPS; p95 / p99 ms**. This is B1, so HTTP RPS equals query/s.
 
 ### No filter / no payload
 
 | Concurrency | Native 1.20 | Veortex query-split | Veortex gallery-split |
 |---|---:|---:|---:|
-| C1 | 19.64; 57.11 / 78.69 | 17.15; 67.03 / 85.35 | pending |
-| C4 | 56.13; 95.30 / 105.64 | 65.07; 77.06 / 90.24 | pending |
-| C16 | 56.97; 326.79 / 395.98 | 259.97; 71.60 / 82.99 | pending |
-| C32 | 55.99; 658.49 / 787.06 | 482.81; 81.03 / 96.49 | pending |
+| C1 | 19.64; 57.11 / 78.69 | 17.15; 67.03 / 85.35 | 24.07; 43.66 / 44.80 |
+| C4 | 56.13; 95.30 / 105.64 | 65.07; 77.06 / 90.24 | 85.71; 50.10 / 51.52 |
+| C16 | 56.97; 326.79 / 395.98 | 259.97; 71.60 / 82.99 | 313.27; 55.46 / 58.58 |
+| C32 | 55.99; 658.49 / 787.06 | 482.81; 81.03 / 96.49 | 509.19; 68.26 / 72.71 |
 | C64 | 55.46; 1,281.58 / 1,573.56 | 787.14; 97.50 / 113.77 | pending |
 | C128 | 56.57; 2,776.07 / 3,614.32 | 1,338.89; 115.48 / 135.33 | pending |
 | C256 | 56.18; 6,708.59 / 9,214.56 | 1,595.73; 210.76 / 228.40 | pending |
@@ -67,42 +67,42 @@ Campaign status: **RUNNING**; **63/135 accepted cells** currently recorded. Unme
 
 | Concurrency | Native 1.20 | Veortex query-split | Veortex gallery-split |
 |---|---:|---:|---:|
-| C1 | 17.35; 61.34 / 75.86 | pending | pending |
-| C4 | 51.09; 104.05 / 113.93 | pending | pending |
-| C16 | 50.39; 367.23 / 437.00 | pending | pending |
-| C32 | 50.00; 781.77 / 929.66 | pending | pending |
-| C64 | 50.51; 1,511.06 / 1,709.36 | pending | pending |
-| C128 | 49.97; 3,279.95 / 3,865.49 | pending | pending |
-| C256 | 49.01; 5,967.79 / 7,264.02 | pending | pending |
-| C384 | 48.96; 8,004.87 / 8,274.30 | pending | pending |
-| C512 | 48.78; 12,477.39 / 12,805.77 | pending | pending |
+| C1 | 17.35; 61.34 / 75.86 | 15.21; 73.50 / 95.16 | pending |
+| C4 | 51.09; 104.05 / 113.93 | 58.75; 76.70 / 95.02 | pending |
+| C16 | 50.39; 367.23 / 437.00 | 223.38; 87.58 / 96.35 | pending |
+| C32 | 50.00; 781.77 / 929.66 | 425.28; 86.69 / 107.64 | pending |
+| C64 | 50.51; 1,511.06 / 1,709.36 | 708.84; 104.44 / 120.33 | pending |
+| C128 | 49.97; 3,279.95 / 3,865.49 | 1,301.36; 122.20 / 133.48 | pending |
+| C256 | 49.01; 5,967.79 / 7,264.02 | 1,583.19; 208.45 / 221.40 | pending |
+| C384 | 48.96; 8,004.87 / 8,274.30 | 1,756.71; 322.15 / 380.63 | pending |
+| C512 | 48.78; 12,477.39 / 12,805.77 | 1,926.19; 414.00 / 506.74 | pending |
 
 ### Active filter + payload (90%)
 
 | Concurrency | Native 1.20 | Veortex query-split | Veortex gallery-split |
 |---|---:|---:|---:|
-| C1 | 17.44; 62.03 / 84.58 | pending | pending |
-| C4 | 50.61; 103.54 / 110.17 | pending | pending |
-| C16 | 50.67; 372.04 / 455.01 | pending | pending |
-| C32 | 49.78; 703.05 / 942.42 | pending | pending |
-| C64 | 49.02; 1,585.11 / 1,795.18 | pending | pending |
-| C128 | 48.77; 2,911.12 / 3,933.37 | pending | pending |
-| C256 | 48.80; 5,322.44 / 5,382.02 | pending | pending |
-| C384 | 48.32; 8,404.05 / 9,661.33 | pending | pending |
-| C512 | 48.16; 11,105.92 / 12,572.95 | pending | pending |
+| C1 | 17.44; 62.03 / 84.58 | 15.22; 75.36 / 94.25 | pending |
+| C4 | 50.61; 103.54 / 110.17 | 57.57; 82.47 / 98.25 | pending |
+| C16 | 50.67; 372.04 / 455.01 | 225.94; 83.08 / 96.74 | pending |
+| C32 | 49.78; 703.05 / 942.42 | 429.32; 82.75 / 103.00 | pending |
+| C64 | 49.02; 1,585.11 / 1,795.18 | 725.16; 102.10 / 115.90 | pending |
+| C128 | 48.77; 2,911.12 / 3,933.37 | 1,332.06; 120.96 / 134.63 | pending |
+| C256 | 48.80; 5,322.44 / 5,382.02 | 1,518.04; 227.04 / 242.47 | pending |
+| C384 | 48.32; 8,404.05 / 9,661.33 | 1,700.81; 324.33 / 354.10 | pending |
+| C512 | 48.16; 11,105.92 / 12,572.95 | 1,799.65; 422.24 / 473.47 | pending |
 
 ### Active + position + exclusion / payload (~9%)
 
 | Concurrency | Native 1.20 | Veortex query-split | Veortex gallery-split |
 |---|---:|---:|---:|
-| C1 | 33.36; 37.40 / 61.72 | pending | pending |
-| C4 | 113.54; 46.53 / 51.09 | pending | pending |
-| C16 | 117.63; 172.60 / 202.31 | pending | pending |
-| C32 | 118.52; 305.00 / 364.99 | pending | pending |
-| C64 | 117.36; 606.57 / 727.62 | pending | pending |
-| C128 | 117.85; 1,266.15 / 1,377.60 | pending | pending |
-| C256 | 115.75; 2,423.12 / 2,613.01 | pending | pending |
-| C384 | 115.46; 4,428.52 / 5,817.61 | pending | pending |
-| C512 | 114.69; 4,595.74 / 5,094.40 | pending | pending |
+| C1 | 33.36; 37.40 / 61.72 | 25.25; 45.44 / 48.99 | pending |
+| C4 | 113.54; 46.53 / 51.09 | 93.09; 50.15 / 54.64 | pending |
+| C16 | 117.63; 172.60 / 202.31 | 354.20; 52.65 / 54.84 | pending |
+| C32 | 118.52; 305.00 / 364.99 | 669.03; 55.92 / 60.43 | pending |
+| C64 | 117.36; 606.57 / 727.62 | 1,252.81; 62.67 / 67.85 | pending |
+| C128 | 117.85; 1,266.15 / 1,377.60 | 2,685.42; 82.87 / 126.05 | pending |
+| C256 | 115.75; 2,423.12 / 2,613.01 | 2,879.67; 170.19 / 226.08 | pending |
+| C384 | 115.46; 4,428.52 / 5,817.61 | 3,074.21; 219.26 / 276.73 | pending |
+| C512 | 114.69; 4,595.74 / 5,094.40 | 3,126.79; 259.83 / 335.94 | pending |
 
-Recorded rejected cells: **0**. Accepted timed requests: **584,177**; failed requests in accepted cells: **0**. The JSON/CSV retain any rejected cells separately through their acceptance flag. Passing accuracy refers to the measured cohort, not a universal FP32 guarantee.
+Recorded rejected cells: **0**. Accepted timed requests: **1,513,970**; failed requests in accepted cells: **0**. The JSON/CSV retain any rejected cells separately through their acceptance flag. Passing accuracy refers to the measured cohort, not a universal FP32 guarantee.
