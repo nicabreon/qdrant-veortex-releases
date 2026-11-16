@@ -1,5 +1,9 @@
 # Qdrant 1.20.0 with Veortex: shared-CPU SQ8 results
 
+## Revision — 16 November 2026: fresh native/query/gallery comparison
+
+A new matched-resource campaign is being prepared for **native Qdrant 1.20.0 versus the new Veortex query-split and gallery-split modes**. It covers B1 at **C1/C4/C16/C32/C64/C128/C256/C384/C512**, five filter/payload categories, 3M SQ8 512D vectors and three shared CPUs per node. **No new timed results are published yet.** See the [protocol, binary identities and limitations](benchmarks/native-query-gallery-20261116.md). Existing sections below retain their original dates and results.
+
 ## Downloads — exact README benchmark binaries (11 November 2026 revision)
 
 | Binary | Benchmark shown below | Download | Recorded runtime profile |
