@@ -67,7 +67,7 @@ In flat (non-HNSW) quantized search over 1M vectors per shard, **reading quantiz
 ## Latest Benchmark Campaign — 16 November 2026 (`COMPLETED`: `135/135` B1 Cells)
 
 > **Primary B1 Matrix Status:** **`COMPLETED`** — `135/135` accepted cells (`45/45` `native_120`, `45/45` `veortex_query`, `45/45` `veortex_gallery`), `15/15 × 1,024` FP32 accuracy checks passed, **2,646,517** successful HTTP requests, `0` failed requests, `0` rejected cells, and all overlay/container restoration checks verified.  
-> **Follow-up `B > 1` Batch Matrix (`B2..B128` at `C4/C6`):** **`RUNNING`** — `113/210` accepted cells recorded (`70/70` `native_120`, `43/70` `veortex_query`, `veortex_gallery` pending; `10/10` FP32 accuracy checks passed so far, `0` capacity rejections). Interim results are live in [benchmarks/native-query-gallery-batch-20261116.md](benchmarks/native-query-gallery-batch-20261116.md).
+> **Follow-up `B > 1` Batch Matrix (`B2..B128` at `C4/C6`):** **`RUNNING`** — `156/210` accepted cells recorded (`70/70` `native_120`, `70/70` `veortex_query`, `16/70` `veortex_gallery`; **all `15/15` FP32 accuracy oracle gates passed across all 3 arms**, `0` capacity rejections). Interim results are live in [benchmarks/native-query-gallery-batch-20261116.md](benchmarks/native-query-gallery-batch-20261116.md).
 
 - **Full 135-Cell Report (All 5 Categories × C1–C512):** [benchmarks/native-query-gallery-20261116.md](benchmarks/native-query-gallery-20261116.md) ([JSON](benchmarks/native-query-gallery-20261116.json) | [CSV](benchmarks/native-query-gallery-20261116.csv))
 - **Node Environment Profiles:** [Query-split profile](configs/query-gallery-query-20261116.env.example) | [Gallery-split profile](configs/query-gallery-gallery-20261116.env.example)
@@ -121,20 +121,22 @@ Each cell reports **HTTP req/s; p95 / p99 ms** (`30s` closed-loop dispatch + ful
 
 All 135 cells (9 concurrency points × 5 categories × 3 arms) are recorded in [benchmarks/native-query-gallery-20261116.md](benchmarks/native-query-gallery-20261116.md).
 
-### Follow-Up `B > 1` Explicit Batch Matrix (`RUNNING`: `113/210` Cells)
+### Follow-Up `B > 1` Explicit Batch Matrix (`RUNNING`: `156/210` Cells)
 
-Under the identical 3 shared vCPUs/node contract (`MAX_SEARCH_THREADS=3`, `RAYON_NUM_THREADS=3`, zero per-thread pinning), explicit `/points/search/batch` tests (`B2, B4, B8, B16, B32, B64, B128` at `C4` and `C6`, reporting `HTTP req/s` and `query members/s` separately) are actively running. Full interim table with pending cells marked explicitly: [benchmarks/native-query-gallery-batch-20261116.md](benchmarks/native-query-gallery-batch-20261116.md) ([JSON](benchmarks/native-query-gallery-batch-20261116.json) | [CSV](benchmarks/native-query-gallery-batch-20261116.csv)).
+Under the identical 3 shared vCPUs/node contract (`MAX_SEARCH_THREADS=3`, `RAYON_NUM_THREADS=3`, zero per-thread pinning), explicit `/points/search/batch` tests (`B2, B4, B8, B16, B32, B64, B128` at `C4` and `C6`, reporting `HTTP req/s` and `query members/s` separately) have completed `native_120` (`70/70`), `veortex_query` (`70/70`), all `15/15` FP32 accuracy gates, and the first category of `veortex_gallery` (`16/70`). Full interim table with pending cells marked explicitly: [benchmarks/native-query-gallery-batch-20261116.md](benchmarks/native-query-gallery-batch-20261116.md) ([JSON](benchmarks/native-query-gallery-batch-20261116.json) | [CSV](benchmarks/native-query-gallery-batch-20261116.csv)).
 
-Selected already-measured `B64 / C6` and `B128 / C6` cells (`HTTP req/s / query q/s; p95 / p99 ms`):
+Selected measured cells (`HTTP req/s / query q/s; p95 / p99 ms`):
 
 | Category | Batch / C | Native 1.20 (`native_120`) | Veortex `query-split` (`veortex_query`) | Veortex `gallery-split` (`veortex_gallery`) |
 |---|---|---:|---:|---:|
-| **No filter / no payload** | B64 / C6 | 4.06 HTTP / **259.85** q/s; 1,535.72 / 1,616.97 | 38.81 HTTP / **2,484.13** q/s; 214.70 / 252.16 | Pending |
-| **No filter / no payload** | B128 / C6 | 2.04 HTTP / **261.70** q/s; 3,071.40 / 3,880.57 | 21.74 HTTP / **2,782.94** q/s; 344.12 / 393.89 | Pending |
-| **Payload only** | B64 / C6 | 3.96 HTTP / **253.67** q/s; 1,740.68 / 2,213.27 | 32.21 HTTP / **2,061.38** q/s; 239.60 / 285.12 | Pending |
-| **Payload only** | B128 / C6 | 1.99 HTTP / **254.23** q/s; 3,223.93 / 3,868.66 | 18.19 HTTP / **2,327.97** q/s; 401.30 / 431.84 | Pending |
-| **Active ~90% / no payload** | B64 / C6 | 3.96 HTTP / **253.24** q/s; 1,806.84 / 2,069.55 | 35.95 HTTP / **2,300.84** q/s; 234.20 / 280.56 | Pending |
-| **Active ~90% / no payload** | B128 / C6 | 2.00 HTTP / **255.44** q/s; 3,593.01 / 5,051.83 | 20.25 HTTP / **2,592.42** q/s; 378.74 / 416.99 | Pending |
+| **No filter / no payload** | B2 / C6 | 47.88 HTTP / **95.76** q/s; 139.62 / 165.32 | 102.02 HTTP / **204.04** q/s; 66.89 / 87.36 | **118.19** HTTP / **236.37** q/s; 54.23 / 56.86 |
+| **No filter / no payload** | B8 / C6 | 26.71 HTTP / **213.66** q/s; 248.18 / 289.53 | 83.75 HTTP / **670.01** q/s; 84.79 / 102.99 | **89.14** HTTP / **713.15** q/s; 73.08 / 77.66 |
+| **No filter / no payload** | B64 / C6 | 4.06 HTTP / **259.85** q/s; 1,535.72 / 1,616.97 | **38.81** HTTP / **2,484.13** q/s; 214.70 / 252.16 | 29.85 HTTP / **1,910.63** q/s; 235.59 / 257.26 |
+| **No filter / no payload** | B128 / C6 | 2.04 HTTP / **261.70** q/s; 3,071.40 / 3,880.57 | **21.74** HTTP / **2,782.94** q/s; 344.12 / 393.89 | 15.68 HTTP / **2,007.18** q/s; 441.32 / 465.03 |
+| **Payload only** | B128 / C6 | 1.99 HTTP / **254.23** q/s; 3,223.93 / 3,868.66 | **18.19** HTTP / **2,327.97** q/s; 401.30 / 431.84 | Pending |
+| **Active ~90% / no payload** | B128 / C6 | 2.00 HTTP / **255.44** q/s; 3,593.01 / 5,051.83 | **20.25** HTTP / **2,592.42** q/s; 378.74 / 416.99 | Pending |
+| **Active ~90% + payload** | B128 / C6 | 1.96 HTTP / **250.53** q/s; 3,152.35 / 3,613.90 | **16.95** HTTP / **2,169.69** q/s; 448.82 / 482.38 | Pending |
+| **Active + pos + excl (~9%)** | B128 / C6 | 6.93 HTTP / **886.78** q/s; 1,003.23 / 1,055.07 | **34.20** HTTP / **4,377.67** q/s; 224.57 / 242.33 | Pending |
 
 ---
 
