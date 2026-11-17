@@ -1,6 +1,6 @@
 # Native Qdrant 1.20 vs Veortex query/gallery — TQ4 B=1 Matrix (16 November 2026)
 
-Campaign: `tq4-h2h-20261116t230240z` | Status: **`RUNNING`** (`134/135` accepted B1 cells) | Exported: `2026-11-17T00:24:50.219025+00:00`
+Campaign: `tq4-h2h-20261116t230240z` | Status: **`RUNNING`** (`135/135` accepted B1 cells) | Exported: `2026-11-17T00:25:12.053194+00:00`
 
 - **Profile:** `TQ4` (`rescore=True`, `oversampling=4.0`, `QDRANT_VEORTEX_TQ_QUERY_BYTES=1`, `truth_mode=f32_exact`, 3 shared vCPUs/node, zero pinning)
 - **Curated artifacts:** [JSON](tq4-query-gallery-20261116.json) | [CSV](tq4-query-gallery-20261116.csv)
@@ -94,4 +94,4 @@ Campaign: `tq4-h2h-20261116t230240z` | Status: **`RUNNING`** (`134/135` accepted
 | C128 | 131.81; 1,061.14 / 1,338.71 | 2,177.29; 85.84 / 100.17 | 1,778.31; 97.14 / 108.27 |
 | C256 | 131.86; 2,290.81 / 2,919.58 | 2,484.59; 158.42 / 182.98 | 2,218.96; 174.59 / 200.90 |
 | C384 | 131.71; 3,505.20 / 5,036.80 | 2,651.12; 222.35 / 259.40 | 2,400.20; 237.43 / 278.34 |
-| C512 | 131.30; 4,326.72 / 5,432.26 | 2,595.49; 301.46 / 347.77 | pending |
+| C512 | 131.30; 4,326.72 / 5,432.26 | 2,595.49; 301.46 / 347.77 | 2,493.23; 296.92 / 348.30 |

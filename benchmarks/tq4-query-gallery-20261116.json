@@ -8,11 +8,11 @@
   "status": "RUNNING",
   "started_utc": "2026-11-16T23:02:40.696043+00:00",
   "finished_utc": null,
-  "exported_utc": "2026-11-17T00:24:50.219025+00:00",
+  "exported_utc": "2026-11-17T00:25:12.053194+00:00",
   "planned_rows": 135,
-  "recorded_rows": 134,
-  "accepted_rows": 134,
-  "receipt_sha256": "dcf2f9579d7ebb29f9078f19a1d6eb8c94f6e4425d11a2f646e0d835869dd7de",
+  "recorded_rows": 135,
+  "accepted_rows": 135,
+  "receipt_sha256": "d06b85dd9263598ac39cab0d5049f9f9dcee6a9c23f453dead943f9851a24dff",
   "accuracy": [
     {
       "arm": "native_120",
@@ -4333,6 +4333,37 @@
         2.7403699058403608,
         2.351921125107295,
         1.9574523388000633
+      ]
+    },
+    {
+      "profile": "tq4",
+      "arm": "veortex_gallery",
+      "category": "active_position_exclude",
+      "batch_size": 1,
+      "concurrency": 512,
+      "commit": "afbe2437b0ed3ddb533bfaae1c77d6bbc66d68c7",
+      "elf_sha256": "d2223c8a48f9b65bcb59196d421fa00ded9488002975afc624990568be2be746",
+      "measurement_accepted": true,
+      "quality_valid": true,
+      "cpu_contract_valid": true,
+      "intended_route_valid": true,
+      "backend_valid": true,
+      "successful_requests": 74989,
+      "failed_requests": 0,
+      "successful_queries": 74989,
+      "exact_query_truth_matches": 74989,
+      "payload_contract_matches": 74989,
+      "actual_elapsed_s": 30.077021861,
+      "successful_http_rps": 2493.2322204824427,
+      "query_qps": 2493.2322204824427,
+      "http_429_count": 0,
+      "p50_ms": 201.004498,
+      "p95_ms": 296.919435,
+      "p99_ms": 348.304824,
+      "whole_process_cpu_equivalents_by_node": [
+        2.7665556583719173,
+        2.390162149193512,
+        1.8696111933179895
       ]
     }
   ]
