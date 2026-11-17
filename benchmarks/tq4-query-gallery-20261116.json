@@ -5,14 +5,14 @@
   "tq_query_bytes": "1",
   "truth_mode": "f32_exact",
   "run": "tq4-h2h-20261116t230240z",
-  "status": "RUNNING",
+  "status": "COMPLETED",
   "started_utc": "2026-11-16T23:02:40.696043+00:00",
-  "finished_utc": null,
-  "exported_utc": "2026-11-17T02:28:18.498072+00:00",
+  "finished_utc": "2026-11-17T02:30:51.761743+00:00",
+  "exported_utc": "2026-11-17T02:31:28.213441+00:00",
   "planned_rows": 135,
   "recorded_rows": 135,
   "accepted_rows": 135,
-  "receipt_sha256": "a9a40bbf9af8d419c3b8ea931b6f4b3db9381e0be9705d6a1abd299a4f0fa9fb",
+  "receipt_sha256": "8f0a9f8ab46d3bbc7afee7d10c965583159dcc1929a2c78e29a114ca7f1cc6df",
   "accuracy": [
     {
       "arm": "native_120",

@@ -1,6 +1,6 @@
 # Native Qdrant 1.20 vs Veortex query/gallery — TQ2 B > 1 Explicit Batch Matrix (16 November 2026)
 
-Campaign: `tq2-h2h-20261116t225334z` | Status: **`PROBE_COMPLETED`** (`0/210` accepted B>1 cells; capacity rejections: `0`) | Exported: `2026-11-17T02:28:18.568547+00:00`
+Campaign: `tq2-h2h-20261116t225334z` | Status: **`PROBE_COMPLETED`** (`0/210` accepted B>1 cells; capacity rejections: `0`) | Exported: `2026-11-17T02:31:28.274585+00:00`
 
 - **Profile:** `TQ2` (`rescore=True`, `oversampling=2.0`, `QDRANT_VEORTEX_TQ_QUERY_BYTES=0`, `truth_mode=native_parity`, 3 shared vCPUs/node, zero pinning)
 - **Curated artifacts:** [JSON](tq2-query-gallery-batch-20261116.json) | [CSV](tq2-query-gallery-batch-20261116.csv)

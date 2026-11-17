@@ -1,6 +1,6 @@
 # Native Qdrant 1.20 vs Veortex query/gallery — TQ4 B > 1 Explicit Batch Matrix (16 November 2026)
 
-Campaign: `tq4-h2h-20261116t230240z` | Status: **`RUNNING`** (`206/210` accepted B>1 cells; capacity rejections: `0`) | Exported: `2026-11-17T02:28:18.498072+00:00`
+Campaign: `tq4-h2h-20261116t230240z` | Status: **`COMPLETED`** (`210/210` accepted B>1 cells; capacity rejections: `0`) | Exported: `2026-11-17T02:31:28.213441+00:00`
 
 - **Profile:** `TQ4` (`rescore=True`, `oversampling=4.0`, `QDRANT_VEORTEX_TQ_QUERY_BYTES=1`, `truth_mode=f32_exact`, 3 shared vCPUs/node, zero pinning)
 - **Curated artifacts:** [JSON](tq4-query-gallery-batch-20261116.json) | [CSV](tq4-query-gallery-batch-20261116.csv)
@@ -96,7 +96,7 @@ Campaign: `tq4-h2h-20261116t230240z` | Status: **`RUNNING`** (`206/210` accepted
 | B16 / C6 | 52.09 HTTP / **833.45** q/s; 141.40 / 161.42 | 98.54 HTTP / **1,576.67** q/s; 72.69 / 77.87 | 78.78 HTTP / **1,260.48** q/s; 86.71 / 92.41 |
 | B32 / C4 | 26.28 HTTP / **841.07** q/s; 190.28 / 211.85 | 56.74 HTTP / **1,815.63** q/s; 81.31 / 85.62 | 46.23 HTTP / **1,479.47** q/s; 96.30 / 102.44 |
 | B32 / C6 | 26.53 HTTP / **848.92** q/s; 269.65 / 302.81 | 74.85 HTTP / **2,395.05** q/s; 98.35 / 107.07 | 61.83 HTTP / **1,978.72** q/s; 117.24 / 127.67 |
-| B64 / C4 | 13.29 HTTP / **850.83** q/s; 399.11 / 460.55 | 40.84 HTTP / **2,613.83** q/s; 114.79 / 123.64 | pending |
-| B64 / C6 | 13.92 HTTP / **890.81** q/s; 563.63 / 640.69 | 53.83 HTTP / **3,445.33** q/s; 140.47 / 155.40 | pending |
-| B128 / C4 | 6.82 HTTP / **872.41** q/s; 727.14 / 828.00 | 28.22 HTTP / **3,612.70** q/s; 169.31 / 182.71 | pending |
-| B128 / C6 | 6.85 HTTP / **876.20** q/s; 1,040.08 / 1,261.51 | 34.15 HTTP / **4,371.68** q/s; 227.46 / 252.74 | pending |
+| B64 / C4 | 13.29 HTTP / **850.83** q/s; 399.11 / 460.55 | 40.84 HTTP / **2,613.83** q/s; 114.79 / 123.64 | 34.92 HTTP / **2,234.67** q/s; 135.75 / 145.43 |
+| B64 / C6 | 13.92 HTTP / **890.81** q/s; 563.63 / 640.69 | 53.83 HTTP / **3,445.33** q/s; 140.47 / 155.40 | 48.13 HTTP / **3,080.58** q/s; 158.20 / 175.47 |
+| B128 / C4 | 6.82 HTTP / **872.41** q/s; 727.14 / 828.00 | 28.22 HTTP / **3,612.70** q/s; 169.31 / 182.71 | 24.46 HTTP / **3,131.39** q/s; 202.43 / 219.78 |
+| B128 / C6 | 6.85 HTTP / **876.20** q/s; 1,040.08 / 1,261.51 | 34.15 HTTP / **4,371.68** q/s; 227.46 / 252.74 | 30.86 HTTP / **3,950.63** q/s; 253.16 / 268.67 |
