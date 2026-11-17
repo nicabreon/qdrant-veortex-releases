@@ -163,6 +163,17 @@ Same cluster, binary (`d2223c8a4` vs Native 1.20.0 `5081acd0`), dataset (3M × 5
 
 <!-- END_TQ_CAMPAIGNS -->
 
+---
+
+## Qdrant 1.20.2 Base Integration H2H Verification (`COMPLETED`: `75/75` Representative Cells)
+
+Upstream Qdrant **`v1.20.2`** (`23065a0bf6857c3e5da45f6c8939cc746cc0580e`) was integrated underneath Veortex on branch `feat/veortex-v1.20.2` (`3668acaac8ac48df22094ec3701e8d906041c202`, ELF `ea950d9ebed60c867eb621c733d1a8f2cfe33d9103a550cc802f753e3e07a2cc`) and evaluated head-to-head against official `qdrant/qdrant:v1.20.2` (`396528f39af0f57702917480cfd483cb8c3b3f97b62e146c381ffc82b4134802`) across a 75-cell representative subset (all 3 arms × 5 categories × `C1, C16, C512` B1 + `B8/C6, B128/C6` Batch; `15/15 × 1,024` exact FP32 Top-10 + payload oracle passed, `0` failed, `0` HTTP 429). Full tables & deltas vs `v1.20.0`: [benchmarks/veortex-v1.20.2-h2h-20261117.md](benchmarks/veortex-v1.20.2-h2h-20261117.md) ([JSON](benchmarks/veortex-v1.20.2-h2h-20261117.json) | [CSV](benchmarks/veortex-v1.20.2-h2h-20261117.csv)).
+
+- **Selective `~9%` Filter (`Active + pos + excl`):** Upstream `v1.20.2` roughly doubled Native throughput (`69.75 / 245.35 / 243.18` req/s B1; `988.14 / 1,250.89` q/s Batch), while `veortex_query` jumped `+77–80%` at `C1/C16` (`44.75 / 637.93` req/s), `+58.2%` at `B8/C6` (`1,509.70` q/s), and hit a new overall peak of **`4,605.16` q/s** (`+5.20%` vs `v1.20.0`, **3.68×** `native_1202`) at `B128/C6` (`B1 C512` was `2,900.02` vs `3,126.79`, `-7.25%`).
+- **Broad / Dense Workloads (`Unfiltered` & `Active ~90%`):** Veortex `1.20.2` keeps up to **41.1×** B1 `C512` (`2,037.50` vs `49.61` req/s) and **10.5×** `B128/C6` (`2,570.62` vs `245.76` q/s) speedup over `native_1202`. Relative to `v1.20.0`, upstream `native_1202` dropped `-0.6%` to `-10.2%`, `veortex_query` stayed near flat on no-payload B1 (`-2.4%` to `+2.2%`) with `-7%` to `-11.4%` on `90%`/payload paths, and `veortex_gallery` Batch stayed `-3.1%` to `+2.7%` (`unfiltered_no_payload C512`: `-15.61%`).
+
+---
+
 ## Fairness Contract & Limitations
 
 - **Equal Guest Resources:** Three Docker nodes (`4,5,6`, `7,8,9`, `10,11,12`), `NanoCpus=3,000,000,000` (3 vCPUs/node), zero per-thread CPU pinning on any arm. Every scan, Top-K, rerank, payload, and HTTP thread shares the 3 node CPUs.
