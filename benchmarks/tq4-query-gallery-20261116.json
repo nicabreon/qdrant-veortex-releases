@@ -8,11 +8,11 @@
   "status": "RUNNING",
   "started_utc": "2026-11-16T23:02:40.696043+00:00",
   "finished_utc": null,
-  "exported_utc": "2026-11-17T00:45:23.274919+00:00",
+  "exported_utc": "2026-11-17T00:55:34.796693+00:00",
   "planned_rows": 135,
   "recorded_rows": 135,
   "accepted_rows": 135,
-  "receipt_sha256": "6ad6394704b06378575d6eba7e9be2b4b5712ab6e792ab5ec661be3eba3b5976",
+  "receipt_sha256": "4b34d6087285403cfe5131a529d8a886139c3642c7300343105791ab42bd3d9c",
   "accuracy": [
     {
       "arm": "native_120",
