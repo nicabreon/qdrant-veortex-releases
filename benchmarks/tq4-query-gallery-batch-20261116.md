@@ -1,6 +1,6 @@
 # Native Qdrant 1.20 vs Veortex query/gallery — TQ4 B > 1 Explicit Batch Matrix (16 November 2026)
 
-Campaign: `tq4-h2h-20261116t230240z` | Status: **`RUNNING`** (`118/210` accepted B>1 cells; capacity rejections: `0`) | Exported: `2026-11-17T01:36:41.317728+00:00`
+Campaign: `tq4-h2h-20261116t230240z` | Status: **`RUNNING`** (`136/210` accepted B>1 cells; capacity rejections: `0`) | Exported: `2026-11-17T01:46:59.270619+00:00`
 
 - **Profile:** `TQ4` (`rescore=True`, `oversampling=4.0`, `QDRANT_VEORTEX_TQ_QUERY_BYTES=1`, `truth_mode=f32_exact`, 3 shared vCPUs/node, zero pinning)
 - **Curated artifacts:** [JSON](tq4-query-gallery-batch-20261116.json) | [CSV](tq4-query-gallery-batch-20261116.csv)
@@ -73,29 +73,29 @@ Campaign: `tq4-h2h-20261116t230240z` | Status: **`RUNNING`** (`118/210` accepted
 | B4 / C6 | 37.36 HTTP / **149.42** q/s; 179.02 / 210.54 | 67.54 HTTP / **270.15** q/s; 99.87 / 115.40 | pending |
 | B8 / C4 | 24.95 HTTP / **199.58** q/s; 200.85 / 213.33 | 42.28 HTTP / **338.27** q/s; 105.75 / 120.81 | pending |
 | B8 / C6 | 25.19 HTTP / **201.50** q/s; 282.58 / 314.60 | 57.86 HTTP / **462.87** q/s; 123.38 / 134.70 | pending |
-| B16 / C4 | 15.14 HTTP / **242.27** q/s; 341.29 / 357.38 | pending | pending |
-| B16 / C6 | 15.22 HTTP / **243.53** q/s; 454.58 / 558.47 | pending | pending |
-| B32 / C4 | 7.63 HTTP / **244.17** q/s; 624.59 / 718.94 | pending | pending |
-| B32 / C6 | 7.64 HTTP / **244.57** q/s; 936.33 / 1,156.03 | pending | pending |
-| B64 / C4 | 3.82 HTTP / **244.26** q/s; 1,287.47 / 1,433.62 | pending | pending |
-| B64 / C6 | 3.84 HTTP / **245.48** q/s; 1,925.48 / 2,157.82 | pending | pending |
-| B128 / C4 | 1.91 HTTP / **244.57** q/s; 2,505.89 / 3,184.29 | pending | pending |
-| B128 / C6 | 1.91 HTTP / **244.25** q/s; 4,109.77 / 4,246.73 | pending | pending |
+| B16 / C4 | 15.14 HTTP / **242.27** q/s; 341.29 / 357.38 | 35.20 HTTP / **563.26** q/s; 130.43 / 147.66 | pending |
+| B16 / C6 | 15.22 HTTP / **243.53** q/s; 454.58 / 558.47 | 49.61 HTTP / **793.74** q/s; 142.91 / 156.56 | pending |
+| B32 / C4 | 7.63 HTTP / **244.17** q/s; 624.59 / 718.94 | 28.16 HTTP / **901.08** q/s; 163.70 / 177.23 | pending |
+| B32 / C6 | 7.64 HTTP / **244.57** q/s; 936.33 / 1,156.03 | 37.71 HTTP / **1,206.62** q/s; 187.73 / 209.83 | pending |
+| B64 / C4 | 3.82 HTTP / **244.26** q/s; 1,287.47 / 1,433.62 | 21.17 HTTP / **1,355.08** q/s; 229.03 / 254.44 | pending |
+| B64 / C6 | 3.84 HTTP / **245.48** q/s; 1,925.48 / 2,157.82 | 26.99 HTTP / **1,727.44** q/s; 282.82 / 322.06 | pending |
+| B128 / C4 | 1.91 HTTP / **244.57** q/s; 2,505.89 / 3,184.29 | 12.17 HTTP / **1,557.98** q/s; 415.79 / 440.78 | pending |
+| B128 / C6 | 1.91 HTTP / **244.25** q/s; 4,109.77 / 4,246.73 | 14.45 HTTP / **1,849.73** q/s; 525.66 / 618.54 | pending |
 
 ### Active + position + exclusion / payload (~9%)
 
 | Batch / Concurrency | Native 1.20 (`native_120`) | Veortex `query-split` | Veortex `gallery-split` |
 |---|---:|---:|---:|
-| B2 / C4 | 110.21 HTTP / **220.42** q/s; 49.88 / 53.68 | pending | pending |
-| B2 / C6 | 111.28 HTTP / **222.57** q/s; 69.48 / 76.99 | pending | pending |
-| B4 / C4 | 90.43 HTTP / **361.72** q/s; 61.28 / 66.47 | pending | pending |
-| B4 / C6 | 90.28 HTTP / **361.10** q/s; 85.59 / 97.71 | pending | pending |
-| B8 / C4 | 70.00 HTTP / **560.03** q/s; 73.35 / 79.38 | pending | pending |
-| B8 / C6 | 75.15 HTTP / **601.23** q/s; 89.37 / 106.60 | pending | pending |
-| B16 / C4 | 51.26 HTTP / **820.22** q/s; 97.79 / 104.97 | pending | pending |
-| B16 / C6 | 52.09 HTTP / **833.45** q/s; 141.40 / 161.42 | pending | pending |
-| B32 / C4 | 26.28 HTTP / **841.07** q/s; 190.28 / 211.85 | pending | pending |
-| B32 / C6 | 26.53 HTTP / **848.92** q/s; 269.65 / 302.81 | pending | pending |
+| B2 / C4 | 110.21 HTTP / **220.42** q/s; 49.88 / 53.68 | 92.13 HTTP / **184.25** q/s; 50.20 / 51.76 | pending |
+| B2 / C6 | 111.28 HTTP / **222.57** q/s; 69.48 / 76.99 | 137.64 HTTP / **275.28** q/s; 48.99 / 51.30 | pending |
+| B4 / C4 | 90.43 HTTP / **361.72** q/s; 61.28 / 66.47 | 90.05 HTTP / **360.20** q/s; 50.13 / 52.15 | pending |
+| B4 / C6 | 90.28 HTTP / **361.10** q/s; 85.59 / 97.71 | 129.75 HTTP / **518.99** q/s; 52.07 / 54.38 | pending |
+| B8 / C4 | 70.00 HTTP / **560.03** q/s; 73.35 / 79.38 | 82.44 HTTP / **659.49** q/s; 54.37 / 57.21 | pending |
+| B8 / C6 | 75.15 HTTP / **601.23** q/s; 89.37 / 106.60 | 119.76 HTTP / **958.08** q/s; 56.17 / 58.03 | pending |
+| B16 / C4 | 51.26 HTTP / **820.22** q/s; 97.79 / 104.97 | 72.78 HTTP / **1,164.47** q/s; 61.89 / 65.53 | pending |
+| B16 / C6 | 52.09 HTTP / **833.45** q/s; 141.40 / 161.42 | 98.54 HTTP / **1,576.67** q/s; 72.69 / 77.87 | pending |
+| B32 / C4 | 26.28 HTTP / **841.07** q/s; 190.28 / 211.85 | 56.74 HTTP / **1,815.63** q/s; 81.31 / 85.62 | pending |
+| B32 / C6 | 26.53 HTTP / **848.92** q/s; 269.65 / 302.81 | 74.85 HTTP / **2,395.05** q/s; 98.35 / 107.07 | pending |
 | B64 / C4 | 13.29 HTTP / **850.83** q/s; 399.11 / 460.55 | pending | pending |
 | B64 / C6 | 13.92 HTTP / **890.81** q/s; 563.63 / 640.69 | pending | pending |
 | B128 / C4 | 6.82 HTTP / **872.41** q/s; 727.14 / 828.00 | pending | pending |
