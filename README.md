@@ -158,7 +158,7 @@ Same cluster, binary (`d2223c8a4` vs Native 1.20.0 `5081acd0`), dataset (3M × 5
 
 | Quantization | Status | Oversampling | Query Bytes | Accuracy Contract | B=1 Report | B > 1 Batch Report |
 |---|---|---:|---:|---|---|---|
-| **TQ4** (`turbo.bits4`) | `RUNNING` (`25` acc) | `4.0` | `1` | 100% exact FP32 Top-10 | [135/135 cells](benchmarks/tq4-query-gallery-20261116.md) ([JSON](benchmarks/tq4-query-gallery-20261116.json) / [CSV](benchmarks/tq4-query-gallery-20261116.csv)) | [83/210 cells](benchmarks/tq4-query-gallery-batch-20261116.md) ([JSON](benchmarks/tq4-query-gallery-batch-20261116.json) / [CSV](benchmarks/tq4-query-gallery-batch-20261116.csv)) |
+| **TQ4** (`turbo.bits4`) | `RUNNING` (`25` acc) | `4.0` | `1` | 100% exact FP32 Top-10 | [135/135 cells](benchmarks/tq4-query-gallery-20261116.md) ([JSON](benchmarks/tq4-query-gallery-20261116.json) / [CSV](benchmarks/tq4-query-gallery-20261116.csv)) | [100/210 cells](benchmarks/tq4-query-gallery-batch-20261116.md) ([JSON](benchmarks/tq4-query-gallery-batch-20261116.json) / [CSV](benchmarks/tq4-query-gallery-batch-20261116.csv)) |
 | **TQ2** (`turbo.bits2`) | `PROBE_COMPLETED` (`15` acc) | `2.0` | `0` | 100% Native TQ2 parity + FP32 Recall@10 | [0/135 cells](benchmarks/tq2-query-gallery-20261116.md) ([JSON](benchmarks/tq2-query-gallery-20261116.json) / [CSV](benchmarks/tq2-query-gallery-20261116.csv)) | [0/210 cells](benchmarks/tq2-query-gallery-batch-20261116.md) ([JSON](benchmarks/tq2-query-gallery-batch-20261116.json) / [CSV](benchmarks/tq2-query-gallery-batch-20261116.csv)) |
 
 <!-- END_TQ_CAMPAIGNS -->
